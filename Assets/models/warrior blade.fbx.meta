@@ -7,13 +7,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: acsents
-    second: {fileID: 2100000, guid: 1fe4ae76b42d34349a6da11abcff5f64, type: 2}
+      name: blade
+    second: {fileID: 2100000, guid: 35d869bd642ac1840aa186f5bf418e2b, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: blade
-    second: {fileID: 2100000, guid: 35d869bd642ac1840aa186f5bf418e2b, type: 2}
+      name: cross gem
+    second: {fileID: 2100000, guid: 47cf30b190af2a348bbe3cff3583dcf2, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -29,6 +29,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: hilt
     second: {fileID: 2100000, guid: f8dd1f764652bb54a8e415fcb869ae41, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: middle gem
+    second: {fileID: 2100000, guid: 74a01abd50eff834a968f99873c5fc0c, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
