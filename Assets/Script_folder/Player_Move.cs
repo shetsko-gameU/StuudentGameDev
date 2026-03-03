@@ -86,7 +86,7 @@ public class Player_Move : MonoBehaviour
 
         public void OnMove(InputAction.CallbackContext context)
         {
-        movevalue = context.ReadValue<Vector2>();
+          movevalue = context.ReadValue<Vector2>();
          if (movevalue.magnitude != 0)
          {
             
