@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3aca100ff2f5e7a429ac5b6ac6653171
+guid: 32cce66c4f39e96479bcea30c151ffcd
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -7,23 +7,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Alien-Slime
-    second: {fileID: 2100000, guid: 75832022290bb1543b8c1eec1cf71782, type: 2}
+      name: Material.001
+    second: {fileID: 2100000, guid: 1ef964821f615d847ac975f17b54299f, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: eye
-    second: {fileID: 2100000, guid: 8379210926be8334cacf4f546bb50853, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: iris
-    second: {fileID: 2100000, guid: a8bc7bfc9780ec947bf489df3aceede8, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: outline
-    second: {fileID: 2100000, guid: 97e1ebe8c581c0e4091e374603fe9ac0, type: 2}
+      name: Material.002
+    second: {fileID: 2100000, guid: 93d799b403518af40a890c7c8dae958e, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -53,7 +43,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 100
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
