@@ -9,6 +9,7 @@ public class Enemy_Base : MonoBehaviour
    [Header("Stats")]
     public StatManager stats;
     public StatManager Player_Stats;
+    public Animator animator;
     
 
 
@@ -31,8 +32,12 @@ public class Enemy_Base : MonoBehaviour
         {
             stats.currentHealth -= Player_Stats.Attack;
         }
+    }
+    public void OnAttack()
+    {
+        animator.SetTrigger("Attack");
+
 
     }
-
 
 }
