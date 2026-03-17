@@ -370,6 +370,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7529987311137511492, guid: f137ca6d9814dd648b39cdd448f028b3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.69927686
+      objectReference: {fileID: 0}
+    - target: {fileID: -7529987311137511492, guid: f137ca6d9814dd648b39cdd448f028b3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.71485096
+      objectReference: {fileID: 0}
+    - target: {fileID: -7529987311137511492, guid: f137ca6d9814dd648b39cdd448f028b3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7529987311137511492, guid: f137ca6d9814dd648b39cdd448f028b3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 91.26199
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f137ca6d9814dd648b39cdd448f028b3, type: 3}
       propertyPath: m_Name
       value: mushroom creature
@@ -854,6 +870,63 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1001 &413561154
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 04a9548cda0211542b0b4ea35ff0ff65, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 31.859377
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 04a9548cda0211542b0b4ea35ff0ff65, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.104
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 04a9548cda0211542b0b4ea35ff0ff65, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8.269149
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 04a9548cda0211542b0b4ea35ff0ff65, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071067
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 04a9548cda0211542b0b4ea35ff0ff65, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 04a9548cda0211542b0b4ea35ff0ff65, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 04a9548cda0211542b0b4ea35ff0ff65, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 04a9548cda0211542b0b4ea35ff0ff65, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 04a9548cda0211542b0b4ea35ff0ff65, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 04a9548cda0211542b0b4ea35ff0ff65, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 04a9548cda0211542b0b4ea35ff0ff65, type: 3}
+      propertyPath: m_Name
+      value: glased mushroom kabobs
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 04a9548cda0211542b0b4ea35ff0ff65, type: 3}
 --- !u!1001 &440186488
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1858,3 +1931,4 @@ SceneRoots:
   - {fileID: 968962441}
   - {fileID: 1313963851}
   - {fileID: 1222586330}
+  - {fileID: 413561154}
