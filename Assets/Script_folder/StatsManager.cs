@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StatManager : MonoBehaviour
+public class StatsManager : MonoBehaviour
 {
     [Header("Source (ScriptableObject)")]
     [SerializeField] private BaseStatsSO baseStats;
@@ -66,7 +66,7 @@ public class StatManager : MonoBehaviour
     {
         if (stats == null)
         {
-            Debug.LogError($"{name}: StatManager missing UnitStatsSO");
+            Debug.LogError($"{name}: StatsManager missing UnitStatsSO");
             enabled = false;
             return;
         }
@@ -90,7 +90,7 @@ public class StatManager : MonoBehaviour
     // ---------- Add a rolled modifier ----------
     public void AddRolledModifier(RolledModifierInstance inst)
     {
-        if (inst == null || inst.source == null) return;
+       // if (inst == null || inst.source == null) return;
 
         // Stack behavior: stack if ANY line can stack in the source
         bool canStack = AnyLineStackable(inst.source);
@@ -141,6 +141,8 @@ public class StatManager : MonoBehaviour
 
     private void RecalculateFinalStats(bool keepHealthPercent)
     {
+        Debug.Log("RecalculateFinalStats");
+
         float healthPct = MaxHealth > 0f ? currentHealth / MaxHealth : 1f;
 
         float mh = baseMaxHealth, atk = baseAttack, def = baseDefense, ms = baseMoveSpeed, aspd = baseAttackSpeed;

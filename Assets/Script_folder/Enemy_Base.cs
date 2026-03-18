@@ -7,8 +7,8 @@ public class Enemy_Base : MonoBehaviour
 
 {
    [Header("Stats")]
-    public StatManager stats;
-    public StatManager Player_Stats;
+    public StatsManager stats;
+    public StatsManager Player_Stats;
     public Animator animator;
     
 
