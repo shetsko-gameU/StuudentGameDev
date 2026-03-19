@@ -1,3 +1,4 @@
+using System.Numerics;
 using UnityEngine;
 
 
@@ -10,6 +11,7 @@ public class Enemy_Base : MonoBehaviour
     public StatManager stats;
     public StatManager Player_Stats;
     public Animator animator;
+    Vector2 movevalue;
     
 
 
@@ -39,5 +41,11 @@ public class Enemy_Base : MonoBehaviour
 
 
     }
-
+    /*public void OnMove(InputAction.CallbackContext context)
+    {
+        movevalue = context.ReadValue<Vector2>();
+        if (movevalue.magnitude != 0)
+        {
+        }
+    }*/
 }
