@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 05859a5a3a8537d48a551365abf709f3
+guid: d9a8874b6f441a64688e3cbabf29b77c
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -7,23 +7,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material.001
-    second: {fileID: 2100000, guid: a850861dd54fdfa4b853677e887c8fe4, type: 2}
+      name: leaf1
+    second: {fileID: 2100000, guid: ca026bd918fa32048bb9fd53ddbd7443, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material.002
-    second: {fileID: 2100000, guid: d970b75aa910e234b875ba7829e10915, type: 2}
+      name: leaf2
+    second: {fileID: 2100000, guid: db31e39f8b3ea8e4b90fbda09f6533b8, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material.003
-    second: {fileID: 2100000, guid: 58a8c3f3a7f3db640b6ec74074b0905e, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material.004
-    second: {fileID: 2100000, guid: 2c72beb07db470b40be69240e69bd330, type: 2}
+      name: trunk
+    second: {fileID: 2100000, guid: 045acd3f4d9015544a9265a0ef6978d3, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -50,7 +45,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
-    isReadable: 1
+    isReadable: 0
   meshes:
     lODScreenPercentages: []
     globalScale: 1
