@@ -3,9 +3,6 @@ using UnityEngine;
 
 
 public class Enemy_Base : MonoBehaviour
-
-
-
 {
    [Header("Stats")]
     public StatManager stats;
