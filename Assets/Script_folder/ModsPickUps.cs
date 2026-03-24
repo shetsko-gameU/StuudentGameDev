@@ -7,6 +7,7 @@ public class ModifierPickup : MonoBehaviour
     [SerializeField] private StatsModifierSO modifierTemplate;
     public string Name;
     public int ItemId;
+    public Sprite Image;
 
     private void OnCollisionEnter(Collision other)
     {
@@ -29,16 +30,34 @@ public class ModifierPickup : MonoBehaviour
             Inventory_Item newItem = new Inventory_Item();
             newItem.Name = Name;
             newItem.ItemID = ItemId;
-            newItem.Count = 1;
-            if (!inventory.Inventory_Slots.Contains(newItem))
+            newItem.Image = Image;
+            
+            inventory.Inventory_Slots.Add(newItem);
+            /* bool HasItem = false;
+            if (inventory.Inventory_Slots.Count > 0)
             {
-                inventory.Inventory_Slots.Add(newItem);
+                for (int i = 0; i < inventory.Inventory_Slots.Count; i++)
+                {
+                    if (inventory.Inventory_Slots[i].ItemID == newItem.ItemID)
+                    {
+                        inventory.Inventory_Slots[i].Count++; 
+                        HasItem = true;
+                    }
+                    
+                }
+                if (HasItem == false)
+                {
+
+                    inventory.Inventory_Slots.Add(newItem);
+                }
 
             }
             else
             {
-                inventory.Inventory_Slots[inventory.Inventory_Slots.IndexOf(newItem)].Count += newItem.Count;
-            }
+                inventory.Inventory_Slots.Add(newItem);
+
+            }*/
+
 
             Destroy(gameObject);
         }
