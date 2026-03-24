@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2a5c5a03039a837458409dc4305a86b5
+guid: adda84a41fdb64c4b90a63641854c218
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -7,43 +7,83 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: blade
-    second: {fileID: 2100000, guid: 35d869bd642ac1840aa186f5bf418e2b, type: 2}
+      name: armor detail
+    second: {fileID: 2100000, guid: 3386d157290f4f947a995e81d1b37421, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: cross gem
-    second: {fileID: 2100000, guid: 47cf30b190af2a348bbe3cff3583dcf2, type: 2}
+      name: arms
+    second: {fileID: 2100000, guid: 6aa8b0e6743cd554eade487d16ac9461, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: glow
-    second: {fileID: 2100000, guid: 5549a615128571943b941b360db751ca, type: 2}
+      name: eyes1
+    second: {fileID: 2100000, guid: b98a413cef63d9d47bf73ab916852b04, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: handle
-    second: {fileID: 2100000, guid: 09a4cb58f903de047bca4f26a542ca7b, type: 2}
+      name: gem 1
+    second: {fileID: 2100000, guid: 4123ba4920fa8bc48b4e1856d9990302, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: hilt
-    second: {fileID: 2100000, guid: f8dd1f764652bb54a8e415fcb869ae41, type: 2}
+      name: gem 2
+    second: {fileID: 2100000, guid: c69457417981d56479d7526ff23f3f64, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: middle gem
-    second: {fileID: 2100000, guid: 74a01abd50eff834a968f99873c5fc0c, type: 2}
+      name: gem 3
+    second: {fileID: 2100000, guid: b6a1bd55e6e0e814e86a806b0c987261, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: outline
-    second: {fileID: 2100000, guid: 97e1ebe8c581c0e4091e374603fe9ac0, type: 2}
+      name: hair
+    second: {fileID: 2100000, guid: 567b3591284db244297b67ed4f224353, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: pummul
-    second: {fileID: 2100000, guid: 0eedf207eaac5284bb3c41e1da2c19bf, type: 2}
+      name: head
+    second: {fileID: 2100000, guid: a0df464d1fbb0e24189f1c48650e52dd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: leather
+    second: {fileID: 2100000, guid: a8ad33e31d3ddde41b3079adae9c5ac8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: leather.001
+    second: {fileID: 2100000, guid: 58b4d5c254b4cc246a52954d1dbb6005, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: legs
+    second: {fileID: 2100000, guid: 0bab98e74750e6f4092297dc5fe1aada, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: metal plating
+    second: {fileID: 2100000, guid: 4e00ee61e7d53f4429f4e2da5b07cefa, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mouth 1
+    second: {fileID: 2100000, guid: dc03070a20ce8234ebce77f580b4b7fd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: shoes
+    second: {fileID: 2100000, guid: 6fce9593bc4c8a546b1c3fc7f9f9b900, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: stud
+    second: {fileID: 2100000, guid: bdadf5903e1eee641ae8e1ac9c14dc95, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: torso
+    second: {fileID: 2100000, guid: b3d68f82e294f3046aa592e66b765eff, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -73,7 +113,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 0.1
+    globalScale: 3
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -131,8 +171,8 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.001
-    rootMotionBoneName: 
+    globalScale: 3
+    rootMotionBoneName: root
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
@@ -140,7 +180,7 @@ ModelImporter:
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 0
+  avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   importBlendShapeDeformPercent: 1
   remapMaterialsIfMaterialImportModeIsNone: 0
