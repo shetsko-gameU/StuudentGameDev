@@ -12,7 +12,7 @@ public class Player_Move : MonoBehaviour
     public float haltSpeed;
 
     [Header("Stats")]
-    public StatManager stats; 
+    public StatsManager stats; 
 
     [Header("Model Stuff")]
     public float modelRotateSpeed;
@@ -35,7 +35,7 @@ public class Player_Move : MonoBehaviour
     {
         // Auto-grab StatManager if you forget to assign it
         if (stats == null)
-            stats = GetComponent<StatManager>();
+            stats = GetComponent<StatsManager>();
     }
 
     private void Update()

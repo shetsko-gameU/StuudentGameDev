@@ -31,11 +31,11 @@ public struct StatRollLine
     public StatType stat;
     public ModifierMode mode;
 
-    [Tooltip("Rolled value will be between min and max (inclusive-ish).")]
+    [Tooltip("Rolled value will be between min and max (inclusive-ish) Need both the same to work.")]
     public float minValue;
     public float maxValue;
 
-    [Tooltip("Flat: +value. Percent: +value (0.2 = +20%).")]
+    [Tooltip("Flat: +value. Percent: +value (0.2 = +20%). Need MIN AND MAX value the same")]
     public float value;
 
     [Tooltip("Round to nearest step. Examples: 1 for whole numbers, 0.1 for tenths. Set 0 for no rounding.")]

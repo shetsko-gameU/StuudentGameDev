@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StatManager : MonoBehaviour
+public class StatsManager : MonoBehaviour
 {
     [Header("Source (ScriptableObject)")]
     [SerializeField] private BaseStatsSO baseStats;
@@ -66,7 +66,7 @@ public class StatManager : MonoBehaviour
     {
         if (stats == null)
         {
-            Debug.LogError($"{name}: StatManager missing UnitStatsSO");
+            Debug.LogError($"{name}: StatsManager missing UnitStatsSO");
             enabled = false;
             return;
         }
@@ -90,7 +90,7 @@ public class StatManager : MonoBehaviour
     // ---------- Add a rolled modifier ----------
     public void AddRolledModifier(RolledModifierInstance inst)
     {
-        if (inst == null || inst.source == null) return;
+       // if (inst == null || inst.source == null) return;
 
         // Stack behavior: stack if ANY line can stack in the source
         bool canStack = AnyLineStackable(inst.source);
@@ -141,12 +141,14 @@ public class StatManager : MonoBehaviour
 
     private void RecalculateFinalStats(bool keepHealthPercent)
     {
-        float healthPct = MaxHealth > 0f ? currentHealth / MaxHealth : 1f;
+        Debug.Log("RecalculateFinalStats");
+
+        float healthPct = this.MaxHealth > 0f ? currentHealth / this.MaxHealth : 1f;
 
         float mh = baseMaxHealth, atk = baseAttack, def = baseDefense, ms = baseMoveSpeed, aspd = baseAttackSpeed;
 
-        float mhFlat = 0, atkFlat = 0, defFlat = 0, msFlat = 0, aspdFlat = 0;
-        float mhPct = 0, atkPct = 0, defPct = 0, msPct = 0, aspdPct = 0;
+        float MaxHealthFlat = 0, AttackFlat = 0, DefencseFlat = 0, MovmentSpeedFlat = 0, AttackSpeedFlat = 0;
+        float MaxHealthPct = 0, AtkackPct = 0, DefencsePct = 0, MovmentSpeedPct = 0, AttackSpeedPct = 0; //Pct Mean percentage
 
         foreach (var a in active)
         {
@@ -164,27 +166,27 @@ public class StatManager : MonoBehaviour
 
                 switch (stat)
                 {
-                    case StatType.MaxHealth: Add(applied, mode, ref mhFlat, ref mhPct); break;
-                    case StatType.Attack: Add(applied, mode, ref atkFlat, ref atkPct); break;
-                    case StatType.Defense: Add(applied, mode, ref defFlat, ref defPct); break;
-                    case StatType.MoveSpeed: Add(applied, mode, ref msFlat, ref msPct); break;
-                    case StatType.AttackSpeed: Add(applied, mode, ref aspdFlat, ref aspdPct); break;
+                    case StatType.MaxHealth: Add(applied, mode, ref MaxHealthFlat, ref MaxHealthPct); break;
+                    case StatType.Attack: Add(applied, mode, ref AttackFlat, ref AtkackPct); break;
+                    case StatType.Defense: Add(applied, mode, ref DefencseFlat, ref DefencsePct); break;
+                    case StatType.MoveSpeed: Add(applied, mode, ref MovmentSpeedFlat, ref MovmentSpeedPct); break;
+                    case StatType.AttackSpeed: Add(applied, mode, ref AttackSpeedFlat, ref AttackSpeedPct); break;
                     
                 }
             }
         }
 
-        MaxHealth = Mathf.Max(1f, (mh + mhFlat) * (1f + mhPct));
-        Attack = Mathf.Max(0f, (atk + atkFlat) * (1f + atkPct));
-        Defense = Mathf.Max(0f, (def + defFlat) * (1f + defPct));
-        MoveSpeed = Mathf.Max(0f, (ms + msFlat) * (1f + msPct));
-        AttackSpeed = Mathf.Max(0.01f, (aspd + aspdFlat) * (1f + aspdPct));
-        
+        this.MaxHealth = Mathf.Max(1f, (mh + MaxHealthFlat) * (1f + MaxHealthPct));
+        Attack = Mathf.Max(0f, (atk + AttackFlat) * (1f + AtkackPct));
+        Defense = Mathf.Max(0f, (def + DefencseFlat) * (1f + DefencsePct));
+        MoveSpeed = Mathf.Max(0f, (ms + MovmentSpeedFlat) * (1f + MovmentSpeedPct));
+        AttackSpeed = Mathf.Max(0.01f, (aspd + AttackSpeedFlat) * (1f + AttackSpeedPct));
 
-        currentHealth = keepHealthPercent ? Mathf.Clamp(MaxHealth * healthPct, 0f, MaxHealth)
-                                          : Mathf.Clamp(currentHealth, 0f, MaxHealth);
 
-        OnHealthChanged?.Invoke(currentHealth, MaxHealth);
+        currentHealth = keepHealthPercent ? Mathf.Clamp(this.MaxHealth * healthPct, 0f, this.MaxHealth)
+                                          : Mathf.Clamp(currentHealth, 0f, this.MaxHealth);
+
+        OnHealthChanged?.Invoke(currentHealth, this.MaxHealth);
     }
 
     private static void Add(float value, ModifierMode mode, ref float flat, ref float pct)
