@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEditor.Experimental.GraphView;
-using System.Diagnostics;
-using System.Numerics;
+//using System.Diagnostics;
+//using System.Numerics;
 
-public class Player_Move : MonoBehaviour
+public class Enemy_Move : MonoBehaviour
 {
     [Header("Speed Stuff")]
     public float acceleration;
