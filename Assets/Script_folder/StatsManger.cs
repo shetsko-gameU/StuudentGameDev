@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StatManager : MonoBehaviour
+public class StatsManager : MonoBehaviour
 {
     [Header("Source (ScriptableObject)")]
     [SerializeField] private BaseStatsSO baseStats;
