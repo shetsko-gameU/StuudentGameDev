@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Threading;
 
-public class ModifierPickup : MonoBehaviour
+/*public class ModifierPickup : MonoBehaviour
 {
     [SerializeField] private StatsModifierSO modifierTemplate;
     public string Name;
@@ -56,9 +56,37 @@ public class ModifierPickup : MonoBehaviour
             {
                 inventory.Inventory_Slots.Add(newItem);
 
-            }*/
+            }
 
 
+            Destroy(gameObject);
+        }
+    }
+}*/
+public class ModifierPickup : MonoBehaviour
+{
+    [SerializeField] private StatsModifierSO modifierTemplate;
+    public string Name;
+    public int ItemId;
+    public Sprite Image;
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (!other.gameObject.CompareTag("Player"))
+            return;
+
+        Inventory inventory = other.gameObject.GetComponent<Inventory>();
+        if (inventory == null)
+        {
+            Debug.LogWarning("Player has no Inventory component.");
+            return;
+        }
+
+        StatsManager stats = other.gameObject.GetComponent<StatsManager>();
+
+        bool added = inventory.TryAddModifierPickup(modifierTemplate, Name, ItemId, Image, stats);
+        if (added)
+        {
             Destroy(gameObject);
         }
     }
