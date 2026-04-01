@@ -8,6 +8,7 @@ public class IntrestManager : MonoBehaviour
     public Transform lookPoint;
     public float maxRange;
     public Transform origin;
+    public Transform target;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,6 +18,7 @@ public class IntrestManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         float distance = float.MaxValue;
         Transform closest = transforms[0];
         for (int i = 0; i < transforms.Count; i++)
@@ -26,8 +28,13 @@ public class IntrestManager : MonoBehaviour
             {
                 distance = d;
                 closest = transforms[i];
+
             }
         }
-        lookPoint.position = closest.position;
+        Debug.Log($"{distance} {closest.gameObject.name}");
+        if (distance <= maxRange)
+        {
+            lookPoint = closest;
+        }
     }
 }

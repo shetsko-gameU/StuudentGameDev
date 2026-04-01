@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: player head mask
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Armature
+    m_Weight: 0
+  - m_Path: Armature/Bone
+    m_Weight: 0
+  - m_Path: Armature/Bone/Bone_end
+    m_Weight: 0
+  - m_Path: Armature/root
+    m_Weight: 0
+  - m_Path: Armature/root/root_end
+    m_Weight: 0
+  - m_Path: Armature/waist
+    m_Weight: 0
+  - m_Path: Armature/waist/mid section
+    m_Weight: 0
+  - m_Path: Armature/waist/mid section/neck
+    m_Weight: 1
+  - m_Path: Armature/waist/mid section/neck/head
+    m_Weight: 1
+  - m_Path: Armature/waist/mid section/neck/head/head_end
+    m_Weight: 1
+  - m_Path: Armature/waist/mid section/upper arm.l
+    m_Weight: 0
+  - m_Path: Armature/waist/mid section/upper arm.l/lower arm.l
+    m_Weight: 0
+  - m_Path: Armature/waist/mid section/upper arm.l/lower arm.l/hand.l
+    m_Weight: 0
+  - m_Path: Armature/waist/mid section/upper arm.l/lower arm.l/hand.l/hand.l_end
+    m_Weight: 0
+  - m_Path: Armature/waist/mid section/upper arm.r
+    m_Weight: 0
+  - m_Path: Armature/waist/mid section/upper arm.r/lower arm.r
+    m_Weight: 0
+  - m_Path: Armature/waist/mid section/upper arm.r/lower arm.r/hand.r
+    m_Weight: 0
+  - m_Path: Armature/waist/mid section/upper arm.r/lower arm.r/hand.r/hand.r_end
+    m_Weight: 0
+  - m_Path: Armature/waist/upper leg.l
+    m_Weight: 0
+  - m_Path: Armature/waist/upper leg.l/lower leg.l
+    m_Weight: 0
+  - m_Path: Armature/waist/upper leg.l/lower leg.l/foot.l
+    m_Weight: 0
+  - m_Path: Armature/waist/upper leg.l/lower leg.l/foot.l/foot.l_end
+    m_Weight: 0
+  - m_Path: Armature/waist/upper leg.r
+    m_Weight: 0
+  - m_Path: Armature/waist/upper leg.r/lower leg.r
+    m_Weight: 0
+  - m_Path: Armature/waist/upper leg.r/lower leg.r/foot.r
+    m_Weight: 0
+  - m_Path: Armature/waist/upper leg.r/lower leg.r/foot.r/foot.r_end
+    m_Weight: 0
+  - m_Path: warrior
+    m_Weight: 0
