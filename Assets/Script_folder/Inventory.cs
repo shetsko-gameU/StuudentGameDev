@@ -90,4 +90,49 @@ public class Inventory : MonoBehaviour
 
         return true;
     }
+    public bool HasSO(StatsModifierSO so)
+    {
+        if (so == null) return false;
+
+        for (int i = 0; i < Inventory_Slots.Count; i++)
+            if (Inventory_Slots[i] != null && Inventory_Slots[i].ModifierSO == so)
+                return true;
+
+        return false;
+    }
+
+    public bool RemoveSO(StatsModifierSO so)
+    {
+        if (so == null) return false;
+
+        for (int i = 0; i < Inventory_Slots.Count; i++)
+        {
+            if (Inventory_Slots[i] != null && Inventory_Slots[i].ModifierSO == so)
+            {
+                Inventory_Slots.RemoveAt(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void AddSO(StatsModifierSO so, Sprite iconOverride = null)
+    {
+        if (so == null) return;
+
+        Inventory_Item newItem = new Inventory_Item();
+        newItem.ModifierSO = so;
+        newItem.Name = so.displayName;
+        newItem.Image = iconOverride; // if you add so.icon later, use that instead
+
+        Inventory_Slots.Add(newItem);
+    }
+
+
+
+
+
+
+
+
 }
