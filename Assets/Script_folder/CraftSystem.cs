@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class Craft_System : MonoBehaviour
+public class CraftSystem : MonoBehaviour
 {
     public GameObject CraftingMenu;
     public RectTransform DragImage;

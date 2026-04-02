@@ -40,7 +40,7 @@ using UnityEngine.UI;
 }*/
 public class Inventory : MonoBehaviour
 {
-    public List<Inventory_Item> Inventory_Slots = new List<Inventory_Item>();
+    public List<InventoryItem> Inventory_Slots = new List<InventoryItem>();
     public List<Image> UI_Slots = new List<Image>();
 
     void Update()
@@ -81,7 +81,9 @@ public class Inventory : MonoBehaviour
         }
 
         // Create inventory item and store it
-        Inventory_Item newItem = new Inventory_Item();
+        InventoryItem newItem = new InventoryItem();
+        newItem.ModifierSO = modifierTemplate;
+
         newItem.Name = itemName;
         newItem.ItemID = itemId;
         newItem.Image = image;
@@ -120,7 +122,7 @@ public class Inventory : MonoBehaviour
     {
         if (so == null) return;
 
-        Inventory_Item newItem = new Inventory_Item();
+        InventoryItem newItem = new InventoryItem();
         newItem.ModifierSO = so;
         newItem.Name = so.displayName;
         newItem.Image = iconOverride; // if you add so.icon later, use that instead

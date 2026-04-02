@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-public class Enemy_Base : MonoBehaviour
+public class EnemyBase : MonoBehaviour
 
 
 
@@ -28,7 +28,7 @@ public class Enemy_Base : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player_Attack")
+        if (other.gameObject.tag == "PlayerAttack")
         {
             stats.currentHealth -= Player_Stats.Attack;
         }

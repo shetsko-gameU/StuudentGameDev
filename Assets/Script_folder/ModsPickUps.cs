@@ -70,6 +70,8 @@ public class ModifierPickup : MonoBehaviour
     public int ItemId;
     public Sprite Image;
 
+
+
     private void OnCollisionEnter(Collision other)
     {
         if (!other.gameObject.CompareTag("Player"))

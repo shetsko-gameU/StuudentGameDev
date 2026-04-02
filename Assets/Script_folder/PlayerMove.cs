@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEditor.Experimental.GraphView;
 
-public class Player_Move : MonoBehaviour
+public class PlayerMove : MonoBehaviour
 {
     [Header("Speed Stuff")]
     public float acceleration;

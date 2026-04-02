@@ -2,7 +2,7 @@ using UnityEngine;
 
 
 [System.Serializable]
-public class Inventory_Item
+public class InventoryItem
 {
     public StatsModifierSO ModifierSO;  // identity of item
 

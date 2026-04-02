@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Player_Attack : MonoBehaviour
+public class PlayerAttack : MonoBehaviour
 {
     public Animator animator;
 
