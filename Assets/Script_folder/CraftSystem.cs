@@ -44,7 +44,7 @@ public class CraftSystem : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Craft_Pot")
+        if (other.gameObject.tag == "CraftPot")
         {
             NearCraftPot = true;
 
@@ -54,7 +54,7 @@ public class CraftSystem : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Craft_Pot")
+        if (other.gameObject.tag == "CraftPot")
         {
             NearCraftPot = false;
 

@@ -832,8 +832,8 @@ GameObject:
   - component: {fileID: 405471591}
   - component: {fileID: 405471596}
   m_Layer: 0
-  m_Name: Craft_Pot
-  m_TagString: Craft_Pot
+  m_Name: CraftPot
+  m_TagString: CraftPot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1650,7 +1650,7 @@ GameObject:
   - component: {fileID: 576813436}
   - component: {fileID: 576813435}
   m_Layer: 5
-  m_Name: Drag_Item
+  m_Name: DragItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4403,6 +4403,13 @@ MonoBehaviour:
   DragImage: {fileID: 576813434}
   NearCraftPot: 0
   ItemSelected: 0
+  playerInventory: {fileID: 1430486902}
+  primarySlot: {fileID: 0}
+  secondarySlot: {fileID: 0}
+  primarySlotImage: {fileID: 0}
+  secondarySlotImage: {fileID: 0}
+  resultSlotImage: {fileID: 0}
+  recipes: []
 --- !u!1 &1449615630
 GameObject:
   m_ObjectHideFlags: 0
@@ -5094,7 +5101,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 2a5c5a03039a837458409dc4305a86b5, type: 3}
       propertyPath: m_TagString
-      value: Player_Attack
+      value: PlayerAttack
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

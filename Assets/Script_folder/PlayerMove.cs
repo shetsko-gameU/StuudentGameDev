@@ -97,7 +97,7 @@ public class PlayerMove : MonoBehaviour
             rb.AddForce(-rb.linearVelocity * haltSpeed);
         }
 
-        ObjectAnimator.SetFloat("Face_Direction", moveDir.x);
+        ObjectAnimator.SetFloat("FaceDirection", moveDir.x);
     }
 
     public void OnMove(InputAction.CallbackContext context)
