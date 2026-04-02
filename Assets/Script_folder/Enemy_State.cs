@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Enemy_State
 {
-    protected Enemy_Base
-    protected Enemy_State_Machine
+    protected Enemy_Base enemy;
+    protected Enemy_State_Machine enemyStateMachine;
 
     public Enemy_State(Enemy_Base enemy, Enemy_State_Machine enemyStateMachine)
     {
