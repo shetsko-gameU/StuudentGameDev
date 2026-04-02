@@ -9,20 +9,36 @@ public class Enemy_Base : MonoBehaviour
     public StatsManager Player_Stats;
     public Animator animator;
     Vector2 movevalue;
-    
 
+
+    [SerializeField] Enemy_State_Machine stateMachine {get; set;}
+    [SerializeField] Enemy_Idle idleState { get; set; }
+    [SerializeField] Enemy_Attack attackState { get; set; }
+    [SerializeField] Enemy_Move moveState { get; set; }
+
+    void Awake()
+    {
+        stateMachine = new Enemy_State_Machine();
+        idleState = new Enemy_Idle();
+        attackState = new Enemy_Attack();
+        moveState = new Enemy_Move();
+    }
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        stateMachine.Initialize(idleState);
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+    void AnimationTriggerEvent(AnimationTriggerType triggerType)
+    {
+
     }
 
     public void OnTriggerEnter(Collider other)

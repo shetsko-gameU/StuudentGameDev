@@ -1,16 +1,21 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy_State : MonoBehaviour
+public class Enemy_State
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected Enemy_Base
+    protected Enemy_State_Machine
+
+    public Enemy_State(Enemy_Base enemy, Enemy_State_Machine enemyStateMachine)
     {
-        
+        this.enemy = enemy;
+        this.enemyStateMachine = enemyStateMachine;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public virtual void EnterState() { }
+    public virtual void ExitState() { }
+    public virtual void FrameUpdate() { }
+    public virtual void PhysicsUpdate() { }
+    public virtual void AnimationTriggerEvent(EnemyMove.AnimationTriggerType triggerType) { }
 }

@@ -1,16 +1,20 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy_State_Machine : MonoBehaviour
+public class Enemy_State_Machine
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+  [SerializeField] Enemy_State CurrentEnemyState { get; set; }
+   public void Initialize(Enemy_State startingState)
+   {
+        CurrentEnemyState = startingState;
+        CurrentEnemyState.EnterState();
+   }
 
-    // Update is called once per frame
-    void Update()
+    public void ChangeState(Enemy_State newState)
     {
-        
+        CurrentEnemyState.ExitStage();
+        CurrentEnemyState = newState;
+        CurrentEnemyState.EnterStage();
     }
 }
