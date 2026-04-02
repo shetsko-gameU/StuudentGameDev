@@ -86,9 +86,9 @@ public class CraftSystem : MonoBehaviour
     public void SetPrimaryFromInventorySlot(int index)
     {
         if (playerInventory == null) return;
-        if (index < 0 || index >= playerInventory.Inventory_Slots.Count) return;
+        if (index < 0 || index >= playerInventory.InventorySlots.Count) return;
 
-        var item = playerInventory.Inventory_Slots[index];
+        var item = playerInventory.InventorySlots[index];
         if (item == null) return;
 
         primarySlot = item.ModifierSO;
@@ -97,9 +97,9 @@ public class CraftSystem : MonoBehaviour
     public void SetSecondaryFromInventorySlot(int index)
     {
         if (playerInventory == null) return;
-        if (index < 0 || index >= playerInventory.Inventory_Slots.Count) return;
+        if (index < 0 || index >= playerInventory.InventorySlots.Count) return;
 
-        var item = playerInventory.Inventory_Slots[index];
+        var item = playerInventory.InventorySlots[index];
         if (item == null) return;
 
         secondarySlot = item.ModifierSO;

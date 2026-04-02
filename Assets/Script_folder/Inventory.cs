@@ -40,22 +40,22 @@ using UnityEngine.UI;
 }*/
 public class Inventory : MonoBehaviour
 {
-    public List<InventoryItem> Inventory_Slots = new List<InventoryItem>();
-    public List<Image> UI_Slots = new List<Image>();
+    public List<InventoryItem> InventorySlots = new List<InventoryItem>();
+    public List<Image> UISlots = new List<Image>();
 
     void Update()
     {
         // Basic UI update (you may want to optimize later)
-        for (int i = 0; i < UI_Slots.Count; i++)
+        for (int i = 0; i < UISlots.Count; i++)
         {
-            if (i < Inventory_Slots.Count && Inventory_Slots[i] != null)
+            if (i < InventorySlots.Count && InventorySlots[i] != null)
             {
-                UI_Slots[i].enabled = true;
-                UI_Slots[i].sprite = Inventory_Slots[i].Image;
+                UISlots[i].enabled = true;
+                UISlots[i].sprite = InventorySlots[i].Image;
             }
             else
             {
-                UI_Slots[i].enabled = false;
+                UISlots[i].enabled = false;
             }
         }
     }
@@ -88,7 +88,7 @@ public class Inventory : MonoBehaviour
         newItem.ItemID = itemId;
         newItem.Image = image;
 
-        Inventory_Slots.Add(newItem);
+        InventorySlots.Add(newItem);
 
         return true;
     }
@@ -96,8 +96,8 @@ public class Inventory : MonoBehaviour
     {
         if (so == null) return false;
 
-        for (int i = 0; i < Inventory_Slots.Count; i++)
-            if (Inventory_Slots[i] != null && Inventory_Slots[i].ModifierSO == so)
+        for (int i = 0; i < InventorySlots.Count; i++)
+            if (InventorySlots[i] != null && InventorySlots[i].ModifierSO == so)
                 return true;
 
         return false;
@@ -107,11 +107,11 @@ public class Inventory : MonoBehaviour
     {
         if (so == null) return false;
 
-        for (int i = 0; i < Inventory_Slots.Count; i++)
+        for (int i = 0; i < InventorySlots.Count; i++)
         {
-            if (Inventory_Slots[i] != null && Inventory_Slots[i].ModifierSO == so)
+            if (InventorySlots[i] != null && InventorySlots[i].ModifierSO == so)
             {
-                Inventory_Slots.RemoveAt(i);
+                InventorySlots.RemoveAt(i);
                 return true;
             }
         }
@@ -127,7 +127,7 @@ public class Inventory : MonoBehaviour
         newItem.Name = so.displayName;
         newItem.Image = iconOverride; // if you add so.icon later, use that instead
 
-        Inventory_Slots.Add(newItem);
+        InventorySlots.Add(newItem);
     }
 
 
