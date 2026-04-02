@@ -4373,20 +4373,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5df2cdfa5517f544e97c4f522a9fda07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Inventory
-  Inventory_Slots: []
-  UI_Slots:
-  - {fileID: 2128126920}
-  - {fileID: 678666723}
-  - {fileID: 594572030}
-  - {fileID: 1713125097}
-  - {fileID: 695198293}
-  - {fileID: 653639598}
-  - {fileID: 1080080683}
-  - {fileID: 1909972326}
-  - {fileID: 506606847}
-  - {fileID: 546884966}
-  - {fileID: 614638733}
-  - {fileID: 936052785}
+  InventorySlots: []
+  UISlots: []
 --- !u!114 &1430486903
 MonoBehaviour:
   m_ObjectHideFlags: 0
