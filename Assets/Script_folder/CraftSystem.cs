@@ -149,16 +149,23 @@ public class CraftSystem : MonoBehaviour
         return null;
     }
 
-    private void RefreshUI()
+    public void RefreshUI()
     {
-        // Since StatsModifierSO has no icon, this UI section is optional.
-        // If you add an icon to StatsModifierSO later, set sprites here.
+        
         if (primarySlotImage != null) primarySlotImage.enabled = (primarySlot != null);
         if (secondarySlotImage != null) secondarySlotImage.enabled = (secondarySlot != null);
 
         var match = FindMatch();
         if (resultSlotImage != null) resultSlotImage.enabled = (match != null && match.result != null);
     }
+    public void RefreshUIAfterDrop()
+    {
+        // Recompute result / enable craft button / show result icon etc.
+        
+        RefreshUI();
+    }
+
+
 
 }
 

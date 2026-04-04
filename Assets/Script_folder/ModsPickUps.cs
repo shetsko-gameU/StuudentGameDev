@@ -78,13 +78,14 @@ public class ModifierPickup : MonoBehaviour
             return;
 
         Inventory inventory = other.gameObject.GetComponent<Inventory>();
+        StatsManager stats = other.gameObject.GetComponent<StatsManager>();
         if (inventory == null)
         {
             Debug.LogWarning("Player has no Inventory component.");
             return;
         }
 
-        StatsManager stats = other.gameObject.GetComponent<StatsManager>();
+        
 
         bool added = inventory.TryAddModifierPickup(modifierTemplate, Name, ItemId, Image, stats);
         if (added)
