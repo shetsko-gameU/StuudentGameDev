@@ -151,7 +151,7 @@ public class CraftSystem : MonoBehaviour
         
         if (primarySlotImage != null) primarySlotImage.enabled = (primarySlot != null);
         if (secondarySlotImage != null) secondarySlotImage.enabled = (secondarySlot != null);
-
+        Debug.Log("Is fire");
         var match = FindMatch();
         if (resultSlotImage != null) resultSlotImage.enabled = (match != null && match.result != null);
     }
