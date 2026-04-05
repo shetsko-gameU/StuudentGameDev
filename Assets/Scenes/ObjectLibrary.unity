@@ -991,6 +991,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ebf82025cbdc294c882fc77ee9bbda4, type: 3}
+--- !u!1001 &1630834518100520316
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8076176154912388633, guid: a302c8fe2b67e2943808eef55b48a8b3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 32.801804
+      objectReference: {fileID: 0}
+    - target: {fileID: 8076176154912388633, guid: a302c8fe2b67e2943808eef55b48a8b3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.000000059604645
+      objectReference: {fileID: 0}
+    - target: {fileID: 8076176154912388633, guid: a302c8fe2b67e2943808eef55b48a8b3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 46.2067
+      objectReference: {fileID: 0}
+    - target: {fileID: 8076176154912388633, guid: a302c8fe2b67e2943808eef55b48a8b3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.3497877
+      objectReference: {fileID: 0}
+    - target: {fileID: 8076176154912388633, guid: a302c8fe2b67e2943808eef55b48a8b3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.34978783
+      objectReference: {fileID: 0}
+    - target: {fileID: 8076176154912388633, guid: a302c8fe2b67e2943808eef55b48a8b3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.6145312
+      objectReference: {fileID: 0}
+    - target: {fileID: 8076176154912388633, guid: a302c8fe2b67e2943808eef55b48a8b3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.6145311
+      objectReference: {fileID: 0}
+    - target: {fileID: 8076176154912388633, guid: a302c8fe2b67e2943808eef55b48a8b3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8076176154912388633, guid: a302c8fe2b67e2943808eef55b48a8b3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8076176154912388633, guid: a302c8fe2b67e2943808eef55b48a8b3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 239.297
+      objectReference: {fileID: 0}
+    - target: {fileID: 8889973452245052579, guid: a302c8fe2b67e2943808eef55b48a8b3, type: 3}
+      propertyPath: m_Name
+      value: stuffed mushroom poppers
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a302c8fe2b67e2943808eef55b48a8b3, type: 3}
 --- !u!1001 &1697950271152897746
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2514,3 +2571,4 @@ SceneRoots:
   - {fileID: 6331356253534941086}
   - {fileID: 6954675957087244647}
   - {fileID: 4246969192932829026}
+  - {fileID: 1630834518100520316}
