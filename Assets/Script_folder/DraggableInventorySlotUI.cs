@@ -18,20 +18,23 @@ public class DraggableInventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragH
         rootCanvas = GetComponentInParent<Canvas>();
     }
 
-    public StatsModifierSO GetSO()
+    private InventoryItem GetItem()
     {
         if (inventory == null) return null;
         if (slotIndex < 0 || slotIndex >= inventory.InventorySlots.Count) return null;
-        var item = inventory.InventorySlots[slotIndex];
+        return inventory.InventorySlots[slotIndex];
+    }
+
+    public StatsModifierSO GetSO()
+    {
+        var item = GetItem();
         return item != null ? item.ModifierSO : null;
     }
 
     public Sprite GetIcon()
     {
-        if (inventory == null) return null;
-        if (slotIndex < 0 || slotIndex >= inventory.InventorySlots.Count) return null;
-        var item = inventory.InventorySlots[slotIndex];
-        return item != null ? item.Image : null; // using Inventory_Item.Image (since SO has no icon)
+        var item = GetItem();
+        return item != null ? item.Image : null;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -39,6 +42,8 @@ public class DraggableInventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragH
         if (GetSO() == null) return;
 
         if (dragIcon == null || dragIconImage == null) return;
+
+        dragIconImage.raycastTarget = false;
 
         dragIconOriginalParent = dragIcon.parent;
         dragIcon.SetParent(rootCanvas.transform, true); // ensure it renders on top

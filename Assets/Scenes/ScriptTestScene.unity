@@ -1210,7 +1210,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CraftDropSlotUI
   slotType: 0
   craftSystem: {fileID: 1430486903}
-  slotImage: {fileID: 1170792086}
+  slotImage: {fileID: 420106696}
 --- !u!1 &464036038
 GameObject:
   m_ObjectHideFlags: 0
@@ -3258,7 +3258,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &968901443
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3634,7 +3634,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1170792085
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3783,7 +3783,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CraftDropSlotUI
   slotType: 1
   craftSystem: {fileID: 1430486903}
-  slotImage: {fileID: 1814422886}
+  slotImage: {fileID: 1199208321}
 --- !u!1 &1217578483
 GameObject:
   m_ObjectHideFlags: 0
@@ -4739,7 +4739,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   CraftingMenu: {fileID: 1449615630}
-  DragImage: {fileID: 576813434}
   NearCraftPot: 0
   ItemSelected: 0
   playerInventory: {fileID: 1430486902}
@@ -5246,7 +5245,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1814422885
 RectTransform:
   m_ObjectHideFlags: 0

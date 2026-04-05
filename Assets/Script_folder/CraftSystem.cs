@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class CraftSystem : MonoBehaviour
 {
     public GameObject CraftingMenu;
-    public RectTransform DragImage;
+    
     public bool NearCraftPot;
     public bool ItemSelected;
 
@@ -35,10 +35,7 @@ public class CraftSystem : MonoBehaviour
     void Update()
     {
         
-        if (ItemSelected)
-        {
-          DragImage.anchoredPosition = new Vector2(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y);
-        }
+        
 
         
     }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum StatType
 {
@@ -59,4 +60,6 @@ public class StatsModifierSO : ScriptableObject
 
     [Tooltip("Stat lines that will roll when this modifier is created at runtime.")]
     public StatRollLine[] lines;
+
+    public Sprite Image;
 }

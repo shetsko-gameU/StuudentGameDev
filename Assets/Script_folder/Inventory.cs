@@ -56,6 +56,7 @@ public class Inventory : MonoBehaviour
             else
             {
                 UISlots[i].enabled = false;
+                UISlots[i].sprite = null;
             }
         }
     }
@@ -88,7 +89,7 @@ public class Inventory : MonoBehaviour
         newItem.ItemID = itemId;
         newItem.Image = image;
 
-        InventorySlots.Add(newItem);
+        InventorySlots.Add(newItem); 
 
         return true;
     }
