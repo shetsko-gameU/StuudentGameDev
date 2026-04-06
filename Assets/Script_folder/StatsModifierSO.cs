@@ -8,7 +8,7 @@ public enum StatType
     Defense,
     MoveSpeed,
     AttackSpeed,
-    
+    DodgeChance, //0 to 1 (so 0.15 = 15%).
 }
 
 public enum ModifierMode
