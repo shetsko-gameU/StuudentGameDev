@@ -1210,7 +1210,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CraftDropSlotUI
   slotType: 0
   craftSystem: {fileID: 1430486903}
-  slotImage: {fileID: 420106696}
+  slotImage: {fileID: 1170792086}
 --- !u!1 &464036038
 GameObject:
   m_ObjectHideFlags: 0
@@ -3661,7 +3661,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1170792084}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -3783,7 +3783,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CraftDropSlotUI
   slotType: 1
   craftSystem: {fileID: 1430486903}
-  slotImage: {fileID: 1199208321}
+  slotImage: {fileID: 1814422886}
 --- !u!1 &1217578483
 GameObject:
   m_ObjectHideFlags: 0
@@ -4739,13 +4739,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   CraftingMenu: {fileID: 1449615630}
+  primaryUI: {fileID: 420106698}
+  secondaryUI: {fileID: 1199208323}
   NearCraftPot: 0
   ItemSelected: 0
   playerInventory: {fileID: 1430486902}
   primarySlot: {fileID: 0}
   secondarySlot: {fileID: 0}
-  primarySlotImage: {fileID: 420106696}
-  secondarySlotImage: {fileID: 1199208321}
   resultSlotImage: {fileID: 520862795}
   recipes:
   - {fileID: 11400000, guid: 4f1a256ad3dc47e4a85f041cc1f52a22, type: 2}
@@ -4811,7 +4811,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.392}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -5272,7 +5272,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1814422884}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
