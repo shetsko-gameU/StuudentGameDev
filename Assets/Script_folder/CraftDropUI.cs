@@ -24,15 +24,15 @@ public class CraftDropSlotUI : MonoBehaviour, IDropHandler
 
         // Set craft system slot
         if (slotType == SlotType.Primary) craftSystem.primarySlot = so;
-        else craftSystem.secondarySlot = so;
+        if (slotType == SlotType.Secondary) craftSystem.secondarySlot = so;
 
         // Update craft slot icon (from inventory item image)
         if (slotImage != null)
         {
             slotImage.sprite = dragSlot.GetIcon();
-            slotImage.enabled = (slotImage.sprite != null);
+            slotImage.enabled = true;
         }
 
-        craftSystem.RefreshUIAfterDrop(); // we'll add this helper below
+        // craftSystem.RefreshUIAfterDrop(); // we'll add this helper below
     }
 }

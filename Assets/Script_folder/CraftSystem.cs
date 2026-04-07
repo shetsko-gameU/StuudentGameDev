@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -5,6 +6,7 @@ using UnityEngine.UI;
 public class CraftSystem : MonoBehaviour
 {
     public GameObject CraftingMenu;
+    public CraftDropSlotUI primaryUI, secondaryUI;
     
     public bool NearCraftPot;
     public bool ItemSelected;
@@ -17,8 +19,7 @@ public class CraftSystem : MonoBehaviour
     public StatsModifierSO secondarySlot;
 
     [Header("Slot UI")]
-    public Image primarySlotImage;
-    public Image secondarySlotImage;
+    
     public Image resultSlotImage;
 
     [Header("Recipes")]
@@ -149,11 +150,16 @@ public class CraftSystem : MonoBehaviour
     public void RefreshUI()
     {
         
-        if (primarySlotImage != null) primarySlotImage.enabled = (primarySlot != null);
-        if (secondarySlotImage != null) secondarySlotImage.enabled = (secondarySlot != null);
+        if (primaryUI.slotImage != null) primaryUI.slotImage.enabled = (primarySlot != null);
+        if (secondaryUI.slotImage != null) secondaryUI.slotImage.enabled = (secondarySlot != null);
         Debug.Log("Is fire");
         var match = FindMatch();
-        if (resultSlotImage != null) resultSlotImage.enabled = (match != null && match.result != null);
+        if (resultSlotImage != null)
+        {
+            resultSlotImage.enabled = (match != null && match.result != null);
+            Debug.Log(match.result.name);
+           // resultSlotImage.sprite = match.result.Image;
+        }
     }
     public void RefreshUIAfterDrop()
     {

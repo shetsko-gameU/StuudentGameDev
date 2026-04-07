@@ -12,10 +12,12 @@ public class DraggableInventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragH
 
     private Canvas rootCanvas;
     private Transform dragIconOriginalParent;
+    private Vector2 OriginalPosition;
 
     private void Awake()
     {
         rootCanvas = GetComponentInParent<Canvas>();
+        OriginalPosition = dragIcon.position;
     }
 
     private InventoryItem GetItem()
@@ -43,10 +45,10 @@ public class DraggableInventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragH
 
         if (dragIcon == null || dragIconImage == null) return;
 
-        dragIconImage.raycastTarget = false;
+        //dragIconImage.raycastTarget = false;
 
         dragIconOriginalParent = dragIcon.parent;
-        dragIcon.SetParent(rootCanvas.transform, true); // ensure it renders on top
+        // dragIcon.SetParent(rootCanvas.transform, true); // ensure it renders on top
         dragIcon.gameObject.SetActive(true);
 
         dragIconImage.sprite = GetIcon();
@@ -65,8 +67,10 @@ public class DraggableInventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragH
     {
         if (dragIcon == null) return;
 
-        dragIcon.gameObject.SetActive(false);
+        
         if (dragIconOriginalParent != null)
             dragIcon.SetParent(dragIconOriginalParent, true);
+            dragIcon.position = OriginalPosition;
+
     }
 }
