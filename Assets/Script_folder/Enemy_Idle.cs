@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Enemy_Idle : MonoBehaviour
+public class Enemy_Idle : Enemy_State
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

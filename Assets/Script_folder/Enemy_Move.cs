@@ -6,7 +6,7 @@ using UnityEditor.Experimental.GraphView;
 //using System.Diagnostics;
 //using System.Numerics;
 
-public class Enemy_Move : MonoBehaviour
+public class Enemy_Move : MonoBehaviour, Enemy_State
 {
     [Header("Speed Stuff")]
     public float acceleration;
@@ -108,6 +108,7 @@ public class Enemy_Move : MonoBehaviour
         {
         }
     }
+
 
 }
 
