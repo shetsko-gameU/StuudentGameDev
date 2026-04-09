@@ -1,25 +1,29 @@
 using UnityEngine;
 
-public class Enemy_Attack : MonoBehaviour
+public class Enemy_Attack : Enemy_State
 {
-    public Animator animator;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public Enemy_Attack(Enemy_Base enemy, Enemy_State_Machine enemyStateMachine) : base(enemy, enemyStateMachine)
     {
-
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void EnterState()
     {
+        // prepare attack state (e.g., reset timers)
+    }
 
+    public override void FrameUpdate()
+    {
+        // per-frame attack logic
+    }
 
+    public override void PhysicsUpdate()
+    {
+        // physics-related attack logic
     }
 
     public void OnAttack()
     {
-        animator.SetTrigger("Attack");
-
-
+        if (enemy != null && enemy.animator != null)
+            enemy.animator.SetTrigger("Attack");
     }
 }

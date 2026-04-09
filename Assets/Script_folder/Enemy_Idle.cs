@@ -2,15 +2,28 @@ using UnityEngine;
 
 public class Enemy_Idle : Enemy_State
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public Vector3 targetPosition;
+    public Vector3 direction;
+    public Enemy_Idle(Enemy_Base enemy, Enemy_State_Machine enemyStateMachine) : base(enemy, enemyStateMachine)
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void EnterState()
     {
-        
+       targetPosition = GetRandomPointInRadius()
+    }
+
+    public override void FrameUpdate()
+    {
+      direction = (targetPosition - enemy.transform.position).normalized;
+      enemy.MoveEnemy(direction * enemy.RandomMoveSpeed);
+      if((enemy.transform.position - targetPosition).magnitude < 0.5f)
+      {
+        targetPosition = GetRandomPointInRadius();
+      }
+    }
+    Vector3 GetRandomPointInRadius()
+    {
+        return enemy.transform.position + (Vector3)UnityEngine.Random.insideUnitCircle * enemy.RandomMoveRadius;
     }
 }

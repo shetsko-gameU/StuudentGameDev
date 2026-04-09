@@ -19,9 +19,11 @@ public class Enemy_Base : MonoBehaviour
     void Awake()
     {
         stateMachine = new Enemy_State_Machine();
-        idleState = new Enemy_Idle();
-        attackState = new Enemy_Attack();
-        moveState = new Enemy_Move();
+        // construct state instances and pass references they need
+        idleState = new Enemy_Idle(this, stateMachine);
+        // Create constructed state instances
+        attackState = new Enemy_Attack(this, stateMachine);
+        moveState = new Enemy_Move(this, stateMachine);
     }
 
 
@@ -34,7 +36,11 @@ public class Enemy_Base : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        stateMachine.CurrentEnemyState?.FrameUpdate();
+    }
+    void FixedUpdate()
+    {
+        stateMachine?.CurrentEnemyState?.PhysicsUpdate();
     }
     void AnimationTriggerEvent(AnimationTriggerType triggerType)
     {
