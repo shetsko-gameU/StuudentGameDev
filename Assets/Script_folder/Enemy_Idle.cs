@@ -4,13 +4,15 @@ public class Enemy_Idle : Enemy_State
 {
     public Vector3 targetPosition;
     public Vector3 direction;
-    public Enemy_Idle(Enemy_Base enemy, Enemy_State_Machine enemyStateMachine) : base(enemy, enemyStateMachine)
+    public Enemy_Idle(Enemy_Base enemy, Enemy_State_Machine enemyStateMachine)
     {
+        this.enemy = enemy;
+        this.enemyStateMachine = enemyStateMachine;
     }
 
     public override void EnterState()
     {
-       targetPosition = GetRandomPointInRadius()
+       targetPosition = GetRandomPointInRadius();
     }
 
     public override void FrameUpdate()

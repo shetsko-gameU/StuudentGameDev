@@ -21,8 +21,6 @@ public class Enemy_Move : Enemy_State
     public Transform playerModel;
     bool isMoving;
     public Rigidbody rb;
-    public Animator animator;
-    public Animator ObjectAnimator;
 
     [Header("Ground Check")]
     public float playerHight;
@@ -34,8 +32,10 @@ public class Enemy_Move : Enemy_State
     Vector3 moveDir;
 
 
-    public Enemy_Move(Enemy_Base enemy, Enemy_State_Machine enemyStateMachine) : base(enemy, enemyStateMachine)
+    public Enemy_Move(Enemy_Base enemy, Enemy_State_Machine enemyStateMachine)
     {
+        this.enemy = enemy;
+        this.enemyStateMachine = enemyStateMachine;
     }
 
     public override void EnterState()
@@ -50,13 +50,18 @@ public class Enemy_Move : Enemy_State
         // ground check and non-physics per-frame logic
         grounded = Physics.Raycast(enemy.transform.position, Vector3.down, playerHight * 0.5f + 0.2f, isGround);
         if (grounded)
+        {
             rb.linearDamping = groundDrag;
+        }
         else
+        {
             rb.linearDamping = 0;
+        }
     }
 
     public override void PhysicsUpdate()
     {
+        // Get movespeed from stats (fallback to 1 if missing)
         float moveSpeedMultiplier = (stats != null) ? stats.MoveSpeed : 1f;
 
         float finalAcceleration = acceleration * moveSpeedMultiplier;
@@ -65,6 +70,7 @@ public class Enemy_Move : Enemy_State
         moveDir = enemy.transform.forward * movevalue.y + enemy.transform.right * movevalue.x;
         rb.AddForce(moveDir * finalAcceleration);
 
+        // rotate the player body
         if (movevalue.magnitude > 0)
         {
             playerModel.transform.rotation = Quaternion.Slerp(
@@ -72,28 +78,30 @@ public class Enemy_Move : Enemy_State
                 Quaternion.LookRotation(moveDir),
                 modelRotateSpeed * Time.deltaTime
             );
+            Debug.Log("Change rotation");
         }
 
+        // if we are moving or if we are not moving
         isMoving = movevalue.magnitude > 0.25f;
 
-        if (animator != null)
-            animator.SetBool("isMoving", isMoving);
+        if (enemy.animator != null)
+            enemy.animator.SetBool("isMoving", isMoving);
 
         Vector3 speedCheck = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
 
+        // will stop your speed if you exceed your max speed
         if (speedCheck.magnitude > finalMaxSpeed)
         {
             Vector3 newSpeed = speedCheck.normalized * finalMaxSpeed;
             rb.linearVelocity = new Vector3(newSpeed.x, rb.linearVelocity.y, newSpeed.z);
         }
 
+        // halt your speed if not moving
         if (!isMoving)
         {
             rb.AddForce(-rb.linearVelocity * haltSpeed);
         }
 
-        if (ObjectAnimator != null)
-            ObjectAnimator.SetFloat("Face_Direction", moveDir.x);
     }
 
     public void OnMove(InputAction.CallbackContext context)
