@@ -4358,6 +4358,7 @@ GameObject:
   - component: {fileID: 1430486901}
   - component: {fileID: 1430486902}
   - component: {fileID: 1430486903}
+  - component: {fileID: 1430486904}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -4749,6 +4750,24 @@ MonoBehaviour:
   resultSlotImage: {fileID: 520862795}
   recipes:
   - {fileID: 11400000, guid: 4f1a256ad3dc47e4a85f041cc1f52a22, type: 2}
+--- !u!114 &1430486904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430486891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffd01f3454fb9ad4ba09d41f483374ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AbilityRunner
+  primaryAbility:
+    ability: {fileID: 11400000, guid: f7f30aa914f792a41aee001910d467ae, type: 2}
+    nextReadyTime: 0
+  secondaryAbility:
+    ability: {fileID: 0}
+    nextReadyTime: 0
 --- !u!1 &1449615630
 GameObject:
   m_ObjectHideFlags: 0
