@@ -12,20 +12,21 @@ public class Enemy_Idle : Enemy_State
 
     public override void EnterState()
     {
-       targetPosition = GetRandomPointInRadius();
+       //targetPosition = GetRandomPointInRadius();
     }
 
     public override void FrameUpdate()
     {
-      direction = (targetPosition - enemy.transform.position).normalized;
+      /*direction = (targetPosition - enemy.transform.position).normalized;
       enemy.MoveEnemy(direction * enemy.RandomMoveSpeed);
       if((enemy.transform.position - targetPosition).magnitude < 0.5f)
       {
         targetPosition = GetRandomPointInRadius();
-      }
+      }*/
     }
-    Vector3 GetRandomPointInRadius()
+    
+    /*Vector3 GetRandomPointInRadius()
     {
         return enemy.transform.position + (Vector3)UnityEngine.Random.insideUnitCircle * enemy.RandomMoveRadius;
-    }
+    }*/
 }

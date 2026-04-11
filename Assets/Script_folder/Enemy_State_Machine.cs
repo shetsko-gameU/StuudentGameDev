@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy_State_Machine
 {
-  [SerializeField] Enemy_State CurrentEnemyState { get; set; }
+   public Enemy_State CurrentEnemyState { get; set; }
    public void Initialize(Enemy_State startingState)
    {
         CurrentEnemyState = startingState;

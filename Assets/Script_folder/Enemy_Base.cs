@@ -42,10 +42,10 @@ public class Enemy_Base : MonoBehaviour
     {
         stateMachine?.CurrentEnemyState?.PhysicsUpdate();
     }
-    void AnimationTriggerEvent(AnimationTriggerType triggerType)
+   /* void AnimationTriggerEvent(AnimationTriggerType triggerType)
     {
 
-    }
+    }*/
 
     public void OnTriggerEnter(Collider other)
     {
