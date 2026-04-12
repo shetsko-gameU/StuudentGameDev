@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DashAbilitySO
   displayName: Dash
   cooldownSeconds: 1
-  dashDistance: 10.01
-  dashDuration: 2.09
-  useCharacterControllerIfFound: 1
+  dashSpeed: 50
+  dashDuration: 0.2
+  usePlayerModelForward: 1
