@@ -11,6 +11,7 @@ public class CraftDropSlotUI : MonoBehaviour, IDropHandler
     public CraftSystem craftSystem;
     public Image slotImage;  // image to display what's in the craft slot
 
+
     public void OnDrop(PointerEventData eventData)
     {
         var dragged = eventData.pointerDrag;
@@ -31,8 +32,12 @@ public class CraftDropSlotUI : MonoBehaviour, IDropHandler
         {
             slotImage.sprite = dragSlot.GetIcon();
             slotImage.enabled = true;
+            
         }
-
+        dragSlot.craftInSlot = true;
+        dragSlot.dragIconImage.color = dragSlot.inventory.removedColor;
+        dragSlot.dragIconImage.raycastTarget = false;
+        dragSlot.removed = true;
         // craftSystem.RefreshUIAfterDrop(); // we'll add this helper below
     }
 }

@@ -13,6 +13,9 @@ public class DraggableInventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragH
     private Canvas rootCanvas;
     private Transform dragIconOriginalParent;
     private Vector2 OriginalPosition;
+    public bool removed;
+    public bool craftInSlot;
+    
 
     private void Awake()
     {
@@ -41,6 +44,7 @@ public class DraggableInventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragH
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+
         if (GetSO() == null) return;
 
         if (dragIcon == null || dragIconImage == null) return;
@@ -51,9 +55,12 @@ public class DraggableInventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragH
         // dragIcon.SetParent(rootCanvas.transform, true); // ensure it renders on top
         dragIcon.gameObject.SetActive(true);
 
-        dragIconImage.sprite = GetIcon();
-        dragIconImage.enabled = (dragIconImage.sprite != null);
+        removed = true;
 
+        dragIconImage.sprite = GetIcon();
+        // dragIconImage.enabled = (dragIconImage.sprite != null);
+        //dragIconImage.enabled = false;
+        
         dragIcon.position = eventData.position;
     }
 
@@ -71,6 +78,11 @@ public class DraggableInventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragH
         if (dragIconOriginalParent != null)
             dragIcon.SetParent(dragIconOriginalParent, true);
             dragIcon.position = OriginalPosition;
+       if (craftInSlot == false)
+        {
+            removed = false;
+            dragIconImage.enabled = true;
+        }
 
     }
 }

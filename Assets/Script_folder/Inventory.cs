@@ -42,23 +42,12 @@ public class Inventory : MonoBehaviour
 {
     public List<InventoryItem> InventorySlots = new List<InventoryItem>();
     public List<Image> UISlots = new List<Image>();
+    public Color removedColor;
 
     void Update()
     {
-        // Basic UI update (you may want to optimize later)
-        for (int i = 0; i < UISlots.Count; i++)
-        {
-            if (i < InventorySlots.Count && InventorySlots[i] != null)
-            {
-                UISlots[i].enabled = true;
-                UISlots[i].sprite = InventorySlots[i].Image;
-            }
-            else
-            {
-                UISlots[i].enabled = false;
-                UISlots[i].sprite = null;
-            }
-        }
+        
+        
     }
 
     // Inventory is the one that "adds the Scriptable Object to itself"
@@ -89,9 +78,23 @@ public class Inventory : MonoBehaviour
         newItem.ItemID = itemId;
         newItem.Image = image;
 
-        InventorySlots.Add(newItem); 
+        InventorySlots.Add(newItem);
 
-        return true;
+        for (int i = 0; i < UISlots.Count; i++)
+        {
+            if (i < InventorySlots.Count && InventorySlots[i] != null)
+            {
+                UISlots[i].enabled = true;
+                UISlots[i].sprite = InventorySlots[i].Image;
+            }
+            else
+            {
+                UISlots[i].enabled = false;
+                UISlots[i].sprite = null;
+            }
+        }
+         return true;
+
     }
     public bool HasSO(StatsModifierSO so)
     {
