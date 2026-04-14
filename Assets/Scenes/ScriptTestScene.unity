@@ -1563,6 +1563,8 @@ MonoBehaviour:
   slotIndex: 8
   dragIcon: {fileID: 506606846}
   dragIconImage: {fileID: 506606847}
+  removed: 0
+  craftInSlot: 0
 --- !u!1 &520862794
 GameObject:
   m_ObjectHideFlags: 0
@@ -1776,6 +1778,8 @@ MonoBehaviour:
   slotIndex: 9
   dragIcon: {fileID: 546884965}
   dragIconImage: {fileID: 546884966}
+  removed: 0
+  craftInSlot: 0
 --- !u!1 &576813433
 GameObject:
   m_ObjectHideFlags: 0
@@ -1988,6 +1992,8 @@ MonoBehaviour:
   slotIndex: 2
   dragIcon: {fileID: 594572029}
   dragIconImage: {fileID: 594572030}
+  removed: 0
+  craftInSlot: 0
 --- !u!1 &614638731
 GameObject:
   m_ObjectHideFlags: 0
@@ -2125,6 +2131,8 @@ MonoBehaviour:
   slotIndex: 10
   dragIcon: {fileID: 614638732}
   dragIconImage: {fileID: 614638733}
+  removed: 0
+  craftInSlot: 0
 --- !u!1 &639669410
 GameObject:
   m_ObjectHideFlags: 0
@@ -2373,6 +2381,8 @@ MonoBehaviour:
   slotIndex: 5
   dragIcon: {fileID: 653639597}
   dragIconImage: {fileID: 653639598}
+  removed: 0
+  craftInSlot: 0
 --- !u!1 &678666721
 GameObject:
   m_ObjectHideFlags: 0
@@ -2510,6 +2520,8 @@ MonoBehaviour:
   slotIndex: 1
   dragIcon: {fileID: 678666722}
   dragIconImage: {fileID: 678666723}
+  removed: 0
+  craftInSlot: 0
 --- !u!1 &695198291
 GameObject:
   m_ObjectHideFlags: 0
@@ -2647,6 +2659,8 @@ MonoBehaviour:
   slotIndex: 4
   dragIcon: {fileID: 695198292}
   dragIconImage: {fileID: 695198293}
+  removed: 0
+  craftInSlot: 0
 --- !u!1 &750220695 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3aca100ff2f5e7a429ac5b6ac6653171, type: 3}
@@ -3166,6 +3180,8 @@ MonoBehaviour:
   slotIndex: 11
   dragIcon: {fileID: 936052784}
   dragIconImage: {fileID: 936052785}
+  removed: 0
+  craftInSlot: 0
 --- !u!1 &951033121
 GameObject:
   m_ObjectHideFlags: 0
@@ -3453,6 +3469,8 @@ MonoBehaviour:
   slotIndex: 6
   dragIcon: {fileID: 1080080682}
   dragIconImage: {fileID: 1909972326}
+  removed: 0
+  craftInSlot: 0
 --- !u!1 &1126053413 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 2a5c5a03039a837458409dc4305a86b5, type: 3}
@@ -4743,6 +4761,7 @@ MonoBehaviour:
   - {fileID: 2128126920}
   - {fileID: 678666723}
   - {fileID: 594572030}
+  removedColor: {r: 0.66666657, g: 0.66666657, b: 0.66666657, a: 0.5294118}
 --- !u!114 &1430486903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5263,6 +5282,8 @@ MonoBehaviour:
   slotIndex: 3
   dragIcon: {fileID: 1713125096}
   dragIconImage: {fileID: 1713125097}
+  removed: 0
+  craftInSlot: 0
 --- !u!1 &1814422884
 GameObject:
   m_ObjectHideFlags: 0
@@ -5640,6 +5661,8 @@ MonoBehaviour:
   slotIndex: 7
   dragIcon: {fileID: 1909972325}
   dragIconImage: {fileID: 1909972326}
+  removed: 0
+  craftInSlot: 0
 --- !u!1 &1914478130
 GameObject:
   m_ObjectHideFlags: 0
@@ -5941,6 +5964,8 @@ MonoBehaviour:
   slotIndex: 0
   dragIcon: {fileID: 2128126919}
   dragIconImage: {fileID: 2128126920}
+  removed: 0
+  craftInSlot: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
