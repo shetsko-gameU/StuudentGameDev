@@ -2,13 +2,17 @@
 using UnityEngine;
 
 
-public class Enemy_Base : MonoBehaviour
+public class Enemy_Base : MonoBehaviour, TriggerCheck
 {
    [Header("Stats")]
     public StatsManager stats;
     public StatsManager Player_Stats;
     public Animator animator;
     Vector2 movevalue;
+
+    // TriggerCheck implementation
+    public bool isAggroed { get; set; }
+    public bool isWithinRange { get; set; }
 
 
     [SerializeField] Enemy_State_Machine stateMachine {get; set;}
@@ -59,6 +63,15 @@ public class Enemy_Base : MonoBehaviour
         animator.SetTrigger("Attack");
 
 
+    }
+    public void setAggroStatus(bool isAggroed)
+    {
+        this.isAggroed = isAggroed;
+    }
+
+    public void setRangeBool(bool isWithinRange)
+    {
+        this.isWithinRange = isWithinRange;
     }
     /*public void OnMove(InputAction.CallbackContext context)
     {
