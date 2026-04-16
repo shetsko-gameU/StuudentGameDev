@@ -18,7 +18,7 @@ public class Enemy_Move : Enemy_State
 
     [Header("Model Stuff")]
     public float modelRotateSpeed;
-    public Transform playerModel;
+    public Transform enemyModel;
     bool isMoving;
     public Rigidbody rb;
 
@@ -28,6 +28,7 @@ public class Enemy_Move : Enemy_State
     bool grounded;
     public float groundDrag;
 
+    Transform playerTransform;
     Vector2 movevalue;
     Vector3 moveDir;
 
@@ -36,6 +37,7 @@ public class Enemy_Move : Enemy_State
     {
         this.enemy = enemy;
         this.enemyStateMachine = enemyStateMachine;
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     public override void EnterState()
@@ -57,6 +59,10 @@ public class Enemy_Move : Enemy_State
         {
             rb.linearDamping = 0;
         }
+        if (enemy.IsWithinRange)
+        {
+            enemy.StateMachine.ChangeState(enemy.attackState);
+        }
     }
 
     public override void PhysicsUpdate()
@@ -67,14 +73,14 @@ public class Enemy_Move : Enemy_State
         float finalAcceleration = acceleration * moveSpeedMultiplier;
         float finalMaxSpeed = maxSpeed * moveSpeedMultiplier;
 
-        moveDir = enemy.transform.forward * movevalue.y + enemy.transform.right * movevalue.x;
+        moveDir = (playerTransform.position - enemy.transform.position).normalized;
         rb.AddForce(moveDir * finalAcceleration);
 
         // rotate the player body
         if (movevalue.magnitude > 0)
         {
-            playerModel.transform.rotation = Quaternion.Slerp(
-                playerModel.transform.rotation,
+            enemyModel.transform.rotation = Quaternion.Slerp(
+                enemyModel.transform.rotation,
                 Quaternion.LookRotation(moveDir),
                 modelRotateSpeed * Time.deltaTime
             );

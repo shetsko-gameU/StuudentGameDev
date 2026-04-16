@@ -1,7 +1,7 @@
 using UnityEngine;
 
-public class EnemyAggroCheck : MonoBehaviour
-{
+public class EnemyStrikeDistanceCheck : MonoBehaviour
+{ 
     public GameObject target{get; set;}
     public Enemy_Base enemy;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -25,14 +25,14 @@ public class EnemyAggroCheck : MonoBehaviour
     {
         if (other.gameObject == target)
         {
-            enemy.isAggroed = true;
+            enemy.isWithinRange = true;
         }
     }
      OnTriggerExit(Collider other)
     {
         if (other.gameObject == target)
         {
-            enemy.isAggroed = false;
+            enemy.isWithinRange = false;
         }
     }
 }

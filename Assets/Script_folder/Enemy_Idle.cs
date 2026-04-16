@@ -17,6 +17,10 @@ public class Enemy_Idle : Enemy_State
 
     public override void FrameUpdate()
     {
+        /* if(enemy.isAggroed)
+          //{
+             enemyStateMachine.ChangeState(enemy.enemyChaseState);
+          }*/
       /*direction = (targetPosition - enemy.transform.position).normalized;
       enemy.MoveEnemy(direction * enemy.RandomMoveSpeed);
       if((enemy.transform.position - targetPosition).magnitude < 0.5f)
