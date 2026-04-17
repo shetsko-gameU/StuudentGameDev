@@ -15,10 +15,10 @@ public class Enemy_Base : MonoBehaviour, TriggerCheck
     public bool isWithinRange { get; set; }
 
 
-    [SerializeField] Enemy_State_Machine stateMachine {get; set;}
-    [SerializeField] Enemy_Idle idleState { get; set; }
-    [SerializeField] Enemy_Attack attackState { get; set; }
-    [SerializeField] Enemy_Move moveState { get; set; }
+    public Enemy_State_Machine stateMachine {get; set;}
+    public Enemy_Idle idleState { get; set; }
+    public Enemy_Attack attackState { get; set; }
+    public Enemy_Move moveState { get; set; }
 
     void Awake()
     {

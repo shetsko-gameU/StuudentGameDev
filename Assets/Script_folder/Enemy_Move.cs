@@ -59,9 +59,9 @@ public class Enemy_Move : Enemy_State
         {
             rb.linearDamping = 0;
         }
-        if (enemy.IsWithinRange)
+        if (enemy.isWithinRange)
         {
-            enemy.StateMachine.ChangeState(enemy.attackState);
+            enemy.stateMachine.ChangeState(enemy.attackState);
         }
     }
 
@@ -108,6 +108,11 @@ public class Enemy_Move : Enemy_State
             rb.AddForce(-rb.linearVelocity * haltSpeed);
         }
 
+    }
+
+    public void StopMovement()
+    {
+        //to do 
     }
 
     public void OnMove(InputAction.CallbackContext context)

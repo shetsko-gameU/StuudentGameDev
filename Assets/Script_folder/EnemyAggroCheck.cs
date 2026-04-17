@@ -21,14 +21,14 @@ public class EnemyAggroCheck : MonoBehaviour
         
     }
     //Enemy determines trigger based on spotting the player
-    OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.gameObject == target)
         {
             enemy.isAggroed = true;
         }
     }
-     OnTriggerExit(Collider other)
+    void OnTriggerExit(Collider other)
     {
         if (other.gameObject == target)
         {

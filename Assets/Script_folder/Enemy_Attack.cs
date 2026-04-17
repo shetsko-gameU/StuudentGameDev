@@ -22,7 +22,7 @@ public class Enemy_Attack : Enemy_State
 
     public override void FrameUpdate()
     {
-        enemy.moveState(Vector3.zero); // Stop movement during attack
+        enemy.moveState.StopMovement(); // Stop movement during attack
         if(timer >= timeBetweenAttacks)
         {
             OnAttack();
@@ -31,7 +31,7 @@ public class Enemy_Attack : Enemy_State
         }
         if(exitTimer >= timeToExitAfterAttack)
         {
-            enemy.StateMachine.ChangeState(enemy.moveState);
+            enemy.stateMachine.ChangeState(enemy.moveState);
         }
         else if(Vector3.Distance(enemy.transform.position, playerTransform.position) > distanceToCountExit)
         {
