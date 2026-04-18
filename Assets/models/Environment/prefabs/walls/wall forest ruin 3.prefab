@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 97cd9f7881f5ae048b202301d989affb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.66
+      value: -17.97609
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 97cd9f7881f5ae048b202301d989affb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.0000009536743
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 97cd9f7881f5ae048b202301d989affb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -30.2
+      value: 0.74658966
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 97cd9f7881f5ae048b202301d989affb, type: 3}
       propertyPath: m_LocalRotation.w
@@ -30,7 +30,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 97cd9f7881f5ae048b202301d989affb, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 97cd9f7881f5ae048b202301d989affb, type: 3}
       propertyPath: m_LocalRotation.z
@@ -51,6 +51,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 97cd9f7881f5ae048b202301d989affb, type: 3}
       propertyPath: m_Name
       value: wall forest ruin 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 97cd9f7881f5ae048b202301d989affb, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
