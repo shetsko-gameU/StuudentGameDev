@@ -4377,6 +4377,7 @@ GameObject:
   - component: {fileID: 1430486902}
   - component: {fileID: 1430486903}
   - component: {fileID: 1430486904}
+  - component: {fileID: 1430486905}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -4803,6 +4804,21 @@ MonoBehaviour:
   secondaryAbility:
     ability: {fileID: 0}
     nextReadyTime: 0
+--- !u!114 &1430486905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430486891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89246624ed9498549b178e405c0dbb87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PassiveEffectRunner
+  stats: {fileID: 1430486900}
+  passives:
+  - {fileID: 0}
 --- !u!1 &1449615630
 GameObject:
   m_ObjectHideFlags: 0
