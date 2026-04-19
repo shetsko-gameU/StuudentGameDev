@@ -238,4 +238,35 @@ public class StatsManager : MonoBehaviour
         currentHealth = Mathf.Min(MaxHealth, currentHealth + Mathf.Max(0f, amount));
         OnHealthChanged?.Invoke(currentHealth, MaxHealth);
     }
+
+    public void RemoveAllFromSource(StatsModifierSO source)
+    {
+        if (source == null)
+        {
+            return;
+        }
+
+        bool changed = false;
+
+        for (int i = active.Count - 1; i >= 0; i--)
+        {
+            if (active[i].inst != null && active[i].inst.source == source)
+            {
+                active.RemoveAt(i);
+                changed = true;
+            }
+        }
+
+        if (changed)
+        {
+            RecalculateFinalStats(keepHealthPercent: true);
+        }
+    }
+
+
+
+
+
+
+
 }
