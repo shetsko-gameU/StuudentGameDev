@@ -26,6 +26,7 @@ public class StatsManager : MonoBehaviour
 
     public event Action<float, float> OnHealthChanged; // (current, max)
     public event Action OnDied;
+    public event Action<float> OnDamaged; 
 
     private class ActiveRolled
     {
@@ -221,7 +222,7 @@ public class StatsManager : MonoBehaviour
 
         float finalDamage = Mathf.Max(0f, incomingDamage - Defense);
         if (finalDamage <= 0f) return;
-
+        OnDamaged?.Invoke(finalDamage);
         currentHealth = Mathf.Max(0f, currentHealth - finalDamage);
         OnHealthChanged?.Invoke(currentHealth, MaxHealth);
 

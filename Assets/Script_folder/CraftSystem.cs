@@ -118,8 +118,8 @@ public class CraftSystem : MonoBehaviour
         }
 
         // verify ingredients are actually in inventory
-        if (!playerInventory.HasSO(recipe.primary)) { Debug.Log("Missing primary."); return; }
-        if (recipe.secondary != null && !playerInventory.HasSO(recipe.secondary)) { Debug.Log("Missing secondary."); return; }
+       // if (!playerInventory.HasSO(recipe.primary)) { Debug.Log("Missing primary."); return; }
+       // if (recipe.secondary != null && !playerInventory.HasSO(recipe.secondary)) { Debug.Log("Missing secondary."); return; }
 
         // consume
         playerInventory.RemoveSO(recipe.primary);
@@ -131,7 +131,7 @@ public class CraftSystem : MonoBehaviour
         // clear crafting slots (optional)
         primarySlot = null;
         secondarySlot = null;
-        RefreshUI();
+        RefreshInventory();
     }
 
     private CraftRecipeSO FindMatch()
@@ -149,17 +149,42 @@ public class CraftSystem : MonoBehaviour
 
     public void RefreshUI()
     {
-        
         if (primaryUI.slotImage != null) primaryUI.slotImage.enabled = (primarySlot != null);
         if (secondaryUI.slotImage != null) secondaryUI.slotImage.enabled = (secondarySlot != null);
+
         Debug.Log("Is fire");
         var match = FindMatch();
-        if (resultSlotImage != null)
+        if (resultSlotImage != null&&primaryUI.slotImage.enabled == true&&secondaryUI.slotImage.enabled == true)
         {
+
             resultSlotImage.enabled = (match != null && match.result != null);
-            Debug.Log(match.result.name);
-           // resultSlotImage.sprite = match.result.Image;
+           // Debug.Log(match.result.name);
+            resultSlotImage.sprite = match.result.Image;
         }
+    }
+    public void RefreshInventory()
+    {
+        if (primaryUI.slotImage != null) primaryUI.slotImage.enabled = (primarySlot != null);
+        if (secondaryUI.slotImage != null) secondaryUI.slotImage.enabled = (secondarySlot != null);
+        resultSlotImage.enabled = false;
+        for (int i = 0; i < playerInventory.UISlots.Count; i++)
+        {
+            if (i < playerInventory.InventorySlots.Count && playerInventory.InventorySlots[i] != null)
+            {
+                playerInventory.UISlots[i].enabled = true;
+                playerInventory.UISlots[i].sprite = playerInventory.InventorySlots[i].Image;
+            }
+            else
+            {
+                playerInventory.UISlots[i].enabled = false;
+                playerInventory.UISlots[i].sprite = null;
+            }
+            playerInventory.UISlots[i].GetComponent<DraggableInventorySlotUI>().removed = false;
+            playerInventory.UISlots[i].GetComponent<DraggableInventorySlotUI>().dragIconImage.color = Color.white;
+            playerInventory.UISlots[i].GetComponent<DraggableInventorySlotUI>().craftInSlot = false;
+        }
+        
+
     }
     public void RefreshUIAfterDrop()
     {

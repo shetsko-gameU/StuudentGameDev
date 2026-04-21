@@ -45,9 +45,9 @@ public class DraggableInventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragH
     public void OnBeginDrag(PointerEventData eventData)
     {
 
-        if (GetSO() == null) return;
+       // if (GetSO() == null) return;
 
-        if (dragIcon == null || dragIconImage == null) return;
+        //if (dragIcon == null || dragIconImage == null) return;
 
         //dragIconImage.raycastTarget = false;
 

@@ -129,7 +129,7 @@ public class Inventory : MonoBehaviour
         InventoryItem newItem = new InventoryItem();
         newItem.ModifierSO = so;
         newItem.Name = so.displayName;
-        newItem.Image = iconOverride; // if you add so.icon later, use that instead
+        newItem.Image = so.Image; 
 
         InventorySlots.Add(newItem);
     }
