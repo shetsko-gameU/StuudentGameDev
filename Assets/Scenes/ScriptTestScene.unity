@@ -4378,6 +4378,9 @@ GameObject:
   - component: {fileID: 1430486903}
   - component: {fileID: 1430486904}
   - component: {fileID: 1430486905}
+  - component: {fileID: 1430486908}
+  - component: {fileID: 1430486907}
+  - component: {fileID: 1430486906}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -4819,6 +4822,50 @@ MonoBehaviour:
   stats: {fileID: 1430486900}
   passives:
   - {fileID: 0}
+--- !u!114 &1430486906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430486891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc960c89d32458542807e5199d730899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerConsume
+  inventory: {fileID: 0}
+  passiveManager: {fileID: 1430486907}
+  foodPassives: []
+--- !u!114 &1430486907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430486891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06f3d13d8cf521409f8fdc2f39de105, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PassiveManager
+  stats: {fileID: 1430486900}
+  onHitPassives: []
+--- !u!114 &1430486908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430486891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40e11195f78762a46b48b85b8baeaadd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GainStatOnHit
+  stats: {fileID: 1430486900}
+  buffTemplate: {fileID: 0}
+  overrideDurationSeconds: 3
 --- !u!1 &1449615630
 GameObject:
   m_ObjectHideFlags: 0
