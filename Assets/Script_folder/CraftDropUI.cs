@@ -38,6 +38,6 @@ public class CraftDropSlotUI : MonoBehaviour, IDropHandler
         dragSlot.dragIconImage.color = dragSlot.inventory.removedColor;
         dragSlot.dragIconImage.raycastTarget = false;
         dragSlot.removed = true;
-        craftSystem.RefreshUIAfterDrop(); // we'll add this helper below
+        craftSystem.RefreshUIAfterDrop(); 
     }
 }

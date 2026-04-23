@@ -117,9 +117,7 @@ public class CraftSystem : MonoBehaviour
             return;
         }
 
-        // verify ingredients are actually in inventory
-       // if (!playerInventory.HasSO(recipe.primary)) { Debug.Log("Missing primary."); return; }
-       // if (recipe.secondary != null && !playerInventory.HasSO(recipe.secondary)) { Debug.Log("Missing secondary."); return; }
+        
 
         // consume
         playerInventory.RemoveSO(recipe.primary);
@@ -158,7 +156,7 @@ public class CraftSystem : MonoBehaviour
         {
 
             resultSlotImage.enabled = (match != null && match.result != null);
-           // Debug.Log(match.result.name);
+           
             resultSlotImage.sprite = match.result.Image;
         }
     }
@@ -188,7 +186,7 @@ public class CraftSystem : MonoBehaviour
     }
     public void RefreshUIAfterDrop()
     {
-        // Recompute result / enable craft button / show result icon etc.
+        // Recompute result / enable craft button 
         
         RefreshUI();
     }

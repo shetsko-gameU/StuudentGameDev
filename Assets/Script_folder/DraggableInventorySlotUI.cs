@@ -7,7 +7,7 @@ public class DraggableInventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragH
     [Header("Wiring")]
     public Inventory inventory;           // reference to player inventory
     public int slotIndex;                 // which index this UI slot represents
-    public RectTransform dragIcon;        // your CraftSystem.DragImage (an Image on top of UI)
+    public RectTransform dragIcon;        // CraftSystem.DragImage (an Image on top of UI)
     public Image dragIconImage;           // Image component on dragIcon
 
     private Canvas rootCanvas;
@@ -45,21 +45,15 @@ public class DraggableInventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragH
     public void OnBeginDrag(PointerEventData eventData)
     {
 
-       // if (GetSO() == null) return;
-
-        //if (dragIcon == null || dragIconImage == null) return;
-
-        //dragIconImage.raycastTarget = false;
-
         dragIconOriginalParent = dragIcon.parent;
-        // dragIcon.SetParent(rootCanvas.transform, true); // ensure it renders on top
+        
         dragIcon.gameObject.SetActive(true);
 
         removed = true;
 
         dragIconImage.sprite = GetIcon();
-        // dragIconImage.enabled = (dragIconImage.sprite != null);
-        //dragIconImage.enabled = false;
+        
+        
         
         dragIcon.position = eventData.position;
     }
