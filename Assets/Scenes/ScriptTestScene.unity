@@ -4425,15 +4425,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player_Move
   acceleration: 100
-  maxSpeed: 10
   haltSpeed: 3
   stats: {fileID: 1430486900}
   modelRotateSpeed: 5
   playerModel: {fileID: 1394594511}
   rb: {fileID: 1430486892}
   animator: {fileID: 1430486898}
-  ObjectAnimator: {fileID: 1394594513}
-  playerHight: 3
+  objectAnimator: {fileID: 0}
+  playerHeight: 0
   isGround:
     serializedVersion: 2
     m_Bits: 64
@@ -4713,6 +4712,134 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 02cbec44-2d0c-4b74-902f-8584ceb4208e
     m_ActionName: 'Player/Dash[/Keyboard/r]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1430486906}
+        m_TargetAssemblyTypeName: PlayerConsume, Assembly-CSharp
+        m_MethodName: OnEatSlot1
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 7bbcd2a6-edd1-4fa3-80f2-c8714853b68d
+    m_ActionName: 'Player/EatSlot1[/Keyboard/1]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1430486906}
+        m_TargetAssemblyTypeName: PlayerConsume, Assembly-CSharp
+        m_MethodName: OnEatSlot2
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 40cee0af-c8de-49c3-9ba4-64d1fdf56eed
+    m_ActionName: 'Player/EatSlot2[/Keyboard/2]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1430486906}
+        m_TargetAssemblyTypeName: PlayerConsume, Assembly-CSharp
+        m_MethodName: OnEatSlot3
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 65508052-2975-4015-b070-09ba47ba9cd2
+    m_ActionName: 'Player/EatSlot3[/Keyboard/3]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1430486906}
+        m_TargetAssemblyTypeName: PlayerConsume, Assembly-CSharp
+        m_MethodName: OnEatSlot4
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b5adb237-1def-4625-8e26-d7d4f9631faa
+    m_ActionName: 'Player/EatSlot4[/Keyboard/4]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1430486906}
+        m_TargetAssemblyTypeName: PlayerConsume, Assembly-CSharp
+        m_MethodName: OnEatSlot5
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 27431586-cda9-4d01-9f9b-51749108af95
+    m_ActionName: 'Player/EatSlot5[/Keyboard/5]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1430486906}
+        m_TargetAssemblyTypeName: PlayerConsume, Assembly-CSharp
+        m_MethodName: OnEatSlot6
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5f236708-db4a-41ce-8fbd-40b21e79c622
+    m_ActionName: 'Player/EatSlot6[/Keyboard/6]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1430486906}
+        m_TargetAssemblyTypeName: PlayerConsume, Assembly-CSharp
+        m_MethodName: OnEatSlot7
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 88dc4abe-d2d8-4e53-a4c8-461b51f3fd37
+    m_ActionName: 'Player/EatSlot7[/Keyboard/7]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1430486906}
+        m_TargetAssemblyTypeName: PlayerConsume, Assembly-CSharp
+        m_MethodName: OnEatSlot8
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d373ce9e-d3bb-4f48-a112-88c70326dd54
+    m_ActionName: 'Player/EatSlot8[/Keyboard/8]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
@@ -4775,17 +4902,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a317be7f2a645a43b0574fdf734af67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  CraftingMenu: {fileID: 1449615630}
+  craftingMenu: {fileID: 0}
   primaryUI: {fileID: 420106698}
   secondaryUI: {fileID: 1199208323}
-  NearCraftPot: 0
-  ItemSelected: 0
+  resultSlotImage: {fileID: 0}
   playerInventory: {fileID: 1430486902}
   primarySlot: {fileID: 0}
   secondarySlot: {fileID: 0}
-  resultSlotImage: {fileID: 0}
   recipes:
   - {fileID: 11400000, guid: 4f1a256ad3dc47e4a85f041cc1f52a22, type: 2}
+  NearCraftPot: 0
 --- !u!114 &1430486904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4831,7 +4957,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc960c89d32458542807e5199d730899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerConsume
-  inventory: {fileID: 0}
+  inventory: {fileID: 1430486902}
+  stats: {fileID: 1430486900}
   passiveManager: {fileID: 1430486907}
   foodPassives: []
 --- !u!114 &1430486907
@@ -5957,7 +6084,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2049215635}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &2049215638
 Camera:
   m_ObjectHideFlags: 0
