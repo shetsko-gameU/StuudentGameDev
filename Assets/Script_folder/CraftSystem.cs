@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class CraftSystem : MonoBehaviour
 {
     [Header("UI")]
-    public GameObject craftingMenu;
+    public GameObject CraftingMenu;
     public CraftDropSlotUI primaryUI;
     public CraftDropSlotUI secondaryUI;
     public Image resultSlotImage;
@@ -26,13 +26,13 @@ public class CraftSystem : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("CraftPot"))
+        if (other.gameObject.CompareTag("CraftPot"))
             NearCraftPot = true;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("CraftPot"))
+        if (other.gameObject.CompareTag("CraftPot"))
             NearCraftPot = false;
     }
 
@@ -40,43 +40,44 @@ public class CraftSystem : MonoBehaviour
 
     public void OpenCraftMenu()
     {
-        if (NearCraftPot && craftingMenu != null)
-            craftingMenu.SetActive(true);
+        if (NearCraftPot && CraftingMenu != null)
+            CraftingMenu.SetActive(true);
     }
 
     public void CloseCraftMenu()
     {
-        if (craftingMenu != null)
-            craftingMenu.SetActive(false);
+        if (CraftingMenu != null)
+            CraftingMenu.SetActive(false);
     }
 
-    // ------------------------------------------------------------------ Slot helpers
-
-    public void ClearPrimary() { primarySlot = null; RefreshUI(); }
-    public void ClearSecondary() { secondarySlot = null; RefreshUI(); }
+    // ------------------------------------------------------------------ Slot assignment
 
     public void SetPrimaryFromInventorySlot(int index)
     {
-        var item = GetInventoryItem(index);
+        if (playerInventory == null) return;
+        if (index < 0 || index >= playerInventory.InventorySlots.Count) return;
+
+        var item = playerInventory.InventorySlots[index];
         if (item == null) return;
+
         primarySlot = item.ModifierSO;
         RefreshUI();
     }
 
     public void SetSecondaryFromInventorySlot(int index)
     {
-        var item = GetInventoryItem(index);
+        if (playerInventory == null) return;
+        if (index < 0 || index >= playerInventory.InventorySlots.Count) return;
+
+        var item = playerInventory.InventorySlots[index];
         if (item == null) return;
+
         secondarySlot = item.ModifierSO;
         RefreshUI();
     }
 
-    private InventoryItem GetInventoryItem(int index)
-    {
-        if (playerInventory == null) return null;
-        if (index < 0 || index >= playerInventory.InventorySlots.Count) return null;
-        return playerInventory.InventorySlots[index];
-    }
+    public void ClearPrimary() { primarySlot = null; RefreshUI(); }
+    public void ClearSecondary() { secondarySlot = null; RefreshUI(); }
 
     // ------------------------------------------------------------------ Crafting
 
@@ -91,24 +92,31 @@ public class CraftSystem : MonoBehaviour
             return;
         }
 
+        // Remove ingredients from inventory data
         playerInventory.RemoveSO(recipe.primary);
+
         if (recipe.secondary != null)
             playerInventory.RemoveSO(recipe.secondary);
 
+        // Add crafted result to inventory data
         playerInventory.AddSO(recipe.result);
 
         primarySlot = null;
         secondarySlot = null;
 
+        // Rebuild the UI so every slot shows the correct item at the correct index
         RefreshAfterCraft();
     }
 
     private CraftRecipeSO FindMatch()
     {
         if (recipes == null) return null;
+
         foreach (var r in recipes)
+        {
             if (r != null && r.Matches(primarySlot, secondarySlot))
                 return r;
+        }
         return null;
     }
 
@@ -116,48 +124,43 @@ public class CraftSystem : MonoBehaviour
 
     public void RefreshUI()
     {
-        bool primaryFilled = primarySlot != null;
-        bool secondaryFilled = secondarySlot != null;
-
-        if (primaryUI?.slotImage != null) primaryUI.slotImage.enabled = primaryFilled;
-        if (secondaryUI?.slotImage != null) secondaryUI.slotImage.enabled = secondaryFilled;
+        if (primaryUI.slotImage != null) primaryUI.slotImage.enabled = (primarySlot != null);
+        if (secondaryUI.slotImage != null) secondaryUI.slotImage.enabled = (secondarySlot != null);
 
         if (resultSlotImage == null) return;
 
-        // Only show result when both slots are filled and a recipe matches
         CraftRecipeSO match = FindMatch();
-        bool showResult = primaryFilled && secondaryFilled && match != null && match.result != null;
+        bool showResult = (primarySlot != null) && (secondarySlot != null)
+                                   && (match != null) && (match.result != null);
 
         resultSlotImage.enabled = showResult;
+
         if (showResult)
             resultSlotImage.sprite = match.result.Image;
     }
 
+   
     public void RefreshAfterCraft()
     {
-        if (resultSlotImage != null)
-            resultSlotImage.enabled = false;
+        // Hide the craft slot icons and result preview
+        if (primaryUI?.slotImage != null) primaryUI.slotImage.enabled = false;
+        if (secondaryUI?.slotImage != null) secondaryUI.slotImage.enabled = false;
+        if (resultSlotImage != null) resultSlotImage.enabled = false;
 
-        playerInventory.RefreshUI();
-
-        // Reset draggable slot visuals
+        // Rebuild every inventory UI slot from scratch.
+        // RefreshDisplay(i) updates slotIndex, sprite on dragIconImage, color, and raycastTarget.
         for (int i = 0; i < playerInventory.UISlots.Count; i++)
         {
             var draggable = playerInventory.UISlots[i].GetComponent<DraggableInventorySlotUI>();
-            if (draggable == null) continue;
-            draggable.removed = false;
-            draggable.craftInSlot = false;
-            draggable.dragIconImage.color = Color.white;
-        }
 
-        if (primaryUI?.slotImage != null) primaryUI.slotImage.enabled = false;
-        if (secondaryUI?.slotImage != null) secondaryUI.slotImage.enabled = false;
+            if (draggable != null)
+                draggable.RefreshDisplay(i);
+        }
     }
 
     // Called by CraftDropSlotUI after a drag-drop
     public void RefreshUIAfterDrop() => RefreshUI();
 }
-
 
 
 
