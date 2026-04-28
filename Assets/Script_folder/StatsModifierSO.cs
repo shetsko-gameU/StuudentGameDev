@@ -62,4 +62,6 @@ public class StatsModifierSO : ScriptableObject
     public StatRollLine[] lines;
 
     public Sprite Image;
+
+    public string EffectDescription;
 }

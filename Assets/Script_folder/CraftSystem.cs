@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CraftSystem : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class CraftSystem : MonoBehaviour
     public CraftDropSlotUI primaryUI;
     public CraftDropSlotUI secondaryUI;
     public Image resultSlotImage;
+
 
     [Header("Inventory")]
     public Inventory playerInventory;
@@ -21,6 +23,11 @@ public class CraftSystem : MonoBehaviour
 
     [Header("State")]
     public bool NearCraftPot;
+
+    [Header("Recipe Stats")]
+    public TextMeshProUGUI RecipeName;
+    public TextMeshProUGUI RecipeDescription;
+    
 
     // ------------------------------------------------------------------ Trigger zone
 
@@ -136,7 +143,20 @@ public class CraftSystem : MonoBehaviour
         resultSlotImage.enabled = showResult;
 
         if (showResult)
-            resultSlotImage.sprite = match.result.Image;
+        {
+
+        
+        resultSlotImage.sprite = match.result.Image;
+        RecipeName.text = match.result.displayName;
+        RecipeDescription.text = match.result.EffectDescription;
+        }
+        else
+        {
+            resultSlotImage.sprite = null;
+            RecipeName.text = null;
+            RecipeDescription.text = null;
+            
+        }
     }
 
    
@@ -160,6 +180,27 @@ public class CraftSystem : MonoBehaviour
 
     // Called by CraftDropSlotUI after a drag-drop
     public void RefreshUIAfterDrop() => RefreshUI();
+
+
+    public void ResetSlots()
+    {
+        primarySlot = null; secondarySlot = null;
+        primaryUI.slotImage.sprite = null; secondaryUI.slotImage.sprite = null;
+        primaryUI.slotImage.enabled = false; secondaryUI.slotImage.enabled = false;
+        resultSlotImage.sprite = null; resultSlotImage.enabled = false;
+        foreach(Image item in playerInventory.UISlots)
+        {
+            DraggableInventorySlotUI ItemSlot = item.GetComponent<DraggableInventorySlotUI>();
+            ItemSlot.craftInSlot = false;
+            ItemSlot.dragIconImage.color = Color.white;
+            ItemSlot.dragIconImage.raycastTarget = true;
+            ItemSlot.removed = false;
+
+
+
+        }
+        RefreshUI();
+    }
 }
 
 
