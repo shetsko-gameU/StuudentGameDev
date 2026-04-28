@@ -112,7 +112,7 @@ public class Enemy_Move : Enemy_State
 
     public void StopMovement()
     {
-        //to do 
+        //to do
     }
 
     public void OnMove(InputAction.CallbackContext context)
