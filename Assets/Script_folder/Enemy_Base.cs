@@ -20,6 +20,9 @@ public class Enemy_Base : MonoBehaviour, TriggerCheck
     public Enemy_Attack attackState { get; set; }
     public Enemy_Move moveState { get; set; }
 
+    public float randomMovementRange;
+    public float randomMovementSpeed;
+
     void Awake()
     {
         stateMachine = new Enemy_State_Machine();
@@ -46,11 +49,15 @@ public class Enemy_Base : MonoBehaviour, TriggerCheck
     {
         stateMachine?.CurrentEnemyState?.PhysicsUpdate();
     }
-   /* void AnimationTriggerEvent(AnimationTriggerType triggerType)
+    public enum AnimationTriggerType
     {
-
-    }*/
-
+        Damaged,
+        Traveling
+    }
+    void AnimationTriggerEvent(AnimationTriggerType triggerType)
+    {
+        stateMachine.CurrentEnemyState?.AnimationTriggerEvent(triggerType);
+    }
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player_Attack")
@@ -63,6 +70,10 @@ public class Enemy_Base : MonoBehaviour, TriggerCheck
         animator.SetTrigger("Attack");
 
 
+    }
+    public void MoveEnemy(Vector3 velocity)
+    {
+        moveState.rb.linearVelocity = velocity;
     }
     public void setAggroStatus(bool isAggroed)
     {
