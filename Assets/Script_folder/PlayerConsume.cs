@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerConsume : MonoBehaviour
 {
     [Serializable]
     public class FoodPassiveLink
     {
-        public StatsModifierSO foodItem;  // the inventory item (food)
-        public OnHitPassiveSO passive;   // on-hit buff it grants when eaten
+        public StatsModifierSO foodItem; // the food item SO
+        public OnHitPassiveSO passive;  // the passive it grants when eaten (can be null for stat-only food)
     }
 
     [Header("References")]
@@ -17,7 +16,8 @@ public class PlayerConsume : MonoBehaviour
     public StatsManager stats;
     public PassiveManager passiveManager;
 
-    [Header("Food → Passive Links")]
+    [Header("Food to Passive Links")]
+    [Tooltip("Link each food SO to the passive it grants. Leave passive empty if the food only gives a stat boost with no on-hit effect.")]
     public List<FoodPassiveLink> foodPassives = new List<FoodPassiveLink>();
 
     private void Awake()
@@ -27,9 +27,16 @@ public class PlayerConsume : MonoBehaviour
         if (passiveManager == null) passiveManager = GetComponent<PassiveManager>();
     }
 
+    // ------------------------------------------------------------------ Eating
+
     /// <summary>
-    /// Call this when the player eats/uses a food item by inventory index (e.g. pressing a hotkey).
-    /// This is where the item's stat roll happens and the values are added to the player.
+    /// Eats the food at a given inventory slot index.
+    /// Hook to hotkeys: press 1 = EatFoodAtIndex(0), press 2 = EatFoodAtIndex(1), etc.
+    ///
+    /// What happens here:
+    ///   1. The item is rolled and removed from inventory (no stats applied yet)
+    ///   2. The rolled instance is handed to PassiveManager
+    ///   3. PassiveManager applies the stats AND tracks them so they can be removed on upgrade
     /// </summary>
     public void EatFoodAtIndex(int inventoryIndex)
     {
@@ -39,17 +46,31 @@ public class PlayerConsume : MonoBehaviour
         InventoryItem item = inventory.InventorySlots[inventoryIndex];
         if (item == null || item.ModifierSO == null) return;
 
-        // 1. Roll and apply the stat modifier — this is the moment stats change
-        inventory.ConsumeItem(inventoryIndex, stats);
+        StatsModifierSO foodSO = item.ModifierSO;
 
-        // 2. If this food also grants an on-hit passive, register that too
-        OnHitPassiveSO passive = FindPassive(item.ModifierSO);
+        // Roll the stat values and remove the item from inventory.
+        // Stats are NOT applied yet — PassiveManager does that so it can track and undo them.
+        RolledModifierInstance rolledStats = inventory.ConsumeItem(inventoryIndex);
+
+        // Find if this food has an on-hit passive linked to it
+        OnHitPassiveSO passive = FindPassive(foodSO);
+
         if (passive != null && passiveManager != null)
-            passiveManager.AddFoodPassive(passive);
+        {
+            // Hand both the passive and the stat roll to PassiveManager.
+            // It applies the stats, tracks them, and will remove them if a higher rarity replaces this passive.
+            passiveManager.AddFoodPassive(passive, rolledStats);
+        }
+        else if (rolledStats != null && stats != null)
+        {
+            // No passive linked — food is stat-only (e.g. a healing herb).
+            // Apply the stats directly since there's nothing to track for replacement.
+            stats.AddRolledModifier(rolledStats);
+        }
     }
 
     /// <summary>
-    /// Alternative: eat by passing the SO directly (useful for UI buttons that know the item).
+    /// Eats a food item by its SO. Useful for UI buttons.
     /// </summary>
     public void EatFood(StatsModifierSO foodItemSO)
     {
@@ -65,75 +86,15 @@ public class PlayerConsume : MonoBehaviour
         EatFoodAtIndex(index);
     }
 
+    // ------------------------------------------------------------------ Helpers
+
     private OnHitPassiveSO FindPassive(StatsModifierSO foodItemSO)
     {
-        for (int i = 0; i < foodPassives.Count; i++)
+        foreach (FoodPassiveLink link in foodPassives)
         {
-            if (foodPassives[i] != null && foodPassives[i].foodItem == foodItemSO)
-                return foodPassives[i].passive;
+            if (link != null && link.foodItem == foodItemSO)
+                return link.passive; // can be null — that's fine
         }
         return null;
     }
-    
-    public void OnEatSlot1(InputAction.CallbackContext context)
-    {
-        // "performed" means the key was just pressed down
-        if (context.performed)
-        {
-            EatFoodAtIndex(0);
-        }
-    }
-
-    public void OnEatSlot2(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            EatFoodAtIndex(1);
-        }
-    }
-
-    public void OnEatSlot3(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            EatFoodAtIndex(2);
-        }
-    }
-
-    public void OnEatSlot4(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            EatFoodAtIndex(2);
-        }
-    }
-    public void OnEatSlot5(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            EatFoodAtIndex(2);
-        }
-    }
-    public void OnEatSlot6(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            EatFoodAtIndex(2);
-        }
-    }
-    public void OnEatSlot7(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            EatFoodAtIndex(2);
-        }
-    }
-    public void OnEatSlot8(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            EatFoodAtIndex(2);
-        }
-    }
-
 }

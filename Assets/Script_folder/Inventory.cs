@@ -11,8 +11,8 @@ public class Inventory : MonoBehaviour
     // ------------------------------------------------------------------ Picking up items
 
     /// <summary>
-    /// Picks up an item and stores it in the inventory.
-    /// Stats are NOT applied here — they are applied when the player consumes the item.
+    /// Stores an item in inventory when the player walks over it.
+    /// Stats are NOT applied here — they happen when the player eats the item.
     /// </summary>
     public bool TryAddModifierPickup(StatsModifierSO modifierTemplate, string itemName, int itemId, Sprite image)
     {
@@ -22,7 +22,6 @@ public class Inventory : MonoBehaviour
             return false;
         }
 
-        // Just store the item — no rolling, no stat changes happen yet
         InventoryItem newItem = new InventoryItem
         {
             ModifierSO = modifierTemplate,
@@ -39,28 +38,21 @@ public class Inventory : MonoBehaviour
     // ------------------------------------------------------------------ Consuming items
 
     /// <summary>
-    /// Consumes an item by inventory index.
-    /// This is where stats actually get rolled and applied to the player.
-    /// The item is then removed from inventory.
+    /// Rolls the item's stats and removes it from inventory.
+    /// Does NOT apply the stats — returns the rolled instance so the caller can decide what to do with it.
+    ///
+    /// For food: PlayerConsume takes this rolled instance and hands it to PassiveManager,
+    /// which applies it and tracks it so it can be removed if the passive is upgraded later.
     /// </summary>
-    public RolledModifierInstance ConsumeItem(int index, StatsManager statsManager)
+    public RolledModifierInstance ConsumeItem(int index)
     {
         if (index < 0 || index >= InventorySlots.Count) return null;
 
         InventoryItem item = InventorySlots[index];
         if (item == null || item.ModifierSO == null) return null;
 
-        // Roll the stats NOW — at the moment the player eats/uses the item
+        // Roll the stat values at the moment of eating
         RolledModifierInstance rolled = ModifierRoller.Roll(item.ModifierSO);
-
-        if (statsManager != null)
-        {
-            statsManager.AddRolledModifier(rolled);
-        }
-        else
-        {
-            Debug.LogWarning("StatsManager was null — stats not applied on consume.");
-        }
 
         InventorySlots.RemoveAt(index);
         RefreshUI();
@@ -97,10 +89,9 @@ public class Inventory : MonoBehaviour
     // ------------------------------------------------------------------ Removing items
 
     /// <summary>
-    /// Removes the first item matching this SO without consuming it (e.g. for crafting).
-    /// Pass a StatsManager if you also need to un-apply the stats.
+    /// Removes an item without consuming it (used by the crafting system).
     /// </summary>
-    public bool RemoveSO(StatsModifierSO so, StatsManager statsManager = null)
+    public bool RemoveSO(StatsModifierSO so)
     {
         if (so == null) return false;
 
@@ -108,9 +99,6 @@ public class Inventory : MonoBehaviour
         {
             if (InventorySlots[i] != null && InventorySlots[i].ModifierSO == so)
             {
-                if (statsManager != null && InventorySlots[i].RolledInstance != null)
-                    statsManager.RemoveRolledInstance(InventorySlots[i].RolledInstance);
-
                 InventorySlots.RemoveAt(i);
                 RefreshUI();
                 return true;
@@ -122,8 +110,7 @@ public class Inventory : MonoBehaviour
     // ------------------------------------------------------------------ Adding by SO (crafting results etc.)
 
     /// <summary>
-    /// Adds an item directly without rolling or applying stats.
-    /// Used for crafted results that sit in inventory until consumed.
+    /// Adds an item directly without rolling stats — used for crafted results.
     /// </summary>
     public void AddSO(StatsModifierSO so, Sprite iconOverride = null)
     {
