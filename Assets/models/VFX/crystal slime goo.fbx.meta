@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3aca100ff2f5e7a429ac5b6ac6653171
+guid: 0b569437cf8177549827acbccfd67fe2
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -7,23 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Alien-Slime
-    second: {fileID: 2100000, guid: f34c3aad998017d4a961e3967a897696, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: eye
-    second: {fileID: 2100000, guid: 8379210926be8334cacf4f546bb50853, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: iris
-    second: {fileID: 2100000, guid: a8bc7bfc9780ec947bf489df3aceede8, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: outline
-    second: {fileID: 2100000, guid: 97e1ebe8c581c0e4091e374603fe9ac0, type: 2}
+      name: crystal goo
+    second: {fileID: 2100000, guid: 703610f02ebb9c147b626ae98054ceb7, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -112,7 +97,7 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     globalScale: 1
-    rootMotionBoneName: Bone
+    rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
@@ -120,7 +105,7 @@ ModelImporter:
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 1
+  avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   importBlendShapeDeformPercent: 1
   remapMaterialsIfMaterialImportModeIsNone: 0
