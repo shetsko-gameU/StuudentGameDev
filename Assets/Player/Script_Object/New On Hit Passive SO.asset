@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: New On Hit Passive SO
   m_EditorClassIdentifier: Assembly-CSharp::OnHitPassiveSO
   displayName: On Hit Passive
-  buffTemplate: {fileID: 11400000, guid: bf7bf3245dd04334cb1bc5d3478809f8, type: 2}
+  passiveFamily: Def
+  buffTemplate: {fileID: 11400000, guid: bd0103477b6764948aba906f016b3c5f, type: 2}
   buffDurationSeconds: 3
-  preventDuplicates: 0

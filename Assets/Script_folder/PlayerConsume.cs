@@ -67,6 +67,7 @@ public class PlayerConsume : MonoBehaviour
             // Apply the stats directly since there's nothing to track for replacement.
             stats.AddRolledModifier(rolledStats);
         }
+        Debug.Log("worked");
     }
 
     /// <summary>
