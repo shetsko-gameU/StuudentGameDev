@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0eb0cb78f7683af478f1ac4fc3cc644c
+guid: 3a176468e91925d41a0a7384ab6b9cdd
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -7,33 +7,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: black
-    second: {fileID: 2100000, guid: efcb1b9d81aa7bf4db2251359b84e9db, type: 2}
+      name: Material.002
+    second: {fileID: 2100000, guid: e20192c522cf15846967331e624ef19c, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: dark blue
-    second: {fileID: 2100000, guid: 9f2296c8db3202343bed3228e9087949, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: dark purple
-    second: {fileID: 2100000, guid: cbd5cf071bc47644bb59630ed8295efd, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: gold
-    second: {fileID: 2100000, guid: 9e633f402d45154409192ee7ab10239a, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: orange glow
-    second: {fileID: 2100000, guid: 94580b41322350e4a98c36e796b80731, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: purple glow
-    second: {fileID: 2100000, guid: c95e0335d915e6d40b62a39d9dbbc5e3, type: 2}
+      name: brass patina
+    second: {fileID: 2100000, guid: 73732d5563dd04548a42a48be1865bb3, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
