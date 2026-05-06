@@ -13,7 +13,7 @@ public class StatsManager : MonoBehaviour
     // Base copies (never change after load)
     private float baseMaxHealth, baseAttack, baseDefense, baseMoveSpeed, baseAttackSpeed, baseDodgeChance;
 
-    // Final runtime values (after modifiers)
+    // Final runtime values (recalculated whenever a modifier is added or removed)
     public float MaxHealth { get; private set; }
     public float Attack { get; private set; }
     public float Defense { get; private set; }
@@ -26,7 +26,7 @@ public class StatsManager : MonoBehaviour
 
     public event Action<float, float> OnHealthChanged; // (current, max)
     public event Action OnDied;
-    public event Action<float> OnDamaged;
+    public event Action<float> OnDamaged;       // fires AFTER damage is applied and confirmed
 
     private class ActiveRolled
     {
@@ -105,7 +105,6 @@ public class StatsManager : MonoBehaviour
         {
             existing.stacks = ApplyStackCaps(existing.stacks + 1, inst.source);
 
-            // Refresh timer on stack
             if (inst.durationSeconds > 0f)
                 existing.timeRemaining = inst.durationSeconds;
         }
@@ -122,7 +121,9 @@ public class StatsManager : MonoBehaviour
         RecalculateFinalStats(keepHealthPercent: true);
     }
 
-    /// <summary>Remove the modifier that was applied from a specific rolled instance (e.g. unequipping an item).</summary>
+    /// <summary>
+    /// Removes the modifier from a specific rolled instance (e.g. unequipping an item).
+    /// </summary>
     public void RemoveRolledInstance(RolledModifierInstance inst)
     {
         if (inst == null) return;
@@ -138,7 +139,9 @@ public class StatsManager : MonoBehaviour
         }
     }
 
-    /// <summary>Remove ALL modifiers that came from a given SO (e.g. clearing a buff source).</summary>
+    /// <summary>
+    /// Removes ALL modifiers that came from a given SO.
+    /// </summary>
     public void RemoveAllFromSource(StatsModifierSO source)
     {
         if (source == null) return;
@@ -181,7 +184,6 @@ public class StatsManager : MonoBehaviour
     {
         float healthPct = MaxHealth > 0f ? currentHealth / MaxHealth : 1f;
 
-        // Accumulate flat and percent bonuses per stat
         float maxHealthFlat = 0, attackFlat = 0, defenseFlat = 0, moveSpeedFlat = 0, attackSpeedFlat = 0, dodgeFlat = 0;
         float maxHealthPct = 0, attackPct = 0, defensePct = 0, moveSpeedPct = 0, attackSpeedPct = 0, dodgePct = 0;
 
@@ -189,7 +191,6 @@ public class StatsManager : MonoBehaviour
         {
             int stacks = Mathf.Max(1, a.stacks);
 
-            // --- Stackable values: multiply by stack count ---
             foreach (var kvp in a.inst.stackableValues)
             {
                 var (stat, mode) = kvp.Key;
@@ -203,7 +204,6 @@ public class StatsManager : MonoBehaviour
                     ref dodgeFlat, ref dodgePct);
             }
 
-            // --- Non-stackable values: always applied once ---
             foreach (var kvp in a.inst.nonStackableValues)
             {
                 var (stat, mode) = kvp.Key;
@@ -265,14 +265,29 @@ public class StatsManager : MonoBehaviour
     {
         if (IsDead) return;
 
+        // Check dodge first — if dodged, nothing happens at all
         if (UnityEngine.Random.value < DodgeChance)
-            return; // dodged
+        {
+            Debug.Log($"{name} dodged the attack!");
+            return;
+        }
 
+        // Apply defense reduction
         float finalDamage = Mathf.Max(0f, incomingDamage - Defense);
-        if (finalDamage <= 0f) return;
 
-        OnDamaged?.Invoke(finalDamage);
+        // Even if defense absorbs all damage, fire OnDamaged with 0
+        // so PassiveManager still reacts and applies the on-hit food buff
+        if (finalDamage <= 0f)
+        {
+            OnDamaged?.Invoke(0f);
+            return;
+        }
+
+        // Subtract health FIRST — then fire events so listeners see the correct health value
         currentHealth = Mathf.Max(0f, currentHealth - finalDamage);
+
+        // Fire OnDamaged AFTER health is updated — PassiveManager subscribes to this
+        OnDamaged?.Invoke(finalDamage);
         OnHealthChanged?.Invoke(currentHealth, MaxHealth);
 
         if (currentHealth <= 0f)

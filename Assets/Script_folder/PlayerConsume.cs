@@ -17,7 +17,8 @@ public class PlayerConsume : MonoBehaviour
     public PassiveManager passiveManager;
 
     [Header("Food to Passive Links")]
-    [Tooltip("Link each food SO to the passive it grants. Leave passive empty if the food only gives a stat boost with no on-hit effect.")]
+    [Tooltip("Link each food SO to the passive it grants. " +
+             "Leave passive empty if the food only gives a stat boost with no on-hit effect.")]
     public List<FoodPassiveLink> foodPassives = new List<FoodPassiveLink>();
 
     private void Awake()
@@ -25,6 +26,11 @@ public class PlayerConsume : MonoBehaviour
         if (inventory == null) inventory = GetComponent<Inventory>();
         if (stats == null) stats = GetComponent<StatsManager>();
         if (passiveManager == null) passiveManager = GetComponent<PassiveManager>();
+
+        // Log if any reference is missing so you can catch it early
+        if (inventory == null) Debug.LogError($"PlayerConsume on '{name}': Inventory is missing.");
+        if (stats == null) Debug.LogError($"PlayerConsume on '{name}': StatsManager is missing.");
+        if (passiveManager == null) Debug.LogError($"PlayerConsume on '{name}': PassiveManager is missing.");
     }
 
     // ------------------------------------------------------------------ Eating
@@ -33,32 +39,52 @@ public class PlayerConsume : MonoBehaviour
     /// Eats the food at a given inventory slot index.
     /// Hook to hotkeys: press 1 = EatFoodAtIndex(0), press 2 = EatFoodAtIndex(1), etc.
     ///
-    /// What happens here:
-    ///   1. The item is rolled and removed from inventory (no stats applied yet)
-    ///   2. The rolled instance is handed to PassiveManager
+    /// What happens:
+    ///   1. Item is rolled and removed from inventory (stats not applied yet)
+    ///   2. The rolled stats are handed to PassiveManager along with the passive
     ///   3. PassiveManager applies the stats AND tracks them so they can be removed on upgrade
     /// </summary>
     public void EatFoodAtIndex(int inventoryIndex)
     {
-        if (inventory == null) return;
-        if (inventoryIndex < 0 || inventoryIndex >= inventory.InventorySlots.Count) return;
+        if (inventory == null)
+        {
+            Debug.LogError("PlayerConsume: Cannot eat — Inventory is null.");
+            return;
+        }
+
+        if (inventoryIndex < 0 || inventoryIndex >= inventory.InventorySlots.Count)
+        {
+            Debug.LogWarning($"PlayerConsume: Index {inventoryIndex} is out of range " +
+                             $"(inventory has {inventory.InventorySlots.Count} slots).");
+            return;
+        }
 
         InventoryItem item = inventory.InventorySlots[inventoryIndex];
-        if (item == null || item.ModifierSO == null) return;
+        if (item == null || item.ModifierSO == null)
+        {
+            Debug.LogWarning($"PlayerConsume: Slot {inventoryIndex} is empty or has no ModifierSO.");
+            return;
+        }
 
         StatsModifierSO foodSO = item.ModifierSO;
+        Debug.Log($"PlayerConsume: Eating '{foodSO.displayName}' from slot {inventoryIndex}.");
 
-        // Roll the stat values and remove the item from inventory.
-        // Stats are NOT applied yet — PassiveManager does that so it can track and undo them.
+        // Roll the stat values and remove the item from inventory
+        // Stats are NOT applied yet — PassiveManager does that so it can track and undo them
         RolledModifierInstance rolledStats = inventory.ConsumeItem(inventoryIndex);
 
-        // Find if this food has an on-hit passive linked to it
+        // Look up which OnHitPassiveSO this food grants (set in Inspector via foodPassives list)
         OnHitPassiveSO passive = FindPassive(foodSO);
+
+        if (passive == null)
+        {
+            Debug.Log($"PlayerConsume: '{foodSO.displayName}' has no passive linked — applying stats directly.");
+        }
 
         if (passive != null && passiveManager != null)
         {
             // Hand both the passive and the stat roll to PassiveManager.
-            // It applies the stats, tracks them, and will remove them if a higher rarity replaces this passive.
+            // It applies the stats, tracks them, and removes them if a higher rarity replaces this passive.
             passiveManager.AddFoodPassive(passive, rolledStats);
         }
         else if (rolledStats != null && stats != null)
@@ -67,20 +93,33 @@ public class PlayerConsume : MonoBehaviour
             // Apply the stats directly since there's nothing to track for replacement.
             stats.AddRolledModifier(rolledStats);
         }
-        Debug.Log("worked");
+        else
+        {
+            Debug.LogWarning($"PlayerConsume: Could not apply stats for '{foodSO.displayName}'. " +
+                             "Check that StatsManager and PassiveManager are assigned.");
+        }
     }
 
     /// <summary>
-    /// Eats a food item by its SO. Useful for UI buttons.
+    /// Eats a food item by its SO directly. Useful for UI buttons.
     /// </summary>
     public void EatFood(StatsModifierSO foodItemSO)
     {
-        if (foodItemSO == null) return;
+        if (foodItemSO == null)
+        {
+            return;
+        }
+
+        if (inventory == null)
+        {
+            Debug.LogError("PlayerConsume: Cannot eat — Inventory is null.");
+            return;
+        }
 
         int index = inventory.IndexOf(foodItemSO);
         if (index == -1)
         {
-            Debug.LogWarning("Tried to eat an item not in inventory: " + foodItemSO.displayName);
+            Debug.LogWarning($"PlayerConsume: '{foodItemSO.displayName}' is not in inventory.");
             return;
         }
 
@@ -94,8 +133,10 @@ public class PlayerConsume : MonoBehaviour
         foreach (FoodPassiveLink link in foodPassives)
         {
             if (link != null && link.foodItem == foodItemSO)
-                return link.passive; // can be null — that's fine
+                return link.passive; // can be null — that means stat-only food, which is fine
         }
+
+        // No entry found for this food at all
         return null;
     }
 }

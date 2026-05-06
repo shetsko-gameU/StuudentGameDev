@@ -2,53 +2,66 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
 {
-    // Holds a food passive and the permanent stat roll that came with it together.
-    // Private — use AddFoodPassive / RemoveFoodPassive from outside.
+    // Holds an OnHitPassiveSO and the permanent stat roll that came with eating the food.
+    // Kept together so when we upgrade, we can cleanly remove the old stats.
     private class FoodPassiveEntry
     {
         public OnHitPassiveSO passive;
         public RolledModifierInstance permanentStatRoll;
     }
 
-    // ------------------------------------------------------------------ Inspector fields
+    // ------------------------------------------------------------------ Inspector
 
     [Header("References")]
     public StatsManager stats;
 
     [Header("Always-On Passives")]
-    [Tooltip("Permanent stat boosts applied once on Start. Drag PassiveEffectSO assets here.")]
+    [Tooltip("Permanent stat effects applied once on Start. Drag PassiveEffectSO assets here.")]
     public List<PassiveEffectSO> alwaysOnPassives = new List<PassiveEffectSO>();
 
     [Header("Starting Food Passives")]
-    [Tooltip("Food passives the character starts with at the beginning of the run.")]
+    [Tooltip("Food passives the character starts with. Applied automatically on Start.")]
     public List<OnHitPassiveSO> startingFoodPassives = new List<OnHitPassiveSO>();
 
-    [Header("Debug — Active Food Passives (read only)")]
-    [Tooltip("Shows which food passives are currently active. Updated automatically at runtime.")]
-    [SerializeField] private List<string> debugActiveFoodPassives = new List<string>();
-    // This list only exists so you can see what's active in the Inspector.
-    // The real data lives in activeFoodEntries below.
+    // ------------------------------------------------------------------ Debug (read-only in Inspector during play)
+
+    [Header("─── Active Passives (Read Only) ───────────────────────")]
+    [Tooltip("Always-on passives currently applied. Updated at runtime.")]
+    [SerializeField] private List<string> debugAlwaysOnPassives = new List<string>();
+
+    [Tooltip("Food passives currently active. Updated at runtime.")]
+    [SerializeField] private List<string> debugFoodPassives = new List<string>();
 
     // ------------------------------------------------------------------ Runtime data
 
-    // The real live list — private so nothing edits it directly from outside
     private readonly List<FoodPassiveEntry> activeFoodEntries = new List<FoodPassiveEntry>();
+    private bool subscribed = false;
 
     // ------------------------------------------------------------------ Unity lifecycle
 
     private void Awake()
     {
-        // Only assign the reference here — do NOT subscribe to events in Awake.
-        // OnEnable runs immediately after Awake on first activation,
-        // so subscribing in both Awake AND OnEnable would double-fire every hit.
+        // Only grab the reference here — do NOT subscribe yet.
+        // StatsManager.Awake() may not have run yet at this point.
+        // We subscribe in Start(), which Unity guarantees runs after ALL Awake() calls finish.
         if (stats == null)
             stats = GetComponent<StatsManager>();
+
+        if (stats == null)
+        {
+            Debug.LogError($"PassiveManager on '{name}': No StatsManager found. " +
+                           "Assign it in the Inspector or add StatsManager to the same GameObject.");
+        }
     }
 
     private void Start()
     {
+        // Subscribe here — all Awake() calls are done so stats is guaranteed to exist
+        Subscribe();
+
         // Apply permanent always-on passives (PassiveEffectSO)
         foreach (PassiveEffectSO p in alwaysOnPassives)
         {
@@ -56,7 +69,7 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
                 ApplyAlwaysOnPassive(p);
         }
 
-        // Apply starting food passives with no stat roll
+        // Apply starting food passives with no permanent stat roll
         foreach (OnHitPassiveSO p in startingFoodPassives)
         {
             if (p != null)
@@ -66,30 +79,43 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
 
     private void OnEnable()
     {
-        // Subscribe here — this is the single place events are registered
-        if (stats != null)
-            stats.OnDamaged += HandleDamaged;
+        // Re-subscribe if the component is toggled back on mid-game
+        Subscribe();
     }
 
     private void OnDisable()
     {
-        // Always unsubscribe when disabled so we don't get ghost calls
-        if (stats != null)
-            stats.OnDamaged -= HandleDamaged;
+        Unsubscribe();
     }
 
     private void OnDestroy()
     {
-        if (stats != null)
-            stats.OnDamaged -= HandleDamaged;
+        Unsubscribe();
+    }
+
+    // ------------------------------------------------------------------ Subscription helpers
+
+    private void Subscribe()
+    {
+        // Guard flag prevents double-subscribing if OnEnable fires multiple times
+        if (subscribed || stats == null) return;
+        stats.OnDamaged += HandleDamaged;
+        subscribed = true;
+        Debug.Log($"PassiveManager on '{name}': Subscribed to OnDamaged.");
+    }
+
+    private void Unsubscribe()
+    {
+        if (!subscribed || stats == null) return;
+        stats.OnDamaged -= HandleDamaged;
+        subscribed = false;
     }
 
     // ------------------------------------------------------------------ Always-on passives (PassiveEffectSO)
 
     /// <summary>
-    /// Applies a permanent always-on passive and applies its stats immediately.
+    /// Applies a permanent always-on passive and its stats immediately.
     /// Replaces what PassiveEffectRunner used to do.
-    /// Call this when the player picks up a perk or equips an item.
     /// </summary>
     public void ApplyAlwaysOnPassive(PassiveEffectSO passive)
     {
@@ -100,22 +126,22 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
 
         if (stats == null)
         {
-            Debug.LogWarning("PassiveManager: StatsManager is missing.");
+            Debug.LogWarning($"PassiveManager: Cannot apply '{passive.displayName}' — StatsManager is missing.");
             return;
         }
 
         if (passive.modifierToApply == null)
         {
-            Debug.LogWarning($"PassiveManager: {passive.displayName} has no modifierToApply assigned.");
+            Debug.LogWarning($"PassiveManager: '{passive.displayName}' has no modifierToApply assigned.");
             return;
         }
 
         RolledModifierInstance rolled = ModifierRoller.Roll(passive.modifierToApply);
-
-        // Store the roll on the SO so it can be cleanly removed later
         passive.ActiveRoll = rolled;
-
         stats.AddRolledModifier(rolled);
+
+        RefreshDebugLists();
+        Debug.Log($"PassiveManager: Applied always-on passive '{passive.displayName}'");
     }
 
     /// <summary>
@@ -133,23 +159,28 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
             stats.RemoveRolledInstance(passive.ActiveRoll);
             passive.ActiveRoll = null;
         }
+
+        RefreshDebugLists();
     }
 
     // ------------------------------------------------------------------ Food passives (OnHitPassiveSO)
 
     /// <summary>
-    /// Adds a food passive and applies its permanent stat roll to the player.
+    /// Adds a food passive and permanently applies its stat roll to the player.
     /// Called by PlayerConsume after the player eats food.
     ///
-    /// rolledStats  — pass the result of inventory.ConsumeItem() so stats can be removed on upgrade.
-    ///                Pass null if the passive has no permanent stat component.
+    /// rolledStats — pass the result of inventory.ConsumeItem() so stats can be removed on upgrade.
+    ///               Pass null if the passive has no permanent stat component.
     ///
     /// Returns true if added or upgraded, false if blocked.
     /// </summary>
     public bool AddFoodPassive(OnHitPassiveSO newPassive, RolledModifierInstance rolledStats)
     {
         if (newPassive == null)
+        {
+            Debug.LogWarning("PassiveManager.AddFoodPassive: passive was null.");
             return false;
+        }
 
         FoodPassiveEntry existing = FindEntryByFamily(newPassive);
 
@@ -157,14 +188,15 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
         if (existing == null)
         {
             ApplyFoodEntry(newPassive, rolledStats);
-            RefreshDebugList();
+            RefreshDebugLists();
+            Debug.Log($"PassiveManager: Added food passive '{newPassive.displayName}'");
             return true;
         }
 
         // Exact same passive already active — do nothing
         if (existing.passive == newPassive)
         {
-            Debug.Log($"PassiveManager: Already have {newPassive.displayName}, ignoring.");
+            Debug.Log($"PassiveManager: Already have '{newPassive.displayName}', ignoring.");
             return false;
         }
 
@@ -175,16 +207,16 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
         if (newRarity > existingRarity)
         {
             // Higher rarity — remove old passive and its stats, apply new ones
-            Debug.Log($"PassiveManager: Upgrading {existing.passive.displayName} to {newPassive.displayName}");
+            Debug.Log($"PassiveManager: Upgrading '{existing.passive.displayName}' → '{newPassive.displayName}'");
             RemoveFoodEntry(existing);
             ApplyFoodEntry(newPassive, rolledStats);
-            RefreshDebugList();
+            RefreshDebugLists();
             return true;
         }
         else
         {
             // Same or lower rarity — block it
-            Debug.Log($"PassiveManager: Already have equal or higher rarity of {newPassive.displayName}, ignoring.");
+            Debug.Log($"PassiveManager: Already have equal or higher rarity of '{newPassive.displayName}', ignoring.");
             return false;
         }
     }
@@ -201,21 +233,17 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
         if (entry != null)
         {
             RemoveFoodEntry(entry);
-            RefreshDebugList();
+            RefreshDebugLists();
         }
     }
 
-    /// <summary>
-    /// Returns true if this exact food passive is currently active.
-    /// </summary>
+    /// <summary>Returns true if this exact food passive is currently active.</summary>
     public bool HasFoodPassive(OnHitPassiveSO passive)
     {
         return FindEntry(passive) != null;
     }
 
-    /// <summary>
-    /// Returns true if any passive from this family is currently active.
-    /// </summary>
+    /// <summary>Returns true if any passive from this family is currently active.</summary>
     public bool HasFamily(string family)
     {
         if (string.IsNullOrEmpty(family))
@@ -257,12 +285,14 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
 
         activeFoodEntries.Add(entry);
 
+        // Apply the permanent stat boost now (can be null for starting passives)
         if (rolledStats != null && stats != null)
             stats.AddRolledModifier(rolledStats);
     }
 
     private void RemoveFoodEntry(FoodPassiveEntry entry)
     {
+        // Remove the permanent stat boost from StatsManager
         if (entry.permanentStatRoll != null && stats != null)
             stats.RemoveRolledInstance(entry.permanentStatRoll);
 
@@ -281,7 +311,7 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
 
     private FoodPassiveEntry FindEntryByFamily(OnHitPassiveSO passive)
     {
-        // If this passive has no family set, treat it as unique — never matches anything
+        // Empty family = unique passive, never matches anything
         if (string.IsNullOrEmpty(passive.passiveFamily))
             return null;
 
@@ -301,25 +331,27 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
         return (int)passive.buffTemplate.rarity;
     }
 
-    /// <summary>
-    /// Rebuilds the debug list so the Inspector stays in sync with activeFoodEntries.
-    /// Called every time a passive is added or removed.
-    /// </summary>
-    private void RefreshDebugList()
+    private void RefreshDebugLists()
     {
-        debugActiveFoodPassives.Clear();
+        debugAlwaysOnPassives.Clear();
+        foreach (PassiveEffectSO p in alwaysOnPassives)
+        {
+            if (p != null && p.ActiveRoll != null)
+                debugAlwaysOnPassives.Add(p.displayName);
+        }
 
+        debugFoodPassives.Clear();
         foreach (FoodPassiveEntry e in activeFoodEntries)
         {
             if (e.passive == null)
                 continue;
 
-            // Show name and rarity so you can tell which version is active
             string rarityLabel = e.passive.buffTemplate != null
                 ? e.passive.buffTemplate.rarity.ToString()
                 : "No Template";
 
-            debugActiveFoodPassives.Add($"{e.passive.displayName}  [{rarityLabel}]");
+            bool hasStat = e.permanentStatRoll != null;
+            debugFoodPassives.Add($"{e.passive.displayName}  [{rarityLabel}]  Stat: {hasStat}");
         }
     }
 

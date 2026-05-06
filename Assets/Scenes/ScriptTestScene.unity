@@ -4780,7 +4780,9 @@ MonoBehaviour:
   inventory: {fileID: 1430486902}
   stats: {fileID: 1430486900}
   passiveManager: {fileID: 1430486907}
-  foodPassives: []
+  foodPassives:
+  - foodItem: {fileID: 11400000, guid: bd0103477b6764948aba906f016b3c5f, type: 2}
+    passive: {fileID: 11400000, guid: 910d20e16e75a7241a1a38eb87172539, type: 2}
 --- !u!114 &1430486907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4796,7 +4798,8 @@ MonoBehaviour:
   stats: {fileID: 1430486900}
   alwaysOnPassives: []
   startingFoodPassives: []
-  activeFoodEntries: []
+  debugAlwaysOnPassives: []
+  debugFoodPassives: []
 --- !u!114 &1430486908
 MonoBehaviour:
   m_ObjectHideFlags: 0
