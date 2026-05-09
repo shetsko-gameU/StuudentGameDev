@@ -73,7 +73,7 @@ public class Enemy_Base : MonoBehaviour, TriggerCheck
     }
     public void MoveEnemy(Vector3 velocity)
     {
-        moveState.rb.linearVelocity = velocity;
+        //moveState.rb.linearVelocity = velocity;
     }
     public void setAggroStatus(bool isAggroed)
     {

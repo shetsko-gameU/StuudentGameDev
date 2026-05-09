@@ -42,6 +42,7 @@ public class Enemy_Move : Enemy_State
 
     public override void EnterState()
     {
+        rb = enemy.GetComponent<Rigidbody>();
         // Auto-grab StatManager if not assigned on the enemy
         if (stats == null && enemy != null)
             stats = enemy.GetComponent<StatsManager>();
