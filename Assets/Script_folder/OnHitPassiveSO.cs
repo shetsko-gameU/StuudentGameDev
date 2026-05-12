@@ -17,4 +17,6 @@ public class OnHitPassiveSO : ScriptableObject
 
     [Min(0.01f)]
     public float buffDurationSeconds = 3f;
+
+    public GameObject SpawnEntity;
 }

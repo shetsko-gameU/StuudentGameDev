@@ -14,9 +14,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StatsModifierSO
   displayName: slimemeat
   rarity: 0
-  durationSeconds: 3
+  durationSeconds: 0
   lines:
   - stat: 2
+    mode: 0
+    minValue: 5
+    maxValue: 5
+    value: 5
+    step: 0
+    canStack: 0
+    maxStacks: 0
+  - stat: 3
+    mode: 0
+    minValue: 5
+    maxValue: 5
+    value: 5
+    step: 0
+    canStack: 0
+    maxStacks: 0
+  - stat: 0
+    mode: 0
+    minValue: 5
+    maxValue: 5
+    value: 5
+    step: 0
+    canStack: 0
+    maxStacks: 0
+  - stat: 1
     mode: 0
     minValue: 5
     maxValue: 5

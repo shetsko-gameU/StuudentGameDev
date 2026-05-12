@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf187e40e9fe64e48b363e8fb39135f7, type: 3}
+  m_Name: MushroomMineOnHit
+  m_EditorClassIdentifier: Assembly-CSharp::OnHitPassiveSO
+  displayName: Food Passive
+  passiveFamily: MushroomMine
+  buffTemplate: {fileID: 0}
+  buffDurationSeconds: 3
+  SpawnEntity: {fileID: 7931916067768740651, guid: 511d9a9c0a45639448f1eebfb399ac90, type: 3}
