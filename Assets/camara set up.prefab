@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6018349272118284780
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: f410741d7c9567b47a13e820525ecfb1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f410741d7c9567b47a13e820525ecfb1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f410741d7c9567b47a13e820525ecfb1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f410741d7c9567b47a13e820525ecfb1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f410741d7c9567b47a13e820525ecfb1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f410741d7c9567b47a13e820525ecfb1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f410741d7c9567b47a13e820525ecfb1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f410741d7c9567b47a13e820525ecfb1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f410741d7c9567b47a13e820525ecfb1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f410741d7c9567b47a13e820525ecfb1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7624655033245920568, guid: f410741d7c9567b47a13e820525ecfb1, type: 3}
+      propertyPath: m_TagString
+      value: MainCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: -6118947018015479794, guid: f410741d7c9567b47a13e820525ecfb1, type: 3}
+      propertyPath: m_RenderPostProcessing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6118947018015479794, guid: f410741d7c9567b47a13e820525ecfb1, type: 3}
+      propertyPath: m_EditorClassIdentifier
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f410741d7c9567b47a13e820525ecfb1, type: 3}
+      propertyPath: m_Name
+      value: camara set up
+      objectReference: {fileID: 0}
+    - target: {fileID: 8454615076258188893, guid: f410741d7c9567b47a13e820525ecfb1, type: 3}
+      propertyPath: m_Depth
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8454615076258188893, guid: f410741d7c9567b47a13e820525ecfb1, type: 3}
+      propertyPath: m_FocalLength
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8454615076258188893, guid: f410741d7c9567b47a13e820525ecfb1, type: 3}
+      propertyPath: m_GateFitMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8454615076258188893, guid: f410741d7c9567b47a13e820525ecfb1, type: 3}
+      propertyPath: m_SensorSize.x
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 8454615076258188893, guid: f410741d7c9567b47a13e820525ecfb1, type: 3}
+      propertyPath: m_SensorSize.y
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8454615076258188893, guid: f410741d7c9567b47a13e820525ecfb1, type: 3}
+      propertyPath: m_FocusDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8454615076258188893, guid: f410741d7c9567b47a13e820525ecfb1, type: 3}
+      propertyPath: orthographic size
+      value: 10
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: -7624655033245920568, guid: f410741d7c9567b47a13e820525ecfb1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6610076861422824305}
+  m_SourcePrefab: {fileID: 100100000, guid: f410741d7c9567b47a13e820525ecfb1, type: 3}
+--- !u!1 &5020018670595523364 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -7624655033245920568, guid: f410741d7c9567b47a13e820525ecfb1, type: 3}
+  m_PrefabInstance: {fileID: 6018349272118284780}
+  m_PrefabAsset: {fileID: 0}
+--- !u!81 &6610076861422824305
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5020018670595523364}
+  m_Enabled: 1
