@@ -6,9 +6,11 @@ public class DraggableInventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragH
 {
     [Header("Wiring")]
     public Inventory inventory;
-    public int slotIndex;       // which index in InventorySlots this UI slot represents
-    public RectTransform dragIcon;        // the child RectTransform that moves during drag
-    public Image dragIconImage;   // the Image on dragIcon — this is the visible item icon
+    public int slotIndex;
+    public RectTransform dragIcon;
+
+    // Changed from Image to RawImage
+    public RawImage dragIconImage;
 
     private Canvas rootCanvas;
     private Transform dragIconOriginalParent;
@@ -38,7 +40,8 @@ public class DraggableInventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragH
         return item != null ? item.ModifierSO : null;
     }
 
-    public Sprite GetIcon()
+    // Changed return type from Sprite to Texture2D
+    public Texture2D GetIcon()
     {
         var item = GetItem();
         return item != null ? item.Image : null;
@@ -52,8 +55,8 @@ public class DraggableInventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragH
 
         dragIconOriginalParent = dragIcon.parent;
 
-        dragIcon.gameObject.SetActive(true);
-        dragIconImage.sprite = GetIcon();
+        // Changed from .sprite to .texture
+        dragIconImage.texture = GetIcon();
         dragIcon.position = eventData.position;
 
         removed = true;
@@ -81,24 +84,16 @@ public class DraggableInventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragH
         }
     }
 
-    // ------------------------------------------------------------------ Called by CraftSystem after crafting
+    // ------------------------------------------------------------------ Reset (called by CraftSystem after crafting)
 
-    /// <summary>
-    /// Updates this slot to show a specific inventory index.
-    /// Call this on every slot after a craft so slotIndex and both images
-    /// are correct for the new inventory state.
-    /// </summary>
     public void RefreshDisplay(int newSlotIndex)
     {
-        // Update which inventory index this slot now represents
         slotIndex = newSlotIndex;
         removed = false;
         craftInSlot = false;
 
-        // Snap the icon back to its home position in the slot
         dragIcon.anchoredPosition = originalPosition;
 
-        // Restore raycast target so the slot can be clicked/dragged again
         dragIconImage.raycastTarget = true;
         dragIconImage.color = Color.white;
 
@@ -106,14 +101,13 @@ public class DraggableInventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragH
 
         if (item != null)
         {
-            // Slot has an item — show the icon
-            dragIconImage.sprite = item.Image;
+            // Changed from .sprite to .texture
+            dragIconImage.texture = item.Image;
             dragIconImage.enabled = true;
         }
         else
         {
-            // Slot is empty — hide the icon
-            dragIconImage.sprite = null;
+            dragIconImage.texture = null;
             dragIconImage.enabled = false;
         }
     }

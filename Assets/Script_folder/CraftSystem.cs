@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class CraftSystem : MonoBehaviour
 {
@@ -8,8 +7,9 @@ public class CraftSystem : MonoBehaviour
     public GameObject CraftingMenu;
     public CraftDropSlotUI primaryUI;
     public CraftDropSlotUI secondaryUI;
-    public Image resultSlotImage;
 
+    // Changed from Image to RawImage
+    public RawImage resultSlotImage;
 
     [Header("Inventory")]
     public Inventory playerInventory;
@@ -23,11 +23,6 @@ public class CraftSystem : MonoBehaviour
 
     [Header("State")]
     public bool NearCraftPot;
-
-    [Header("Recipe Stats")]
-    public TextMeshProUGUI RecipeName;
-    public TextMeshProUGUI RecipeDescription;
-    
 
     // ------------------------------------------------------------------ Trigger zone
 
@@ -99,19 +94,16 @@ public class CraftSystem : MonoBehaviour
             return;
         }
 
-        // Remove ingredients from inventory data
         playerInventory.RemoveSO(recipe.primary);
 
         if (recipe.secondary != null)
             playerInventory.RemoveSO(recipe.secondary);
 
-        // Add crafted result to inventory data
         playerInventory.AddSO(recipe.result);
 
         primarySlot = null;
         secondarySlot = null;
 
-        // Rebuild the UI so every slot shows the correct item at the correct index
         RefreshAfterCraft();
     }
 
@@ -131,8 +123,8 @@ public class CraftSystem : MonoBehaviour
 
     public void RefreshUI()
     {
-        if (primaryUI.slotImage != null) primaryUI.slotImage.enabled = (primarySlot != null);
-        if (secondaryUI.slotImage != null) secondaryUI.slotImage.enabled = (secondarySlot != null);
+        if (primaryUI?.slotImage != null) primaryUI.slotImage.enabled = (primarySlot != null);
+        if (secondaryUI?.slotImage != null) secondaryUI.slotImage.enabled = (secondarySlot != null);
 
         if (resultSlotImage == null) return;
 
@@ -144,31 +136,19 @@ public class CraftSystem : MonoBehaviour
 
         if (showResult)
         {
-
-        
-        resultSlotImage.sprite = match.result.Image;
-        RecipeName.text = match.result.displayName;
-        RecipeDescription.text = match.result.EffectDescription;
-        }
-        else
-        {
-            resultSlotImage.sprite = null;
-            RecipeName.text = null;
-            RecipeDescription.text = null;
-            
+            // Changed from .sprite to .texture
+            resultSlotImage.texture = match.result.Image;
         }
     }
 
-   
     public void RefreshAfterCraft()
     {
-        // Hide the craft slot icons and result preview
         if (primaryUI?.slotImage != null) primaryUI.slotImage.enabled = false;
         if (secondaryUI?.slotImage != null) secondaryUI.slotImage.enabled = false;
         if (resultSlotImage != null) resultSlotImage.enabled = false;
 
-        // Rebuild every inventory UI slot from scratch.
-        // RefreshDisplay(i) updates slotIndex, sprite on dragIconImage, color, and raycastTarget.
+        playerInventory.RefreshUI();
+
         for (int i = 0; i < playerInventory.UISlots.Count; i++)
         {
             var draggable = playerInventory.UISlots[i].GetComponent<DraggableInventorySlotUI>();
@@ -178,32 +158,8 @@ public class CraftSystem : MonoBehaviour
         }
     }
 
-    // Called by CraftDropSlotUI after a drag-drop
     public void RefreshUIAfterDrop() => RefreshUI();
-
-
-    public void ResetSlots()
-    {
-        primarySlot = null; secondarySlot = null;
-        primaryUI.slotImage.sprite = null; secondaryUI.slotImage.sprite = null;
-        primaryUI.slotImage.enabled = false; secondaryUI.slotImage.enabled = false;
-        resultSlotImage.sprite = null; resultSlotImage.enabled = false;
-        foreach(Image item in playerInventory.UISlots)
-        {
-            DraggableInventorySlotUI ItemSlot = item.GetComponent<DraggableInventorySlotUI>();
-            ItemSlot.craftInSlot = false;
-            ItemSlot.dragIconImage.color = Color.white;
-            ItemSlot.dragIconImage.raycastTarget = true;
-            ItemSlot.removed = false;
-
-
-
-        }
-        RefreshUI();
-    }
 }
-
-
 
 
 

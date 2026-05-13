@@ -5,7 +5,10 @@ using UnityEngine.UI;
 public class Inventory : MonoBehaviour
 {
     public List<InventoryItem> InventorySlots = new List<InventoryItem>();
-    public List<Image> UISlots = new List<Image>();
+
+    // Changed from List<Image> to List<RawImage>
+    public List<RawImage> UISlots = new List<RawImage>();
+
     public Color removedColor;
 
     // ------------------------------------------------------------------ Picking up items
@@ -14,7 +17,7 @@ public class Inventory : MonoBehaviour
     /// Stores an item in inventory when the player walks over it.
     /// Stats are NOT applied here — they happen when the player eats the item.
     /// </summary>
-    public bool TryAddModifierPickup(StatsModifierSO modifierTemplate, string itemName, int itemId, Sprite image)
+    public bool TryAddModifierPickup(StatsModifierSO modifierTemplate, string itemName, int itemId, Texture2D image)
     {
         if (modifierTemplate == null)
         {
@@ -39,10 +42,7 @@ public class Inventory : MonoBehaviour
 
     /// <summary>
     /// Rolls the item's stats and removes it from inventory.
-    /// Does NOT apply the stats — returns the rolled instance so the caller can decide what to do with it.
-    ///
-    /// For food: PlayerConsume takes this rolled instance and hands it to PassiveManager,
-    /// which applies it and tracks it so it can be removed if the passive is upgraded later.
+    /// Does NOT apply the stats — returns the rolled instance so the caller decides what to do with it.
     /// </summary>
     public RolledModifierInstance ConsumeItem(int index)
     {
@@ -51,7 +51,6 @@ public class Inventory : MonoBehaviour
         InventoryItem item = InventorySlots[index];
         if (item == null || item.ModifierSO == null) return null;
 
-        // Roll the stat values at the moment of eating
         RolledModifierInstance rolled = ModifierRoller.Roll(item.ModifierSO);
 
         InventorySlots.RemoveAt(index);
@@ -112,7 +111,7 @@ public class Inventory : MonoBehaviour
     /// <summary>
     /// Adds an item directly without rolling stats — used for crafted results.
     /// </summary>
-    public void AddSO(StatsModifierSO so, Sprite iconOverride = null)
+    public void AddSO(StatsModifierSO so, Texture2D iconOverride = null)
     {
         if (so == null) return;
 
@@ -135,12 +134,13 @@ public class Inventory : MonoBehaviour
         {
             if (i < InventorySlots.Count && InventorySlots[i] != null)
             {
-                UISlots[i].sprite = InventorySlots[i].Image;
+                // Changed from .sprite to .texture
+                UISlots[i].texture = InventorySlots[i].Image;
                 UISlots[i].enabled = true;
             }
             else
             {
-                UISlots[i].sprite = null;
+                UISlots[i].texture = null;
                 UISlots[i].enabled = false;
             }
         }

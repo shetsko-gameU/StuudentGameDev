@@ -9,8 +9,9 @@ public class CraftDropSlotUI : MonoBehaviour, IDropHandler
 
     [Header("Wiring")]
     public CraftSystem craftSystem;
-    public Image slotImage;  // image to display what's in the craft slot
 
+    // Changed from Image to RawImage
+    public RawImage slotImage;
 
     public void OnDrop(PointerEventData eventData)
     {
@@ -23,21 +24,21 @@ public class CraftDropSlotUI : MonoBehaviour, IDropHandler
         StatsModifierSO so = dragSlot.GetSO();
         if (so == null) return;
 
-        // Set craft system slot
         if (slotType == SlotType.Primary) craftSystem.primarySlot = so;
         if (slotType == SlotType.Secondary) craftSystem.secondarySlot = so;
 
-        // Update craft slot icon (from inventory item image)
         if (slotImage != null)
         {
-            slotImage.sprite = dragSlot.GetIcon();
+            // Changed from .sprite to .texture
+            slotImage.texture = dragSlot.GetIcon();
             slotImage.enabled = true;
-            
         }
+
         dragSlot.craftInSlot = true;
         dragSlot.dragIconImage.color = dragSlot.inventory.removedColor;
         dragSlot.dragIconImage.raycastTarget = false;
         dragSlot.removed = true;
-        craftSystem.RefreshUIAfterDrop(); 
+
+        craftSystem.RefreshUIAfterDrop();
     }
 }

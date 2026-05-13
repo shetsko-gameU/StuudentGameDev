@@ -3,15 +3,17 @@ using UnityEngine;
 [System.Serializable]
 public class InventoryItem
 {
-    public StatsModifierSO ModifierSO;       // identity of the item
+    public StatsModifierSO ModifierSO;
 
-    // The specific rolled values that were applied to the player's stats when this item was picked up.
-    // Keep this so we can cleanly call stats.RemoveRolledInstance(item.RolledInstance) when unequipping.
+    // The specific rolled values applied when this item was picked up.
+    // Stored so we can cleanly remove them via stats.RemoveRolledInstance when unequipping.
     [System.NonSerialized]
     public RolledModifierInstance RolledInstance;
 
     public string Name;
     public string Description;
     public int ItemID;
-    public Sprite Image;
+
+    // Changed from Sprite to Texture2D for use with RawImage
+    public Texture2D Image;
 }

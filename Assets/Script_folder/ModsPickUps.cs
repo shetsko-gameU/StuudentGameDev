@@ -5,7 +5,9 @@ public class ModifierPickup : MonoBehaviour
     [SerializeField] private StatsModifierSO modifierTemplate;
     public string Name;
     public int ItemId;
-    public Sprite Image;
+
+    // Changed from Sprite to Texture2D for use with RawImage
+    public Texture2D Image;
 
     private void OnCollisionEnter(Collision other)
     {
@@ -18,8 +20,7 @@ public class ModifierPickup : MonoBehaviour
             return;
         }
 
-        // Stats are NOT applied here anymore.
-        // The item just goes into the inventory and waits to be consumed.
+        // Stats are NOT applied here — the item waits in inventory until consumed.
         bool added = inventory.TryAddModifierPickup(modifierTemplate, Name, ItemId, Image);
         if (added)
             Destroy(gameObject);
