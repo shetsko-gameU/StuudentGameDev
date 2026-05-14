@@ -265,6 +265,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f137ca6d9814dd648b39cdd448f028b3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5856499174484402652}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f137ca6d9814dd648b39cdd448f028b3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2788690275683774444}
   m_SourcePrefab: {fileID: 100100000, guid: f137ca6d9814dd648b39cdd448f028b3, type: 3}
 --- !u!4 &8383967428686366878 stripped
 Transform:
@@ -288,7 +291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c6da126ac3e50842a85868e75624d7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy_Base
-  stats: {fileID: 0}
+  stats: {fileID: 2788690275683774444}
   Player_Stats: {fileID: 0}
   animator: {fileID: 0}
   randomMovementRange: 5
@@ -343,3 +346,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2788690275683774444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9156386869288342052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9e8484c619249b4b8264884550b7dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatsManager
+  baseStats: {fileID: 0}
+  currentHealth: 0
