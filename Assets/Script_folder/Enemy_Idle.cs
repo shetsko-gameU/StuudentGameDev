@@ -10,6 +10,7 @@ public class Enemy_Idle : Enemy_State
     {
         this.enemy = enemy;
         this.enemyStateMachine = enemyStateMachine;
+        raycastPoints = enemy.raycasts;
     }
 
     public override void EnterState()
@@ -20,9 +21,10 @@ public class Enemy_Idle : Enemy_State
     public override void FrameUpdate()
     {
         if(enemy.isAggroed)
-          {
+        {
              enemyStateMachine.ChangeState(enemy.moveState);
-          }
+             return;
+        }
         direction = (targetPosition - enemy.transform.position).normalized;
         enemy.MoveEnemy(direction * enemy.randomMovementSpeed);
         if((enemy.transform.position - targetPosition).magnitude < 0.5f)
@@ -34,12 +36,13 @@ public class Enemy_Idle : Enemy_State
     
     Vector3 GetRandomPointInRadius()
     {
-        return enemy.transform.position + (Vector3)UnityEngine.Random.insideUnitCircle * enemy.randomMovementRange;
+        Vector2 randomPosition = UnityEngine.Random.insideUnitCircle * enemy.randomMovementRange;
+        Vector3 adjustedPosition = new Vector3(randomPosition.x, 0, randomPosition.y);
+        return enemy.transform.position + adjustedPosition;
     }
 
     void CheckLineOfSite()
     {
-        return;
         RaycastHit hit;
         foreach(Transform point in raycastPoints)
         {
