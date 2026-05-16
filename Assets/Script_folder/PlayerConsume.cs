@@ -4,11 +4,20 @@ using UnityEngine;
 
 public class PlayerConsume : MonoBehaviour
 {
+    // Links a food SO to the on-hit passive it grants when eaten
     [Serializable]
     public class FoodPassiveLink
     {
-        public StatsModifierSO foodItem; // the food item SO
-        public OnHitPassiveSO passive;  // the passive it grants when eaten (can be null for stat-only food)
+        public StatsModifierSO foodItem;
+        public OnHitPassiveSO passive;
+    }
+
+    // Links a food SO to the stat boost passive it grants when eaten
+    [Serializable]
+    public class FoodStatBoostLink
+    {
+        public StatsModifierSO foodItem;
+        public FoodStatPassiveSO statPassive;
     }
 
     [Header("References")]
@@ -16,10 +25,16 @@ public class PlayerConsume : MonoBehaviour
     public StatsManager stats;
     public PassiveManager passiveManager;
 
-    [Header("Food to Passive Links")]
-    [Tooltip("Link each food SO to the passive it grants. " +
-             "Leave passive empty if the food only gives a stat boost with no on-hit effect.")]
+    [Header("Food → On-Hit Passive Links")]
+    [Tooltip("Link food SOs to the on-hit passive they grant. " +
+             "These fire a temporary buff every time the player takes damage.")]
     public List<FoodPassiveLink> foodPassives = new List<FoodPassiveLink>();
+
+    [Header("Food → Stat Boost Links")]
+    [Tooltip("Link food SOs to a stat boost passive. " +
+             "These give a flat stat boost (e.g. +10 MaxHealth) that lasts until " +
+             "the player eats a higher rarity version of the same food.")]
+    public List<FoodStatBoostLink> foodStatBoosts = new List<FoodStatBoostLink>();
 
     private void Awake()
     {
@@ -27,7 +42,6 @@ public class PlayerConsume : MonoBehaviour
         if (stats == null) stats = GetComponent<StatsManager>();
         if (passiveManager == null) passiveManager = GetComponent<PassiveManager>();
 
-        // Log if any reference is missing so you can catch it early
         if (inventory == null) Debug.LogError($"PlayerConsume on '{name}': Inventory is missing.");
         if (stats == null) Debug.LogError($"PlayerConsume on '{name}': StatsManager is missing.");
         if (passiveManager == null) Debug.LogError($"PlayerConsume on '{name}': PassiveManager is missing.");
@@ -40,9 +54,13 @@ public class PlayerConsume : MonoBehaviour
     /// Hook to hotkeys: press 1 = EatFoodAtIndex(0), press 2 = EatFoodAtIndex(1), etc.
     ///
     /// What happens:
-    ///   1. Item is rolled and removed from inventory (stats not applied yet)
-    ///   2. The rolled stats are handed to PassiveManager along with the passive
-    ///   3. PassiveManager applies the stats AND tracks them so they can be removed on upgrade
+    ///   1. Item is rolled and removed from inventory
+    ///   2. If the food has an on-hit passive linked  → PassiveManager.AddFoodPassive
+    ///   3. If the food has a stat boost linked        → PassiveManager.AddStatBoostPassive
+    ///   4. If neither is linked                       → stats applied directly (no tracking)
+    ///
+    /// A food can have BOTH links — the on-hit passive gets the stat roll,
+    /// and the stat boost gets a separate roll of the same template.
     /// </summary>
     public void EatFoodAtIndex(int inventoryIndex)
     {
@@ -69,34 +87,46 @@ public class PlayerConsume : MonoBehaviour
         StatsModifierSO foodSO = item.ModifierSO;
         Debug.Log($"PlayerConsume: Eating '{foodSO.displayName}' from slot {inventoryIndex}.");
 
-        // Roll the stat values and remove the item from inventory
-        // Stats are NOT applied yet — PassiveManager does that so it can track and undo them
+        // Roll and remove from inventory — stats not applied yet
         RolledModifierInstance rolledStats = inventory.ConsumeItem(inventoryIndex);
 
-        // Look up which OnHitPassiveSO this food grants (set in Inspector via foodPassives list)
-        OnHitPassiveSO passive = FindPassive(foodSO);
+        OnHitPassiveSO onHitPassive = FindOnHitPassive(foodSO);
+        FoodStatPassiveSO statPassive = FindStatBoostPassive(foodSO);
 
-        if (passive == null)
+        bool handled = false;
+
+        // Handle on-hit passive
+        if (onHitPassive != null && passiveManager != null)
         {
-            Debug.Log($"PlayerConsume: '{foodSO.displayName}' has no passive linked — applying stats directly.");
+            passiveManager.AddFoodPassive(onHitPassive, rolledStats);
+            handled = true;
         }
 
-        if (passive != null && passiveManager != null)
+        // Handle stat boost passive — rolls stats independently if food has both types
+        if (statPassive != null && passiveManager != null)
         {
-            // Hand both the passive and the stat roll to PassiveManager.
-            // It applies the stats, tracks them, and removes them if a higher rarity replaces this passive.
-            passiveManager.AddFoodPassive(passive, rolledStats);
+            // If an on-hit passive already used the rolled stats, roll fresh ones for the stat boost
+            RolledModifierInstance statRoll = handled
+                ? ModifierRoller.Roll(foodSO)
+                : rolledStats;
+
+            passiveManager.AddStatBoostPassive(statPassive, statRoll);
+            handled = true;
         }
-        else if (rolledStats != null && stats != null)
+
+        // No passive linked at all — apply stats directly
+        if (!handled)
         {
-            // No passive linked — food is stat-only (e.g. a healing herb).
-            // Apply the stats directly since there's nothing to track for replacement.
-            stats.AddRolledModifier(rolledStats);
-        }
-        else
-        {
-            Debug.LogWarning($"PlayerConsume: Could not apply stats for '{foodSO.displayName}'. " +
-                             "Check that StatsManager and PassiveManager are assigned.");
+            if (rolledStats != null && stats != null)
+            {
+                Debug.Log($"PlayerConsume: '{foodSO.displayName}' has no passive linked — applying stats directly.");
+                stats.AddRolledModifier(rolledStats);
+            }
+            else
+            {
+                Debug.LogWarning($"PlayerConsume: Could not apply stats for '{foodSO.displayName}'. " +
+                                 "Check that StatsManager and PassiveManager are assigned.");
+            }
         }
     }
 
@@ -105,10 +135,7 @@ public class PlayerConsume : MonoBehaviour
     /// </summary>
     public void EatFood(StatsModifierSO foodItemSO)
     {
-        if (foodItemSO == null)
-        {
-            return;
-        }
+        if (foodItemSO == null) return;
 
         if (inventory == null)
         {
@@ -128,15 +155,23 @@ public class PlayerConsume : MonoBehaviour
 
     // ------------------------------------------------------------------ Helpers
 
-    private OnHitPassiveSO FindPassive(StatsModifierSO foodItemSO)
+    private OnHitPassiveSO FindOnHitPassive(StatsModifierSO foodItemSO)
     {
         foreach (FoodPassiveLink link in foodPassives)
         {
             if (link != null && link.foodItem == foodItemSO)
-                return link.passive; // can be null — that means stat-only food, which is fine
+                return link.passive;
         }
+        return null;
+    }
 
-        // No entry found for this food at all
+    private FoodStatPassiveSO FindStatBoostPassive(StatsModifierSO foodItemSO)
+    {
+        foreach (FoodStatBoostLink link in foodStatBoosts)
+        {
+            if (link != null && link.foodItem == foodItemSO)
+                return link.statPassive;
+        }
         return null;
     }
 }
