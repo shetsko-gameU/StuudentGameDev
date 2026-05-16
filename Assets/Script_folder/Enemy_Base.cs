@@ -1,6 +1,6 @@
 //using System.Numerics;
 using UnityEngine;
-
+using System.Collections.Generic;
 
 public class Enemy_Base : MonoBehaviour, TriggerCheck
 {
@@ -8,6 +8,7 @@ public class Enemy_Base : MonoBehaviour, TriggerCheck
     public StatsManager stats;
     public StatsManager Player_Stats;
     public Animator animator;
+    public List<Transform> raycasts;
     Vector2 movevalue;
 
     // TriggerCheck implementation

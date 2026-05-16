@@ -38,11 +38,11 @@ public class Enemy_Move : Enemy_State
         this.enemy = enemy;
         this.enemyStateMachine = enemyStateMachine;
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        rb = enemy.GetComponent<Rigidbody>();
     }
 
     public override void EnterState()
     {
-        rb = enemy.GetComponent<Rigidbody>();
         // Auto-grab StatManager if not assigned on the enemy
         if (stats == null && enemy != null)
             stats = enemy.GetComponent<StatsManager>();
