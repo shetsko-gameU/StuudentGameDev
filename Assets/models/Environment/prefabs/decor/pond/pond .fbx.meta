@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2a5c5a03039a837458409dc4305a86b5
+guid: a452cd50a6d983b4d92b91d0fbcf28ba
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -7,43 +7,38 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: blade
-    second: {fileID: 2100000, guid: 35d869bd642ac1840aa186f5bf418e2b, type: 2}
+      name: Material.001
+    second: {fileID: 2100000, guid: 7bf432abee210274cb98d9b547367001, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: cross gem
-    second: {fileID: 2100000, guid: 47cf30b190af2a348bbe3cff3583dcf2, type: 2}
+      name: Material.002
+    second: {fileID: 2100000, guid: 84d4f5e71abbbf6439b5dfab7f9b330c, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: glow
-    second: {fileID: 2100000, guid: 5549a615128571943b941b360db751ca, type: 2}
+      name: Material.003
+    second: {fileID: 2100000, guid: 817a761495ee625459dd479102d89686, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: handle
-    second: {fileID: 2100000, guid: 09a4cb58f903de047bca4f26a542ca7b, type: 2}
+      name: Material.004
+    second: {fileID: 2100000, guid: ea792877e39f78f419251c2e25d8003e, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: hilt
-    second: {fileID: 2100000, guid: f8dd1f764652bb54a8e415fcb869ae41, type: 2}
+      name: Material.005
+    second: {fileID: 2100000, guid: 1b6c208d3430b6e4794d8442fa248003, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: middle gem
-    second: {fileID: 2100000, guid: 74a01abd50eff834a968f99873c5fc0c, type: 2}
+      name: Material.006
+    second: {fileID: 2100000, guid: 367322928bdc83548a426b3821052d6f, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: outline
-    second: {fileID: 2100000, guid: 97e1ebe8c581c0e4091e374603fe9ac0, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: pummul
-    second: {fileID: 2100000, guid: 0eedf207eaac5284bb3c41e1da2c19bf, type: 2}
+      name: tall grass
+    second: {fileID: 2100000, guid: 07b031278e92f464ba79390cd58eff03, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -73,7 +68,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 15
+    globalScale: 150
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -131,7 +126,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 15
+    globalScale: 150
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
