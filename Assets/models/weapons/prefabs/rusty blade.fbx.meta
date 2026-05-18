@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2a5c5a03039a837458409dc4305a86b5
+guid: bcba27e3d4d1d3e4cbad0526bf4e0e35
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -7,43 +7,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: blade
-    second: {fileID: 2100000, guid: 35d869bd642ac1840aa186f5bf418e2b, type: 2}
+      name: Material.001
+    second: {fileID: 2100000, guid: e338e3f296670204ab00e8c882a803c9, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: cross gem
-    second: {fileID: 2100000, guid: 47cf30b190af2a348bbe3cff3583dcf2, type: 2}
+      name: Material.003
+    second: {fileID: 2100000, guid: 64f0915d23361d44586b194ff58b0907, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: glow
-    second: {fileID: 2100000, guid: 5549a615128571943b941b360db751ca, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: handle
-    second: {fileID: 2100000, guid: 09a4cb58f903de047bca4f26a542ca7b, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: hilt
-    second: {fileID: 2100000, guid: f8dd1f764652bb54a8e415fcb869ae41, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: middle gem
-    second: {fileID: 2100000, guid: 74a01abd50eff834a968f99873c5fc0c, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: outline
-    second: {fileID: 2100000, guid: 97e1ebe8c581c0e4091e374603fe9ac0, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: pummul
-    second: {fileID: 2100000, guid: 0eedf207eaac5284bb3c41e1da2c19bf, type: 2}
+      name: rusty metal
+    second: {fileID: -876546973899608171, guid: f0ff91446beda9a4eb260615c55b183d, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -73,7 +48,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 12
+    globalScale: 100
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -131,7 +106,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.12
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
