@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3aca100ff2f5e7a429ac5b6ac6653171
+guid: ab3e73c4534eaa548b501c07802ba423
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -7,23 +7,28 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Alien-Slime
-    second: {fileID: 2100000, guid: f34c3aad998017d4a961e3967a897696, type: 2}
+      name: eye whites
+    second: {fileID: 2100000, guid: 26826d4d42baa764aabff361871c719b, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: eye
-    second: {fileID: 2100000, guid: 8379210926be8334cacf4f546bb50853, type: 2}
+      name: eyes and nose
+    second: {fileID: 2100000, guid: d05187027ae1af2418594d34cf4dddcc, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: iris
-    second: {fileID: 2100000, guid: a8bc7bfc9780ec947bf489df3aceede8, type: 2}
+      name: fur
+    second: {fileID: 2100000, guid: 62933c756eaca9f49b0171bcef2827ae, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: outline
-    second: {fileID: 2100000, guid: 97e1ebe8c581c0e4091e374603fe9ac0, type: 2}
+      name: glow
+    second: {fileID: -876546973899608171, guid: dcd7f91b8b2347c44aff7bc0243e71b3, type: 3}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: water mark
+    second: {fileID: -876546973899608171, guid: 5b48274f4203bed488ac0766d6112b4d, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -53,7 +58,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 100
+    globalScale: 1.5
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -111,8 +116,8 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1
-    rootMotionBoneName: Bone
+    globalScale: 1.5
+    rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
@@ -120,7 +125,7 @@ ModelImporter:
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 1
+  avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   importBlendShapeDeformPercent: 1
   remapMaterialsIfMaterialImportModeIsNone: 0

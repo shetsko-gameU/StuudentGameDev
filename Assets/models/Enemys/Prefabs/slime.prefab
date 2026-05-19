@@ -177,15 +177,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 3aca100ff2f5e7a429ac5b6ac6653171, type: 3}
       propertyPath: m_LocalScale.x
-      value: 100.00006
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3aca100ff2f5e7a429ac5b6ac6653171, type: 3}
       propertyPath: m_LocalScale.y
-      value: 100.000015
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3aca100ff2f5e7a429ac5b6ac6653171, type: 3}
       propertyPath: m_LocalScale.z
-      value: 100.00003
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3aca100ff2f5e7a429ac5b6ac6653171, type: 3}
       propertyPath: m_LocalPosition.x
@@ -283,6 +283,7 @@ MonoBehaviour:
   stats: {fileID: 5855216135011350364}
   Player_Stats: {fileID: 0}
   animator: {fileID: 0}
+  raycasts: []
   randomMovementRange: 5
   randomMovementSpeed: 1
 --- !u!114 &5397998645940285148
