@@ -14789,12 +14789,12 @@ GameObject:
   - component: {fileID: 2032672173}
   - component: {fileID: 2032672172}
   - component: {fileID: 2032672171}
-  - component: {fileID: 2032672170}
   - component: {fileID: 2032672169}
   - component: {fileID: 2032672168}
   - component: {fileID: 2032672167}
   - component: {fileID: 2032672166}
-  - component: {fileID: 2032672165}
+  - component: {fileID: 2032672176}
+  - component: {fileID: 2032672175}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -14802,19 +14802,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2032672165
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2032672164}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1a62b92f707f9f47bec8c608b74ff47, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  animator: {fileID: 2037022760}
 --- !u!114 &2032672166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14856,8 +14843,8 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2032672170}
-        m_TargetAssemblyTypeName: Player_Move, Assembly-CSharp
+      - m_Target: {fileID: 2032672175}
+        m_TargetAssemblyTypeName: PlayerMove, Assembly-CSharp
         m_MethodName: OnMove
         m_Mode: 0
         m_Arguments:
@@ -14876,8 +14863,8 @@ MonoBehaviour:
     m_ActionName: 'Player/Look[/Mouse/delta]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2032672165}
-        m_TargetAssemblyTypeName: Player_Attack, Assembly-CSharp
+      - m_Target: {fileID: 2032672176}
+        m_TargetAssemblyTypeName: PlayerAttack, Assembly-CSharp
         m_MethodName: OnAttack
         m_Mode: 1
         m_Arguments:
@@ -15008,32 +14995,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 1
---- !u!114 &2032672170
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2032672164}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23595e51f4599344e8f1eb8c7ebe13fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Player_Move
-  acceleration: 100
-  maxSpeed: 10
-  haltSpeed: 3
-  stats: {fileID: 2032672166}
-  modelRotateSpeed: 5
-  playerModel: {fileID: 1061774375}
-  rb: {fileID: 2032672169}
-  animator: {fileID: 2032672168}
-  ObjectAnimator: {fileID: 631295911}
-  playerHight: 3
-  isGround:
-    serializedVersion: 2
-    m_Bits: 64
-  groundDrag: 3
 --- !u!136 &2032672171
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -15131,6 +15092,44 @@ Transform:
   - {fileID: 1061774375}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 173.024, z: 0}
+--- !u!114 &2032672175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032672164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad825485cc1c5c34fb5db399a97c074f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMove
+  acceleration: 100
+  haltSpeed: 10
+  stats: {fileID: 2032672166}
+  modelRotateSpeed: 5
+  playerModel: {fileID: 1061774375}
+  rb: {fileID: 2032672169}
+  animator: {fileID: 2032672168}
+  objectAnimator: {fileID: 631295911}
+  playerHeight: 3
+  isGround:
+    serializedVersion: 2
+    m_Bits: 64
+  groundDrag: 3
+--- !u!114 &2032672176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032672164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59fd43dcd538d7f4db5b1d1e32c50d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
+  animator: {fileID: 2037022760}
 --- !u!95 &2037022760 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: adda84a41fdb64c4b90a63641854c218, type: 3}
