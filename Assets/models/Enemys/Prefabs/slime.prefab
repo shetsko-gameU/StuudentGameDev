@@ -254,9 +254,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3aca100ff2f5e7a429ac5b6ac6653171, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1374233302155523288}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3aca100ff2f5e7a429ac5b6ac6653171, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5855216135011350364}
   m_SourcePrefab: {fileID: 100100000, guid: 3aca100ff2f5e7a429ac5b6ac6653171, type: 3}
 --- !u!4 &6218912587630596453 stripped
 Transform:
@@ -280,7 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c6da126ac3e50842a85868e75624d7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy_Base
-  stats: {fileID: 5855216135011350364}
+  stats: {fileID: 0}
   Player_Stats: {fileID: 0}
   animator: {fileID: 0}
   raycasts: []
@@ -350,17 +347,3 @@ CapsuleCollider:
   m_Height: 0.033930756
   m_Direction: 1
   m_Center: {x: 0.0012780945, y: -0.00046671863, z: 0.010736825}
---- !u!114 &5855216135011350364
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6702997404076805087}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9e8484c619249b4b8264884550b7dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::StatsManager
-  baseStats: {fileID: 0}
-  currentHealth: 0

@@ -3149,6 +3149,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2591448729946721236, guid: 600dfdd3e17893e4d896050cbbb57242, type: 3}
+      propertyPath: stats
+      value: 
+      objectReference: {fileID: 1370766213}
+    - target: {fileID: 2591448729946721236, guid: 600dfdd3e17893e4d896050cbbb57242, type: 3}
+      propertyPath: Player_Stats
+      value: 
+      objectReference: {fileID: 2032672166}
     - target: {fileID: 2726526004166987046, guid: 600dfdd3e17893e4d896050cbbb57242, type: 3}
       propertyPath: m_Radius
       value: 0.05
@@ -5218,6 +5226,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 251468783644898187, guid: 5165064e6242bad4a97ac791364eefe0, type: 3}
+      propertyPath: Player_Stats
+      value: 
+      objectReference: {fileID: 2032672166}
     - target: {fileID: 8056394705801308283, guid: 5165064e6242bad4a97ac791364eefe0, type: 3}
       propertyPath: m_Radius
       value: 5
@@ -6932,6 +6944,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8983254278181029023, guid: c9547cf02a943b74994f70856e1a9fc1, type: 3}
   m_PrefabInstance: {fileID: 1028122068}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1041097013 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5397998645940285148, guid: 600dfdd3e17893e4d896050cbbb57242, type: 3}
+  m_PrefabInstance: {fileID: 1070245265}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9e8484c619249b4b8264884550b7dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatManager
 --- !u!1001 &1041297266
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7587,6 +7610,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2591448729946721236, guid: 600dfdd3e17893e4d896050cbbb57242, type: 3}
+      propertyPath: stats
+      value: 
+      objectReference: {fileID: 1041097013}
+    - target: {fileID: 2591448729946721236, guid: 600dfdd3e17893e4d896050cbbb57242, type: 3}
+      propertyPath: Player_Stats
+      value: 
+      objectReference: {fileID: 2032672166}
     - target: {fileID: 2726526004166987046, guid: 600dfdd3e17893e4d896050cbbb57242, type: 3}
       propertyPath: m_Radius
       value: 0.05
@@ -7601,7 +7632,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6218912587630596453, guid: 600dfdd3e17893e4d896050cbbb57242, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.0000047683716
+      value: 0.87
       objectReference: {fileID: 0}
     - target: {fileID: 6218912587630596453, guid: 600dfdd3e17893e4d896050cbbb57242, type: 3}
       propertyPath: m_LocalPosition.z
@@ -9946,6 +9977,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4334295594847909393, guid: bbf01658d8f0a054e8af70139763ee5c, type: 3}
   m_PrefabInstance: {fileID: 1362767730}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1370766213 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5397998645940285148, guid: 600dfdd3e17893e4d896050cbbb57242, type: 3}
+  m_PrefabInstance: {fileID: 536450016}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9e8484c619249b4b8264884550b7dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatManager
 --- !u!1001 &1385276122
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12265,6 +12307,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2591448729946721236, guid: 600dfdd3e17893e4d896050cbbb57242, type: 3}
+      propertyPath: stats
+      value: 
+      objectReference: {fileID: 2094258406}
+    - target: {fileID: 2591448729946721236, guid: 600dfdd3e17893e4d896050cbbb57242, type: 3}
+      propertyPath: Player_Stats
+      value: 
+      objectReference: {fileID: 2032672166}
     - target: {fileID: 2726526004166987046, guid: 600dfdd3e17893e4d896050cbbb57242, type: 3}
       propertyPath: m_Radius
       value: 0.05
@@ -12279,7 +12329,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6218912587630596453, guid: 600dfdd3e17893e4d896050cbbb57242, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.00000667572
+      value: 0.73
       objectReference: {fileID: 0}
     - target: {fileID: 6218912587630596453, guid: 600dfdd3e17893e4d896050cbbb57242, type: 3}
       propertyPath: m_LocalPosition.z
@@ -14387,6 +14437,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 251468783644898187, guid: 5165064e6242bad4a97ac791364eefe0, type: 3}
+      propertyPath: Player_Stats
+      value: 
+      objectReference: {fileID: 2032672166}
     - target: {fileID: 7912609570367855475, guid: 5165064e6242bad4a97ac791364eefe0, type: 3}
       propertyPath: m_Radius
       value: 5
@@ -15344,6 +15398,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: warrior blade
       objectReference: {fileID: 0}
+    - target: {fileID: 7116853150868261018, guid: 76fb44b93627b0f42ad7a0e36cac079d, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -15497,6 +15555,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8983254278181029023, guid: c9547cf02a943b74994f70856e1a9fc1, type: 3}
   m_PrefabInstance: {fileID: 2094249338}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2094258406 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5397998645940285148, guid: 600dfdd3e17893e4d896050cbbb57242, type: 3}
+  m_PrefabInstance: {fileID: 1641666649}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9e8484c619249b4b8264884550b7dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatManager
 --- !u!1001 &2094493475
 PrefabInstance:
   m_ObjectHideFlags: 0
