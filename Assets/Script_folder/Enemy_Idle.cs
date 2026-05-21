@@ -49,7 +49,7 @@ public class Enemy_Idle : Enemy_State
             //checks if enemy detects an object
             if(Physics.Raycast(point.position, point.forward, out hit, sightRange))
             {
-                if(hit.collider.gameObject.tag == "Player")
+                if(hit.collider.gameObject.CompareTag("Player"))
                     enemy.isAggroed = true;
             }
         }
