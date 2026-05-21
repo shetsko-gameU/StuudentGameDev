@@ -1,12 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
-public class Enemy_Idle : Enemy_State
+public class EnemyIdle : EnemyState
 {
     public List<Transform> raycastPoints;
     public float sightRange;
     public Vector3 targetPosition;
     public Vector3 direction;
-    public Enemy_Idle(Enemy_Base enemy, Enemy_State_Machine enemyStateMachine)
+    public EnemyIdle(EnemyBase enemy, EnemyStateMachine enemyStateMachine)
     {
         this.enemy = enemy;
         this.enemyStateMachine = enemyStateMachine;

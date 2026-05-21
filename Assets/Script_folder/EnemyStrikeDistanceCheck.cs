@@ -3,12 +3,12 @@ using UnityEngine;
 public class EnemyStrikeDistanceCheck : MonoBehaviour
 { 
     public GameObject target{get; set;}
-    public Enemy_Base enemy;
+    public EnemyBase enemy;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
         target = GameObject.FindGameObjectWithTag("Player");
-        enemy = GetComponentInParent<Enemy_Base>();
+        enemy = GetComponentInParent<EnemyBase>();
     }
     void Start()
     {

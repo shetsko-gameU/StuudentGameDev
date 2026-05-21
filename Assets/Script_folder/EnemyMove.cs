@@ -6,7 +6,7 @@ using UnityEditor.Experimental.GraphView;
 //using System.Diagnostics;
 //using System.Numerics;
 
-public class Enemy_Move : Enemy_State
+public class EnemyMove : EnemyState
 {
     [Header("Speed Stuff")]
     public float acceleration;
@@ -33,7 +33,7 @@ public class Enemy_Move : Enemy_State
     Vector3 moveDir;
 
 
-    public Enemy_Move(Enemy_Base enemy, Enemy_State_Machine enemyStateMachine)
+    public EnemyMove(EnemyBase enemy, EnemyStateMachine enemyStateMachine)
     {
         this.enemy = enemy;
         this.enemyStateMachine = enemyStateMachine;

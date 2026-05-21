@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Enemy_Attack : Enemy_State
+public class EnemyAttack : EnemyState
 {
     Transform playerTransform;
     float timer;
@@ -8,7 +8,7 @@ public class Enemy_Attack : Enemy_State
     float exitTimer;
     float timeToExitAfterAttack = 2f; // Time to exit attack state after
     float distanceToCountExit = 3f; // Distance to player to start exit timer
-    public Enemy_Attack(Enemy_Base enemy, Enemy_State_Machine enemyStateMachine)
+    public EnemyAttack(EnemyBase enemy, EnemyStateMachine enemyStateMachine)
     {
         this.enemy = enemy;
         this.enemyStateMachine = enemyStateMachine;
