@@ -1,43 +1,25 @@
 using UnityEngine;
 
-
 public class EnemyBase : MonoBehaviour
-
-
-
 {
-   [Header("Stats")]
+    [Header("Stats")]
     public StatsManager stats;
-    public StatsManager Player_Stats;
+    public StatsManager playerStats;
     public Animator animator;
-    
-
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "PlayerAttack")
-        {
-            stats.currentHealth -= Player_Stats.Attack;
-        }
+        if (!other.gameObject.CompareTag("PlayerAttack")) return;
+        if (playerStats == null) return;
+
+        // Use TakeDamage so defense reduction, dodge rolls, OnDied event,
+        // and health bar updates all fire correctly.
+        // OnDied firing is what triggers LootDropper to spawn items.
+        stats.TakeDamage(playerStats.GetDamageRoll());
     }
+
     public void OnAttack()
     {
         animator.SetTrigger("Attack");
-
-
     }
-
 }
