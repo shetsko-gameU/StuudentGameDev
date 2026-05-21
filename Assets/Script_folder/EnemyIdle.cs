@@ -1,12 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
-public class Enemy_Idle : Enemy_State
+public class EnemyIdle : EnemyState
 {
     public List<Transform> raycastPoints;
     public float sightRange;
     public Vector3 targetPosition;
     public Vector3 direction;
-    public Enemy_Idle(Enemy_Base enemy, Enemy_State_Machine enemyStateMachine)
+    public EnemyIdle(EnemyBase enemy, EnemyStateMachine enemyStateMachine)
     {
         this.enemy = enemy;
         this.enemyStateMachine = enemyStateMachine;
@@ -49,7 +49,7 @@ public class Enemy_Idle : Enemy_State
             //checks if enemy detects an object
             if(Physics.Raycast(point.position, point.forward, out hit, sightRange))
             {
-                if(hit.collider.gameObject.tag == "Player")
+                if(hit.collider.gameObject.CompareTag("Player"))
                     enemy.isAggroed = true;
             }
         }

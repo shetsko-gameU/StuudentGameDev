@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy_State
+public class EnemyState
 {
-    protected Enemy_Base enemy;
-    protected Enemy_State_Machine enemyStateMachine;
+    protected EnemyBase enemy;
+    protected EnemyStateMachine enemyStateMachine;
 
-    /*public Enemy_State(Enemy_Base enemy, Enemy_State_Machine enemyStateMachine)
+    /*public EnemyState(EnemyBase enemy, EnemyStateMachine enemyStateMachine)
     {
         this.enemy = enemy;
         this.enemyStateMachine = enemyStateMachine;
@@ -17,5 +17,5 @@ public class Enemy_State
     public virtual void ExitState() { }
     public virtual void FrameUpdate() { }
     public virtual void PhysicsUpdate() { }
-    public virtual void AnimationTriggerEvent(Enemy_Base.AnimationTriggerType triggerType) { }
+    public virtual void AnimationTriggerEvent(EnemyBase.AnimationTriggerType triggerType) { }
 }
