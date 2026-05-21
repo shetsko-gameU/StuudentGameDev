@@ -1,6 +1,7 @@
 //using System.Numerics;
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
+using static BaseStatsSO;
 
 public class Enemy_Base : MonoBehaviour, TriggerCheck
 {
@@ -61,10 +62,28 @@ public class Enemy_Base : MonoBehaviour, TriggerCheck
     }
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player_Attack")
+        if (!other.gameObject.CompareTag("PlayerAttack")) return;
+
+        if (stats == null)
         {
-            stats.currentHealth -= Player_Stats.Attack;
+            Debug.LogError($"EnemyBase on '{name}': stats is null — assign StatsManager in Inspector.");
+            return;
         }
+
+        if (Player_Stats == null)
+        {
+            Debug.LogError($"EnemyBase on '{name}': playerStats is null — assign the Player StatsManager in Inspector.");
+            return;
+        }
+
+        float damage = Player_Stats.GetDamageRoll();
+        Debug.Log($"EnemyBase: '{name}' taking {damage} damage. Health before: {stats.currentHealth}");
+
+        // IMPORTANT: must call TakeDamage — not currentHealth directly.
+        // TakeDamage is where OnDied fires, which LootDropper listens to.
+        stats.TakeDamage(damage);
+
+        Debug.Log($"EnemyBase: '{name}' health after: {stats.currentHealth}. IsDead: {stats.IsDead}");
     }
     public void OnAttack()
     {
