@@ -8,6 +8,7 @@ public class EnemyAttack : EnemyState
     float exitTimer;
     float timeToExitAfterAttack = 2f; // Time to exit attack state after
     float distanceToCountExit = 3f; // Distance to player to start exit timer
+    Vector3 pivotTarget; //where enemy will pivot to after attacking
     public EnemyAttack(EnemyBase enemy, EnemyStateMachine enemyStateMachine)
     {
         this.enemy = enemy;
@@ -53,5 +54,11 @@ public class EnemyAttack : EnemyState
     {
         if (enemy != null && enemy.animator != null)
             enemy.animator.SetTrigger("Attack");
+
+        if (enemy.doesPivotAttack)
+        {
+            pivotTarget = playerTransform.position + (new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1)).normalized * Vector3.Distance(enemy.transform.position, playerTransform.position));
+            
+        }
     }
 }

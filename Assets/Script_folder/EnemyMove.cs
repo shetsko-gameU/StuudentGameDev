@@ -29,6 +29,7 @@ public class EnemyMove : EnemyState
     public float groundDrag;
 
     Transform playerTransform;
+    Transform targetTransform;
     Vector2 movevalue;
     Vector3 moveDir;
 
@@ -39,6 +40,7 @@ public class EnemyMove : EnemyState
         this.enemyStateMachine = enemyStateMachine;
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         rb = enemy.GetComponent<Rigidbody>();
+        targetTransform = playerTransform;
     }
 
     public override void EnterState()
@@ -73,8 +75,7 @@ public class EnemyMove : EnemyState
 
         float finalAcceleration = acceleration * moveSpeedMultiplier;
         float finalMaxSpeed = maxSpeed * moveSpeedMultiplier;
-
-        moveDir = (playerTransform.position - enemy.transform.position).normalized;
+        moveDir = (targetTransform.position - enemy.transform.position).normalized;
         rb.AddForce(moveDir * finalAcceleration);
 
         // rotate the player body

@@ -10,6 +10,7 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     public StatsManager Player_Stats;
     public Animator animator;
     public List<Transform> raycasts;
+    public bool doesAttackPivot;
     Vector2 movevalue;
 
     // TriggerCheck implementation
@@ -66,20 +67,20 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
 
         if (stats == null)
         {
-            Debug.LogError($"EnemyBase on '{name}': stats is null — assign StatsManager in Inspector.");
+            Debug.LogError($"EnemyBase on '{name}': stats is null ï¿½ assign StatsManager in Inspector.");
             return;
         }
 
         if (Player_Stats == null)
         {
-            Debug.LogError($"EnemyBase on '{name}': playerStats is null — assign the Player StatsManager in Inspector.");
+            Debug.LogError($"EnemyBase on '{name}': playerStats is null ï¿½ assign the Player StatsManager in Inspector.");
             return;
         }
 
         float damage = Player_Stats.GetDamageRoll();
         Debug.Log($"EnemyBase: '{name}' taking {damage} damage. Health before: {stats.currentHealth}");
 
-        // IMPORTANT: must call TakeDamage — not currentHealth directly.
+        // IMPORTANT: must call TakeDamage ï¿½ not currentHealth directly.
         // TakeDamage is where OnDied fires, which LootDropper listens to.
         stats.TakeDamage(damage);
 
