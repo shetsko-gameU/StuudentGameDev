@@ -11,13 +11,13 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     public Animator animator;
     public List<Transform> raycasts;
     public bool doesAttackPivot;
-    Vector2 movevalue;
+    //Vector3 moveValue;
 
     // TriggerCheck implementation
     public bool isAggroed { get; set; }
     public bool isWithinRange { get; set; }
 
-
+    //States and State Machine
     public EnemyStateMachine stateMachine {get; set;}
     public EnemyIdle idleState { get; set; }
     public EnemyAttack attackState { get; set; }
@@ -57,7 +57,7 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
         Damaged,
         Traveling
     }
-    void AnimationTriggerEvent(AnimationTriggerType triggerType)
+    public void AnimationTriggerEvent(AnimationTriggerType triggerType)
     {
         stateMachine.CurrentEnemyState?.AnimationTriggerEvent(triggerType);
     }
