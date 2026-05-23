@@ -79,7 +79,7 @@ public class EnemyMove : EnemyState
         rb.AddForce(moveDir * finalAcceleration);
 
         // rotate the player body
-        if (movevalue.magnitude > 0)
+       /* if (movevalue.magnitude > 0)
         {
             enemyModel.transform.rotation = Quaternion.Slerp(
                 enemyModel.transform.rotation,
@@ -87,10 +87,10 @@ public class EnemyMove : EnemyState
                 modelRotateSpeed * Time.deltaTime
             );
             Debug.Log("Change rotation");
-        }
+        }*/
 
         // if we are moving or if we are not moving
-        isMoving = movevalue.magnitude > 0.25f;
+        //isMoving = movevalue.magnitude > 0.25f;
 
         if (enemy.animator != null)
             enemy.animator.SetBool("isMoving", isMoving);
@@ -105,10 +105,10 @@ public class EnemyMove : EnemyState
         }
 
         // halt your speed if not moving
-        if (!isMoving)
+        /*if (!isMoving)
         {
             rb.AddForce(-rb.linearVelocity * haltSpeed);
-        }
+        }*/
 
     }
 

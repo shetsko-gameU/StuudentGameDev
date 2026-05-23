@@ -7,6 +7,7 @@ public class EnemyAggroCheck : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
+        //adjust FindGameObject to incorporate dummy as target
         target = GameObject.FindGameObjectWithTag("Player");
         enemy = GetComponentInParent<EnemyBase>();
     }
