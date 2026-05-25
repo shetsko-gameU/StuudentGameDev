@@ -387,11 +387,21 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
 
         foreach (FoodPassiveEntry e in activeFoodEntries)
         {
-            if (e.passive == null || e.passive.buffTemplate == null) continue;
+            if (e.passive == null) continue;
 
-            RolledModifierInstance onHitRoll = ModifierRoller.Roll(e.passive.buffTemplate);
-            onHitRoll.durationSeconds = e.passive.buffDurationSeconds;
-            stats.AddRolledModifier(onHitRoll);
+            // Apply the temporary stat buff if one is set
+            if (e.passive.buffTemplate != null)
+            {
+                RolledModifierInstance onHitRoll = ModifierRoller.Roll(e.passive.buffTemplate);
+                onHitRoll.durationSeconds = e.passive.buffDurationSeconds;
+                stats.AddRolledModifier(onHitRoll);
+            }
+
+            // Spawn the entity if one is set — spawns at the player's position
+            if (e.passive.SpawnEntity != null)
+            {
+                Instantiate(e.passive.SpawnEntity, transform.position, transform.rotation);
+            }
         }
     }
 }
