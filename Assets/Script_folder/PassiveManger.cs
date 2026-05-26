@@ -400,7 +400,7 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
             // Spawn the entity if one is set — spawns at the player's position
             if (e.passive.SpawnEntity != null)
             {
-                Instantiate(e.passive.SpawnEntity, transform.position, transform.rotation);
+                Instantiate(e.passive.SpawnEntity, new Vector3(transform.position.x,transform.position.y+2,transform.position.z), transform.rotation);
             }
         }
     }
