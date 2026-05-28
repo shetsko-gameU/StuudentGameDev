@@ -5,7 +5,7 @@ public class MainMenuManager : MonoBehaviour
 {
     // This is the name of your game scene — must match exactly
     [Header("Scene To Load")]
-    public string gameSceneName = "ScriptTestScene";
+    public string ScriptTestScene = "ScriptTestScene";
 
     // -----------------------------------------------
     // Called when player clicks "Start Game"
@@ -14,7 +14,7 @@ public class MainMenuManager : MonoBehaviour
     public void OnStartGame()
     {
         Debug.Log("Starting game...");
-        SceneManager.LoadScene(gameSceneName);
+        SceneManager.LoadScene(ScriptTestScene);
     }
 
     // -----------------------------------------------
