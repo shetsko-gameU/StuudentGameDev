@@ -252,11 +252,25 @@ MonoBehaviour:
   explosionDamage: 25
   explosionEffect: {fileID: 0}
   leaveCloudAfterExplosion: 1
+  cloudVisual: {fileID: 0}
+  cloudDuration: 6
+  cloudRadius: 3
+  cloudDamagePerTick: 8
+  cloudTickInterval: 1
   vineVisual: {fileID: 0}
   vineDuration: 8
-  vineRadius: 3
-  vineDamagePerTick: 8
-  vineTickInterval: 1
+  vineDetectRange: 4
+  slapWindUpTime: 0.8
+  slapRange: 2.5
+  slapAngle: 90
+  slapDamage: 20
+  slapCooldown: 1.5
+  rotateSpeed: 8
+  vineAnimator: {fileID: 0}
+  windUpTrigger: WindUp
+  slapTrigger: Slap
+  idleTrigger: Idle
+  mushroomVisual: {fileID: 0}
   mushroomTop: {fileID: 2998081850038855332}
   mushroomBottom: {fileID: 5633680166197873338}
   capsule: {fileID: 0}
