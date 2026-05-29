@@ -480,6 +480,7 @@ MonoBehaviour:
   - {fileID: 4663554616622040108}
   - {fileID: 3708767087804469475}
   - {fileID: 1630182751664075115}
+  doesAttackPivot: 0
   randomMovementRange: 5
   randomMovementSpeed: 1
 --- !u!114 &5397998645940285148
@@ -542,7 +543,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.16
-  m_Height: 3.37
+  m_Radius: 1.1164033
+  m_Height: 2.8370836
   m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 1.13}
+  m_Center: {x: 0.043596625, y: 4.7046954e-15, z: 1.3310633}

@@ -35,7 +35,7 @@ public class EnemyAttack : EnemyState
             //Vector2 dir = (playerTransform.position - enemy.transform.position).normalized;
         }
         //sets for enemies that can pivot around player
-        else if (enemy.doesPivotAttack)
+        else if (enemy.doesAttackPivot)
         {
             PivotAround();
         }
@@ -71,11 +71,11 @@ public class EnemyAttack : EnemyState
         Vector3 randomOffset = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
         pivotTarget = playerTransform.position + (randomOffset * distance);
 
-        // 2. Fix: Get vectors relative to the player pivot point
-        Vector3 currentDir = enemy.transform.position - playerTransform.position;
-        Vector3 targetDir = pivotTarget - playerTransform.position;
+        // 2. Get vectors relative to the player pivot point
+        Vector3 currentDir = playerTransform.position - enemy.transform.position;
+        Vector3 targetDir = playerTransform.position - pivotTarget;
 
-        // 3. Fix: Calculate the shortest signed angle
+        // 3. Calculate the shortest signed angle
         float signedAngle = Vector3.SignedAngle(currentDir, targetDir, Vector3.up);
         
         // 4. Store total angle to travel and its direction (+1 or -1)
@@ -86,13 +86,13 @@ public class EnemyAttack : EnemyState
         {
             float deltaAngle = pivotSpeed * Time.deltaTime;
 
-            // Fix: Shrink the last step to perfectly hit the target
-            if (cumulativeRotation + deltaAngle >= totalTargetAngle)
+            // Shrink the last step to perfectly hit the target
+            if (cumulativeRotation + deltaAngle > totalTargetAngle)
             {
                 deltaAngle = totalTargetAngle - cumulativeRotation;
             }
 
-            // Fix: Apply direction (clockwise or counter-clockwise) to the step
+            // Apply direction (clockwise or counter-clockwise) to the step
             float actualRotationStep = deltaAngle * angleDirection;
 
             // Execute rotation around player pivot
