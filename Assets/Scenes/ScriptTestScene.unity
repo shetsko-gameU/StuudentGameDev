@@ -3657,6 +3657,48 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.022023378, y: 0.057786968, z: 0.20529363}
   m_Center: {x: 0.0000019349159, y: -0.0010770649, z: 0.14082243}
+--- !u!114 &1126053418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1126053413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d850c9c729e6074e902b3629de611df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttackHitbox
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 256
+--- !u!54 &1126053421
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1126053413}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1162565825
 GameObject:
   m_ObjectHideFlags: 0
@@ -4149,8 +4191,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1830814709}
   - {fileID: 1126053414}
+  - {fileID: 1830814709}
   m_Father: {fileID: 1430486897}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1394594512
@@ -4171,7 +4213,7 @@ Animator:
   m_GameObject: {fileID: 1394594510}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 96d0ca068db8e274ebdbfced41162fdd, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -4200,13 +4242,13 @@ GameObject:
   - component: {fileID: 1430486898}
   - component: {fileID: 1430486899}
   - component: {fileID: 1430486900}
-  - component: {fileID: 1430486901}
   - component: {fileID: 1430486902}
   - component: {fileID: 1430486903}
   - component: {fileID: 1430486904}
   - component: {fileID: 1430486907}
   - component: {fileID: 1430486906}
   - component: {fileID: 1430486908}
+  - component: {fileID: 1430486909}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -4431,10 +4473,10 @@ MonoBehaviour:
     m_ActionName: 'Player/Look[/Mouse/delta]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1430486901}
-        m_TargetAssemblyTypeName: Player_Attack, Assembly-CSharp
+      - m_Target: {fileID: 1430486909}
+        m_TargetAssemblyTypeName: ComboRunner, Assembly-CSharp
         m_MethodName: OnAttack
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4640,19 +4682,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StatManager
   baseStats: {fileID: 11400000, guid: ae4c02e6827f0e64199e1710966d48f9, type: 2}
   currentHealth: 0
---- !u!114 &1430486901
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1430486891}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1a62b92f707f9f47bec8c608b74ff47, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  animator: {fileID: 1430486898}
 --- !u!114 &1430486902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4762,6 +4791,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   StatsManager: {fileID: 1430486900}
+--- !u!114 &1430486909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430486891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bcfd67f74674d24aabfcd42b92a7ce7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ComboRunner
+  stats: {fileID: 1430486900}
+  hitbox: {fileID: 1126053418}
+  animator: {fileID: 1394594513}
+  combo: {fileID: 11400000, guid: 04c7388e1fae8b140b3c75627c6c6348, type: 2}
 --- !u!1 &1449615630
 GameObject:
   m_ObjectHideFlags: 0
@@ -5554,6 +5599,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2a5c5a03039a837458409dc4305a86b5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1126053417}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2a5c5a03039a837458409dc4305a86b5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1126053418}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2a5c5a03039a837458409dc4305a86b5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1126053421}
   m_SourcePrefab: {fileID: 100100000, guid: 2a5c5a03039a837458409dc4305a86b5, type: 3}
 --- !u!1 &1909972324
 GameObject:

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6888921526440057365}
   - component: {fileID: 1549426095703552464}
   - component: {fileID: 2727868697730113660}
-  - component: {fileID: 2511481226562820260}
+  - component: {fileID: 8109316930029468473}
   m_Layer: 0
   m_Name: VineAttack
   m_TagString: Untagged
@@ -107,7 +107,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2511481226562820260
+--- !u!114 &8109316930029468473
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -116,29 +116,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 7229158084620584091}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef77c732f91df6d4682db282d67e71df, type: 3}
+  m_Script: {fileID: 11500000, guid: 883f311c530042945986f0710b790362, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MushroomMine
-  seedMode: 1
+  m_EditorClassIdentifier: Assembly-CSharp::VineAttack
   seedDuration: 2
-  seedVisual: {fileID: 9098385021144495308}
+  seedVisual: {fileID: 0}
   throwForceMin: 3
   throwForceMax: 6
   enemyLayer:
     serializedVersion: 2
-    m_Bits: 256
-  explosionRadius: 0
-  explosionDamage: 0
-  explosionEffect: {fileID: 0}
-  leaveCloudAfterExplosion: 0
-  cloudVisual: {fileID: 0}
-  cloudDuration: 6
-  cloudRadius: 0
-  cloudDamagePerTick: 8
-  cloudTickInterval: 1
+    m_Bits: 0
   vineVisual: {fileID: 7454450475953135795}
-  vineDuration: 8
-  vineDetectRange: 3
+  vineDuration: 12
+  vineDetectRange: 4
   slapWindUpTime: 0.8
   slapRange: 2.5
   slapAngle: 90
@@ -149,10 +139,6 @@ MonoBehaviour:
   windUpTrigger: WindUp
   slapTrigger: Slap
   idleTrigger: Idle
-  mushroomVisual: {fileID: 8358442265516794339}
-  mushroomTop: {fileID: 0}
-  mushroomBottom: {fileID: 0}
-  capsule: {fileID: 0}
 --- !u!1 &7454450475953135795
 GameObject:
   m_ObjectHideFlags: 0

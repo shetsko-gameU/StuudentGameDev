@@ -2,52 +2,71 @@ using UnityEngine;
 
 /// <summary>
 /// Place this on a child GameObject — your weapon, hand, or attack pivot point.
-/// ComboRunner calls FireHit() when a hit should land.
+/// Requires a BoxCollider on the same GameObject set to Is Trigger = ON.
 ///
 /// Setup:
 ///   1. Create a child GameObject on the player (e.g. "WeaponHitbox").
-///   2. Add this component to it.
-///   3. Set hitRadius and enemyLayer in the Inspector.
-///   4. Drag this component into the ComboRunner's Hitbox field.
+///   2. Add a BoxCollider — set Is Trigger = ON, use Edit Collider to size it.
+///   3. Add this AttackHitbox component.
+///   4. Set enemyLayer in the Inspector.
+///   5. Drag this component into the ComboRunner's Hitbox field.
+///
+/// The collider stays OFF outside of attacks so you can't accidentally
+/// hit enemies just by walking near them.
 /// </summary>
+[RequireComponent(typeof(BoxCollider))]
 public class AttackHitbox : MonoBehaviour
 {
-    [Header("Hit Settings")]
-    [Tooltip("Radius of the hit check sphere. Shown as a yellow gizmo in the Scene view.")]
-    public float hitRadius = 1f;
-
     [Tooltip("Which layer enemies are on. Only objects on this layer take damage.")]
     public LayerMask enemyLayer;
+
+    private BoxCollider boxCollider;
+    private float currentDamage;
+
+    // ------------------------------------------------------------------ Lifecycle
+
+    private void Awake()
+    {
+        boxCollider = GetComponent<BoxCollider>();
+        boxCollider.isTrigger = true;
+
+        // Start disabled — ComboRunner enables it when a hit should land
+        boxCollider.enabled = false;
+    }
 
     // ------------------------------------------------------------------ Called by ComboRunner
 
     /// <summary>
-    /// Fires immediately — checks for enemies in range and deals damage.
-    /// Called by ComboRunner at the right moment in the combo.
+    /// Enables the collider for one frame so it can detect enemies.
+    /// ComboRunner calls this at the right moment in the combo.
     /// </summary>
     public void FireHit(float damage)
     {
-        Collider[] hits = Physics.OverlapSphere(transform.position, hitRadius, enemyLayer);
+        currentDamage = damage;
+        boxCollider.enabled = true;
 
-        foreach (Collider hit in hits)
-        {
-            StatsManager enemyStats = hit.GetComponent<StatsManager>()
-                                   ?? hit.GetComponentInParent<StatsManager>();
-
-            if (enemyStats == null) continue;
-
-            enemyStats.TakeDamage(damage);
-            Debug.Log($"AttackHitbox: Hit '{hit.name}' for {damage} damage.");
-        }
+        // Disable again next frame so it only hits once per swing
+        Invoke(nameof(DisableCollider), Time.fixedDeltaTime);
     }
 
-    // ------------------------------------------------------------------ Gizmo
-
-    private void OnDrawGizmosSelected()
+    private void DisableCollider()
     {
-        Gizmos.color = new Color(1f, 1f, 0f, 0.3f);
-        Gizmos.DrawSphere(transform.position, hitRadius);
-        Gizmos.color = new Color(1f, 1f, 0f, 0.9f);
-        Gizmos.DrawWireSphere(transform.position, hitRadius);
+        boxCollider.enabled = false;
+    }
+
+    // ------------------------------------------------------------------ Collision
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // Only damage objects on the enemy layer
+        if ((enemyLayer.value & (1 << other.gameObject.layer)) == 0) return;
+
+        StatsManager enemyStats = other.GetComponent<StatsManager>()
+                               ?? other.GetComponentInParent<StatsManager>();
+
+        if (enemyStats == null) return;
+
+        enemyStats.TakeDamage(currentDamage);
+        Debug.Log($"AttackHitbox: Hit '{other.name}' for {currentDamage} damage.");
     }
 }
