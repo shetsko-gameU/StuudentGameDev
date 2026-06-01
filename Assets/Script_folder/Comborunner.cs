@@ -42,6 +42,11 @@ public class ComboRunner : MonoBehaviour
     [Tooltip("The ComboSO asset that defines this combo's hits.")]
     public ComboSO combo;
 
+    [Tooltip("If true: animation events on the face mesh control when the hitbox fires. " +
+             "ComboRunner sets the damage but does NOT call FireHit. " +
+             "If false: ComboRunner fires the hitbox itself after hitCheckDelay.")]
+    public bool useAnimationEvents = false;
+
     // ------------------------------------------------------------------ Events
 
     /// <summary>Fires when the first hit of a new combo begins.</summary>
@@ -196,8 +201,11 @@ public class ComboRunner : MonoBehaviour
         if (hitData.hitCheckDelay > 0f)
             yield return new WaitForSeconds(hitData.hitCheckDelay);
 
-        // Deal damage via the hitbox
-        if (hitbox != null)
+        // Deal damage via the hitbox — only if not using animation events.
+        // When useAnimationEvents is true the AnimationEventRelay handles
+        // enabling the hitbox at the right frame. Damage is already set
+        // via SetDamage() above so OnTriggerEnter will use the correct value.
+        if (!useAnimationEvents && hitbox != null)
             hitbox.FireHit(damage);
 
         // Fire events

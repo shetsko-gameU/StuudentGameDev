@@ -4240,6 +4240,7 @@ GameObject:
   - component: {fileID: 1430486906}
   - component: {fileID: 1430486908}
   - component: {fileID: 1430486909}
+  - component: {fileID: 1430486910}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -4796,8 +4797,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ComboRunner
   stats: {fileID: 1430486900}
   hitbox: {fileID: 1126053418}
-  animator: {fileID: 0}
+  animator: {fileID: 1394594514}
   combo: {fileID: 11400000, guid: 04c7388e1fae8b140b3c75627c6c6348, type: 2}
+  useAnimationEvents: 0
+--- !u!114 &1430486910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430486891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38336a2537a101b498c4c40abc0d768c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ComboPassiveTrigger
+  comboRunner: {fileID: 1430486909}
+  passiveManager: {fileID: 1430486907}
+  stats: {fileID: 1430486900}
+  firstHitPassive: {fileID: 0}
+  lastHitPassive: {fileID: 0}
 --- !u!1 &1449615630
 GameObject:
   m_ObjectHideFlags: 0

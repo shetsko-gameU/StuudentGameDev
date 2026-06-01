@@ -58,7 +58,6 @@ public class ComboPassiveTrigger : MonoBehaviour
         if (firstHitPassive == null) return;
 
         Debug.Log($"ComboPassiveTrigger: First hit — firing '{firstHitPassive.displayName}'");
-
         ApplyPassive(firstHitPassive);
     }
 
@@ -67,7 +66,6 @@ public class ComboPassiveTrigger : MonoBehaviour
         if (lastHitPassive == null) return;
 
         Debug.Log($"ComboPassiveTrigger: Last hit — firing '{lastHitPassive.displayName}'");
-
         ApplyPassive(lastHitPassive);
     }
 
@@ -87,7 +85,7 @@ public class ComboPassiveTrigger : MonoBehaviour
             stats.AddRolledModifier(roll);
         }
 
-        // Spawn the entity if one is set
+        // Spawn the entity if one is set — spawns slightly above the player
         if (passive.SpawnEntity != null)
         {
             Instantiate(
