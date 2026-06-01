@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f6ec3394e8bee61489223aad5f9eb845
+guid: abbf78f6bce7c09489179ad5d63d7cc2
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -7,13 +7,43 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material
-    second: {fileID: 2100000, guid: 15b774b26d33c7b4a8aa3086565d7d68, type: 2}
+      name: Material.002
+    second: {fileID: 2100000, guid: 6f8ca34fa9a639b41bfec11cfbd0c62c, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: sword swing
-    second: {fileID: 2100000, guid: 7982a45d6c0c7314cbeaa307db92aee9, type: 2}
+      name: Material.003
+    second: {fileID: 2100000, guid: 39be4951d33c69445bbf95cfda7c1b84, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.004
+    second: {fileID: 2100000, guid: 55b169a87df92d146ba058d63b087b78, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.009
+    second: {fileID: 2100000, guid: ec115df9727827c428b20a702abe88a4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bush
+    second: {fileID: 2100000, guid: 18e0f338b6fefff4d97188ef0d1e39ab, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: legs
+    second: {fileID: 2100000, guid: de22f67080e0cc947b0f5dcd164efc8c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wood bow
+    second: {fileID: 2100000, guid: 132420e0fcb960b4ab0cc3adb4f3ccd4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wood hands.001
+    second: {fileID: 2100000, guid: 746602d0d7a445649ab6d3413ff4573d, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -43,7 +73,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 2
+    globalScale: 2.5
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -101,7 +131,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 2
+    globalScale: 2.5
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

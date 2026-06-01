@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f6ec3394e8bee61489223aad5f9eb845
+guid: 9c12b42fea7b6e94caf4dd6b9f193bea
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -8,12 +8,22 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Material
-    second: {fileID: 2100000, guid: 15b774b26d33c7b4a8aa3086565d7d68, type: 2}
+    second: {fileID: 2100000, guid: 4ad60bae5f311504da1969b9f8f6a6e8, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: sword swing
-    second: {fileID: 2100000, guid: 7982a45d6c0c7314cbeaa307db92aee9, type: 2}
+      name: Material.001
+    second: {fileID: 2100000, guid: 5957311ef8010164ba36d3d382650dbd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.002
+    second: {fileID: 2100000, guid: 90269f3d63d4cc341ae0401a945efb64, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.006
+    second: {fileID: 2100000, guid: f7f4668a0fae20041bb68917df8a95f8, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -43,7 +53,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 2
+    globalScale: 1.5
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -101,7 +111,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 2
+    globalScale: 0.015
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

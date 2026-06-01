@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f6ec3394e8bee61489223aad5f9eb845
+guid: 0cd850034b39d3d45b437b57f5392017
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -8,12 +8,42 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Material
-    second: {fileID: 2100000, guid: 15b774b26d33c7b4a8aa3086565d7d68, type: 2}
+    second: {fileID: 2100000, guid: 8379210926be8334cacf4f546bb50853, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: sword swing
-    second: {fileID: 2100000, guid: 7982a45d6c0c7314cbeaa307db92aee9, type: 2}
+      name: Material.001
+    second: {fileID: 2100000, guid: 70365dac45f679148b6639f4d1ff4632, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.002
+    second: {fileID: 2100000, guid: e247ccb07aa309c4c837bbb2c71f55f4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.003
+    second: {fileID: 2100000, guid: 18bc9a999bc44ed4f8ec235ee56d4d0f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.004
+    second: {fileID: 2100000, guid: 4d97d75727db6d44eaa24c7006c7379f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.005
+    second: {fileID: 2100000, guid: 095f93d3ae1c8fb4ab13155aed6a416d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.007
+    second: {fileID: 2100000, guid: bbc93aeb49e71b0418d5190f4ad75701, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: snake cloop
+    second: {fileID: 2100000, guid: c5a3ade42dd9f8a4592ad4be61abcd7a, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -43,7 +73,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 2
+    globalScale: 0.35
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -101,7 +131,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 2
+    globalScale: 0.35
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
