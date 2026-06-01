@@ -154,6 +154,11 @@ public class ComboRunner : MonoBehaviour
             ? stats.Attack * hitData.damageMultiplier
             : hitData.damageMultiplier;
 
+        // Tell the hitbox what damage to deal before the animation fires.
+        // This way when AnimationEventRelay calls EnableHitbox the damage is already set.
+        if (hitbox != null)
+            hitbox.SetDamage(damage);
+
         // Fire animation trigger
         if (animator != null && !string.IsNullOrEmpty(hitData.animatorTrigger))
             animator.SetTrigger(hitData.animatorTrigger);

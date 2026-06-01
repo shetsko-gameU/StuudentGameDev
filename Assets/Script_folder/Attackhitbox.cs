@@ -4,15 +4,10 @@ using UnityEngine;
 /// Place this on a child GameObject — your weapon, hand, or attack pivot point.
 /// Requires a BoxCollider on the same GameObject set to Is Trigger = ON.
 ///
-/// Setup:
-///   1. Create a child GameObject on the player (e.g. "WeaponHitbox").
-///   2. Add a BoxCollider — set Is Trigger = ON, use Edit Collider to size it.
-///   3. Add this AttackHitbox component.
-///   4. Set enemyLayer in the Inspector.
-///   5. Drag this component into the ComboRunner's Hitbox field.
-///
-/// The collider stays OFF outside of attacks so you can't accidentally
-/// hit enemies just by walking near them.
+/// Can be triggered two ways:
+///   1. ComboRunner.FireHit() — enables for one frame automatically.
+///   2. AnimationEventRelay — enables/disables exactly when animation events fire.
+///      Use option 2 for precise hit timing synced to your animation frames.
 /// </summary>
 [RequireComponent(typeof(BoxCollider))]
 public class AttackHitbox : MonoBehaviour
@@ -20,7 +15,9 @@ public class AttackHitbox : MonoBehaviour
     [Tooltip("Which layer enemies are on. Only objects on this layer take damage.")]
     public LayerMask enemyLayer;
 
-    private BoxCollider boxCollider;
+    [HideInInspector]
+    public BoxCollider boxCollider;
+
     private float currentDamage;
 
     // ------------------------------------------------------------------ Lifecycle
@@ -29,24 +26,43 @@ public class AttackHitbox : MonoBehaviour
     {
         boxCollider = GetComponent<BoxCollider>();
         boxCollider.isTrigger = true;
-
-        // Start disabled — ComboRunner enables it when a hit should land
         boxCollider.enabled = false;
     }
 
     // ------------------------------------------------------------------ Called by ComboRunner
 
     /// <summary>
-    /// Enables the collider for one frame so it can detect enemies.
-    /// ComboRunner calls this at the right moment in the combo.
+    /// Sets the damage value for the next hit.
+    /// ComboRunner calls this immediately when a hit is triggered — before
+    /// the animation event fires EnableHitbox — so the damage is ready.
+    /// </summary>
+    public void SetDamage(float damage)
+    {
+        currentDamage = damage;
+    }
+
+    /// <summary>
+    /// Enables the hitbox for one frame.
+    /// Used when not using animation events — ComboRunner calls this after hitCheckDelay.
     /// </summary>
     public void FireHit(float damage)
     {
         currentDamage = damage;
         boxCollider.enabled = true;
 
-        // Disable again next frame so it only hits once per swing
         Invoke(nameof(DisableCollider), Time.fixedDeltaTime);
+    }
+
+    // ------------------------------------------------------------------ Called by AnimationEventRelay
+
+    /// <summary>
+    /// Directly enable or disable the hitbox.
+    /// Called by AnimationEventRelay at the exact animation frame.
+    /// Use this instead of FireHit when you have animation events set up.
+    /// </summary>
+    public void SetActive(bool active)
+    {
+        boxCollider.enabled = active;
     }
 
     private void DisableCollider()
@@ -58,7 +74,6 @@ public class AttackHitbox : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // Only damage objects on the enemy layer
         if ((enemyLayer.value & (1 << other.gameObject.layer)) == 0) return;
 
         StatsManager enemyStats = other.GetComponent<StatsManager>()

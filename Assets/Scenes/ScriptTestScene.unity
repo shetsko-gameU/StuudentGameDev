@@ -2780,8 +2780,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy_Base
   stats: {fileID: 750220697}
-  playerStats: {fileID: 1430486900}
+  Player_Stats: {fileID: 1430486900}
   animator: {fileID: 0}
+  raycasts: []
+  doesAttackPivot: 0
+  randomMovementRange: 0
+  randomMovementSpeed: 0
 --- !u!136 &750220699
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3672,33 +3676,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 256
---- !u!54 &1126053421
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1126053413}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  boxCollider: {fileID: 0}
 --- !u!1 &1162565825
 GameObject:
   m_ObjectHideFlags: 0
@@ -4170,6 +4148,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1394594511}
   - component: {fileID: 1394594512}
+  - component: {fileID: 1394594514}
   - component: {fileID: 1394594513}
   m_Layer: 3
   m_Name: mesh
@@ -4203,7 +4182,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1394594510}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!95 &1394594513
+--- !u!114 &1394594513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1394594510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 609fc4c020a73be48a9dc538ef0b8076, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationEventRelay
+--- !u!95 &1394594514
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
@@ -4213,7 +4204,7 @@ Animator:
   m_GameObject: {fileID: 1394594510}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 96d0ca068db8e274ebdbfced41162fdd, type: 2}
+  m_Controller: {fileID: 9100000, guid: 63f6d3c634580634c9bbc3db64c4aec7, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -4412,7 +4403,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1430486891}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 63f6d3c634580634c9bbc3db64c4aec7, type: 2}
   m_CullingMode: 0
@@ -4805,7 +4796,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ComboRunner
   stats: {fileID: 1430486900}
   hitbox: {fileID: 1126053418}
-  animator: {fileID: 1394594513}
+  animator: {fileID: 0}
   combo: {fileID: 11400000, guid: 04c7388e1fae8b140b3c75627c6c6348, type: 2}
 --- !u!1 &1449615630
 GameObject:
@@ -5602,9 +5593,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2a5c5a03039a837458409dc4305a86b5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1126053418}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2a5c5a03039a837458409dc4305a86b5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1126053421}
   m_SourcePrefab: {fileID: 100100000, guid: 2a5c5a03039a837458409dc4305a86b5, type: 3}
 --- !u!1 &1909972324
 GameObject:
