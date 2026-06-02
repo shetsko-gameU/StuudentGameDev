@@ -32,6 +32,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: body
+    second: {fileID: 2100000, guid: 784236c744da59e41bae82b5e6f2428a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: boom shroom 1
     second: {fileID: 2100000, guid: c7fcc8ad602efcb4196c43475101e14e, type: 2}
   - first:
@@ -49,6 +54,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: mush main
     second: {fileID: 2100000, guid: a27b6b4104e23994286268f6fb4e77db, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: teeth
+    second: {fileID: 2100000, guid: 95f091621577b4148a447c790d4c5155, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
