@@ -1,13 +1,16 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 /// <summary>
 /// Add to the player alongside ComboRunner and PassiveManager.
-/// Fires a different passive at the start and end of a combo.
 ///
-/// First hit passive — triggers the moment the combo starts.
-/// Last hit passive  — triggers when the final hit of the combo lands.
+/// Instead of hardcoded passive lists, this reads whatever passives are currently
+/// active in PassiveManager and fires the ones flagged for combo triggers.
 ///
-/// Each passive can have a stat buff, a spawned entity, or both.
+/// To make a food passive trigger on a combo hit:
+///   Open the OnHitPassiveSO asset â†’ tick triggerOnFirstHit or triggerOnLastHit.
+///
+/// This means eating food dynamically unlocks combo effects.
+/// No changes needed here when new food passives are added.
 /// </summary>
 public class ComboPassiveTrigger : MonoBehaviour
 {
@@ -16,14 +19,6 @@ public class ComboPassiveTrigger : MonoBehaviour
     public ComboRunner comboRunner;
     public PassiveManager passiveManager;
     public StatsManager stats;
-
-    [Header("First Hit Passive")]
-    [Tooltip("Fires when the combo starts (first hit lands).")]
-    public OnHitPassiveSO firstHitPassive;
-
-    [Header("Last Hit Passive")]
-    [Tooltip("Fires when the combo finishes (last hit lands).")]
-    public OnHitPassiveSO lastHitPassive;
 
     // ------------------------------------------------------------------ Lifecycle
 
@@ -34,6 +29,7 @@ public class ComboPassiveTrigger : MonoBehaviour
         if (stats == null) stats = GetComponent<StatsManager>();
 
         if (comboRunner == null) Debug.LogError($"ComboPassiveTrigger on '{name}': ComboRunner missing.");
+        if (passiveManager == null) Debug.LogError($"ComboPassiveTrigger on '{name}': PassiveManager missing.");
         if (stats == null) Debug.LogError($"ComboPassiveTrigger on '{name}': StatsManager missing.");
     }
 
@@ -55,26 +51,42 @@ public class ComboPassiveTrigger : MonoBehaviour
 
     private void HandleFirstHit()
     {
-        if (firstHitPassive == null) return;
+        if (passiveManager == null) return;
 
-        Debug.Log($"ComboPassiveTrigger: First hit — firing '{firstHitPassive.displayName}'");
-        ApplyPassive(firstHitPassive);
+        // Loop through every active food passive in PassiveManager
+        // PassiveManager implements IEnumerable so foreach works directly on it
+        foreach (OnHitPassiveSO passive in passiveManager)
+        {
+            if (passive == null) continue;
+
+            // Only fire passives that have triggerOnFirstHit ticked
+            if (passive.triggerOnFirstHit)
+            {
+                Debug.Log($"ComboPassiveTrigger: First hit â€” firing '{passive.displayName}'");
+                ApplyPassive(passive);
+            }
+        }
     }
 
     private void HandleLastHit()
     {
-        if (lastHitPassive == null) return;
+        if (passiveManager == null) return;
 
-        Debug.Log($"ComboPassiveTrigger: Last hit — firing '{lastHitPassive.displayName}'");
-        ApplyPassive(lastHitPassive);
+        foreach (OnHitPassiveSO passive in passiveManager)
+        {
+            if (passive == null) continue;
+
+            // Only fire passives that have triggerOnLastHit ticked
+            if (passive.triggerOnLastHit)
+            {
+                Debug.Log($"ComboPassiveTrigger: Last hit â€” firing '{passive.displayName}'");
+                ApplyPassive(passive);
+            }
+        }
     }
 
     // ------------------------------------------------------------------ Apply
 
-    /// <summary>
-    /// Applies a passive's stat buff and spawns its entity if set.
-    /// Same logic as PassiveManager.HandleDamaged but triggered by combo events.
-    /// </summary>
     private void ApplyPassive(OnHitPassiveSO passive)
     {
         // Apply the stat buff if one is set
@@ -85,7 +97,7 @@ public class ComboPassiveTrigger : MonoBehaviour
             stats.AddRolledModifier(roll);
         }
 
-        // Spawn the entity if one is set — spawns slightly above the player
+        // Spawn the entity if one is set
         if (passive.SpawnEntity != null)
         {
             Instantiate(

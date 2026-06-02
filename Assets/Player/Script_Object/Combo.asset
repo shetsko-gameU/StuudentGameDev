@@ -15,16 +15,16 @@ MonoBehaviour:
   hits:
   - displayName: Slash
     damageMultiplier: 1
-    chainWindowSeconds: 0.8
-    hitCheckDelay: 0.1
+    chainWindowSeconds: 2
+    hitCheckDelay: 0
     animatorTrigger: Attack1
   - displayName: Slash
     damageMultiplier: 1
-    chainWindowSeconds: 0.8
+    chainWindowSeconds: 2
     hitCheckDelay: 0
     animatorTrigger: Attack2
   - displayName: Finsher
     damageMultiplier: 2
-    chainWindowSeconds: 0.8
-    hitCheckDelay: 0.15
+    chainWindowSeconds: 2
+    hitCheckDelay: 0
     animatorTrigger: Attack3

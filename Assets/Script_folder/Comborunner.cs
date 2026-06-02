@@ -223,4 +223,14 @@ public class ComboRunner : MonoBehaviour
 
         hitActive = false;
     }
+    public void resetTriggers()
+    {
+        foreach(ComboHitData comboHit in combo.hits)
+        {
+            animator.ResetTrigger(comboHit.animatorTrigger);
+        }
+
+        
+
+    }
 }

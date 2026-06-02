@@ -2786,6 +2786,7 @@ MonoBehaviour:
   doesAttackPivot: 0
   randomMovementRange: 0
   randomMovementSpeed: 0
+  currentTarget: {fileID: 0}
 --- !u!136 &750220699
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4148,7 +4149,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1394594511}
   - component: {fileID: 1394594512}
-  - component: {fileID: 1394594514}
   - component: {fileID: 1394594513}
   m_Layer: 3
   m_Name: mesh
@@ -4194,28 +4194,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 609fc4c020a73be48a9dc538ef0b8076, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AnimationEventRelay
---- !u!95 &1394594514
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1394594510}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 63f6d3c634580634c9bbc3db64c4aec7, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1430486891
 GameObject:
   m_ObjectHideFlags: 0
@@ -4294,7 +4272,7 @@ MonoBehaviour:
   playerModel: {fileID: 1394594511}
   rb: {fileID: 1430486892}
   animator: {fileID: 1430486898}
-  objectAnimator: {fileID: 0}
+  objectAnimator: {fileID: 1430486898}
   playerHeight: 0
   isGround:
     serializedVersion: 2
@@ -4404,7 +4382,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1430486891}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 63f6d3c634580634c9bbc3db64c4aec7, type: 2}
   m_CullingMode: 0
@@ -4797,7 +4775,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ComboRunner
   stats: {fileID: 1430486900}
   hitbox: {fileID: 1126053418}
-  animator: {fileID: 1394594514}
+  animator: {fileID: 1430486898}
   combo: {fileID: 11400000, guid: 04c7388e1fae8b140b3c75627c6c6348, type: 2}
   useAnimationEvents: 0
 --- !u!114 &1430486910
@@ -4815,8 +4793,6 @@ MonoBehaviour:
   comboRunner: {fileID: 1430486909}
   passiveManager: {fileID: 1430486907}
   stats: {fileID: 1430486900}
-  firstHitPassive: {fileID: 0}
-  lastHitPassive: {fileID: 0}
 --- !u!1 &1449615630
 GameObject:
   m_ObjectHideFlags: 0
