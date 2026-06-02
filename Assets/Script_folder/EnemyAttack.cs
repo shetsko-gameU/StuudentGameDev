@@ -3,6 +3,7 @@ using UnityEngine;
 public class EnemyAttack : EnemyState
 {
     Transform playerTransform;
+    bool canSeeTarget;
     float timer;
     float timeBetweenAttacks = 1f; // Example attack cooldown
     float exitTimer;
@@ -18,6 +19,7 @@ public class EnemyAttack : EnemyState
         this.enemy = enemy;
         this.enemyStateMachine = enemyStateMachine;
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        canSeeTarget = true;
     }
 
     public override void EnterState()
@@ -46,6 +48,11 @@ public class EnemyAttack : EnemyState
         else if(Vector3.Distance(enemy.transform.position, playerTransform.position) > distanceToCountExit)
         {
             exitTimer += Time.deltaTime;
+        }
+        if(!canSeeTarget)
+        {
+            enemy.currentTarget = null;
+            enemy.stateMachine.ChangeState(enemy.idleState);
         }
         else
         {
