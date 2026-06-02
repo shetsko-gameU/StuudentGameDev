@@ -25,7 +25,7 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
 
     public float randomMovementRange;
     public float randomMovementSpeed;
-    GameObject currentTarget;
+   public GameObject currentTarget;
 
     void Awake()
     {
