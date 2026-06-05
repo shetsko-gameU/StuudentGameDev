@@ -86,7 +86,7 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
     private void Subscribe()
     {
         if (subscribed || stats == null) return;
-        stats.OnDamaged += HandleDamaged;
+        stats.OnDamaged += HandlePlayerDamaged;
         subscribed = true;
         Debug.Log($"PassiveManager on '{name}': Subscribed to OnDamaged.");
     }
@@ -94,7 +94,7 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
     private void Unsubscribe()
     {
         if (!subscribed || stats == null) return;
-        stats.OnDamaged -= HandleDamaged;
+        stats.OnDamaged -= HandlePlayerDamaged;
         subscribed = false;
     }
 
@@ -381,7 +381,8 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
 
     // ------------------------------------------------------------------ On-hit handler
 
-    private void HandleDamaged(float finalDamage)
+    /// <summary>Fires when the PLAYER takes damage — applies on-hit food buffs and spawns.</summary>
+    private void HandlePlayerDamaged(float finalDamage)
     {
         if (stats == null) return;
 

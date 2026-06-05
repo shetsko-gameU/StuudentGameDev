@@ -112,6 +112,7 @@ public class ComboRunner : MonoBehaviour
                 inChainWindow = false;
                 currentHitIndex = 0;
                 chainTimer = 0f;
+                resetTriggers();
                 OnComboReset?.Invoke();
                 Debug.Log("ComboRunner: Chain window expired — combo reset.");
             }
@@ -168,8 +169,11 @@ public class ComboRunner : MonoBehaviour
         if (animator != null && !string.IsNullOrEmpty(hitData.animatorTrigger))
             animator.SetTrigger(hitData.animatorTrigger);
 
-        // Fire combo started event on the first hit
-        if (isFirst)
+        // Fire combo started event on the first hit.
+        // Guard: if this is also the last hit (single-hit combo) skip OnComboStarted
+        // so ComboPassiveTrigger doesn't apply first-hit passives AND last-hit passives
+        // in the same frame, which would double-apply any passive flagged for both.
+        if (isFirst && !isLast)
         {
             OnComboStarted?.Invoke();
             Debug.Log($"ComboRunner: Combo started — '{hitData.displayName}'");
@@ -181,6 +185,7 @@ public class ComboRunner : MonoBehaviour
             currentHitIndex = 0;
             inChainWindow = false;
             chainTimer = 0f;
+            resetTriggers();
         }
         else
         {
