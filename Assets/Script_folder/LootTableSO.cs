@@ -4,7 +4,18 @@ using UnityEngine;
 public class LootTableSO : ScriptableObject
 {
     [System.Serializable]
-    public class LootEntry
+    public class GuaranteedLootEntry
+    {
+        [Tooltip("Drag your pickup prefab from the Project window here (not from the scene).")]
+        public GameObject pickupPrefab;
+
+        [Min(1)]
+        [Tooltip("How many of this item to drop at once.")]
+        public int count = 1;
+    }
+
+    [System.Serializable]
+    public class RandomLootEntry
     {
         [Tooltip("Drag your pickup prefab from the Project window here (not from the scene).")]
         public GameObject pickupPrefab;
@@ -20,9 +31,9 @@ public class LootTableSO : ScriptableObject
 
     [Header("Always Drops")]
     [Tooltip("These items drop every single time the enemy dies.")]
-    public LootEntry[] guaranteedDrops;
+    public GuaranteedLootEntry[] guaranteedDrops;
 
     [Header("Random Drops")]
     [Tooltip("Each entry is rolled independently. Multiple can drop at once.")]
-    public LootEntry[] randomDrops;
+    public RandomLootEntry[] randomDrops;
 }

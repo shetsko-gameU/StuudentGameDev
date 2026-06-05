@@ -43,40 +43,40 @@ public class LootDropper : MonoBehaviour
 
         if (lootTable.guaranteedDrops != null)
         {
-            foreach (LootTableSO.LootEntry entry in lootTable.guaranteedDrops)
-                SpawnEntry(entry);
+            foreach (LootTableSO.GuaranteedLootEntry entry in lootTable.guaranteedDrops)
+                SpawnEntry(entry.pickupPrefab, entry.count);
         }
 
         if (lootTable.randomDrops != null)
         {
-            foreach (LootTableSO.LootEntry entry in lootTable.randomDrops)
+            foreach (LootTableSO.RandomLootEntry entry in lootTable.randomDrops)
             {
                 if (Random.value <= entry.dropChance)
-                    SpawnEntry(entry);
+                    SpawnEntry(entry.pickupPrefab, entry.count);
             }
         }
     }
 
-    private void SpawnEntry(LootTableSO.LootEntry entry)
+    private void SpawnEntry(GameObject pickupPrefab, int count)
     {
-        if (entry.pickupPrefab == null)
+        if (pickupPrefab == null)
         {
             Debug.LogWarning($"LootDropper on '{name}': A loot entry has no prefab assigned.");
             return;
         }
 
         // Validate the prefab has a ModifierPickup on it before spawning
-        if (entry.pickupPrefab.GetComponent<ModifierPickup>() == null)
+        if (pickupPrefab.GetComponent<ModifierPickup>() == null)
         {
-            Debug.LogWarning($"LootDropper on '{name}': Prefab '{entry.pickupPrefab.name}' " +
-                             "has no ModifierPickup component — skipping.");
+            Debug.LogWarning($"LootDropper on '{name}': Prefab '{pickupPrefab.name}' " +
+                             "has no ModifierPickup component â€” skipping.");
             return;
         }
 
-        for (int i = 0; i < entry.count; i++)
+        for (int i = 0; i < count; i++)
         {
             Vector3 spawnPos = GetScatteredPosition();
-            Instantiate(entry.pickupPrefab, spawnPos, Quaternion.identity);
+            Instantiate(pickupPrefab, spawnPos, Quaternion.identity);
         }
     }
 
