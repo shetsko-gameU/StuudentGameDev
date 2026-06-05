@@ -28,8 +28,6 @@ public class EnemyMove : EnemyState
     bool grounded;
     bool canSeeTarget;
     public float groundDrag;
-
-    Transform playerTransform;
     Transform targetTransform;
     Vector2 movevalue;
     Vector3 moveDir;
@@ -39,7 +37,6 @@ public class EnemyMove : EnemyState
     {
         this.enemy = enemy;
         this.enemyStateMachine = enemyStateMachine;
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         rb = enemy.GetComponent<Rigidbody>();
         targetTransform = enemy.currentTarget.transform;
         canSeeTarget = true;

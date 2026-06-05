@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyAttack : EnemyState
 {
-    Transform playerTransform;
+
     bool canSeeTarget;
     float timer;
     float timeBetweenAttacks = 1f; // Example attack cooldown
@@ -18,7 +18,6 @@ public class EnemyAttack : EnemyState
     {
         this.enemy = enemy;
         this.enemyStateMachine = enemyStateMachine;
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         canSeeTarget = true;
     }
 
@@ -34,7 +33,7 @@ public class EnemyAttack : EnemyState
         {
             OnAttack();
             timer = 0;
-            //Vector2 dir = (playerTransform.position - enemy.transform.position).normalized;
+            //Vector2 dir = (enemy.currentTarget.transform.position - enemy.transform.position).normalized;
         }
         //sets for enemies that can pivot around player
         else if (enemy.doesAttackPivot)
@@ -45,7 +44,7 @@ public class EnemyAttack : EnemyState
         {
             enemy.stateMachine.ChangeState(enemy.moveState);
         }
-        else if(Vector3.Distance(enemy.transform.position, playerTransform.position) > distanceToCountExit)
+        else if(Vector3.Distance(enemy.transform.position, enemy.currentTarget.transform.position) > distanceToCountExit)
         {
             exitTimer += Time.deltaTime;
         }
@@ -74,13 +73,13 @@ public class EnemyAttack : EnemyState
     void PivotAround()
     {
         // 1. Calculate random target at player distance
-        float distance = Vector3.Distance(enemy.transform.position, playerTransform.position);
+        float distance = Vector3.Distance(enemy.transform.position, enemy.currentTarget.transform.position);
         Vector3 randomOffset = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
-        pivotTarget = playerTransform.position + (randomOffset * distance);
+        pivotTarget = enemy.currentTarget.transform.position + (randomOffset * distance);
 
         // 2. Get vectors relative to the player pivot point
-        Vector3 currentDir = playerTransform.position - enemy.transform.position;
-        Vector3 targetDir = playerTransform.position - pivotTarget;
+        Vector3 currentDir = enemy.currentTarget.transform.position - enemy.transform.position;
+        Vector3 targetDir = enemy.currentTarget.transform.position - pivotTarget;
 
         // 3. Calculate the shortest signed angle
         float signedAngle = Vector3.SignedAngle(currentDir, targetDir, Vector3.up);
@@ -103,7 +102,7 @@ public class EnemyAttack : EnemyState
             float actualRotationStep = deltaAngle * angleDirection;
 
             // Execute rotation around player pivot
-            enemy.transform.RotateAround(playerTransform.position, Vector3.up, actualRotationStep);
+            enemy.transform.RotateAround(enemy.currentTarget.transform.position, Vector3.up, actualRotationStep);
             
             // Track progress using absolute values
             cumulativeRotation += deltaAngle;
