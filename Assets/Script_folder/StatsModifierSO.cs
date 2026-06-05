@@ -7,7 +7,8 @@ public enum StatType
     Defense,
     MoveSpeed,
     AttackSpeed,
-    DodgeChance, // 0 to 1 (so 0.15 = 15%)
+    DodgeChance,  // 0 to 1 (so 0.15 = 15%)
+    HealthSteal,  // 0 to 1 — fraction of damage dealt restored as health (so 0.20 = 20% lifesteal)
 }
 
 public enum ModifierMode

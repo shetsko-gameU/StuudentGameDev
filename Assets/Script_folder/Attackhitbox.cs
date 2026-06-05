@@ -1,12 +1,12 @@
 using UnityEngine;
 
 /// <summary>
-/// Place this on a child GameObject — your weapon, hand, or attack pivot point.
+/// Place this on a child GameObject ï¿½ your weapon, hand, or attack pivot point.
 /// Requires a BoxCollider on the same GameObject set to Is Trigger = ON.
 ///
 /// Can be triggered two ways:
-///   1. ComboRunner.FireHit() — enables for one frame automatically.
-///   2. AnimationEventRelay — enables/disables exactly when animation events fire.
+///   1. ComboRunner.FireHit() ï¿½ enables for one frame automatically.
+///   2. AnimationEventRelay ï¿½ enables/disables exactly when animation events fire.
 ///      Use option 2 for precise hit timing synced to your animation frames.
 /// </summary>
 [RequireComponent(typeof(BoxCollider))]
@@ -17,6 +17,12 @@ public class AttackHitbox : MonoBehaviour
 
     [HideInInspector]
     public BoxCollider boxCollider;
+
+    /// <summary>
+    /// The attacker's StatsManager. Used to apply HealthSteal when a hit lands.
+    /// Assign this to the player/enemy's own StatsManager in the Inspector or via ComboRunner.
+    /// </summary>
+    public StatsManager attackerStats;
 
     private float currentDamage;
 
@@ -33,8 +39,8 @@ public class AttackHitbox : MonoBehaviour
 
     /// <summary>
     /// Sets the damage value for the next hit.
-    /// ComboRunner calls this immediately when a hit is triggered — before
-    /// the animation event fires EnableHitbox — so the damage is ready.
+    /// ComboRunner calls this immediately when a hit is triggered ï¿½ before
+    /// the animation event fires EnableHitbox ï¿½ so the damage is ready.
     /// </summary>
     public void SetDamage(float damage)
     {
@@ -43,7 +49,7 @@ public class AttackHitbox : MonoBehaviour
 
     /// <summary>
     /// Enables the hitbox for one frame.
-    /// Used when not using animation events — ComboRunner calls this after hitCheckDelay.
+    /// Used when not using animation events ï¿½ ComboRunner calls this after hitCheckDelay.
     /// </summary>
     public void FireHit(float damage)
     {
@@ -81,7 +87,7 @@ public class AttackHitbox : MonoBehaviour
 
         if (enemyStats == null) return;
 
-        enemyStats.TakeDamage(currentDamage);
+        enemyStats.TakeDamage(currentDamage, attackerStats);
         Debug.Log($"AttackHitbox: Hit '{other.name}' for {currentDamage} damage.");
     }
 }
