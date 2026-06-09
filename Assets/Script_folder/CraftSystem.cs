@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class CraftSystem : MonoBehaviour
 {
     [Header("UI")]
@@ -141,6 +142,46 @@ public class CraftSystem : MonoBehaviour
         }
     }
 
+    public void ResetSlots()
+    {
+        primarySlot = null;
+        secondarySlot = null;
+
+        if (primaryUI?.slotImage != null)
+        {
+            primaryUI.slotImage.texture = null;
+            primaryUI.slotImage.enabled = false;
+        }
+
+        if (secondaryUI?.slotImage != null)
+        {
+            secondaryUI.slotImage.texture = null;
+            secondaryUI.slotImage.enabled = false;
+        }
+
+        if (resultSlotImage != null)
+        {
+            resultSlotImage.texture = null;
+            resultSlotImage.enabled = false;
+        }
+
+        if (playerInventory != null)
+        {
+            foreach (RawImage rawImage in playerInventory.UISlots)
+            {
+                if (rawImage == null) continue;
+                DraggableInventorySlotUI slot = rawImage.GetComponent<DraggableInventorySlotUI>();
+                if (slot == null) continue;
+
+                slot.craftInSlot = false;
+                slot.dragIconImage.color = Color.white;
+                slot.dragIconImage.raycastTarget = true;
+                slot.removed = false;
+            }
+        }
+
+        RefreshUI();
+    }
     public void RefreshAfterCraft()
     {
         if (primaryUI?.slotImage != null) primaryUI.slotImage.enabled = false;

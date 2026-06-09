@@ -15,10 +15,10 @@ public class CraftDropSlotUI : MonoBehaviour, IDropHandler
 
     public void Awake()
     {
-        craftSystem = FindAnyObjectByType<CraftSystem>();
-
-
+      craftSystem = FindAnyObjectByType<CraftSystem>();
     }
+
+
     public void OnDrop(PointerEventData eventData)
     {
         var dragged = eventData.pointerDrag;
