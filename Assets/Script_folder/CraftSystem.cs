@@ -144,23 +144,42 @@ public class CraftSystem : MonoBehaviour
 
     public void ResetSlots()
     {
-        primarySlot = null; secondarySlot = null;
-        primaryUI.slotImage.texture = null; secondaryUI.slotImage.texture = null;
-        primaryUI.slotImage.enabled = false; secondaryUI.slotImage.enabled = false;
-        resultSlotImage.texture = null; resultSlotImage.enabled = false;
-        System.Collections.IList list = playerInventory.UISlots;
-        for (int i = 0; i < list.Count; i++)
+        primarySlot = null;
+        secondarySlot = null;
+
+        if (primaryUI?.slotImage != null)
         {
-            Image item = (Image)list[i];
-            DraggableInventorySlotUI ItemSlot = item.GetComponent<DraggableInventorySlotUI>();
-            ItemSlot.craftInSlot = false;
-            ItemSlot.dragIconImage.color = Color.white;
-            ItemSlot.dragIconImage.raycastTarget = true;
-            ItemSlot.removed = false;
-
-
-
+            primaryUI.slotImage.texture = null;
+            primaryUI.slotImage.enabled = false;
         }
+
+        if (secondaryUI?.slotImage != null)
+        {
+            secondaryUI.slotImage.texture = null;
+            secondaryUI.slotImage.enabled = false;
+        }
+
+        if (resultSlotImage != null)
+        {
+            resultSlotImage.texture = null;
+            resultSlotImage.enabled = false;
+        }
+
+        if (playerInventory != null)
+        {
+            foreach (RawImage rawImage in playerInventory.UISlots)
+            {
+                if (rawImage == null) continue;
+                DraggableInventorySlotUI slot = rawImage.GetComponent<DraggableInventorySlotUI>();
+                if (slot == null) continue;
+
+                slot.craftInSlot = false;
+                slot.dragIconImage.color = Color.white;
+                slot.dragIconImage.raycastTarget = true;
+                slot.removed = false;
+            }
+        }
+
         RefreshUI();
     }
     public void RefreshAfterCraft()
