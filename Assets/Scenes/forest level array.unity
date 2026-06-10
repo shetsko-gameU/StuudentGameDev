@@ -16249,6 +16249,18 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 4b3580d4-6907-4581-9c05-bca4e9ae0816
     m_ActionName: 'Player/Abilty1[/Keyboard/r]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7ce3400e-7a5c-42a2-94ed-364299ef5b58
+    m_ActionName: 'Player/EatSlot1[/Keyboard/1]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5512d586-007e-43db-9ad7-9a7939147cd5
+    m_ActionName: 'Player/EatSlot2[/Keyboard/2]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8e02618a-3f78-45fe-b2c7-3ed161f05547
+    m_ActionName: 'Player/EatSlot3[/Keyboard/3]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
@@ -16454,7 +16466,7 @@ MonoBehaviour:
   hitbox: {fileID: 2076009536}
   animator: {fileID: 2032672168}
   combo: {fileID: 11400000, guid: 01da37efdcc35844b91c272cc519c103, type: 2}
-  useAnimationEvents: 1
+  useAnimationEvents: 0
 --- !u!114 &2032672178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16786,6 +16798,18 @@ MonoBehaviour:
     m_Bits: 8
   boxCollider: {fileID: 0}
   attackerStats: {fileID: 2032672166}
+--- !u!114 &2076009540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2076009535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 609fc4c020a73be48a9dc538ef0b8076, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationEventRelay
 --- !u!1001 &2078325743
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16869,6 +16893,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4495146591024385046, guid: 76fb44b93627b0f42ad7a0e36cac079d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2076009536}
+    - targetCorrespondingSourceObject: {fileID: 4495146591024385046, guid: 76fb44b93627b0f42ad7a0e36cac079d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2076009540}
   m_SourcePrefab: {fileID: 100100000, guid: 76fb44b93627b0f42ad7a0e36cac079d, type: 3}
 --- !u!1001 &2078788436
 PrefabInstance:

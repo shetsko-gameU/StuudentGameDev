@@ -15,6 +15,6 @@ MonoBehaviour:
   hits:
   - displayName: slash
     damageMultiplier: 1
-    chainWindowSeconds: 0
-    hitCheckDelay: 0
+    chainWindowSeconds: 0.5
+    hitCheckDelay: 2
     animatorTrigger: Attack
