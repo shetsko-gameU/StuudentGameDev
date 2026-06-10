@@ -6,6 +6,7 @@ public class EnemyIdle : EnemyState
     public float sightRange;
     public Vector3 targetPosition;
     public Vector3 direction;
+    public 
     public EnemyIdle(EnemyBase enemy, EnemyStateMachine enemyStateMachine)
     {
         this.enemy = enemy;
@@ -31,7 +32,8 @@ public class EnemyIdle : EnemyState
         {
             targetPosition = GetRandomPointInRadius();
         }
-        CheckLineOfSite();
+        //CheckLineOfSite();
+        CheckDistance();
     }
     
     Vector3 GetRandomPointInRadius()
@@ -56,6 +58,16 @@ public class EnemyIdle : EnemyState
                     return;
                 }
             }
+        }
+    }
+    void CheckDistance()
+    {
+        float distanceFromTarget = Vector3.Distance(enemy.transform.position, enemy.currentTarget.transform.position);
+        if(distanceFromTarget <= enemy.isWithinRange)
+        {
+            enemy.currentTarget = hit.collider.gameObject;
+            enemy.isAggroed = true;
+            return;
         }
     }
 }

@@ -26,6 +26,7 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     public float randomMovementRange;
     public float randomMovementSpeed;
    public GameObject currentTarget;
+   GameObject dummyTarget;
 
     void Awake()
     {
@@ -35,6 +36,7 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
         // Create constructed state instances
         attackState = new EnemyAttack(this, stateMachine);
         moveState = new EnemyMove(this, stateMachine);
+        dummyTarget = GameObject.FindWithTag("Dummy");
     }
 
 
@@ -107,11 +109,19 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     {
         this.isWithinRange = isWithinRange;
     }
+    public void CanBeTricked()
+    {
+        if(CompareTag(currentTarget) == "Player" && Vector3.Distance(transform.position, dummyTarget.transform.position) <= isWithinRange)
+        {
+            currentTarget = dummyTarget;
+        }
+    }
     /*public void OnMove(InputAction.CallbackContext context)
     {
         movevalue = context.ReadValue<Vector2>();
         if (movevalue.magnitude != 0)
         {
+
         }
     }*/
 }
