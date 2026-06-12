@@ -3,10 +3,9 @@ using System.Collections.Generic;
 public class EnemyIdle : EnemyState
 {
     public List<Transform> raycastPoints;
-    public float sightRange;
+
     public Vector3 targetPosition;
     public Vector3 direction;
-    public 
     public EnemyIdle(EnemyBase enemy, EnemyStateMachine enemyStateMachine)
     {
         this.enemy = enemy;
@@ -49,7 +48,7 @@ public class EnemyIdle : EnemyState
         foreach(Transform point in raycastPoints)
         {
             //checks if enemy detects an object
-            if(Physics.Raycast(point.position, point.forward, out hit, sightRange))
+            if(Physics.Raycast(point.position, point.forward, out hit, enemy.sightRange))
             {
                 if(hit.collider.gameObject.CompareTag("Player") || hit.collider.gameObject.CompareTag("Dummy"))
                 {
@@ -62,12 +61,13 @@ public class EnemyIdle : EnemyState
     }
     void CheckDistance()
     {
-        float distanceFromTarget = Vector3.Distance(enemy.transform.position, enemy.currentTarget.transform.position);
-        if(distanceFromTarget <= enemy.isWithinRange)
+        Collider[] hitColliders = Physics.OverlapSphere(enemy.transform.position, enemy.sightRange);
+        foreach (var hitCollider in hitColliders)
         {
-            enemy.currentTarget = hit.collider.gameObject;
-            enemy.isAggroed = true;
-            return;
+            if(hitCollider.gameObject.CompareTag("Dummy") || hitCollider.gameObject.CompareTag("Player"))
+            {
+                enemy.currentTarget = hitCollider.gameObject;
+            }
         }
     }
 }

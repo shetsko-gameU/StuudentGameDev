@@ -11,6 +11,8 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     public Animator animator;
     public List<Transform> raycasts;
     public bool doesAttackPivot;
+
+    public float sightRange;
     //Vector3 moveValue;
 
     // TriggerCheck implementation
@@ -26,7 +28,7 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     public float randomMovementRange;
     public float randomMovementSpeed;
    public GameObject currentTarget;
-   GameObject dummyTarget;
+
 
     void Awake()
     {
@@ -36,7 +38,7 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
         // Create constructed state instances
         attackState = new EnemyAttack(this, stateMachine);
         moveState = new EnemyMove(this, stateMachine);
-        dummyTarget = GameObject.FindWithTag("Dummy");
+        
     }
 
 
@@ -55,6 +57,7 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     void FixedUpdate()
     {
         stateMachine?.CurrentEnemyState?.PhysicsUpdate();
+        CheckForDummy();
     }
     public enum AnimationTriggerType
     {
@@ -100,21 +103,26 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     {
         moveState.rb.linearVelocity = velocity;
     }
-    public void setAggroStatus(bool isAggroed)
+    public void SetAggroStatus(bool isAggroed)
     {
         this.isAggroed = isAggroed;
     }
 
-    public void setRangeBool(bool isWithinRange)
+    public void SetRangeBool(bool isWithinRange)
     {
         this.isWithinRange = isWithinRange;
     }
-    public void CanBeTricked()
+    public void CheckForDummy()
     {
-        if(CompareTag(currentTarget) == "Player" && Vector3.Distance(transform.position, dummyTarget.transform.position) <= isWithinRange)
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, sightRange);
+        foreach (var hitCollider in hitColliders)
         {
-            currentTarget = dummyTarget;
+            if(hitCollider.gameObject.CompareTag("Dummy"))
+            {
+                currentTarget = hitCollider.gameObject;
+            }
         }
+        
     }
     /*public void OnMove(InputAction.CallbackContext context)
     {
