@@ -87,8 +87,14 @@ public class ComboRunner : MonoBehaviour
         if (stats == null)
             stats = GetComponent<StatsManager>();
 
+        if (animator == null)
+            animator = GetComponentInChildren<Animator>();
+
         if (stats == null)
             Debug.LogError($"ComboRunner on '{name}': No StatsManager found.");
+
+        if (animator == null)
+            Debug.LogError($"ComboRunner on '{name}': No Animator found — assign it in the Inspector or add an Animator component to this GameObject.");
 
         if (hitbox == null)
             Debug.LogError($"ComboRunner on '{name}': No AttackHitbox assigned.");
@@ -185,7 +191,6 @@ public class ComboRunner : MonoBehaviour
             currentHitIndex = 0;
             inChainWindow = false;
             chainTimer = 0f;
-            resetTriggers();
         }
         else
         {
@@ -218,6 +223,7 @@ public class ComboRunner : MonoBehaviour
 
         if (isLast)
         {
+            resetTriggers();
             OnComboFinished?.Invoke();
             Debug.Log($"ComboRunner: Combo finished — last hit '{hitData.displayName}' dealt {damage} damage.");
         }

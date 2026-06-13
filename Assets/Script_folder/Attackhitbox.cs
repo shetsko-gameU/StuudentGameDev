@@ -1,13 +1,12 @@
+using System;
 using UnityEngine;
 
 /// <summary>
-/// Place this on a child GameObject � your weapon, hand, or attack pivot point.
+/// Place this on a child GameObject — your weapon, hand, or attack pivot point.
 /// Requires a BoxCollider on the same GameObject set to Is Trigger = ON.
 ///
-/// Can be triggered two ways:
-///   1. ComboRunner.FireHit() � enables for one frame automatically.
-///   2. AnimationEventRelay � enables/disables exactly when animation events fire.
-///      Use option 2 for precise hit timing synced to your animation frames.
+/// Animation events (via AnimationEventRelay) call SetActive(true/false) to control
+/// exactly which frames the hitbox is live, synced to the sword swing.
 /// </summary>
 [RequireComponent(typeof(BoxCollider))]
 public class AttackHitbox : MonoBehaviour
@@ -23,6 +22,19 @@ public class AttackHitbox : MonoBehaviour
     /// Assign this to the player/enemy's own StatsManager in the Inspector or via ComboRunner.
     /// </summary>
     public StatsManager attackerStats;
+
+    /// <summary>
+    /// The ComboRunner on the player root. Used to read IsFirstHit / IsLastHit
+    /// so passives know which hit type connected.
+    /// </summary>
+    public ComboRunner comboRunner;
+
+    /// <summary>
+    /// Fires when the hitbox actually touches an enemy.
+    /// bool isFirstHit, bool isLastHit.
+    /// ComboPassiveTrigger subscribes to this to fire passives only on real contact.
+    /// </summary>
+    public event Action<bool, bool> OnEnemyHit;
 
     private float currentDamage;
 
@@ -89,5 +101,11 @@ public class AttackHitbox : MonoBehaviour
 
         enemyStats.TakeDamage(currentDamage, attackerStats);
         Debug.Log($"AttackHitbox: Hit '{other.name}' for {currentDamage} damage.");
+
+        // Notify listeners (e.g. ComboPassiveTrigger) that a hit actually landed.
+        // Passives only fire on real enemy contact, not on a miss.
+        bool isFirst = comboRunner != null && comboRunner.IsFirstHit;
+        bool isLast  = comboRunner != null && comboRunner.IsLastHit;
+        OnEnemyHit?.Invoke(isFirst, isLast);
     }
 }

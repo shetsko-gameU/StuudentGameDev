@@ -21,15 +21,17 @@ public class AnimationEventRelay : MonoBehaviour
 
     private void Awake()
     {
-        // Look up to the parent for ComboRunner
         comboRunner = GetComponentInParent<ComboRunner>();
-        hitbox = GetComponentInParent<AttackHitbox>();
 
         if (comboRunner == null)
-            Debug.LogError($"AnimationEventRelay on '{name}': No ComboRunner found in parent.");
+            Debug.LogError($"AnimationEventRelay on '{name}': No ComboRunner found.");
+
+        // The hitbox is on the Warrior Blade (a child), not a parent — can't use
+        // GetComponentInParent. Pull the reference from ComboRunner instead.
+        hitbox = comboRunner != null ? comboRunner.hitbox : null;
 
         if (hitbox == null)
-            Debug.LogError($"AnimationEventRelay on '{name}': No AttackHitbox found in parent.");
+            Debug.LogError($"AnimationEventRelay on '{name}': No AttackHitbox found — make sure ComboRunner has its Hitbox field assigned in the Inspector.");
     }
 
     // ------------------------------------------------------------------ Animation Event methods
