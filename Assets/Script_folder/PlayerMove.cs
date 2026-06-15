@@ -58,7 +58,7 @@ public class PlayerMove : MonoBehaviour
         }
 
         isMoving = moveInput.magnitude > 0.25f;
-        animator.SetBool("isMoving", isMoving);
+       // animator.SetBool("isMoving", isMoving);
 
         // Clamp horizontal speed to MoveSpeed from stats
         Vector3 horizontalVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
@@ -72,7 +72,7 @@ public class PlayerMove : MonoBehaviour
         if (!isMoving)
             rb.AddForce(-rb.linearVelocity * haltSpeed);
 
-        objectAnimator.SetFloat("FaceDirection", moveDir.x);
+       // objectAnimator.SetFloat("FaceDirection", moveDir.x);
     }
 
     public void OnMove(InputAction.CallbackContext context)
