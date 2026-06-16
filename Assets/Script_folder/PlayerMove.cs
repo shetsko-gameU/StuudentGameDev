@@ -45,16 +45,19 @@ public class PlayerMove : MonoBehaviour
         // Modifiers add to or multiply it directly — no extra multiplier gymnastics needed.
         float maxSpeed = (stats != null) ? stats.MoveSpeed : 5f;
 
-        moveDir = transform.forward * moveInput.y + transform.right * moveInput.x;
-        rb.AddForce(moveDir * acceleration);
+        // moveDir = transform.forward * moveInput.y + transform.right * moveInput.x;
+        moveDir = new Vector3(moveInput.x, 0, moveInput.y);
+        rb.AddForce(moveDir * acceleration * -1);
 
         // Rotate model to face movement direction
-        if (moveInput.magnitude > 0f && moveDir.sqrMagnitude > 0.001f)
+        if (moveInput.magnitude > .1f /*&& moveDir.sqrMagnitude > 0.001f*/)
         {
-            playerModel.rotation = Quaternion.Slerp(
+            transform.forward = Vector3.MoveTowards(transform.forward, moveDir * -1, modelRotateSpeed);
+          /*  playerModel.rotation = Quaternion.Slerp(
                 playerModel.rotation,
                 Quaternion.LookRotation(moveDir),
-                modelRotateSpeed * Time.deltaTime);
+                modelRotateSpeed * Time.deltaTime);*/
+
         }
 
         isMoving = moveInput.magnitude > 0.25f;
