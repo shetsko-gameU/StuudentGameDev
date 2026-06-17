@@ -2211,7 +2211,15 @@ MonoBehaviour:
   foodPassives:
   - foodItem: {fileID: 11400000, guid: bd0103477b6764948aba906f016b3c5f, type: 2}
     passive: {fileID: 11400000, guid: 910d20e16e75a7241a1a38eb87172539, type: 2}
-  foodStatBoosts: []
+  foodStatBoosts:
+  - foodItem: {fileID: 11400000, guid: 486472de64dc9c1498b688c2074c11a7, type: 2}
+    statPassive: {fileID: 11400000, guid: 275f5295a210bd44cbe7480e25c869b5, type: 2}
+  - foodItem: {fileID: 11400000, guid: 2ea57de77e249bd4b8e85c46197268f1, type: 2}
+    statPassive: {fileID: 11400000, guid: 8e34ef6aeccffeb4a9199fbd859a3d7d, type: 2}
+  - foodItem: {fileID: 11400000, guid: 324dd8acb0e5f89418042d89566a689a, type: 2}
+    statPassive: {fileID: 11400000, guid: 255978eb1c8986044b996961eb0722b8, type: 2}
+  - foodItem: {fileID: 11400000, guid: f53c8c2199419d9408cba9713096cbb1, type: 2}
+    statPassive: {fileID: 11400000, guid: 0817d27d0721c2842850e1a8debd8be9, type: 2}
 --- !u!114 &1430486907
 MonoBehaviour:
   m_ObjectHideFlags: 0
