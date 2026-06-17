@@ -21,6 +21,7 @@ public class CraftSystem : MonoBehaviour
 
     [Header("Recipes")]
     public CraftRecipeSO[] recipes;
+    public RarityRecipeSO[] rarityRecipes;
 
     [Header("State")]
     public bool NearCraftPot;
@@ -88,35 +89,66 @@ public class CraftSystem : MonoBehaviour
     {
         if (playerInventory == null) return;
 
+        // Try exact recipe first
         CraftRecipeSO recipe = FindMatch();
-        if (recipe == null)
+        if (recipe != null)
         {
-            Debug.Log("No matching recipe.");
+            playerInventory.RemoveSO(recipe.primary);
+            if (recipe.secondary != null)
+                playerInventory.RemoveSO(recipe.secondary);
+            playerInventory.AddSO(recipe.result);
+            primarySlot = null;
+            secondarySlot = null;
+            RefreshAfterCraft();
             return;
         }
 
-        playerInventory.RemoveSO(recipe.primary);
+        // Try rarity recipe — roll output rarity, then pick matching SO
+        RarityRecipeSO rarityRecipe = FindRarityMatch();
+        if (rarityRecipe != null)
+        {
+            Rarity primaryRarity  = primarySlot != null  ? primarySlot.rarity  : Rarity.Common;
+            Rarity secondaryRarity = secondarySlot != null ? secondarySlot.rarity : primaryRarity;
 
-        if (recipe.secondary != null)
-            playerInventory.RemoveSO(recipe.secondary);
+            Rarity outputRarity = RarityRecipeSO.RollOutputRarity(primaryRarity, secondaryRarity);
+            StatsModifierSO result = rarityRecipe.GetResult(outputRarity);
 
-        playerInventory.AddSO(recipe.result);
+            if (result == null)
+            {
+                Debug.LogWarning($"CraftSystem: RarityRecipe '{rarityRecipe.name}' produced no result for {outputRarity}.");
+                return;
+            }
 
-        primarySlot = null;
-        secondarySlot = null;
+            Debug.Log($"CraftSystem: Rarity roll — {primaryRarity} + {secondaryRarity} → {outputRarity} ({result.displayName})");
 
-        RefreshAfterCraft();
+            playerInventory.RemoveSO(primarySlot);
+            if (secondarySlot != null)
+                playerInventory.RemoveSO(secondarySlot);
+            playerInventory.AddSO(result);
+            primarySlot = null;
+            secondarySlot = null;
+            RefreshAfterCraft();
+            return;
+        }
+
+        Debug.Log("No matching recipe.");
     }
 
     private CraftRecipeSO FindMatch()
     {
         if (recipes == null) return null;
-
         foreach (var r in recipes)
-        {
             if (r != null && r.Matches(primarySlot, secondarySlot))
                 return r;
-        }
+        return null;
+    }
+
+    private RarityRecipeSO FindRarityMatch()
+    {
+        if (rarityRecipes == null) return null;
+        foreach (var r in rarityRecipes)
+            if (r != null && r.Matches(primarySlot, secondarySlot))
+                return r;
         return null;
     }
 
@@ -129,17 +161,29 @@ public class CraftSystem : MonoBehaviour
 
         if (resultSlotImage == null) return;
 
+        // Exact recipe match
         CraftRecipeSO match = FindMatch();
-        bool showResult = (primarySlot != null) && (secondarySlot != null)
-                                   && (match != null) && (match.result != null);
-
-        resultSlotImage.enabled = showResult;
-
-        if (showResult)
+        if (match != null && match.result != null)
         {
-            // Changed from .sprite to .texture
+            resultSlotImage.enabled = true;
             resultSlotImage.texture = match.result.Image;
+            return;
         }
+
+        // Rarity recipe match — preview the best possible (higher rarity) result
+        RarityRecipeSO rarityMatch = FindRarityMatch();
+        if (rarityMatch != null && primarySlot != null)
+        {
+            Rarity secondaryRarity = secondarySlot != null ? secondarySlot.rarity : primarySlot.rarity;
+            Rarity higher = (Rarity)Mathf.Max((int)primarySlot.rarity, (int)secondaryRarity);
+            StatsModifierSO preview = rarityMatch.GetResult(higher);
+            resultSlotImage.enabled = preview != null;
+            if (preview != null) resultSlotImage.texture = preview.Image;
+            return;
+        }
+
+        resultSlotImage.enabled = false;
+        resultSlotImage.texture = null;
     }
 
     public void ResetSlots()
