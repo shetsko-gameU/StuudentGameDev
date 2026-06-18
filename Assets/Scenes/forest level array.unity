@@ -3558,6 +3558,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 4564823801684749486, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
+      propertyPath: craftSystem
+      value: 
+      objectReference: {fileID: 2032672175}
     - target: {fileID: 5572548466095695212, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -3630,6 +3634,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 9182679560067676829, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
+      propertyPath: craftSystem
+      value: 
+      objectReference: {fileID: 2032672175}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7612,7 +7620,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1516883072817327239, guid: 01728885e863f7e468c8874847bdf5bf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1198921472}
   m_SourcePrefab: {fileID: 100100000, guid: 01728885e863f7e468c8874847bdf5bf, type: 3}
 --- !u!1001 &1041297266
 PrefabInstance:
@@ -9384,6 +9395,32 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a887efcb2bf323845b9beffb04b09e29, type: 3}
+--- !u!1 &1198921471 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1516883072817327239, guid: 01728885e863f7e468c8874847bdf5bf, type: 3}
+  m_PrefabInstance: {fileID: 1037280427}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &1198921472
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1198921471}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1204357967
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16472,15 +16509,51 @@ MonoBehaviour:
     m_ActionId: 4b3580d4-6907-4581-9c05-bca4e9ae0816
     m_ActionName: 'Player/Abilty1[/Keyboard/r]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2032672179}
+        m_TargetAssemblyTypeName: PlayerConsume, Assembly-CSharp
+        m_MethodName: EatFoodAtIndex
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 7ce3400e-7a5c-42a2-94ed-364299ef5b58
     m_ActionName: 'Player/EatSlot1[/Keyboard/1]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2032672164}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 5512d586-007e-43db-9ad7-9a7939147cd5
     m_ActionName: 'Player/EatSlot2[/Keyboard/2]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2032672164}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 8e02618a-3f78-45fe-b2c7-3ed161f05547
     m_ActionName: 'Player/EatSlot3[/Keyboard/3]'
   - m_PersistentCalls:
@@ -18069,6 +18142,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5733561176354500042, guid: cd916b1695bbab74caae4350cf0a8ea5, type: 3}
+      propertyPath: modifierTemplate
+      value: 
+      objectReference: {fileID: 11400000, guid: 7621c14d7512c3440aacf8b0ace57eb7, type: 2}
     - target: {fileID: 7277300781036928984, guid: cd916b1695bbab74caae4350cf0a8ea5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 167.42
