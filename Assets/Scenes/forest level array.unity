@@ -12719,6 +12719,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6f45d36f35791e148ab3e98354fe20b6, type: 3}
   m_PrefabInstance: {fileID: 1606182807}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1610586954
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5001629584986424403, guid: dc4da8c1f60938d4b8558531ab7402b7, type: 3}
+      propertyPath: m_Name
+      value: FoodPrefabs
+      objectReference: {fileID: 0}
+    - target: {fileID: 5908995974851866524, guid: dc4da8c1f60938d4b8558531ab7402b7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 191.29593
+      objectReference: {fileID: 0}
+    - target: {fileID: 5908995974851866524, guid: dc4da8c1f60938d4b8558531ab7402b7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 5908995974851866524, guid: dc4da8c1f60938d4b8558531ab7402b7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 213.30782
+      objectReference: {fileID: 0}
+    - target: {fileID: 5908995974851866524, guid: dc4da8c1f60938d4b8558531ab7402b7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5908995974851866524, guid: dc4da8c1f60938d4b8558531ab7402b7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5908995974851866524, guid: dc4da8c1f60938d4b8558531ab7402b7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5908995974851866524, guid: dc4da8c1f60938d4b8558531ab7402b7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5908995974851866524, guid: dc4da8c1f60938d4b8558531ab7402b7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5908995974851866524, guid: dc4da8c1f60938d4b8558531ab7402b7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5908995974851866524, guid: dc4da8c1f60938d4b8558531ab7402b7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dc4da8c1f60938d4b8558531ab7402b7, type: 3}
 --- !u!1001 &1613917810
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16386,7 +16443,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2032672175}
         m_TargetAssemblyTypeName: CraftSystem, Assembly-CSharp
-        m_MethodName: Craft
+        m_MethodName: OpenCraftMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16612,7 +16669,7 @@ MonoBehaviour:
   primarySlot: {fileID: 0}
   secondarySlot: {fileID: 0}
   recipes:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: ee103aa8d6e9b8042bbe0321328d46e8, type: 2}
   NearCraftPot: 0
 --- !u!114 &2032672176
 MonoBehaviour:
@@ -16671,7 +16728,9 @@ MonoBehaviour:
   stats: {fileID: 2032672166}
   passiveManager: {fileID: 2032672182}
   foodPassives: []
-  foodStatBoosts: []
+  foodStatBoosts:
+  - foodItem: {fileID: 11400000, guid: bfea8cffb2d7dae41812a587b52c29ae, type: 2}
+    statPassive: {fileID: 11400000, guid: 8cc14eb9eb227c346bf1b6ffebd284f5, type: 2}
 --- !u!114 &2032672180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18147,3 +18206,4 @@ SceneRoots:
   - {fileID: 5512368059077252269}
   - {fileID: 1037280427}
   - {fileID: 90426420}
+  - {fileID: 1610586954}
