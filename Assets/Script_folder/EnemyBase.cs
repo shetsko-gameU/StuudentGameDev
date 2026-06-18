@@ -27,6 +27,7 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
 
     public float randomMovementRange;
     public float randomMovementSpeed;
+    public bool canFly;
    public GameObject currentTarget;
 
 
