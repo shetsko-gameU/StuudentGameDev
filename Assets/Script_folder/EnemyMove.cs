@@ -72,7 +72,7 @@ public class EnemyMove : EnemyState
             enemy.currentTarget = null;
             enemy.stateMachine.ChangeState(enemy.idleState);
         }
-        DetectObstacles();
+        DetectAndAvoidObstacles();
         
     }
 
@@ -135,7 +135,7 @@ public class EnemyMove : EnemyState
     void DetectAndAvoidObstacles()
     {
          // 1. Calculate direction to the target on the flat ground plane
-        Vector3 targetDirection = enemy.currentTarget.position - enemy.transform.position;
+        Vector3 targetDirection = enemy.currentTarget.transform.position - enemy.transform.position;
         if(!enemy.canFly)
             targetDirection.y = 0; // Lock vertical movement
         targetDirection.Normalize();
