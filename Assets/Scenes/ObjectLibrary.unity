@@ -27009,6 +27009,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3949365410786006241, guid: d728d5054522f1948b5c0fe3b6a99a94, type: 3}
   m_PrefabInstance: {fileID: 5007047123712912218}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2115773888
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: a1cd92ae89a8e0c44a30d0ad7d16e7ac, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 19.612766
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a1cd92ae89a8e0c44a30d0ad7d16e7ac, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 27.755861
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a1cd92ae89a8e0c44a30d0ad7d16e7ac, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -116.09998
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a1cd92ae89a8e0c44a30d0ad7d16e7ac, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a1cd92ae89a8e0c44a30d0ad7d16e7ac, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 6.122683e-17
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a1cd92ae89a8e0c44a30d0ad7d16e7ac, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.000090226524
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a1cd92ae89a8e0c44a30d0ad7d16e7ac, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 6.1237895e-17
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a1cd92ae89a8e0c44a30d0ad7d16e7ac, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a1cd92ae89a8e0c44a30d0ad7d16e7ac, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a1cd92ae89a8e0c44a30d0ad7d16e7ac, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a1cd92ae89a8e0c44a30d0ad7d16e7ac, type: 3}
+      propertyPath: m_Name
+      value: church roof
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a1cd92ae89a8e0c44a30d0ad7d16e7ac, type: 3}
 --- !u!1001 &62395857142086563
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32578,3 +32635,4 @@ SceneRoots:
   - {fileID: 250904522}
   - {fileID: 1768713722}
   - {fileID: 375349169}
+  - {fileID: 2115773888}
