@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 75832022290bb1543b8c1eec1cf71782, type: 2}
+  - {fileID: 2100000, guid: 7eda90a5f6b70b444a30c663e79fad82, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -120,11 +120,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5908995974851866524}
-  - component: {fileID: 2591852424203654652}
   - component: {fileID: 8896205824841896493}
   - component: {fileID: -5409596242400119244}
+  - component: {fileID: -8597693838847395671}
   m_Layer: 0
-  m_Name: FoodPrefabs
+  m_Name: CoinsPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -146,22 +146,6 @@ Transform:
   - {fileID: 8866875657605261848}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2591852424203654652
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5001629584986424403}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d048aa0fa3103e4db274dfcbc058715, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ModifierPickup
-  modifierTemplate: {fileID: 0}
-  Name: FoodName
-  ItemId: 1
-  Image: {fileID: 0}
 --- !u!54 &8896205824841896493
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -210,3 +194,17 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-8597693838847395671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5001629584986424403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd4f881a067350e45b50964bab15284d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CurrencyPickup
+  currency: {fileID: 11400000, guid: 8b34e4ecd40392647b335a5fece60f37, type: 2}
+  amount: 1
