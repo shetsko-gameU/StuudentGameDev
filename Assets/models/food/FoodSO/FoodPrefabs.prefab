@@ -161,7 +161,8 @@ MonoBehaviour:
   modifierTemplate: {fileID: 11400000, guid: 25c70f6eab89c684aae37e6e0e89d56c, type: 2}
   Name: FoodName
   ItemId: 1
-  Image: {fileID: 2800000, guid: 20ce122dd00e52f4ea9ad37af7ed4a87, type: 3}
+  Image: {fileID: 0}
+  RenderTexture: {fileID: 8400000, guid: 5f0de016f20776640a9601512dd344e7, type: 2}
 --- !u!54 &8896205824841896493
 Rigidbody:
   m_ObjectHideFlags: 0

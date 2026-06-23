@@ -42,10 +42,10 @@ public class DraggableInventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragH
     }
 
     // Changed return type from Sprite to Texture2D
-    public Texture2D GetIcon()
+    public RenderTexture GetIcon()
     {
         var item = GetItem();
-        return item != null ? item.Image : null;
+        return item != null ? item.renderTexture : null;
     }
 
     // ------------------------------------------------------------------ Drag events
