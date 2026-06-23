@@ -2268,6 +2268,7 @@ GameObject:
   - component: {fileID: 1430486909}
   - component: {fileID: 1430486910}
   - component: {fileID: 1430486911}
+  - component: {fileID: 1430486912}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -2836,6 +2837,11 @@ MonoBehaviour:
   animator: {fileID: 1430486898}
   combo: {fileID: 11400000, guid: 04c7388e1fae8b140b3c75627c6c6348, type: 2}
   useAnimationEvents: 0
+  currentHitIndex: 0
+  chainTimer: 0
+  inChainWindow: 0
+  hitActive: 0
+  attackBuffered: 0
 --- !u!114 &1430486910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2865,6 +2871,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CurrencyTracker
   trackedTypes: []
   amounts: 
+--- !u!114 &1430486912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430486891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63bff757dc20c0846beee9ea14ccd6b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDeathHandler
+  stats: {fileID: 0}
+  playerMove: {fileID: 0}
+  comboRunner: {fileID: 0}
+  abilityRunner: {fileID: 0}
+  passiveManager: {fileID: 0}
+  comboPassiveTrigger: {fileID: 0}
+  animator: {fileID: 1430486898}
+  deathAnimatorTrigger: Death
+  deathScreenDelay: 1.5
+  deathScreenPanel: {fileID: 0}
+  mainMenuSceneName: MainMenu
 --- !u!1 &1449615630 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1634134886320640399, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
