@@ -21,11 +21,13 @@ public class PlayerMove : MonoBehaviour
     public float playerHeight;
     public LayerMask isGround;
     public float groundDrag;
+    public GameObject Cam;
 
     private bool isMoving;
     private bool grounded;
     private Vector2 moveInput;
     private Vector3 moveDir;
+
 
     private void Start()
     {
@@ -46,7 +48,8 @@ public class PlayerMove : MonoBehaviour
         float maxSpeed = (stats != null) ? stats.MoveSpeed : 5f;
 
         // moveDir = transform.forward * moveInput.y + transform.right * moveInput.x;
-        moveDir = new Vector3(moveInput.x, 0, moveInput.y);
+        moveDir = -moveInput.x * Cam.transform.right + -moveInput.y * Cam.transform.forward;
+        moveDir = new Vector3 (moveDir.x, 0, moveDir.z);
         rb.AddForce(moveDir * acceleration * -1);
 
         // Rotate model to face movement direction
