@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
@@ -35,6 +36,7 @@ public class EnemyMove : EnemyState
     public float avoidanceForce = 4f;
 
 
+
     public EnemyMove(EnemyBase enemy, EnemyStateMachine enemyStateMachine)
     {
         this.enemy = enemy;
@@ -65,7 +67,13 @@ public class EnemyMove : EnemyState
         }
         if (enemy.isWithinRange)
         {
+            enemy.navMeshAgent.isStopped = true;
             enemy.stateMachine.ChangeState(enemy.attackState);
+        }
+        else
+        {
+            enemy.navMeshAgent.isStopped = false;
+            enemy.navMeshAgent.destination = enemy.currentTarget.transform.position;
         }
         if (!canSeeTarget)
         {
@@ -143,7 +151,7 @@ public class EnemyMove : EnemyState
         Vector3 finalDirection = targetDirection;
 
         // 2. Cast a ray forward to check for obstacles
-        RaycastHit hit;
+        /*RaycastHit hit;
         // LayerMask can be added here to only detect specific obstacle layers
         if (Physics.Raycast(enemy.transform.position, enemy.transform.forward, out hit, obstacleDetectionRange))
         {
@@ -166,7 +174,7 @@ public class EnemyMove : EnemyState
         {
             Quaternion targetRotation = Quaternion.LookRotation(finalDirection);
             enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, targetRotation, Time.deltaTime);
-        }
+        }*/
     }
 
 

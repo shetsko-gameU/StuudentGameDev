@@ -1,6 +1,7 @@
 //using System.Numerics;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using static BaseStatsSO;
 
 public class EnemyBase : MonoBehaviour, TriggerCheck
@@ -29,6 +30,7 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     public float randomMovementSpeed;
     public bool canFly;
    public GameObject currentTarget;
+   public NavMeshAgent navMeshAgent;
 
 
     void Awake()
@@ -48,6 +50,7 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     {
         if(currentTarget == null)
             stateMachine.Initialize(idleState);
+        navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame
