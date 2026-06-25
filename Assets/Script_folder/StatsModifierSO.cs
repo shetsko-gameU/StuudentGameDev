@@ -51,6 +51,10 @@ public class StatsModifierSO : ScriptableObject
     public string displayName;
     public Rarity rarity = Rarity.Common;
 
+    [Tooltip("Items sharing the same craft family can be combined with a RarityRecipeSO. " +
+             "Example: set 'apple' on Common/Rare/Epic/Legendary apple SOs so they can be combined.")]
+    public string craftFamily = "";
+
     [Tooltip("0 = permanent. Otherwise expires after this many seconds.")]
     public float durationSeconds = 0f;
 

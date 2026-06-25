@@ -140,6 +140,7 @@ public class ComboRunner : MonoBehaviour
     public void OnAttack(InputAction.CallbackContext context)
     {
         if (!context.performed) return;
+        if (stats != null && stats.IsDead) return;
 
         if (!hitActive)
         {
