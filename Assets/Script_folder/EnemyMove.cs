@@ -80,7 +80,6 @@ public class EnemyMove : EnemyState
             enemy.currentTarget = null;
             enemy.stateMachine.ChangeState(enemy.idleState);
         }
-        DetectAndAvoidObstacles();
         
     }
 
@@ -140,7 +139,7 @@ public class EnemyMove : EnemyState
         {
         }
     }
-    void DetectAndAvoidObstacles()
+   /* void DetectAndAvoidObstacles()
     {
          // 1. Calculate direction to the target on the flat ground plane
         Vector3 targetDirection = enemy.currentTarget.transform.position - enemy.transform.position;
@@ -151,7 +150,7 @@ public class EnemyMove : EnemyState
         Vector3 finalDirection = targetDirection;
 
         // 2. Cast a ray forward to check for obstacles
-        /*RaycastHit hit;
+        RaycastHit hit;
         // LayerMask can be added here to only detect specific obstacle layers
         if (Physics.Raycast(enemy.transform.position, enemy.transform.forward, out hit, obstacleDetectionRange))
         {
@@ -174,8 +173,8 @@ public class EnemyMove : EnemyState
         {
             Quaternion targetRotation = Quaternion.LookRotation(finalDirection);
             enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, targetRotation, Time.deltaTime);
-        }*/
-    }
+        }
+    }*/
 
 
 }
