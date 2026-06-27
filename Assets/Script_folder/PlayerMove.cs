@@ -1,6 +1,8 @@
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(NavMeshAgent))]
 public class PlayerMove : MonoBehaviour
 {
     [Header("Movement")]
@@ -13,70 +15,87 @@ public class PlayerMove : MonoBehaviour
     [Header("Model")]
     public float modelRotateSpeed;
     public Transform playerModel;
+    public NavMeshAgent agent;
     public Rigidbody rb;
     public Animator animator;
     public Animator objectAnimator;
 
-    [Header("Ground Check")]
-    public float playerHeight;
-    public LayerMask isGround;
-    public float groundDrag;
+    [Header("Camera")]
     public GameObject Cam;
 
     private bool isMoving;
-    private bool grounded;
     private Vector2 moveInput;
     private Vector3 moveDir;
-
+    private Vector3 currentVelocity;
+    private bool warnedNotOnNavMesh;
 
     private void Start()
     {
         if (stats == null)
             stats = GetComponent<StatsManager>();
+
+        if (agent == null)
+            agent = GetComponent<NavMeshAgent>();
+
+        if (agent == null)
+        {
+            Debug.LogError($"PlayerMove on '{name}': No NavMeshAgent found. Add one in the Inspector.");
+            enabled = false;
+            return;
+        }
+
+        // We drive the agent by hand via Move() every frame instead of SetDestination,
+        // so it must not also try to auto-rotate towards its steering target.
+        agent.updateRotation = false;
+
+        // Kept only so existing trigger/collision callbacks (pickups, CraftPot zone, etc.)
+        // still fire � the agent owns actual movement now, not physics.
+        if (rb != null)
+            rb.isKinematic = true;
     }
 
     private void Update()
     {
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, isGround);
-        rb.linearDamping = grounded ? groundDrag : 0f;
-    }
-
-    private void FixedUpdate()
-    {
         // MoveSpeed from the stat system IS the max speed (e.g. base 5 units/s).
-        // Modifiers add to or multiply it directly � no extra multiplier gymnastics needed.
+        // Modifiers add to or multiply it directly � no extra multiplier gymnastics needed.
         float maxSpeed = (stats != null) ? stats.MoveSpeed : 5f;
 
-        // moveDir = transform.forward * moveInput.y + transform.right * moveInput.x;
         moveDir = -moveInput.x * Cam.transform.right + -moveInput.y * Cam.transform.forward;
-        moveDir = new Vector3 (moveDir.x, 0, moveDir.z);
-        rb.AddForce(moveDir * acceleration * -1);
+        moveDir = new Vector3(moveDir.x, 0, moveDir.z);
 
-        // Rotate model to face movement direction
-        if (moveInput.magnitude > .1f /*&& moveDir.sqrMagnitude > 0.001f*/)
-        {
-            transform.forward = Vector3.MoveTowards(transform.forward, moveDir * -1, modelRotateSpeed);
-          /*  playerModel.rotation = Quaternion.Slerp(
-                playerModel.rotation,
-                Quaternion.LookRotation(moveDir),
-                modelRotateSpeed * Time.deltaTime);*/
-
-        }
+        // Accelerate unconditionally (matches the old AddForce, which was naturally zero
+        // when there was no input) — magnitude scales with analog stick deflection.
+        Vector3 desiredDir = moveDir * -1;
+        currentVelocity += desiredDir * acceleration * Time.deltaTime;
 
         isMoving = moveInput.magnitude > 0.25f;
-       // animator.SetBool("isMoving", isMoving);
 
-        // Clamp horizontal speed to MoveSpeed from stats
-        Vector3 horizontalVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
-        if (horizontalVel.magnitude > maxSpeed)
+        if (currentVelocity.magnitude > maxSpeed)
+            currentVelocity = currentVelocity.normalized * maxSpeed;
+
+        // Matches the old AddForce(-velocity * haltSpeed) exponential-decay damping,
+        // now that there's no Rigidbody integrating forces for us.
+        if (!isMoving)
+            currentVelocity *= Mathf.Exp(-haltSpeed * Time.deltaTime);
+
+        if (agent.isOnNavMesh)
         {
-            Vector3 clamped = horizontalVel.normalized * maxSpeed;
-            rb.linearVelocity = new Vector3(clamped.x, rb.linearVelocity.y, clamped.z);
+            agent.Move(currentVelocity * Time.deltaTime);
+        }
+        else if (!warnedNotOnNavMesh)
+        {
+            warnedNotOnNavMesh = true;
+            Debug.LogWarning($"PlayerMove on '{name}': NavMeshAgent isn't on a baked NavMesh — bake one under the spawn point (Window > AI > Navigation, or a NavMeshSurface). Movement is disabled until it is.");
         }
 
-        // Slow down when not giving input
-        if (!isMoving)
-            rb.AddForce(-rb.linearVelocity * haltSpeed);
+        // Rotate model to face movement direction.
+        // Runs in Update now instead of FixedUpdate, so modelRotateSpeed must be scaled
+        // by deltaTime to stay framerate-independent — the old Inspector value (tuned
+        // for a per-fixed-tick rate) will need to be scaled up to match the old feel.
+        if (moveInput.magnitude > .1f)
+        {
+            transform.forward = Vector3.MoveTowards(transform.forward, desiredDir, modelRotateSpeed * Time.deltaTime);
+        }
 
        // objectAnimator.SetFloat("FaceDirection", moveDir.x);
     }

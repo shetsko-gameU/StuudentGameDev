@@ -81,15 +81,14 @@ public class PlayerDeathHandler : MonoBehaviour
 
     private void DisablePlayerSystems()
     {
-        // Movement — freeze the Rigidbody too. A coroutine (e.g. an in-progress dash)
-        // keeps running even after its component is disabled, so isKinematic guarantees
-        // nothing can keep pushing the corpse around.
+        // Movement — stop the agent too. DashAbilitySO's coroutine checks IsDead itself
+        // and bails out, but stopping the agent here covers any other in-flight movement.
         if (playerMove != null)
         {
-            if (playerMove.rb != null)
+            if (playerMove.agent != null)
             {
-                playerMove.rb.linearVelocity = Vector3.zero;
-                playerMove.rb.isKinematic = true;
+                playerMove.agent.isStopped = true;
+                playerMove.agent.velocity = Vector3.zero;
             }
             playerMove.enabled = false;
         }
