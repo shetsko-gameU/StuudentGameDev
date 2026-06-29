@@ -11,13 +11,15 @@ public class Inventory : MonoBehaviour
 
     public Color removedColor;
 
+    public GameObject inventory;
+
     // ------------------------------------------------------------------ Picking up items
 
     /// <summary>
     /// Stores an item in inventory when the player walks over it.
     /// Stats are NOT applied here — they happen when the player eats the item.
     /// </summary>
-    public bool TryAddModifierPickup(StatsModifierSO modifierTemplate, string itemName, int itemId, Texture2D image)
+    public bool TryAddModifierPickup(StatsModifierSO modifierTemplate, string itemName, int itemId, Texture2D image, RenderTexture rendertexture)
     {
         if (modifierTemplate == null)
         {
@@ -30,7 +32,9 @@ public class Inventory : MonoBehaviour
             ModifierSO = modifierTemplate,
             Name = itemName,
             ItemID = itemId,
-            Image = image
+            Image = image,
+            renderTexture = rendertexture
+            
         };
 
         InventorySlots.Add(newItem);
@@ -38,6 +42,13 @@ public class Inventory : MonoBehaviour
         return true;
     }
 
+    public void Awake()
+    {
+        foreach (RawImage UIslot in inventory.GetComponentsInChildren<RawImage>())
+        {
+            UISlots.Add(UIslot);
+        }
+    }
     // ------------------------------------------------------------------ Consuming items
 
     /// <summary>
@@ -135,7 +146,7 @@ public class Inventory : MonoBehaviour
             if (i < InventorySlots.Count && InventorySlots[i] != null)
             {
                 // Changed from .sprite to .texture
-                UISlots[i].texture = InventorySlots[i].Image;
+                UISlots[i].texture = InventorySlots[i].renderTexture;
                 UISlots[i].enabled = true;
             }
             else

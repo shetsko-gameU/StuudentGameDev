@@ -25,6 +25,7 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
 
     public float randomMovementRange;
     public float randomMovementSpeed;
+   public GameObject currentTarget;
 
     void Awake()
     {
@@ -40,7 +41,8 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        stateMachine.Initialize(idleState);
+        if(currentTarget == null)
+            stateMachine.Initialize(idleState);
     }
 
     // Update is called once per frame

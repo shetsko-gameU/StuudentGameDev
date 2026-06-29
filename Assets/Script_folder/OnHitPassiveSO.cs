@@ -7,8 +7,6 @@ public class OnHitPassiveSO : ScriptableObject
     public string displayName = "Food Passive";
 
     [Tooltip("Passives with the same Family ID are treated as the same food at different rarities. " +
-             "Example: 'fire_boost' on Common, Rare, Epic, and Legendary versions. " +
-             "If the player already has a lower rarity version, eating a higher rarity one replaces it. " +
              "Leave blank if this passive has no rarity variants.")]
     public string passiveFamily = "";
 
@@ -19,4 +17,13 @@ public class OnHitPassiveSO : ScriptableObject
     public float buffDurationSeconds = 3f;
 
     public GameObject SpawnEntity;
+
+    [Header("Combo Triggers")]
+    [Tooltip("If true and this passive is active in PassiveManager, " +
+             "it also fires when the player lands the FIRST hit of a combo.")]
+    public bool triggerOnFirstHit = false;
+
+    [Tooltip("If true and this passive is active in PassiveManager, " +
+             "it also fires when the player lands the LAST hit of a combo.")]
+    public bool triggerOnLastHit = false;
 }
