@@ -50,11 +50,7 @@ public class EnemyIdle : EnemyState
             if(Physics.Raycast(point.position, point.forward, out hit, sightRange))
             {
                 if(hit.collider.gameObject.CompareTag("Player") || hit.collider.gameObject.CompareTag("Dummy"))
-                {
-                    enemy.currentTarget = hit.collider.gameObject;
                     enemy.isAggroed = true;
-                    return;
-                }
             }
         }
     }

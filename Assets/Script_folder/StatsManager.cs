@@ -11,7 +11,7 @@ public class StatsManager : MonoBehaviour
     [SerializeField] public float currentHealth;
 
     // Base copies (never change after load)
-    private float baseMaxHealth, baseAttack, baseDefense, baseMoveSpeed, baseAttackSpeed, baseDodgeChance, baseHealthSteal;
+    private float baseMaxHealth, baseAttack, baseDefense, baseMoveSpeed, baseAttackSpeed, baseDodgeChance;
 
     // Final runtime values (recalculated whenever a modifier is added or removed)
     public float MaxHealth { get; private set; }
@@ -20,8 +20,6 @@ public class StatsManager : MonoBehaviour
     public float MoveSpeed { get; private set; }
     public float AttackSpeed { get; private set; }
     public float DodgeChance { get; private set; }
-    /// <summary>Fraction of damage dealt restored as health. 0.20 = heals 20% of each hit.</summary>
-    public float HealthSteal { get; private set; }
 
     public float CurrentHealth => currentHealth;
     public bool IsDead => currentHealth <= 0f;
@@ -80,13 +78,12 @@ public class StatsManager : MonoBehaviour
 
         baseStats = stats;
 
-        baseMaxHealth    = Mathf.Max(1f,    stats.maxHealth);
-        baseAttack       = Mathf.Max(0f,    stats.attack);
-        baseDefense      = Mathf.Max(0f,    stats.defense);
-        baseMoveSpeed    = Mathf.Max(0f,    stats.moveSpeed);
-        baseAttackSpeed  = Mathf.Max(0.01f, stats.attackSpeed);
-        baseDodgeChance  = Mathf.Clamp01(   stats.dodgeChance);
-        baseHealthSteal  = Mathf.Clamp01(   stats.healthSteal);
+        baseMaxHealth = Mathf.Max(1f, stats.maxHealth);
+        baseAttack = Mathf.Max(0f, stats.attack);
+        baseDefense = Mathf.Max(0f, stats.defense);
+        baseMoveSpeed = Mathf.Max(0f, stats.moveSpeed);
+        baseAttackSpeed = Mathf.Max(0.01f, stats.attackSpeed);
+        baseDodgeChance = Mathf.Clamp01(stats.dodgeChance);
 
         active.Clear();
         RecalculateFinalStats(keepHealthPercent: false);
@@ -187,8 +184,8 @@ public class StatsManager : MonoBehaviour
     {
         float healthPct = MaxHealth > 0f ? currentHealth / MaxHealth : 1f;
 
-        float maxHealthFlat = 0, attackFlat = 0, defenseFlat = 0, moveSpeedFlat = 0, attackSpeedFlat = 0, dodgeFlat = 0, healthStealFlat = 0;
-        float maxHealthPct  = 0, attackPct  = 0, defensePct  = 0, moveSpeedPct  = 0, attackSpeedPct  = 0, dodgePct  = 0, healthStealPct  = 0;
+        float maxHealthFlat = 0, attackFlat = 0, defenseFlat = 0, moveSpeedFlat = 0, attackSpeedFlat = 0, dodgeFlat = 0;
+        float maxHealthPct = 0, attackPct = 0, defensePct = 0, moveSpeedPct = 0, attackSpeedPct = 0, dodgePct = 0;
 
         foreach (var a in active)
         {
@@ -200,12 +197,11 @@ public class StatsManager : MonoBehaviour
                 float applied = kvp.Value * stacks;
                 ApplyStat(stat, mode, applied,
                     ref maxHealthFlat, ref maxHealthPct,
-                    ref attackFlat,    ref attackPct,
-                    ref defenseFlat,   ref defensePct,
+                    ref attackFlat, ref attackPct,
+                    ref defenseFlat, ref defensePct,
                     ref moveSpeedFlat, ref moveSpeedPct,
                     ref attackSpeedFlat, ref attackSpeedPct,
-                    ref dodgeFlat,     ref dodgePct,
-                    ref healthStealFlat, ref healthStealPct);
+                    ref dodgeFlat, ref dodgePct);
             }
 
             foreach (var kvp in a.inst.nonStackableValues)
@@ -213,22 +209,20 @@ public class StatsManager : MonoBehaviour
                 var (stat, mode) = kvp.Key;
                 ApplyStat(stat, mode, kvp.Value,
                     ref maxHealthFlat, ref maxHealthPct,
-                    ref attackFlat,    ref attackPct,
-                    ref defenseFlat,   ref defensePct,
+                    ref attackFlat, ref attackPct,
+                    ref defenseFlat, ref defensePct,
                     ref moveSpeedFlat, ref moveSpeedPct,
                     ref attackSpeedFlat, ref attackSpeedPct,
-                    ref dodgeFlat,     ref dodgePct,
-                    ref healthStealFlat, ref healthStealPct);
+                    ref dodgeFlat, ref dodgePct);
             }
         }
 
-        MaxHealth    = Mathf.Max(1f,    (baseMaxHealth   + maxHealthFlat)   * (1f + maxHealthPct));
-        Attack       = Mathf.Max(0f,    (baseAttack      + attackFlat)      * (1f + attackPct));
-        Defense      = Mathf.Max(0f,    (baseDefense     + defenseFlat)     * (1f + defensePct));
-        MoveSpeed    = Mathf.Max(0f,    (baseMoveSpeed   + moveSpeedFlat)   * (1f + moveSpeedPct));
-        AttackSpeed  = Mathf.Max(0.01f, (baseAttackSpeed + attackSpeedFlat) * (1f + attackSpeedPct));
-        DodgeChance  = Mathf.Clamp(     (baseDodgeChance + dodgeFlat)      * (1f + dodgePct),      0f, 0.75f);
-        HealthSteal  = Mathf.Clamp01(   (baseHealthSteal + healthStealFlat) * (1f + healthStealPct));
+        MaxHealth = Mathf.Max(1f, (baseMaxHealth + maxHealthFlat) * (1f + maxHealthPct));
+        Attack = Mathf.Max(0f, (baseAttack + attackFlat) * (1f + attackPct));
+        Defense = Mathf.Max(0f, (baseDefense + defenseFlat) * (1f + defensePct));
+        MoveSpeed = Mathf.Max(0f, (baseMoveSpeed + moveSpeedFlat) * (1f + moveSpeedPct));
+        AttackSpeed = Mathf.Max(0.01f, (baseAttackSpeed + attackSpeedFlat) * (1f + attackSpeedPct));
+        DodgeChance = Mathf.Clamp((baseDodgeChance + dodgeFlat) * (1f + dodgePct), 0f, 0.75f);
 
         currentHealth = keepHealthPercent
             ? Mathf.Clamp(MaxHealth * healthPct, 0f, MaxHealth)
@@ -239,23 +233,21 @@ public class StatsManager : MonoBehaviour
 
     private static void ApplyStat(
         StatType stat, ModifierMode mode, float value,
-        ref float maxHealthFlat,   ref float maxHealthPct,
-        ref float attackFlat,      ref float attackPct,
-        ref float defenseFlat,     ref float defensePct,
-        ref float moveSpeedFlat,   ref float moveSpeedPct,
+        ref float maxHealthFlat, ref float maxHealthPct,
+        ref float attackFlat, ref float attackPct,
+        ref float defenseFlat, ref float defensePct,
+        ref float moveSpeedFlat, ref float moveSpeedPct,
         ref float attackSpeedFlat, ref float attackSpeedPct,
-        ref float dodgeFlat,       ref float dodgePct,
-        ref float healthStealFlat, ref float healthStealPct)
+        ref float dodgeFlat, ref float dodgePct)
     {
         switch (stat)
         {
-            case StatType.MaxHealth:   AddTo(value, mode, ref maxHealthFlat,   ref maxHealthPct);   break;
-            case StatType.Attack:      AddTo(value, mode, ref attackFlat,      ref attackPct);      break;
-            case StatType.Defense:     AddTo(value, mode, ref defenseFlat,     ref defensePct);     break;
-            case StatType.MoveSpeed:   AddTo(value, mode, ref moveSpeedFlat,   ref moveSpeedPct);   break;
+            case StatType.MaxHealth: AddTo(value, mode, ref maxHealthFlat, ref maxHealthPct); break;
+            case StatType.Attack: AddTo(value, mode, ref attackFlat, ref attackPct); break;
+            case StatType.Defense: AddTo(value, mode, ref defenseFlat, ref defensePct); break;
+            case StatType.MoveSpeed: AddTo(value, mode, ref moveSpeedFlat, ref moveSpeedPct); break;
             case StatType.AttackSpeed: AddTo(value, mode, ref attackSpeedFlat, ref attackSpeedPct); break;
-            case StatType.DodgeChance: AddTo(value, mode, ref dodgeFlat,       ref dodgePct);       break;
-            case StatType.HealthSteal: AddTo(value, mode, ref healthStealFlat, ref healthStealPct); break;
+            case StatType.DodgeChance: AddTo(value, mode, ref dodgeFlat, ref dodgePct); break;
         }
     }
 
@@ -269,15 +261,11 @@ public class StatsManager : MonoBehaviour
 
     public float GetDamageRoll() => Attack;
 
-    /// <summary>
-    /// Apply damage to this entity.
-    /// Pass the attacker's StatsManager to trigger HealthSteal healing on their side.
-    /// </summary>
-    public void TakeDamage(float incomingDamage, StatsManager attacker = null)
+    public void TakeDamage(float incomingDamage)
     {
         if (IsDead) return;
 
-        // Check dodge first â€” if dodged, nothing happens at all
+        // Check dodge first — if dodged, nothing happens at all
         if (UnityEngine.Random.value < DodgeChance)
         {
             Debug.Log($"{name} dodged the attack!");
@@ -295,14 +283,10 @@ public class StatsManager : MonoBehaviour
             return;
         }
 
-        // Subtract health FIRST â€” then fire events so listeners see the correct health value
+        // Subtract health FIRST — then fire events so listeners see the correct health value
         currentHealth = Mathf.Max(0f, currentHealth - finalDamage);
 
-        // HealthSteal â€” heal the attacker based on actual damage dealt (after defense)
-        if (attacker != null && attacker.HealthSteal > 0f)
-            attacker.Heal(finalDamage * attacker.HealthSteal);
-
-        // Fire OnDamaged AFTER health is updated â€” PassiveManager subscribes to this
+        // Fire OnDamaged AFTER health is updated — PassiveManager subscribes to this
         OnDamaged?.Invoke(finalDamage);
         OnHealthChanged?.Invoke(currentHealth, MaxHealth);
 

@@ -16,5 +16,4 @@ public class InventoryItem
 
     // Changed from Sprite to Texture2D for use with RawImage
     public Texture2D Image;
-    public RenderTexture renderTexture;
 }

@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class CraftSystem : MonoBehaviour
 {
     [Header("UI")]
@@ -21,7 +20,6 @@ public class CraftSystem : MonoBehaviour
 
     [Header("Recipes")]
     public CraftRecipeSO[] recipes;
-    public RarityRecipeSO[] rarityRecipes;
 
     [Header("State")]
     public bool NearCraftPot;
@@ -89,66 +87,35 @@ public class CraftSystem : MonoBehaviour
     {
         if (playerInventory == null) return;
 
-        // Try exact recipe first
         CraftRecipeSO recipe = FindMatch();
-        if (recipe != null)
+        if (recipe == null)
         {
-            playerInventory.RemoveSO(recipe.primary);
-            if (recipe.secondary != null)
-                playerInventory.RemoveSO(recipe.secondary);
-            playerInventory.AddSO(recipe.result);
-            primarySlot = null;
-            secondarySlot = null;
-            RefreshAfterCraft();
+            Debug.Log("No matching recipe.");
             return;
         }
 
-        // Try rarity recipe — roll output rarity, then pick matching SO
-        RarityRecipeSO rarityRecipe = FindRarityMatch();
-        if (rarityRecipe != null)
-        {
-            Rarity primaryRarity  = primarySlot != null  ? primarySlot.rarity  : Rarity.Common;
-            Rarity secondaryRarity = secondarySlot != null ? secondarySlot.rarity : primaryRarity;
+        playerInventory.RemoveSO(recipe.primary);
 
-            Rarity outputRarity = RarityRecipeSO.RollOutputRarity(primaryRarity, secondaryRarity);
-            StatsModifierSO result = rarityRecipe.GetResult(outputRarity);
+        if (recipe.secondary != null)
+            playerInventory.RemoveSO(recipe.secondary);
 
-            if (result == null)
-            {
-                Debug.LogWarning($"CraftSystem: RarityRecipe '{rarityRecipe.name}' produced no result for {outputRarity}.");
-                return;
-            }
+        playerInventory.AddSO(recipe.result);
 
-            Debug.Log($"CraftSystem: Rarity roll — {primaryRarity} + {secondaryRarity} → {outputRarity} ({result.displayName})");
+        primarySlot = null;
+        secondarySlot = null;
 
-            playerInventory.RemoveSO(primarySlot);
-            if (secondarySlot != null)
-                playerInventory.RemoveSO(secondarySlot);
-            playerInventory.AddSO(result);
-            primarySlot = null;
-            secondarySlot = null;
-            RefreshAfterCraft();
-            return;
-        }
-
-        Debug.Log("No matching recipe.");
+        RefreshAfterCraft();
     }
 
     private CraftRecipeSO FindMatch()
     {
         if (recipes == null) return null;
-        foreach (var r in recipes)
-            if (r != null && r.Matches(primarySlot, secondarySlot))
-                return r;
-        return null;
-    }
 
-    private RarityRecipeSO FindRarityMatch()
-    {
-        if (rarityRecipes == null) return null;
-        foreach (var r in rarityRecipes)
+        foreach (var r in recipes)
+        {
             if (r != null && r.Matches(primarySlot, secondarySlot))
                 return r;
+        }
         return null;
     }
 
@@ -161,71 +128,19 @@ public class CraftSystem : MonoBehaviour
 
         if (resultSlotImage == null) return;
 
-        // Exact recipe match
         CraftRecipeSO match = FindMatch();
-        if (match != null && match.result != null)
+        bool showResult = (primarySlot != null) && (secondarySlot != null)
+                                   && (match != null) && (match.result != null);
+
+        resultSlotImage.enabled = showResult;
+
+        if (showResult)
         {
-            resultSlotImage.enabled = true;
+            // Changed from .sprite to .texture
             resultSlotImage.texture = match.result.Image;
-            return;
         }
-
-        // Rarity recipe match — preview the best possible (higher rarity) result
-        RarityRecipeSO rarityMatch = FindRarityMatch();
-        if (rarityMatch != null && primarySlot != null)
-        {
-            Rarity secondaryRarity = secondarySlot != null ? secondarySlot.rarity : primarySlot.rarity;
-            Rarity higher = (Rarity)Mathf.Max((int)primarySlot.rarity, (int)secondaryRarity);
-            StatsModifierSO preview = rarityMatch.GetResult(higher);
-            resultSlotImage.enabled = preview != null;
-            if (preview != null) resultSlotImage.texture = preview.Image;
-            return;
-        }
-
-        resultSlotImage.enabled = false;
-        resultSlotImage.texture = null;
     }
 
-    public void ResetSlots()
-    {
-        primarySlot = null;
-        secondarySlot = null;
-
-        if (primaryUI?.slotImage != null)
-        {
-            primaryUI.slotImage.texture = null;
-            primaryUI.slotImage.enabled = false;
-        }
-
-        if (secondaryUI?.slotImage != null)
-        {
-            secondaryUI.slotImage.texture = null;
-            secondaryUI.slotImage.enabled = false;
-        }
-
-        if (resultSlotImage != null)
-        {
-            resultSlotImage.texture = null;
-            resultSlotImage.enabled = false;
-        }
-
-        if (playerInventory != null)
-        {
-            foreach (RawImage rawImage in playerInventory.UISlots)
-            {
-                if (rawImage == null) continue;
-                DraggableInventorySlotUI slot = rawImage.GetComponent<DraggableInventorySlotUI>();
-                if (slot == null) continue;
-
-                slot.craftInSlot = false;
-                slot.dragIconImage.color = Color.white;
-                slot.dragIconImage.raycastTarget = true;
-                slot.removed = false;
-            }
-        }
-
-        RefreshUI();
-    }
     public void RefreshAfterCraft()
     {
         if (primaryUI?.slotImage != null) primaryUI.slotImage.enabled = false;

@@ -8,7 +8,6 @@ public class ModifierPickup : MonoBehaviour
 
     // Changed from Sprite to Texture2D for use with RawImage
     public Texture2D Image;
-    public RenderTexture RenderTexture;
 
     private void OnCollisionEnter(Collision other)
     {
@@ -22,7 +21,7 @@ public class ModifierPickup : MonoBehaviour
         }
 
         // Stats are NOT applied here — the item waits in inventory until consumed.
-        bool added = inventory.TryAddModifierPickup(modifierTemplate, Name, ItemId, Image, RenderTexture);
+        bool added = inventory.TryAddModifierPickup(modifierTemplate, Name, ItemId, Image);
         if (added)
             Destroy(gameObject);
     }

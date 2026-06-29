@@ -23,7 +23,6 @@ public class DraggableInventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragH
     {
         rootCanvas = GetComponentInParent<Canvas>();
         originalPosition = dragIcon.anchoredPosition;
-        inventory = FindAnyObjectByType<Inventory>();
     }
 
     // ------------------------------------------------------------------ Item helpers
@@ -42,10 +41,10 @@ public class DraggableInventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragH
     }
 
     // Changed return type from Sprite to Texture2D
-    public RenderTexture GetIcon()
+    public Texture2D GetIcon()
     {
         var item = GetItem();
-        return item != null ? item.renderTexture : null;
+        return item != null ? item.Image : null;
     }
 
     // ------------------------------------------------------------------ Drag events

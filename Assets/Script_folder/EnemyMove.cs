@@ -26,8 +26,9 @@ public class EnemyMove : EnemyState
     public float playerHight;
     public LayerMask isGround;
     bool grounded;
-    bool canSeeTarget;
     public float groundDrag;
+
+    Transform playerTransform;
     Transform targetTransform;
     Vector2 movevalue;
     Vector3 moveDir;
@@ -37,9 +38,9 @@ public class EnemyMove : EnemyState
     {
         this.enemy = enemy;
         this.enemyStateMachine = enemyStateMachine;
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         rb = enemy.GetComponent<Rigidbody>();
-        targetTransform = enemy.currentTarget.transform;
-        canSeeTarget = true;
+        targetTransform = playerTransform;
     }
 
     public override void EnterState()
@@ -64,11 +65,6 @@ public class EnemyMove : EnemyState
         if (enemy.isWithinRange)
         {
             enemy.stateMachine.ChangeState(enemy.attackState);
-        }
-        if (!canSeeTarget)
-        {
-            enemy.currentTarget = null;
-            enemy.stateMachine.ChangeState(enemy.idleState);
         }
     }
 

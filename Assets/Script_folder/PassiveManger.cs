@@ -86,7 +86,7 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
     private void Subscribe()
     {
         if (subscribed || stats == null) return;
-        stats.OnDamaged += HandlePlayerDamaged;
+        stats.OnDamaged += HandleDamaged;
         subscribed = true;
         Debug.Log($"PassiveManager on '{name}': Subscribed to OnDamaged.");
     }
@@ -94,7 +94,7 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
     private void Unsubscribe()
     {
         if (!subscribed || stats == null) return;
-        stats.OnDamaged -= HandlePlayerDamaged;
+        stats.OnDamaged -= HandleDamaged;
         subscribed = false;
     }
 
@@ -381,28 +381,17 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
 
     // ------------------------------------------------------------------ On-hit handler
 
-    /// <summary>Fires when the PLAYER takes damage — applies on-hit food buffs and spawns.</summary>
-    private void HandlePlayerDamaged(float finalDamage)
+    private void HandleDamaged(float finalDamage)
     {
         if (stats == null) return;
 
         foreach (FoodPassiveEntry e in activeFoodEntries)
         {
-            if (e.passive == null) continue;
+            if (e.passive == null || e.passive.buffTemplate == null) continue;
 
-            // Apply the temporary stat buff if one is set
-            if (e.passive.buffTemplate != null)
-            {
-                RolledModifierInstance onHitRoll = ModifierRoller.Roll(e.passive.buffTemplate);
-                onHitRoll.durationSeconds = e.passive.buffDurationSeconds;
-                stats.AddRolledModifier(onHitRoll);
-            }
-
-            // Spawn the entity if one is set — spawns at the player's position
-            if (e.passive.SpawnEntity != null)
-            {
-                Instantiate(e.passive.SpawnEntity, new Vector3(transform.position.x,transform.position.y+2,transform.position.z), transform.rotation);
-            }
+            RolledModifierInstance onHitRoll = ModifierRoller.Roll(e.passive.buffTemplate);
+            onHitRoll.durationSeconds = e.passive.buffDurationSeconds;
+            stats.AddRolledModifier(onHitRoll);
         }
     }
 }
