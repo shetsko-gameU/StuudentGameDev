@@ -17258,7 +17258,32 @@ MonoBehaviour:
   secondarySlot: {fileID: 0}
   recipes:
   - {fileID: 11400000, guid: ee103aa8d6e9b8042bbe0321328d46e8, type: 2}
-  rarityRecipes: []
+  rarityRecipes:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   NearCraftPot: 0
 --- !u!114 &2032672176
 MonoBehaviour:
@@ -17313,7 +17338,9 @@ MonoBehaviour:
   inventory: {fileID: 2032672176}
   stats: {fileID: 2032672166}
   passiveManager: {fileID: 2032672182}
-  foodPassives: []
+  foodPassives:
+  - foodItem: {fileID: 0}
+    passive: {fileID: 0}
   foodStatBoosts:
   - foodItem: {fileID: 11400000, guid: bfea8cffb2d7dae41812a587b52c29ae, type: 2}
     statPassive: {fileID: 11400000, guid: 8cc14eb9eb227c346bf1b6ffebd284f5, type: 2}
