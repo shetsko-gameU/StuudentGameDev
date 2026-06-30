@@ -54,7 +54,7 @@ public class PlayerMove : MonoBehaviour
             rb.isKinematic = true;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         // MoveSpeed from the stat system IS the max speed (e.g. base 5 units/s).
         // Modifiers add to or multiply it directly � no extra multiplier gymnastics needed.
