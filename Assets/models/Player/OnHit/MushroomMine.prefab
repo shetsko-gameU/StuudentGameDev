@@ -119,7 +119,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef77c732f91df6d4682db282d67e71df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MushroomMine
-  seedMode: 0
   seedDuration: 2
   seedVisual: {fileID: 9098385021144495308}
   throwForceMin: 3
@@ -136,19 +135,6 @@ MonoBehaviour:
   cloudRadius: 3
   cloudDamagePerTick: 8
   cloudTickInterval: 1
-  vineVisual: {fileID: 7454450475953135795}
-  vineDuration: 8
-  vineDetectRange: 4
-  slapWindUpTime: 0.8
-  slapRange: 2.5
-  slapAngle: 90
-  slapDamage: 20
-  slapCooldown: 1.5
-  rotateSpeed: 8
-  vineAnimator: {fileID: 0}
-  windUpTrigger: WindUp
-  slapTrigger: Slap
-  idleTrigger: Idle
   mushroomVisual: {fileID: 8358442265516794339}
   mushroomTop: {fileID: 0}
   mushroomBottom: {fileID: 0}
@@ -170,7 +156,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4671882019983975756
 Transform:
   m_ObjectHideFlags: 0
