@@ -1,6 +1,7 @@
 //using System.Numerics;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using static BaseStatsSO;
 
 public class EnemyBase : MonoBehaviour, TriggerCheck
@@ -11,6 +12,8 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     public Animator animator;
     public List<Transform> raycasts;
     public bool doesAttackPivot;
+
+    public float sightRange;
     //Vector3 moveValue;
 
     // TriggerCheck implementation
@@ -25,7 +28,10 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
 
     public float randomMovementRange;
     public float randomMovementSpeed;
+    public bool canFly;
    public GameObject currentTarget;
+   public NavMeshAgent navMeshAgent;
+
 
     void Awake()
     {
@@ -35,6 +41,7 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
         // Create constructed state instances
         attackState = new EnemyAttack(this, stateMachine);
         moveState = new EnemyMove(this, stateMachine);
+        
     }
 
 
@@ -43,6 +50,7 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     {
         if(currentTarget == null)
             stateMachine.Initialize(idleState);
+        navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame
@@ -53,6 +61,7 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     void FixedUpdate()
     {
         stateMachine?.CurrentEnemyState?.PhysicsUpdate();
+        CheckForDummy();
     }
     public enum AnimationTriggerType
     {
@@ -98,20 +107,33 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     {
         moveState.rb.linearVelocity = velocity;
     }
-    public void setAggroStatus(bool isAggroed)
+    public void SetAggroStatus(bool isAggroed)
     {
         this.isAggroed = isAggroed;
     }
 
-    public void setRangeBool(bool isWithinRange)
+    public void SetRangeBool(bool isWithinRange)
     {
         this.isWithinRange = isWithinRange;
+    }
+    public void CheckForDummy()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, sightRange);
+        foreach (var hitCollider in hitColliders)
+        {
+            if(hitCollider.gameObject.CompareTag("Dummy"))
+            {
+                currentTarget = hitCollider.gameObject;
+            }
+        }
+        
     }
     /*public void OnMove(InputAction.CallbackContext context)
     {
         movevalue = context.ReadValue<Vector2>();
         if (movevalue.magnitude != 0)
         {
+
         }
     }*/
 }

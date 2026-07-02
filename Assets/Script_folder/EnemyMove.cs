@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
@@ -31,6 +32,9 @@ public class EnemyMove : EnemyState
     Transform targetTransform;
     Vector2 movevalue;
     Vector3 moveDir;
+    public float obstacleDetectionRange = 3f;
+    public float avoidanceForce = 4f;
+
 
 
     public EnemyMove(EnemyBase enemy, EnemyStateMachine enemyStateMachine)
@@ -63,13 +67,20 @@ public class EnemyMove : EnemyState
         }
         if (enemy.isWithinRange)
         {
+            enemy.navMeshAgent.isStopped = true;
             enemy.stateMachine.ChangeState(enemy.attackState);
+        }
+        else
+        {
+            enemy.navMeshAgent.isStopped = false;
+            enemy.navMeshAgent.destination = enemy.currentTarget.transform.position;
         }
         if (!canSeeTarget)
         {
             enemy.currentTarget = null;
             enemy.stateMachine.ChangeState(enemy.idleState);
         }
+        
     }
 
     public override void PhysicsUpdate()
@@ -128,6 +139,42 @@ public class EnemyMove : EnemyState
         {
         }
     }
+   /* void DetectAndAvoidObstacles()
+    {
+         // 1. Calculate direction to the target on the flat ground plane
+        Vector3 targetDirection = enemy.currentTarget.transform.position - enemy.transform.position;
+        if(!enemy.canFly)
+            targetDirection.y = 0; // Lock vertical movement
+        targetDirection.Normalize();
+
+        Vector3 finalDirection = targetDirection;
+
+        // 2. Cast a ray forward to check for obstacles
+        RaycastHit hit;
+        // LayerMask can be added here to only detect specific obstacle layers
+        if (Physics.Raycast(enemy.transform.position, enemy.transform.forward, out hit, obstacleDetectionRange))
+        {
+            if (hit.transform != enemy.currentTarget)
+            {
+                // Calculate a direction away from the obstacle's surface
+                Vector3 avoidanceDirection = Vector3.Reflect(enemy.transform.forward, hit.normal);
+                if(!enemy.canFly)
+                    avoidanceDirection.y = 0; // Keep the avoidance strictly horizontal
+                
+                // Blend the path: prioritize avoiding the wall while pulling toward target
+                finalDirection = (avoidanceDirection * avoidanceForce + targetDirection).normalized;
+            }
+        }
+
+        // 3. Move and look toward the final calculated direction
+        enemy.transform.position += finalDirection * enemy.randomMovementSpeed * Time.deltaTime;
+        
+        if (finalDirection != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(finalDirection);
+            enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, targetRotation, Time.deltaTime);
+        }
+    }*/
 
 
 }
