@@ -17773,11 +17773,11 @@ MonoBehaviour:
   recipes:
   - {fileID: 11400000, guid: ee103aa8d6e9b8042bbe0321328d46e8, type: 2}
   rarityRecipes:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 674faf2e1b3328d48a3c91e03fe1b3b5, type: 2}
+  - {fileID: 11400000, guid: 7efc10fecc0898a459e284dfcd292cf2, type: 2}
+  - {fileID: 11400000, guid: 85ec3cd7ad85acd48920d89caebe9588, type: 2}
+  - {fileID: 11400000, guid: 16393ccb25232d74da7b60109d784c6e, type: 2}
+  - {fileID: 11400000, guid: 98a9152aff9d556428bcf8480edef238, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -17858,6 +17858,14 @@ MonoBehaviour:
   foodStatBoosts:
   - foodItem: {fileID: 11400000, guid: bfea8cffb2d7dae41812a587b52c29ae, type: 2}
     statPassive: {fileID: 11400000, guid: 8cc14eb9eb227c346bf1b6ffebd284f5, type: 2}
+  - foodItem: {fileID: 11400000, guid: cb86999ceee886045995211269833873, type: 2}
+    statPassive: {fileID: 11400000, guid: 545d2474311aed44c886fd86c0149dd6, type: 2}
+  - foodItem: {fileID: 11400000, guid: 3d7d28f06753912418f92a4d41fa03bb, type: 2}
+    statPassive: {fileID: 11400000, guid: 76929216e69d4a041a36f8913108bdde, type: 2}
+  - foodItem: {fileID: 11400000, guid: 35f0a2f7f3638694dbd42fb610918b31, type: 2}
+    statPassive: {fileID: 11400000, guid: 20058ff17df109643a73dbdbfb8a2f90, type: 2}
+  - foodItem: {fileID: 11400000, guid: e0c82b0a1bdfd2f4c988499a94c8a501, type: 2}
+    statPassive: {fileID: 11400000, guid: f961c9fd3f5707c4eb9425db6a14c2ef, type: 2}
 --- !u!114 &2032672180
 MonoBehaviour:
   m_ObjectHideFlags: 0
