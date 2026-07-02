@@ -1610,6 +1610,7 @@ MonoBehaviour:
   randomMovementSpeed: 0
   canFly: 0
   currentTarget: {fileID: 1430486891}
+  navMeshAgent: {fileID: 0}
 --- !u!136 &750220699
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2269,6 +2270,7 @@ GameObject:
   - component: {fileID: 1430486910}
   - component: {fileID: 1430486911}
   - component: {fileID: 1430486912}
+  - component: {fileID: 1430486913}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -2320,14 +2322,10 @@ MonoBehaviour:
   stats: {fileID: 1430486900}
   modelRotateSpeed: 5
   playerModel: {fileID: 1394594511}
+  agent: {fileID: 1430486913}
   rb: {fileID: 1430486892}
   animator: {fileID: 1430486898}
-  objectAnimator: {fileID: 1430486898}
-  playerHeight: 0
-  isGround:
-    serializedVersion: 2
-    m_Bits: 64
-  groundDrag: 3
+  Cam: {fileID: 330585543}
 --- !u!136 &1430486894
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2837,11 +2835,6 @@ MonoBehaviour:
   animator: {fileID: 1430486898}
   combo: {fileID: 11400000, guid: 04c7388e1fae8b140b3c75627c6c6348, type: 2}
   useAnimationEvents: 0
-  currentHitIndex: 0
-  chainTimer: 0
-  inChainWindow: 0
-  hitActive: 0
-  attackBuffered: 0
 --- !u!114 &1430486910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2894,6 +2887,28 @@ MonoBehaviour:
   deathScreenDelay: 1.5
   deathScreenPanel: {fileID: 0}
   mainMenuSceneName: MainMenu
+--- !u!195 &1430486913
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430486891}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &1449615630 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1634134886320640399, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
