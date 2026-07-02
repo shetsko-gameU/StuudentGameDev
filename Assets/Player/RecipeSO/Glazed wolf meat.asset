@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee6161da4b5a4604584d3c4fbb0c687f, type: 3}
   m_Name: Glazed wolf meat
   m_EditorClassIdentifier: Assembly-CSharp::RarityRecipeSO
-  primaryFamily: 
-  secondaryFamily: 
-  commonResult: {fileID: 0}
-  rareResult: {fileID: 0}
-  epicResult: {fileID: 0}
-  legendaryResult: {fileID: 0}
+  primaryFamily: Wolf
+  secondaryFamily: Slime
+  commonResult: {fileID: 11400000, guid: cb86999ceee886045995211269833873, type: 2}
+  rareResult: {fileID: 11400000, guid: 3d7d28f06753912418f92a4d41fa03bb, type: 2}
+  epicResult: {fileID: 11400000, guid: 35f0a2f7f3638694dbd42fb610918b31, type: 2}
+  legendaryResult: {fileID: 11400000, guid: e0c82b0a1bdfd2f4c988499a94c8a501, type: 2}

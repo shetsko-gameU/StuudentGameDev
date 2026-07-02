@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee6161da4b5a4604584d3c4fbb0c687f, type: 3}
   m_Name: Gummy snakes
   m_EditorClassIdentifier: Assembly-CSharp::RarityRecipeSO
-  primaryFamily: 
-  secondaryFamily: 
-  commonResult: {fileID: 0}
-  rareResult: {fileID: 0}
-  epicResult: {fileID: 0}
-  legendaryResult: {fileID: 0}
+  primaryFamily: Snake
+  secondaryFamily: Slime
+  commonResult: {fileID: 11400000, guid: e8fdbe70ca546d94a8b1ddb27e27d186, type: 2}
+  rareResult: {fileID: 11400000, guid: a240f604107deca4988a2bfca41aeb70, type: 2}
+  epicResult: {fileID: 11400000, guid: db4d3b28bdb41e540be578beeda2be56, type: 2}
+  legendaryResult: {fileID: 11400000, guid: a0244d0fdf0be0649a463e4c3e2bf802, type: 2}

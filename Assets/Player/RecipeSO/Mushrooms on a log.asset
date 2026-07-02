@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee6161da4b5a4604584d3c4fbb0c687f, type: 3}
   m_Name: Mushrooms on a log
   m_EditorClassIdentifier: Assembly-CSharp::RarityRecipeSO
-  primaryFamily: 
-  secondaryFamily: 
-  commonResult: {fileID: 0}
-  rareResult: {fileID: 0}
-  epicResult: {fileID: 0}
-  legendaryResult: {fileID: 0}
+  primaryFamily: Mushroom
+  secondaryFamily: Snake
+  commonResult: {fileID: 11400000, guid: 56ddad23fa48cb448961448513db4c4a, type: 2}
+  rareResult: {fileID: 11400000, guid: 649c24713352f7f4fa3e10d93c8aff52, type: 2}
+  epicResult: {fileID: 11400000, guid: d1561ec9a8fee0a4f8531dde49e0aec6, type: 2}
+  legendaryResult: {fileID: 11400000, guid: 50ca0720586edb843a6ca306c47e5db6, type: 2}
