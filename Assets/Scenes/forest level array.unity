@@ -17874,6 +17874,38 @@ MonoBehaviour:
     statPassive: {fileID: 11400000, guid: 38e9622e0c3d6bb49997a72c6745c50a, type: 2}
   - foodItem: {fileID: 11400000, guid: e8b3507044b04424bbfd778f117c1f95, type: 2}
     statPassive: {fileID: 11400000, guid: 6b03e65f8c21e9344bfcc7040bf8052c, type: 2}
+  - foodItem: {fileID: 11400000, guid: bd12fde65cab0984eb98cf5006e40870, type: 2}
+    statPassive: {fileID: 11400000, guid: 4dbc1174447a90642851ba1faffc2432, type: 2}
+  - foodItem: {fileID: 11400000, guid: 810c2a53fc518db4c87659375362e4d1, type: 2}
+    statPassive: {fileID: 11400000, guid: 2b09abbf5e1437246af1b5554d07a5f1, type: 2}
+  - foodItem: {fileID: 11400000, guid: 171304c3565b07f45947e1552a2419cd, type: 2}
+    statPassive: {fileID: 11400000, guid: de86e3b510fa9154ba9d9db46baa6394, type: 2}
+  - foodItem: {fileID: 11400000, guid: fa4a3737dc31cc7468ea844f81fe6e70, type: 2}
+    statPassive: {fileID: 11400000, guid: c07c4532e19e05f4f8a9cbe36472f016, type: 2}
+  - foodItem: {fileID: 11400000, guid: e8fdbe70ca546d94a8b1ddb27e27d186, type: 2}
+    statPassive: {fileID: 11400000, guid: 8611e9c20ef1c92498ebeaf19ea5a964, type: 2}
+  - foodItem: {fileID: 11400000, guid: a240f604107deca4988a2bfca41aeb70, type: 2}
+    statPassive: {fileID: 11400000, guid: dc04bd9e2e17b9143b0b156c10e00390, type: 2}
+  - foodItem: {fileID: 11400000, guid: db4d3b28bdb41e540be578beeda2be56, type: 2}
+    statPassive: {fileID: 11400000, guid: f548d7b29d5ad22468f87044baee930f, type: 2}
+  - foodItem: {fileID: 11400000, guid: a0244d0fdf0be0649a463e4c3e2bf802, type: 2}
+    statPassive: {fileID: 11400000, guid: 84a0fcff777cc1f45931a7f0bafc97a4, type: 2}
+  - foodItem: {fileID: 11400000, guid: e9b0d2b4d3e39b949b881dcb6775568e, type: 2}
+    statPassive: {fileID: 11400000, guid: c02f90fd139d94d40bb880706b1d6acd, type: 2}
+  - foodItem: {fileID: 11400000, guid: fb773a123b5e25c44b28d23e662f9388, type: 2}
+    statPassive: {fileID: 11400000, guid: 2b4dca007292ba64b848473f2cce2fcf, type: 2}
+  - foodItem: {fileID: 11400000, guid: 973ad7f005a5f974ca0fa68cb908a30d, type: 2}
+    statPassive: {fileID: 11400000, guid: 77114cfc5b00d844eb217326a95d2235, type: 2}
+  - foodItem: {fileID: 11400000, guid: dceaca65fc12b4e419c928ae1003ca99, type: 2}
+    statPassive: {fileID: 11400000, guid: aaf1f8f3a9585ff48be37b929aaefb6f, type: 2}
+  - foodItem: {fileID: 11400000, guid: 56ddad23fa48cb448961448513db4c4a, type: 2}
+    statPassive: {fileID: 11400000, guid: a0a67cade0d61df42937af4d6cfe841c, type: 2}
+  - foodItem: {fileID: 11400000, guid: 649c24713352f7f4fa3e10d93c8aff52, type: 2}
+    statPassive: {fileID: 11400000, guid: 56e3d74a78bac0d4aa1a5256a873b92d, type: 2}
+  - foodItem: {fileID: 11400000, guid: d1561ec9a8fee0a4f8531dde49e0aec6, type: 2}
+    statPassive: {fileID: 11400000, guid: 0dea2a52d67d28746a99f584e441769d, type: 2}
+  - foodItem: {fileID: 11400000, guid: d1561ec9a8fee0a4f8531dde49e0aec6, type: 2}
+    statPassive: {fileID: 11400000, guid: 0dea2a52d67d28746a99f584e441769d, type: 2}
 --- !u!114 &2032672180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19269,15 +19301,15 @@ PrefabInstance:
       objectReference: {fileID: 8400000, guid: c474be91af701434a8a0bb5d9ec7ed62, type: 2}
     - target: {fileID: 7063336670784706315, guid: f3bc27d67225ad84e896216677793502, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 182.00896
+      value: 194.8
       objectReference: {fileID: 0}
     - target: {fileID: 7063336670784706315, guid: f3bc27d67225ad84e896216677793502, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 20.2
+      value: 5.8
       objectReference: {fileID: 0}
     - target: {fileID: 7063336670784706315, guid: f3bc27d67225ad84e896216677793502, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 227.3
+      value: 206.1
       objectReference: {fileID: 0}
     - target: {fileID: 7063336670784706315, guid: f3bc27d67225ad84e896216677793502, type: 3}
       propertyPath: m_LocalRotation.w
