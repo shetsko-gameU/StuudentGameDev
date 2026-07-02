@@ -96,8 +96,6 @@ public class PlayerMove : MonoBehaviour
             transform.forward = Vector3.MoveTowards(transform.forward, desiredDir, modelRotateSpeed * Time.deltaTime);
         }
 
-        if (animator != null)
-            animator.SetFloat("FaceDirection", moveDir.x);
     }
 
     public void OnMove(InputAction.CallbackContext context)
