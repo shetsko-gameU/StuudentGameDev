@@ -5,7 +5,7 @@ public interface TriggerCheck
 {
     bool isAggroed{get; set;}
     bool isWithinRange{get; set;}
-    void setAggroStatus (bool isAggroed);
-    void setRangeBool (bool isWithinRange);
+    void SetAggroStatus (bool isAggroed);
+    void SetRangeBool (bool isWithinRange);
     
 }
