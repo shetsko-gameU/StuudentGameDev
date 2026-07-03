@@ -57,6 +57,7 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     void Update()
     {
         stateMachine.CurrentEnemyState?.FrameUpdate();
+        Debug.Log("Current State: " + stateMachine.CurrentEnemyState?.ToString());
     }
     void FixedUpdate()
     {

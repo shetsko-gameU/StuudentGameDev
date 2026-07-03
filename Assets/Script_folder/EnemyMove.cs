@@ -29,7 +29,6 @@ public class EnemyMove : EnemyState
     bool grounded;
     bool canSeeTarget;
     public float groundDrag;
-    Transform targetTransform;
     Vector2 movevalue;
     Vector3 moveDir;
     public float obstacleDetectionRange = 3f;
@@ -42,7 +41,6 @@ public class EnemyMove : EnemyState
         this.enemy = enemy;
         this.enemyStateMachine = enemyStateMachine;
         rb = enemy.GetComponent<Rigidbody>();
-        targetTransform = enemy.currentTarget.transform;
         canSeeTarget = true;
     }
 
@@ -90,7 +88,7 @@ public class EnemyMove : EnemyState
 
         float finalAcceleration = acceleration * moveSpeedMultiplier;
         float finalMaxSpeed = maxSpeed * moveSpeedMultiplier;
-        moveDir = (targetTransform.position - enemy.transform.position).normalized;
+        moveDir = (enemy.currentTarget.transform.position - enemy.transform.position).normalized;
         rb.AddForce(moveDir * finalAcceleration);
 
         // rotate the player body
