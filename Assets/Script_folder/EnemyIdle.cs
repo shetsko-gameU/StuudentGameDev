@@ -67,6 +67,8 @@ public class EnemyIdle : EnemyState
             if(hitCollider.gameObject.CompareTag("Dummy") || hitCollider.gameObject.CompareTag("Player"))
             {
                 enemy.currentTarget = hitCollider.gameObject;
+                enemy.isAggroed = true;
+                return;
             }
         }
     }
