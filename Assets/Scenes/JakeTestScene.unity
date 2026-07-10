@@ -1353,6 +1353,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1728991789}
   - component: {fileID: 1728991790}
+  - component: {fileID: 1728991791}
   m_Layer: 0
   m_Name: AttackRangeZone
   m_TagString: Untagged
@@ -1396,6 +1397,19 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1728991791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1728991788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5471563a9d402490e81bc5738d04fe69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyStrikeDistanceCheck
+  enemy: {fileID: 811193362}
 --- !u!1 &2040087319
 GameObject:
   m_ObjectHideFlags: 0

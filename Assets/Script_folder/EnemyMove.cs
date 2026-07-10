@@ -63,6 +63,7 @@ public class EnemyMove : EnemyState
         {
             rb.linearDamping = 0;
         }
+
         if (enemy.isWithinRange)
         {
             enemy.navMeshAgent.isStopped = true;
@@ -73,6 +74,7 @@ public class EnemyMove : EnemyState
             enemy.navMeshAgent.isStopped = false;
             enemy.navMeshAgent.destination = enemy.currentTarget.transform.position;
         }
+        
         if (!canSeeTarget)
         {
             enemy.currentTarget = null;

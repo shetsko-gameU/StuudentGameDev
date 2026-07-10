@@ -5,13 +5,13 @@ public class EnemyAttack : EnemyState
 {
 
     bool canSeeTarget;
-    float timer;
+    float attackTimer;
     float timeBetweenAttacks = 1f; // Example attack cooldown
     float exitTimer;
     float timeToExitAfterAttack = 2f; // Time to exit attack state after
     float distanceToCountExit = 3f; // Distance to player to start exit timer
     Vector3 pivotTarget; //where enemy will pivot to after attacking
-    public float pivotSpeed; // determines degrees per second when pivoting
+    public float pivotSpeed;
     float cumulativeRotation = 0f;
     float totalTargetAngle = 0f;
     float angleDirection = 1f;
@@ -30,10 +30,10 @@ public class EnemyAttack : EnemyState
     public override void FrameUpdate()
     {
         enemy.moveState.StopMovement(); // Stop movement during attack
-        if(timer >= timeBetweenAttacks)
+        if(attackTimer >= timeBetweenAttacks)
         {
             OnAttack();
-            timer = 0;
+            attackTimer = 0;
             //Vector2 dir = (enemy.currentTarget.transform.position - enemy.transform.position).normalized;
         }
         //sets for enemies that can pivot around player
@@ -43,7 +43,8 @@ public class EnemyAttack : EnemyState
         }
         if(exitTimer >= timeToExitAfterAttack)
         {
-            enemy.stateMachine.ChangeState(enemy.moveState);
+            enemy.stateMachine.ChangeState(enemy.moveState);            
+            exitTimer = 0;
         }
         else if(Vector3.Distance(enemy.transform.position, enemy.currentTarget.transform.position) > distanceToCountExit)
         {
@@ -54,11 +55,7 @@ public class EnemyAttack : EnemyState
             enemy.currentTarget = null;
             enemy.stateMachine.ChangeState(enemy.idleState);
         }
-        else
-        {
-            exitTimer = 0; // reset exit timer if player is close again
-        }
-        timer += Time.deltaTime;
+        attackTimer += Time.deltaTime;
     }
 
     public override void PhysicsUpdate()
