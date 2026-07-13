@@ -6137,6 +6137,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
       objectReference: {fileID: 2100000, guid: 36845b351fd31ce4b93c62d9bac98d3a, type: 2}
+    - target: {fileID: 5074512353664290214, guid: f137ca6d9814dd648b39cdd448f028b3, type: 3}
+      propertyPath: 'm_Materials.Array.data[5]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 29e540d5f5948fd4a8b3a13d2575da5b, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7242,6 +7246,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: efffe81908d1063428f42ec82c0167c7, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 8eda7da7de462da4f8c41736625bcd50, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 29e540d5f5948fd4a8b3a13d2575da5b, type: 2}
     - target: {fileID: 919132149155446097, guid: 8eda7da7de462da4f8c41736625bcd50, type: 3}
       propertyPath: m_Name
       value: mushroom 4
@@ -7600,7 +7608,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 695412fc390b3b347b7f505673f03f01, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.000040255487
+      value: 0.027326128
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 695412fc390b3b347b7f505673f03f01, type: 3}
       propertyPath: m_LocalRotation.x
@@ -7608,7 +7616,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 695412fc390b3b347b7f505673f03f01, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: 0.9996266
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 695412fc390b3b347b7f505673f03f01, type: 3}
       propertyPath: m_LocalRotation.z
@@ -7620,7 +7628,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 695412fc390b3b347b7f505673f03f01, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180.005
+      value: 176.868
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 695412fc390b3b347b7f505673f03f01, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -7793,6 +7801,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 9c12b42fea7b6e94caf4dd6b9f193bea, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e376bda8be31ed242a2c3a16c9757b32, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 9c12b42fea7b6e94caf4dd6b9f193bea, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 29e540d5f5948fd4a8b3a13d2575da5b, type: 2}
     - target: {fileID: 919132149155446097, guid: 9c12b42fea7b6e94caf4dd6b9f193bea, type: 3}
       propertyPath: m_Name
       value: dryad blade
@@ -10223,9 +10239,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: efffe81908d1063428f42ec82c0167c7, type: 2}
     - target: {fileID: -7511558181221131132, guid: 5090c2ff2cfe2e9428b3876d854ffd51, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 29e540d5f5948fd4a8b3a13d2575da5b, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 5090c2ff2cfe2e9428b3876d854ffd51, type: 3}
       propertyPath: 'm_Materials.Array.data[2]'
       value: 
       objectReference: {fileID: 2100000, guid: 36845b351fd31ce4b93c62d9bac98d3a, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 5090c2ff2cfe2e9428b3876d854ffd51, type: 3}
+      propertyPath: 'm_Materials.Array.data[3]'
+      value: 
+      objectReference: {fileID: 2100000, guid: b3ecedbb034a79d41abf6da33dab3459, type: 2}
     - target: {fileID: 919132149155446097, guid: 5090c2ff2cfe2e9428b3876d854ffd51, type: 3}
       propertyPath: m_Name
       value: mushroom 3
@@ -20564,6 +20588,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4683669308469848369, guid: bcba27e3d4d1d3e4cbad0526bf4e0e35, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 29e540d5f5948fd4a8b3a13d2575da5b, type: 2}
     - target: {fileID: 919132149155446097, guid: bcba27e3d4d1d3e4cbad0526bf4e0e35, type: 3}
       propertyPath: m_Name
       value: rusty blade
@@ -27363,6 +27391,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -6293217552824421962, guid: 3aca100ff2f5e7a429ac5b6ac6653171, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 29e540d5f5948fd4a8b3a13d2575da5b, type: 2}
     - target: {fileID: 919132149155446097, guid: 3aca100ff2f5e7a429ac5b6ac6653171, type: 3}
       propertyPath: m_Name
       value: slime
@@ -27972,6 +28004,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: metal slime
       objectReference: {fileID: 0}
+    - target: {fileID: 4975090424663474914, guid: 198abeeb51e1461479ec301c40643b11, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 29e540d5f5948fd4a8b3a13d2575da5b, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -28157,6 +28193,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4418852063848732470, guid: 422cf2bbd45201441bd405bf77a7ab36, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: efffe81908d1063428f42ec82c0167c7, type: 2}
+    - target: {fileID: 4418852063848732470, guid: 422cf2bbd45201441bd405bf77a7ab36, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 4b07d477d6c61da44b42bd9198583008, type: 2}
+    - target: {fileID: 4418852063848732470, guid: 422cf2bbd45201441bd405bf77a7ab36, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 429581e419f05d340930a66fd334109a, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -29211,6 +29259,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1558191815}
     m_Modifications:
+    - target: {fileID: 1103206349983735495, guid: 01728885e863f7e468c8874847bdf5bf, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 29e540d5f5948fd4a8b3a13d2575da5b, type: 2}
     - target: {fileID: 1516883072817327239, guid: 01728885e863f7e468c8874847bdf5bf, type: 3}
       propertyPath: m_Name
       value: cooking pot
@@ -29535,6 +29587,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 567292426}
     m_Modifications:
+    - target: {fileID: 198777397018629322, guid: 03112a20b6eaea64a8cab8355b8333aa, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 8379210926be8334cacf4f546bb50853, type: 2}
+    - target: {fileID: 198777397018629322, guid: 03112a20b6eaea64a8cab8355b8333aa, type: 3}
+      propertyPath: 'm_Materials.Array.data[3]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 29e540d5f5948fd4a8b3a13d2575da5b, type: 2}
     - target: {fileID: 552293960312590417, guid: 03112a20b6eaea64a8cab8355b8333aa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -90
@@ -30092,6 +30152,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3388007006132637258, guid: 3114bcc8c15c9c84083b6f3b2ca0a128, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 29e540d5f5948fd4a8b3a13d2575da5b, type: 2}
+    - target: {fileID: 3388007006132637258, guid: 3114bcc8c15c9c84083b6f3b2ca0a128, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 29e540d5f5948fd4a8b3a13d2575da5b, type: 2}
     - target: {fileID: 3748228661333831583, guid: 3114bcc8c15c9c84083b6f3b2ca0a128, type: 3}
       propertyPath: m_Name
       value: spike axe
@@ -30269,6 +30337,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
       objectReference: {fileID: 2100000, guid: efffe81908d1063428f42ec82c0167c7, type: 2}
+    - target: {fileID: 2961199027816321896, guid: a887efcb2bf323845b9beffb04b09e29, type: 3}
+      propertyPath: 'm_Materials.Array.data[5]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 29e540d5f5948fd4a8b3a13d2575da5b, type: 2}
     - target: {fileID: 5870110904863652004, guid: a887efcb2bf323845b9beffb04b09e29, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0
@@ -30399,6 +30471,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: mushrooms decor1
       objectReference: {fileID: 0}
+    - target: {fileID: 8341866671270884025, guid: c1b70b0b3eff18e4e86c60c141f37263, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: efffe81908d1063428f42ec82c0167c7, type: 2}
+    - target: {fileID: 8341866671270884025, guid: c1b70b0b3eff18e4e86c60c141f37263, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 095f93d3ae1c8fb4ab13155aed6a416d, type: 2}
+    - target: {fileID: 8341866671270884025, guid: c1b70b0b3eff18e4e86c60c141f37263, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 9cacbcc67f55b9c4185f67be5b10358b, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -33018,6 +33102,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 567292426}
     m_Modifications:
+    - target: {fileID: 4040025219365247944, guid: 108beae84ced9e74c984fc7cc6e90385, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 8379210926be8334cacf4f546bb50853, type: 2}
+    - target: {fileID: 4040025219365247944, guid: 108beae84ced9e74c984fc7cc6e90385, type: 3}
+      propertyPath: 'm_Materials.Array.data[3]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 29e540d5f5948fd4a8b3a13d2575da5b, type: 2}
     - target: {fileID: 6003890798992716523, guid: 108beae84ced9e74c984fc7cc6e90385, type: 3}
       propertyPath: m_Name
       value: crystal slime
