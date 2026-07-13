@@ -28,7 +28,6 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
 
     public float randomMovementRange;
     public float randomMovementSpeed;
-    public Vector3 startPosition;
     public bool canFly;
    public GameObject currentTarget;
    public NavMeshAgent navMeshAgent;
@@ -52,7 +51,6 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
         if(currentTarget == null)
             stateMachine.Initialize(idleState);
         navMeshAgent = GetComponent<NavMeshAgent>();
-        startPosition = transform.position;
     }
 
     // Update is called once per frame
