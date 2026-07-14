@@ -50,6 +50,10 @@ public class PlayerMove : MonoBehaviour
     private float fallStartY;
     private float fallStartTime;
 
+    // The player's solid body collider. Probes measure foot level from its bounds because
+    // the transform root is NOT at the feet on this player (capsule center 0 / base offset 1).
+    private Collider bodyCollider;
+
     private void Start()
     {
         if (stats == null)
@@ -73,6 +77,24 @@ public class PlayerMove : MonoBehaviour
         // (pickups, CraftPot zone, etc.) still fire — physics only takes over during falls.
         if (rb != null)
             rb.isKinematic = true;
+
+        foreach (Collider c in GetComponents<Collider>())
+        {
+            if (!c.isTrigger)
+            {
+                bodyCollider = c;
+                break;
+            }
+        }
+
+        if (bodyCollider == null)
+            Debug.LogWarning($"PlayerMove on '{name}': No solid Collider found — ledge/landing probes will assume the transform root is at foot level.");
+    }
+
+    /// <summary>World-space Y of the player's feet, taken from the body collider's bounds.</summary>
+    private float FootY()
+    {
+        return bodyCollider != null ? bodyCollider.bounds.min.y : transform.position.y;
     }
 
     private void Update()
@@ -137,16 +159,21 @@ public class PlayerMove : MonoBehaviour
     /// <summary>
     /// True when the input direction leads over a drop deeper than minFallHeight.
     /// A solid hit at knee height ahead means a wall is clamping the agent, not a ledge.
+    /// Origins sit at foot level from the collider bounds — the transform root is not at
+    /// the feet — and the probe must reach past the agent's radius, since the NavMesh edge
+    /// (where the agent clamps) is inset from the physical ledge by that radius.
     /// </summary>
     private bool LedgeAhead(Vector3 dir)
     {
         dir = dir.normalized;
-        Vector3 kneeOrigin = transform.position + Vector3.up * 0.3f;
 
-        if (Physics.Raycast(kneeOrigin, dir, ledgeProbeDistance, GroundMask(), QueryTriggerInteraction.Ignore))
+        float probeDistance = Mathf.Max(ledgeProbeDistance, agent.radius + 0.2f);
+        Vector3 kneeOrigin = new Vector3(transform.position.x, FootY() + 0.3f, transform.position.z);
+
+        if (Physics.Raycast(kneeOrigin, dir, probeDistance, GroundMask(), QueryTriggerInteraction.Ignore))
             return false;
 
-        Vector3 probeOrigin = kneeOrigin + dir * ledgeProbeDistance;
+        Vector3 probeOrigin = kneeOrigin + dir * probeDistance;
         return !Physics.Raycast(probeOrigin, Vector3.down, 0.3f + minFallHeight, GroundMask(), QueryTriggerInteraction.Ignore);
     }
 
@@ -187,7 +214,8 @@ public class PlayerMove : MonoBehaviour
         if (Time.time - fallStartTime < 0.1f) return;
         if (rb.linearVelocity.y > 0.05f) return;
 
-        if (!Physics.Raycast(transform.position + Vector3.up * 0.3f, Vector3.down,
+        Vector3 landOrigin = new Vector3(transform.position.x, FootY() + 0.3f, transform.position.z);
+        if (!Physics.Raycast(landOrigin, Vector3.down,
                 out RaycastHit hit, 0.55f, GroundMask(), QueryTriggerInteraction.Ignore))
             return;
 
