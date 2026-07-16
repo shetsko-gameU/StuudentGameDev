@@ -2415,6 +2415,7 @@ GameObject:
   - component: {fileID: 1430486912}
   - component: {fileID: 1430486913}
   - component: {fileID: 1430486914}
+  - component: {fileID: 1430486915}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -3032,6 +3033,7 @@ MonoBehaviour:
   abilityRunner: {fileID: 0}
   passiveManager: {fileID: 0}
   comboPassiveTrigger: {fileID: 0}
+  killPassiveTrigger: {fileID: 0}
   animator: {fileID: 1430486898}
   deathAnimatorTrigger: Death
   deathScreenDelay: 1.5
@@ -3074,6 +3076,20 @@ MonoBehaviour:
   CamTarget: {fileID: 382498173}
   CameraMoveSpeed: 1
   CameraDirection: 0
+--- !u!114 &1430486915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430486891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbbab85dd013da74c9940abed447ff0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KillPassiveTrigger
+  passiveManager: {fileID: 1430486907}
+  stats: {fileID: 1430486900}
 --- !u!1 &1449615630 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1634134886320640399, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
