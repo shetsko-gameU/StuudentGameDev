@@ -26,4 +26,12 @@ public class OnHitPassiveSO : ScriptableObject
     [Tooltip("If true and this passive is active in PassiveManager, " +
              "it also fires when the player lands the LAST hit of a combo.")]
     public bool triggerOnLastHit = false;
+
+    [Header("Kill Trigger")]
+    [Tooltip("If true and this passive is active in PassiveManager, " +
+             "it fires every time the player kills an enemy. " +
+             "Unlike the on-hit/combo triggers, the buff uses the buffTemplate's OWN " +
+             "durationSeconds (0 = permanent) instead of buffDurationSeconds — set " +
+             "canStack + maxStacks on the template's stat line for per-kill stacking.")]
+    public bool triggerOnKill = false;
 }

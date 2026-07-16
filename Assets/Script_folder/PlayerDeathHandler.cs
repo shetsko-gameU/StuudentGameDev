@@ -20,6 +20,7 @@ public class PlayerDeathHandler : MonoBehaviour
     public AbilityRunner abilityRunner;
     public PassiveManager passiveManager;
     public ComboPassiveTrigger comboPassiveTrigger;
+    public KillPassiveTrigger killPassiveTrigger;
     public Animator animator;
 
     [Header("Death Animation")]
@@ -46,6 +47,7 @@ public class PlayerDeathHandler : MonoBehaviour
         if (abilityRunner == null) abilityRunner = GetComponent<AbilityRunner>();
         if (passiveManager == null) passiveManager = GetComponent<PassiveManager>();
         if (comboPassiveTrigger == null) comboPassiveTrigger = GetComponent<ComboPassiveTrigger>();
+        if (killPassiveTrigger == null) killPassiveTrigger = GetComponent<KillPassiveTrigger>();
         if (animator == null) animator = GetComponentInChildren<Animator>();
 
         if (stats == null)
@@ -109,10 +111,11 @@ public class PlayerDeathHandler : MonoBehaviour
         if (abilityRunner != null)
             abilityRunner.enabled = false;
 
-        // Passives — OnDisable() on both of these unsubscribes them from
-        // StatsManager.OnDamaged and ComboRunner's combo events, so nothing fires again.
+        // Passives — OnDisable() on these unsubscribes them from StatsManager.OnDamaged,
+        // ComboRunner's combo events, and the static OnAnyDied kill event, so nothing fires again.
         if (passiveManager != null) passiveManager.enabled = false;
         if (comboPassiveTrigger != null) comboPassiveTrigger.enabled = false;
+        if (killPassiveTrigger != null) killPassiveTrigger.enabled = false;
     }
 
     private void ShowDeathScreen()

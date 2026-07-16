@@ -30,6 +30,15 @@ public class StatsManager : MonoBehaviour
     public event Action OnDied;
     public event Action<float> OnDamaged;       // fires AFTER damage is applied and confirmed
 
+    /// <summary>
+    /// Fires when ANY entity dies: (victim, killer). Killer is null when the damage
+    /// source didn't pass an attacker into TakeDamage. Static so player-side systems
+    /// (e.g. KillPassiveTrigger) can hear about enemy deaths without holding a
+    /// reference to every enemy. Static events outlive scene loads — subscribers
+    /// MUST unsubscribe in OnDisable/OnDestroy.
+    /// </summary>
+    public static event Action<StatsManager, StatsManager> OnAnyDied;
+
     private class ActiveRolled
     {
         public RolledModifierInstance inst;
@@ -310,6 +319,7 @@ public class StatsManager : MonoBehaviour
         {
             currentHealth = 0f;
             OnDied?.Invoke();
+            OnAnyDied?.Invoke(this, attacker);
         }
     }
 
