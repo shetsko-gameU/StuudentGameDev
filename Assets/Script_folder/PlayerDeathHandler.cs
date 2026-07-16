@@ -37,6 +37,9 @@ public class PlayerDeathHandler : MonoBehaviour
     [Header("Scenes")]
     public string mainMenuSceneName = "MainMenu";
 
+    [Tooltip("Scene to load for \"Return to Hub\". Must exist and be added to Build Settings.")]
+    public string hubSceneName = "Hub";
+
     // ------------------------------------------------------------------ Lifecycle
 
     private void Awake()
@@ -138,6 +141,6 @@ public class PlayerDeathHandler : MonoBehaviour
 
     public void OnReturnToHub()
     {
-        Debug.LogWarning("PlayerDeathHandler: Return to Hub not implemented yet — no hub scene exists.");
+        SceneManager.LoadScene(hubSceneName);
     }
 }
