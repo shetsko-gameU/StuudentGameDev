@@ -31,6 +31,15 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
         public RolledModifierInstance statRoll;
     }
 
+    // Holds a KillPassiveSO and the permanent stat roll granted by EATING the food
+    // (separate from the per-kill buffTemplate rolls, which KillPassiveTrigger
+    // rolls fresh on every kill and never stores here).
+    private class KillPassiveEntry
+    {
+        public KillPassiveSO passive;
+        public RolledModifierInstance permanentStatRoll;
+    }
+
     // ------------------------------------------------------------------ Inspector
 
     [Header("References")]
@@ -44,17 +53,23 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
     [Tooltip("OnHitPassiveSOs the character starts with.")]
     public List<OnHitPassiveSO> startingFoodPassives = new List<OnHitPassiveSO>();
 
+    [Header("Starting Kill Passives")]
+    [Tooltip("KillPassiveSOs the character starts with.")]
+    public List<KillPassiveSO> startingKillPassives = new List<KillPassiveSO>();
+
     // ------------------------------------------------------------------ Debug (read-only in Inspector)
 
     [Header("─── Active Passives (Read Only) ───────────────────────")]
     [SerializeField] private List<string> debugAlwaysOnPassives = new List<string>();
     [SerializeField] private List<string> debugFoodPassives = new List<string>();
     [SerializeField] private List<string> debugStatBoosts = new List<string>();
+    [SerializeField] private List<string> debugKillPassives = new List<string>();
 
     // ------------------------------------------------------------------ Runtime data
 
     private readonly List<FoodPassiveEntry> activeFoodEntries = new List<FoodPassiveEntry>();
     private readonly List<StatBoostEntry> activeStatBoosts = new List<StatBoostEntry>();
+    private readonly List<KillPassiveEntry> activeKillEntries = new List<KillPassiveEntry>();
     private bool subscribed = false;
 
     // ------------------------------------------------------------------ Unity lifecycle
@@ -77,6 +92,9 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
 
         foreach (OnHitPassiveSO p in startingFoodPassives)
             if (p != null) AddFoodPassive(p, null);
+
+        foreach (KillPassiveSO p in startingKillPassives)
+            if (p != null) AddKillPassive(p, null);
     }
 
     private void OnEnable() => Subscribe();
@@ -256,6 +274,72 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
         return false;
     }
 
+    // ------------------------------------------------------------------ Kill passives (KillPassiveSO)
+
+    /// <summary>
+    /// Adds a kill passive and applies the permanent stat roll granted by eating the food (if any).
+    /// Handles family/rarity replacement — higher rarity removes the old eaten-stat roll first.
+    /// The per-kill buffTemplate itself is rolled fresh on every kill by KillPassiveTrigger,
+    /// not here — this only tracks which kill passives are currently active.
+    /// Returns true if added or upgraded.
+    /// </summary>
+    public bool AddKillPassive(KillPassiveSO newPassive, RolledModifierInstance rolledStats)
+    {
+        if (newPassive == null)
+        {
+            Debug.LogWarning("PassiveManager.AddKillPassive: passive was null.");
+            return false;
+        }
+
+        KillPassiveEntry existing = FindKillEntryByFamily(newPassive);
+
+        if (existing == null)
+        {
+            ApplyKillEntry(newPassive, rolledStats);
+            RefreshDebugLists();
+            Debug.Log($"PassiveManager: Added kill passive '{newPassive.displayName}'");
+            return true;
+        }
+
+        if (existing.passive == newPassive)
+        {
+            Debug.Log($"PassiveManager: Already have '{newPassive.displayName}', ignoring.");
+            return false;
+        }
+
+        int existingRarity = GetKillRarityValue(existing.passive);
+        int newRarity = GetKillRarityValue(newPassive);
+
+        if (newRarity > existingRarity)
+        {
+            Debug.Log($"PassiveManager: Upgrading kill passive '{existing.passive.displayName}' → '{newPassive.displayName}'");
+            RemoveKillEntry(existing);
+            ApplyKillEntry(newPassive, rolledStats);
+            RefreshDebugLists();
+            return true;
+        }
+
+        Debug.Log($"PassiveManager: Already have equal or higher rarity of '{newPassive.displayName}', ignoring.");
+        return false;
+    }
+
+    public void RemoveKillPassive(KillPassiveSO passive)
+    {
+        if (passive == null) return;
+        KillPassiveEntry entry = FindKillEntry(passive);
+        if (entry != null) { RemoveKillEntry(entry); RefreshDebugLists(); }
+    }
+
+    public bool HasKillPassive(KillPassiveSO passive) => FindKillEntry(passive) != null;
+    public int KillPassiveCount => activeKillEntries.Count;
+
+    /// <summary>Every currently active KillPassiveSO. Used by KillPassiveTrigger on each kill.</summary>
+    public IEnumerable<KillPassiveSO> ActiveKillPassives()
+    {
+        foreach (KillPassiveEntry e in activeKillEntries)
+            if (e.passive != null) yield return e.passive;
+    }
+
     // ------------------------------------------------------------------ IEnumerable
 
     public IEnumerator<OnHitPassiveSO> GetEnumerator()
@@ -351,6 +435,48 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
         return passive.statTemplate != null ? (int)passive.statTemplate.rarity : 0;
     }
 
+    // ------------------------------------------------------------------ Kill passive internals
+
+    private void ApplyKillEntry(KillPassiveSO passive, RolledModifierInstance rolledStats)
+    {
+        activeKillEntries.Add(new KillPassiveEntry
+        {
+            passive = passive,
+            permanentStatRoll = rolledStats
+        });
+
+        if (rolledStats != null && stats != null)
+            stats.AddRolledModifier(rolledStats);
+    }
+
+    private void RemoveKillEntry(KillPassiveEntry entry)
+    {
+        if (entry.permanentStatRoll != null && stats != null)
+            stats.RemoveRolledInstance(entry.permanentStatRoll);
+
+        activeKillEntries.Remove(entry);
+    }
+
+    private KillPassiveEntry FindKillEntry(KillPassiveSO passive)
+    {
+        foreach (KillPassiveEntry e in activeKillEntries)
+            if (e.passive == passive) return e;
+        return null;
+    }
+
+    private KillPassiveEntry FindKillEntryByFamily(KillPassiveSO passive)
+    {
+        if (string.IsNullOrEmpty(passive.passiveFamily)) return null;
+        foreach (KillPassiveEntry e in activeKillEntries)
+            if (e.passive != null && e.passive.passiveFamily == passive.passiveFamily) return e;
+        return null;
+    }
+
+    private int GetKillRarityValue(KillPassiveSO passive)
+    {
+        return passive.buffTemplate != null ? (int)passive.buffTemplate.rarity : 0;
+    }
+
     // ------------------------------------------------------------------ Debug lists
 
     private void RefreshDebugLists()
@@ -376,6 +502,15 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
             string rarity = e.passive.statTemplate != null
                 ? e.passive.statTemplate.rarity.ToString() : "No Template";
             debugStatBoosts.Add($"{e.passive.displayName}  [{rarity}]");
+        }
+
+        debugKillPassives.Clear();
+        foreach (KillPassiveEntry e in activeKillEntries)
+        {
+            if (e.passive == null) continue;
+            string rarity = e.passive.buffTemplate != null
+                ? e.passive.buffTemplate.rarity.ToString() : "No Template";
+            debugKillPassives.Add($"{e.passive.displayName}  [{rarity}]");
         }
     }
 

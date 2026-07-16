@@ -20,6 +20,14 @@ public class PlayerConsume : MonoBehaviour
         public FoodStatPassiveSO statPassive;
     }
 
+    // Links a food SO to the kill passive it grants when eaten
+    [Serializable]
+    public class FoodKillBoostLink
+    {
+        public StatsModifierSO foodItem;
+        public KillPassiveSO killPassive;
+    }
+
     [Header("References")]
     public Inventory inventory;
     public StatsManager stats;
@@ -35,6 +43,12 @@ public class PlayerConsume : MonoBehaviour
              "These give a flat stat boost (e.g. +10 MaxHealth) that lasts until " +
              "the player eats a higher rarity version of the same food.")]
     public List<FoodStatBoostLink> foodStatBoosts = new List<FoodStatBoostLink>();
+
+    [Header("Food → Kill Passive Links")]
+    [Tooltip("Link food SOs to a kill passive. " +
+             "These fire every time the player kills an enemy — e.g. 'gain a stack of " +
+             "+Attack per kill' — until the player eats a higher rarity version of the same food.")]
+    public List<FoodKillBoostLink> foodKillBoosts = new List<FoodKillBoostLink>();
 
     private void Awake()
     {
@@ -92,6 +106,7 @@ public class PlayerConsume : MonoBehaviour
 
         OnHitPassiveSO onHitPassive = FindOnHitPassive(foodSO);
         FoodStatPassiveSO statPassive = FindStatBoostPassive(foodSO);
+        KillPassiveSO killPassive = FindKillBoostPassive(foodSO);
 
         bool handled = false;
 
@@ -111,6 +126,17 @@ public class PlayerConsume : MonoBehaviour
                 : rolledStats;
 
             passiveManager.AddStatBoostPassive(statPassive, statRoll);
+            handled = true;
+        }
+
+        // Handle kill passive — rolls stats independently if food has other types too
+        if (killPassive != null && passiveManager != null)
+        {
+            RolledModifierInstance killRoll = handled
+                ? ModifierRoller.Roll(foodSO)
+                : rolledStats;
+
+            passiveManager.AddKillPassive(killPassive, killRoll);
             handled = true;
         }
 
@@ -171,6 +197,16 @@ public class PlayerConsume : MonoBehaviour
         {
             if (link != null && link.foodItem == foodItemSO)
                 return link.statPassive;
+        }
+        return null;
+    }
+
+    private KillPassiveSO FindKillBoostPassive(StatsModifierSO foodItemSO)
+    {
+        foreach (FoodKillBoostLink link in foodKillBoosts)
+        {
+            if (link != null && link.foodItem == foodItemSO)
+                return link.killPassive;
         }
         return null;
     }

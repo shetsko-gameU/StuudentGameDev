@@ -4,17 +4,17 @@ using UnityEngine;
 /// Add to the player alongside PassiveManager and StatsManager.
 ///
 /// Listens to the global StatsManager.OnAnyDied event and, when the killer is this
-/// player, fires every active food passive flagged with triggerOnKill.
+/// player, rolls and applies every active KillPassiveSO's buffTemplate.
 ///
-/// Unlike ComboPassiveTrigger, this path does NOT force buffDurationSeconds onto
-/// the roll — the buffTemplate's own durationSeconds is used, so 0 = permanent.
+/// Unlike ComboPassiveTrigger/OnHitPassiveSO, there is no separate "duration override" —
+/// KillPassiveSO.buffTemplate's own durationSeconds is used as-is (0 = permanent).
 /// Combine with canStack + maxStacks on the template's stat line to get
 /// "gain a stack of X for each enemy killed" that lasts the rest of the run.
 ///
-/// To make a food passive trigger on kills:
-///   1. On the OnHitPassiveSO asset → tick triggerOnKill.
-///   2. On its buffTemplate StatsModifierSO → tick canStack on the stat line,
-///      set maxStacks (0/1 = uncapped), leave durationSeconds at 0.
+/// To make a food grant a kill passive: create a KillPassiveSO asset and link it
+/// through PlayerConsume's Food → Kill Passive list (or PassiveManager.startingKillPassives
+/// for testing). Every KillPassiveSO active in PassiveManager fires on every kill —
+/// there's no per-asset toggle, since being a KillPassiveSO at all IS the trigger.
 /// </summary>
 public class KillPassiveTrigger : MonoBehaviour
 {
@@ -48,16 +48,14 @@ public class KillPassiveTrigger : MonoBehaviour
         if (killer != stats || victim == stats) return;
         if (passiveManager == null || stats == null) return;
 
-        foreach (OnHitPassiveSO passive in passiveManager)
+        foreach (KillPassiveSO passive in passiveManager.ActiveKillPassives())
         {
-            if (passive == null || !passive.triggerOnKill) continue;
+            if (passive == null) continue;
 
             Debug.Log($"KillPassiveTrigger: Kill confirmed — firing '{passive.displayName}'");
 
             if (passive.buffTemplate != null)
             {
-                // No buffDurationSeconds override here — the template's own
-                // durationSeconds decides (0 = permanent for the run).
                 RolledModifierInstance roll = ModifierRoller.Roll(passive.buffTemplate);
                 stats.AddRolledModifier(roll);
             }
