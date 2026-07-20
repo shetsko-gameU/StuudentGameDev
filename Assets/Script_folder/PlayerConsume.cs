@@ -28,6 +28,14 @@ public class PlayerConsume : MonoBehaviour
         public KillPassiveSO killPassive;
     }
 
+    // Links a food SO to the debuff-on-hit passive it grants when eaten
+    [Serializable]
+    public class FoodDebuffBoostLink
+    {
+        public StatsModifierSO foodItem;
+        public DebuffOnHitPassiveSO debuffPassive;
+    }
+
     [Header("References")]
     public Inventory inventory;
     public StatsManager stats;
@@ -50,6 +58,12 @@ public class PlayerConsume : MonoBehaviour
              "+Attack per kill' — until the player eats a higher rarity version of the same food.")]
     public List<FoodKillBoostLink> foodKillBoosts = new List<FoodKillBoostLink>();
 
+    [Header("Food → Debuff Boost Links")]
+    [Tooltip("Link food SOs to a debuff-on-hit passive. " +
+             "These apply a temporary debuff to the enemy every time the player LANDS a hit " +
+             "(not on a miss/dodge) — until the player eats a higher rarity version of the same food.")]
+    public List<FoodDebuffBoostLink> foodDebuffBoosts = new List<FoodDebuffBoostLink>();
+
     private void Awake()
     {
         if (inventory == null) inventory = GetComponent<Inventory>();
@@ -69,12 +83,14 @@ public class PlayerConsume : MonoBehaviour
     ///
     /// What happens:
     ///   1. Item is rolled and removed from inventory
-    ///   2. If the food has an on-hit passive linked  → PassiveManager.AddFoodPassive
-    ///   3. If the food has a stat boost linked        → PassiveManager.AddStatBoostPassive
-    ///   4. If neither is linked                       → stats applied directly (no tracking)
+    ///   2. If the food has an on-hit passive linked   → PassiveManager.AddFoodPassive
+    ///   3. If the food has a stat boost linked         → PassiveManager.AddStatBoostPassive
+    ///   4. If the food has a kill passive linked       → PassiveManager.AddKillPassive
+    ///   5. If the food has a debuff passive linked     → PassiveManager.AddDebuffPassive
+    ///   6. If none of the above are linked             → stats applied directly (no tracking)
     ///
-    /// A food can have BOTH links — the on-hit passive gets the stat roll,
-    /// and the stat boost gets a separate roll of the same template.
+    /// A food can have MULTIPLE links — the first one uses the original rolled stats,
+    /// every additional linked type gets its own fresh roll of the same template.
     /// </summary>
     public void EatFoodAtIndex(int inventoryIndex)
     {
@@ -107,6 +123,7 @@ public class PlayerConsume : MonoBehaviour
         OnHitPassiveSO onHitPassive = FindOnHitPassive(foodSO);
         FoodStatPassiveSO statPassive = FindStatBoostPassive(foodSO);
         KillPassiveSO killPassive = FindKillBoostPassive(foodSO);
+        DebuffOnHitPassiveSO debuffPassive = FindDebuffBoostPassive(foodSO);
 
         bool handled = false;
 
@@ -137,6 +154,17 @@ public class PlayerConsume : MonoBehaviour
                 : rolledStats;
 
             passiveManager.AddKillPassive(killPassive, killRoll);
+            handled = true;
+        }
+
+        // Handle debuff-on-hit passive — rolls stats independently if food has other types too
+        if (debuffPassive != null && passiveManager != null)
+        {
+            RolledModifierInstance debuffRoll = handled
+                ? ModifierRoller.Roll(foodSO)
+                : rolledStats;
+
+            passiveManager.AddDebuffPassive(debuffPassive, debuffRoll);
             handled = true;
         }
 
@@ -207,6 +235,16 @@ public class PlayerConsume : MonoBehaviour
         {
             if (link != null && link.foodItem == foodItemSO)
                 return link.killPassive;
+        }
+        return null;
+    }
+
+    private DebuffOnHitPassiveSO FindDebuffBoostPassive(StatsModifierSO foodItemSO)
+    {
+        foreach (FoodDebuffBoostLink link in foodDebuffBoosts)
+        {
+            if (link != null && link.foodItem == foodItemSO)
+                return link.debuffPassive;
         }
         return null;
     }

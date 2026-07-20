@@ -24,6 +24,10 @@ public class AttackHitbox : MonoBehaviour
     /// </summary>
     public StatsManager attackerStats;
 
+    /// <summary>Fires with the enemy's StatsManager whenever a hit actually lands (not dodged).
+    /// Used by DebuffOnHitTrigger to apply enemy-targeted debuffs only on confirmed hits.</summary>
+    public event System.Action<StatsManager> OnEnemyHit;
+
     private float currentDamage;
 
     // ------------------------------------------------------------------ Lifecycle
@@ -87,7 +91,10 @@ public class AttackHitbox : MonoBehaviour
 
         if (enemyStats == null) return;
 
-        enemyStats.TakeDamage(currentDamage, attackerStats);
+        bool landed = enemyStats.TakeDamage(currentDamage, attackerStats);
         Debug.Log($"AttackHitbox: Hit '{other.name}' for {currentDamage} damage.");
+
+        if (landed)
+            OnEnemyHit?.Invoke(enemyStats);
     }
 }

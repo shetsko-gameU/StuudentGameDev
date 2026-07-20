@@ -4,16 +4,22 @@ using UnityEngine;
 
 /// <summary>
 /// Manages ALL passives on the player.
-/// Handles three types:
+/// Handles five types:
 ///
-///   PassiveEffectSO    — permanent always-on stat boosts (starting perks, equipment).
+///   PassiveEffectSO       — permanent always-on stat boosts (starting perks, equipment).
 ///
-///   OnHitPassiveSO     — food buffs that fire a TEMPORARY effect every time the player is hit.
-///                        Also tracks a permanent stat roll from eating the food.
+///   OnHitPassiveSO        — food buffs that fire a TEMPORARY effect on the PLAYER every
+///                           time the player is hit. Also tracks a permanent stat roll
+///                           from eating the food.
 ///
-///   FoodStatPassiveSO  — food that gives a BASE STAT BOOST only, no on-hit effect.
-///                        "+10 MaxHealth until you eat a better version."
-///                        Higher rarity of same family replaces lower rarity.
+///   FoodStatPassiveSO     — food that gives a BASE STAT BOOST only, no on-hit effect.
+///                           "+10 MaxHealth until you eat a better version."
+///                           Higher rarity of same family replaces lower rarity.
+///
+///   KillPassiveSO         — fires on every confirmed kill (via KillPassiveTrigger).
+///
+///   DebuffOnHitPassiveSO  — applies a debuff to the ENEMY on every confirmed hit
+///                           (via DebuffOnHitTrigger) — the mirror of OnHitPassiveSO.
 /// </summary>
 public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
 {
@@ -40,6 +46,15 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
         public RolledModifierInstance permanentStatRoll;
     }
 
+    // Holds a DebuffOnHitPassiveSO and the permanent stat roll granted by EATING the food
+    // (separate from the per-hit debuffTemplate rolls, which DebuffOnHitTrigger rolls
+    // fresh on every confirmed hit and applies to the ENEMY, not tracked here).
+    private class DebuffPassiveEntry
+    {
+        public DebuffOnHitPassiveSO passive;
+        public RolledModifierInstance permanentStatRoll;
+    }
+
     // ------------------------------------------------------------------ Inspector
 
     [Header("References")]
@@ -57,6 +72,10 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
     [Tooltip("KillPassiveSOs the character starts with.")]
     public List<KillPassiveSO> startingKillPassives = new List<KillPassiveSO>();
 
+    [Header("Starting Debuff Passives")]
+    [Tooltip("DebuffOnHitPassiveSOs the character starts with.")]
+    public List<DebuffOnHitPassiveSO> startingDebuffPassives = new List<DebuffOnHitPassiveSO>();
+
     // ------------------------------------------------------------------ Debug (read-only in Inspector)
 
     [Header("─── Active Passives (Read Only) ───────────────────────")]
@@ -64,12 +83,14 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
     [SerializeField] private List<string> debugFoodPassives = new List<string>();
     [SerializeField] private List<string> debugStatBoosts = new List<string>();
     [SerializeField] private List<string> debugKillPassives = new List<string>();
+    [SerializeField] private List<string> debugDebuffPassives = new List<string>();
 
     // ------------------------------------------------------------------ Runtime data
 
     private readonly List<FoodPassiveEntry> activeFoodEntries = new List<FoodPassiveEntry>();
     private readonly List<StatBoostEntry> activeStatBoosts = new List<StatBoostEntry>();
     private readonly List<KillPassiveEntry> activeKillEntries = new List<KillPassiveEntry>();
+    private readonly List<DebuffPassiveEntry> activeDebuffEntries = new List<DebuffPassiveEntry>();
     private bool subscribed = false;
 
     // ------------------------------------------------------------------ Unity lifecycle
@@ -95,6 +116,9 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
 
         foreach (KillPassiveSO p in startingKillPassives)
             if (p != null) AddKillPassive(p, null);
+
+        foreach (DebuffOnHitPassiveSO p in startingDebuffPassives)
+            if (p != null) AddDebuffPassive(p, null);
     }
 
     private void OnEnable() => Subscribe();
@@ -340,6 +364,73 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
             if (e.passive != null) yield return e.passive;
     }
 
+    // ------------------------------------------------------------------ Debuff passives (DebuffOnHitPassiveSO)
+
+    /// <summary>
+    /// Adds a debuff-on-hit passive and applies the permanent stat roll granted by eating the
+    /// food (if any). Handles family/rarity replacement — higher rarity removes the old
+    /// eaten-stat roll first. The per-hit debuffTemplate itself is rolled fresh on every
+    /// confirmed hit by DebuffOnHitTrigger and applied to the ENEMY, not here — this only
+    /// tracks which debuff passives are currently active.
+    /// Returns true if added or upgraded.
+    /// </summary>
+    public bool AddDebuffPassive(DebuffOnHitPassiveSO newPassive, RolledModifierInstance rolledStats)
+    {
+        if (newPassive == null)
+        {
+            Debug.LogWarning("PassiveManager.AddDebuffPassive: passive was null.");
+            return false;
+        }
+
+        DebuffPassiveEntry existing = FindDebuffEntryByFamily(newPassive);
+
+        if (existing == null)
+        {
+            ApplyDebuffEntry(newPassive, rolledStats);
+            RefreshDebugLists();
+            Debug.Log($"PassiveManager: Added debuff passive '{newPassive.displayName}'");
+            return true;
+        }
+
+        if (existing.passive == newPassive)
+        {
+            Debug.Log($"PassiveManager: Already have '{newPassive.displayName}', ignoring.");
+            return false;
+        }
+
+        int existingRarity = GetDebuffRarityValue(existing.passive);
+        int newRarity = GetDebuffRarityValue(newPassive);
+
+        if (newRarity > existingRarity)
+        {
+            Debug.Log($"PassiveManager: Upgrading debuff passive '{existing.passive.displayName}' → '{newPassive.displayName}'");
+            RemoveDebuffEntry(existing);
+            ApplyDebuffEntry(newPassive, rolledStats);
+            RefreshDebugLists();
+            return true;
+        }
+
+        Debug.Log($"PassiveManager: Already have equal or higher rarity of '{newPassive.displayName}', ignoring.");
+        return false;
+    }
+
+    public void RemoveDebuffPassive(DebuffOnHitPassiveSO passive)
+    {
+        if (passive == null) return;
+        DebuffPassiveEntry entry = FindDebuffEntry(passive);
+        if (entry != null) { RemoveDebuffEntry(entry); RefreshDebugLists(); }
+    }
+
+    public bool HasDebuffPassive(DebuffOnHitPassiveSO passive) => FindDebuffEntry(passive) != null;
+    public int DebuffPassiveCount => activeDebuffEntries.Count;
+
+    /// <summary>Every currently active DebuffOnHitPassiveSO. Used by DebuffOnHitTrigger on each confirmed hit.</summary>
+    public IEnumerable<DebuffOnHitPassiveSO> ActiveDebuffPassives()
+    {
+        foreach (DebuffPassiveEntry e in activeDebuffEntries)
+            if (e.passive != null) yield return e.passive;
+    }
+
     // ------------------------------------------------------------------ IEnumerable
 
     public IEnumerator<OnHitPassiveSO> GetEnumerator()
@@ -477,6 +568,48 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
         return passive.buffTemplate != null ? (int)passive.buffTemplate.rarity : 0;
     }
 
+    // ------------------------------------------------------------------ Debuff passive internals
+
+    private void ApplyDebuffEntry(DebuffOnHitPassiveSO passive, RolledModifierInstance rolledStats)
+    {
+        activeDebuffEntries.Add(new DebuffPassiveEntry
+        {
+            passive = passive,
+            permanentStatRoll = rolledStats
+        });
+
+        if (rolledStats != null && stats != null)
+            stats.AddRolledModifier(rolledStats);
+    }
+
+    private void RemoveDebuffEntry(DebuffPassiveEntry entry)
+    {
+        if (entry.permanentStatRoll != null && stats != null)
+            stats.RemoveRolledInstance(entry.permanentStatRoll);
+
+        activeDebuffEntries.Remove(entry);
+    }
+
+    private DebuffPassiveEntry FindDebuffEntry(DebuffOnHitPassiveSO passive)
+    {
+        foreach (DebuffPassiveEntry e in activeDebuffEntries)
+            if (e.passive == passive) return e;
+        return null;
+    }
+
+    private DebuffPassiveEntry FindDebuffEntryByFamily(DebuffOnHitPassiveSO passive)
+    {
+        if (string.IsNullOrEmpty(passive.passiveFamily)) return null;
+        foreach (DebuffPassiveEntry e in activeDebuffEntries)
+            if (e.passive != null && e.passive.passiveFamily == passive.passiveFamily) return e;
+        return null;
+    }
+
+    private int GetDebuffRarityValue(DebuffOnHitPassiveSO passive)
+    {
+        return passive.debuffTemplate != null ? (int)passive.debuffTemplate.rarity : 0;
+    }
+
     // ------------------------------------------------------------------ Debug lists
 
     private void RefreshDebugLists()
@@ -511,6 +644,15 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
             string rarity = e.passive.buffTemplate != null
                 ? e.passive.buffTemplate.rarity.ToString() : "No Template";
             debugKillPassives.Add($"{e.passive.displayName}  [{rarity}]");
+        }
+
+        debugDebuffPassives.Clear();
+        foreach (DebuffPassiveEntry e in activeDebuffEntries)
+        {
+            if (e.passive == null) continue;
+            string rarity = e.passive.debuffTemplate != null
+                ? e.passive.debuffTemplate.rarity.ToString() : "No Template";
+            debugDebuffPassives.Add($"{e.passive.displayName}  [{rarity}]");
         }
     }
 

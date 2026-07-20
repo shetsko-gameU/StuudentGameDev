@@ -120,6 +120,15 @@ public class StatsManager : MonoBehaviour
             if (inst.durationSeconds > 0f)
                 existing.timeRemaining = inst.durationSeconds;
         }
+        else if (existing != null && !canStack)
+        {
+            // Same non-stacking source re-applied while still active (e.g. a debuff that
+            // keeps landing on repeated hits). Replace with the fresh roll and reset the
+            // clock instead of adding a duplicate entry — a duplicate would double the
+            // effect every RecalculateFinalStats pass, not just extend its duration.
+            existing.inst = inst;
+            existing.timeRemaining = inst.durationSeconds > 0f ? inst.durationSeconds : -1f;
+        }
         else
         {
             active.Add(new ActiveRolled
@@ -281,27 +290,30 @@ public class StatsManager : MonoBehaviour
     /// <summary>
     /// Apply damage to this entity.
     /// Pass the attacker's StatsManager to trigger HealthSteal healing on their side.
+    /// Returns true if the attack actually landed (not dodged) — false on a dodge or
+    /// when already dead. Used by AttackHitbox to gate OnEnemyHit so on-hit effects
+    /// (like enemy debuffs) can't fire off a swing that was evaded.
     /// </summary>
-    public void TakeDamage(float incomingDamage, StatsManager attacker = null)
+    public bool TakeDamage(float incomingDamage, StatsManager attacker = null)
     {
-        if (IsDead) return;
+        if (IsDead) return false;
 
         // Check dodge first — if dodged, nothing happens at all
         if (UnityEngine.Random.value < DodgeChance)
         {
             Debug.Log($"{name} dodged the attack!");
-            return;
+            return false;
         }
 
         // Apply defense reduction
         float finalDamage = Mathf.Max(0f, incomingDamage - Defense);
 
-        // Even if defense absorbs all damage, fire OnDamaged with 0
-        // so PassiveManager still reacts and applies the on-hit food buff
+        // Even if defense absorbs all damage, fire OnDamaged with 0 so PassiveManager
+        // still reacts and applies the on-hit food buff — this still counts as a landed hit.
         if (finalDamage <= 0f)
         {
             OnDamaged?.Invoke(0f);
-            return;
+            return true;
         }
 
         // Subtract health FIRST — then fire events so listeners see the correct health value
@@ -321,6 +333,8 @@ public class StatsManager : MonoBehaviour
             OnDied?.Invoke();
             OnAnyDied?.Invoke(this, attacker);
         }
+
+        return true;
     }
 
     public void Heal(float amount)
