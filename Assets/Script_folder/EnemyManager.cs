@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -14,39 +13,78 @@ public class EnemyManager : MonoBehaviour
 
     public int EnemyWave;
 
+    private bool allWavesCleared;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Awake()
     {
-        
+        if (Enemy == null)
+            Debug.LogError($"EnemyManager on '{name}': Enemy prefab is not assigned.");
+
+        if (SpawnLocations == null || SpawnLocations.Length == 0)
+            Debug.LogError($"EnemyManager on '{name}': No SpawnLocations assigned.");
+
+        if (EnemiesPerWave == null || EnemiesPerWave.Count == 0)
+            Debug.LogError($"EnemyManager on '{name}': EnemiesPerWave is empty — no waves configured.");
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
+        if (allWavesCleared) return;
+
+        if (Enemy == null || SpawnLocations == null || SpawnLocations.Length == 0 || EnemiesPerWave == null)
+            return;
+
+        if (EnemyWave >= EnemiesPerWave.Count)
+        {
+            allWavesCleared = true;
+            Debug.Log($"EnemyManager on '{name}': All waves cleared.");
+            return;
+        }
+
         SpawnTimer -= Time.deltaTime;
         if (SpawnTimer <= 0)
         {
             if (EnemiesPerWave[EnemyWave] > 0)
             {
-                GameObject newEnemy = Instantiate(Enemy, SpawnLocations[Random.Range(0, SpawnLocations.Length)].transform.position, Enemy.transform.rotation);
-                EnemiesInWave.Add(newEnemy.GetComponent<EnemyBase>());
+                SpawnEnemy();
                 EnemiesPerWave[EnemyWave] -= 1;
                 SpawnTimer = SpawnTimerMax;
             }
-
         }
 
-        if (EnemiesPerWave[EnemyWave] <=0 && EnemiesInWave.Count == 0)
+        if (EnemiesPerWave[EnemyWave] <= 0 && EnemiesInWave.Count == 0)
         {
             EnemyWave += 1;
         }
-        
+    }
 
-        
+    private void SpawnEnemy()
+    {
+        GameObject newEnemy = Instantiate(Enemy, SpawnLocations[Random.Range(0, SpawnLocations.Length)].transform.position, Enemy.transform.rotation);
 
+        EnemyBase enemyBase = newEnemy.GetComponent<EnemyBase>();
+        if (enemyBase == null)
+        {
+            Debug.LogWarning($"EnemyManager on '{name}': Spawned '{Enemy.name}' has no EnemyBase component — it won't be tracked and will block this wave from ever completing.");
+            return;
+        }
 
+        EnemiesInWave.Add(enemyBase);
 
+        if (enemyBase.stats != null)
+            enemyBase.stats.OnDied += () => HandleEnemyDied(enemyBase);
+        else
+            Debug.LogWarning($"EnemyManager on '{name}': Spawned enemy '{newEnemy.name}' has no StatsManager assigned on its EnemyBase — it will never be removed from the wave when it dies.");
+    }
 
+    // Called when a tracked enemy's StatsManager fires OnDied. Without this, EnemiesInWave
+    // never empties and EnemyWave can never advance past the first wave.
+    private void HandleEnemyDied(EnemyBase enemyBase)
+    {
+        EnemiesInWave.Remove(enemyBase);
+
+        if (enemyBase != null)
+            Destroy(enemyBase.gameObject);
     }
 }
