@@ -5,7 +5,10 @@ public class EnemyManager : MonoBehaviour
 {
     public GameObject[] SpawnLocations;
     public List<EnemyBase> EnemiesInWave = new List<EnemyBase>();
-    public GameObject Enemy;
+
+    [Tooltip("Pool of enemy prefabs this manager can spawn. Each spawn picks one at random, " +
+             "the same way a random SpawnLocation is picked.")]
+    public GameObject[] EnemyTypes;
     public float SpawnTimer;
     public float SpawnTimerMax;
 
@@ -17,8 +20,8 @@ public class EnemyManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Enemy == null)
-            Debug.LogError($"EnemyManager on '{name}': Enemy prefab is not assigned.");
+        if (EnemyTypes == null || EnemyTypes.Length == 0)
+            Debug.LogError($"EnemyManager on '{name}': No EnemyTypes assigned.");
 
         if (SpawnLocations == null || SpawnLocations.Length == 0)
             Debug.LogError($"EnemyManager on '{name}': No SpawnLocations assigned.");
@@ -32,7 +35,7 @@ public class EnemyManager : MonoBehaviour
     {
         if (allWavesCleared) return;
 
-        if (Enemy == null || SpawnLocations == null || SpawnLocations.Length == 0 || EnemiesPerWave == null)
+        if (EnemyTypes == null || EnemyTypes.Length == 0 || SpawnLocations == null || SpawnLocations.Length == 0 || EnemiesPerWave == null)
             return;
 
         if (EnemyWave >= EnemiesPerWave.Count)
@@ -61,12 +64,15 @@ public class EnemyManager : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        GameObject newEnemy = Instantiate(Enemy, SpawnLocations[Random.Range(0, SpawnLocations.Length)].transform.position, Enemy.transform.rotation);
+        GameObject enemyPrefab = EnemyTypes[Random.Range(0, EnemyTypes.Length)];
+        Vector3 spawnPos = SpawnLocations[Random.Range(0, SpawnLocations.Length)].transform.position;
+
+        GameObject newEnemy = Instantiate(enemyPrefab, spawnPos, enemyPrefab.transform.rotation);
 
         EnemyBase enemyBase = newEnemy.GetComponent<EnemyBase>();
         if (enemyBase == null)
         {
-            Debug.LogWarning($"EnemyManager on '{name}': Spawned '{Enemy.name}' has no EnemyBase component — it won't be tracked and will block this wave from ever completing.");
+            Debug.LogWarning($"EnemyManager on '{name}': Spawned '{enemyPrefab.name}' has no EnemyBase component — it won't be tracked and will block this wave from ever completing.");
             return;
         }
 
