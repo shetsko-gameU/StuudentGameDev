@@ -3708,7 +3708,8 @@ MonoBehaviour:
   - {fileID: 1170081888}
   - {fileID: 2000192964}
   EnemiesInWave: []
-  Enemy: {fileID: 5256484237102604277, guid: 026025a3d746d544f847330d566c954b, type: 3}
+  EnemyTypes:
+  - {fileID: 5256484237102604277, guid: 026025a3d746d544f847330d566c954b, type: 3}
   SpawnTimer: 0
   SpawnTimerMax: 2
   EnemiesPerWave: 030000000300000003000000
