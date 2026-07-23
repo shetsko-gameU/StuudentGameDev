@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 824b78c151fe2cc4e8f01728ea1960c2, type: 3}
+  m_Name: New Loot Table SO
+  m_EditorClassIdentifier: Assembly-CSharp::LootTableSO
+  guaranteedDrops:
+  - pickupPrefab: {fileID: 8049614977823188322, guid: cd916b1695bbab74caae4350cf0a8ea5, type: 3}
+    dropChance: 0
+    count: 5
+  randomDrops: []

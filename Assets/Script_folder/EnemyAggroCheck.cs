@@ -2,13 +2,16 @@ using UnityEngine;
 
 public class EnemyAggroCheck : MonoBehaviour
 {
-    public GameObject target{get; set;}
-    public Enemy_Base enemy;
+    public GameObject playerTarget{get; set;}
+    public GameObject dummyTarget{get; set;}
+    public EnemyBase enemy;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-        target = GameObject.FindGameObjectWithTag("Player");
-        enemy = GetComponentInParent<Enemy_Base>();
+        //adjust FindGameObject to incorporate dummy as target
+        playerTarget = GameObject.FindGameObjectWithTag("Player");
+        dummyTarget = GameObject.FindGameObjectWithTag("Dummy");
+        enemy = GetComponentInParent<EnemyBase>();
     }
     void Start()
     {
@@ -23,14 +26,14 @@ public class EnemyAggroCheck : MonoBehaviour
     //Enemy determines trigger based on spotting the player
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == target)
+        if (other.gameObject == playerTarget || other.gameObject == dummyTarget)
         {
             enemy.isAggroed = true;
         }
     }
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject == target)
+        if (other.gameObject == playerTarget && other.gameObject == dummyTarget)
         {
             enemy.isAggroed = false;
         }

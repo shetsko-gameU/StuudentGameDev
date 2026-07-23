@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4588138783082185182}
   - component: {fileID: 675760437838088498}
   m_Layer: 0
-  m_Name: Particle System
+  m_Name: fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -287,8 +287,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.7
-      minScalar: 0.5
+      scalar: 0.5
+      minScalar: 0.3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1309,7 +1309,7 @@ ParticleSystem:
       maxGradient:
         serializedVersion: 2
         key0: {r: 0.00073296163, g: 0, b: 0.82641506, a: 1}
-        key1: {r: 1, g: 0.0018940925, b: 0, a: 1}
+        key1: {r: 1, g: 0.0018940925, b: 0, a: 0}
         key2: {r: 1, g: 0.7201239, b: 0, a: 0}
         key3: {r: 1, g: 0.7201239, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -1318,16 +1318,16 @@ ParticleSystem:
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 0
         ctime1: 7787
-        ctime2: 57902
+        ctime2: 65535
         ctime3: 57902
         ctime4: 0
         ctime5: 0
         ctime6: 0
         ctime7: 0
-        atime0: 0
+        atime0: 48496
         atime1: 65535
-        atime2: 0
-        atime3: 0
+        atime2: 65535
+        atime3: 65535
         atime4: 0
         atime5: 0
         atime6: 0
@@ -4782,7 +4782,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e823cd5b5d27c0f4b8256e7c12ee3e6d, type: 2}
+  - {fileID: 2100000, guid: 1d51beeb034fa50428cf3eb2731d4990, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4804,7 +4804,7 @@ ParticleSystemRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_RenderMode: 0
+  m_RenderMode: 4
   m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -4827,7 +4827,7 @@ ParticleSystemRenderer:
   m_VertexStreams: 00010304
   m_UseCustomTrailVertexStreams: 0
   m_TrailVertexStreams: 00010304
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
@@ -4845,16 +4845,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 5af1306c936baf34da170567e6363efc, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 99.967476
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5af1306c936baf34da170567e6363efc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.016949
+      value: -3.767971
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5af1306c936baf34da170567e6363efc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.483818
+      value: 2.936808
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5af1306c936baf34da170567e6363efc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.107562
+      value: -0.21123195
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5af1306c936baf34da170567e6363efc, type: 3}
       propertyPath: m_LocalRotation.w

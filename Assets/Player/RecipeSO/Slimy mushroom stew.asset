@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee6161da4b5a4604584d3c4fbb0c687f, type: 3}
+  m_Name: Slimy mushroom stew
+  m_EditorClassIdentifier: Assembly-CSharp::RarityRecipeSO
+  primaryFamily: Slime
+  secondaryFamily: Mushroom
+  commonResult: {fileID: 11400000, guid: 03a44696ca7f5e44a9677c3ac7543d0c, type: 2}
+  rareResult: {fileID: 11400000, guid: 72d9c3ddccd81c94cb2dce383931c23a, type: 2}
+  epicResult: {fileID: 11400000, guid: a39039df910fc8148bc99fe15f96ffc6, type: 2}
+  legendaryResult: {fileID: 11400000, guid: e8b3507044b04424bbfd778f117c1f95, type: 2}

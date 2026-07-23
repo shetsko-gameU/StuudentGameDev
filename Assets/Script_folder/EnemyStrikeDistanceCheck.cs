@@ -2,13 +2,15 @@ using UnityEngine;
 
 public class EnemyStrikeDistanceCheck : MonoBehaviour
 { 
-    public GameObject target{get; set;}
-    public Enemy_Base enemy;
+    public GameObject playerTarget{get; set;}
+    public GameObject dummyTarget{get; set;}
+    public EnemyBase enemy;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-        target = GameObject.FindGameObjectWithTag("Player");
-        enemy = GetComponentInParent<Enemy_Base>();
+        enemy = GetComponentInParent<EnemyBase>();
+        playerTarget = GameObject.FindGameObjectWithTag("Player");
+        dummyTarget = GameObject.FindGameObjectWithTag("Dummy");
     }
     void Start()
     {
@@ -23,14 +25,14 @@ public class EnemyStrikeDistanceCheck : MonoBehaviour
     //Enemy determines trigger based on spotting the player
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == target)
+        if (other.gameObject == playerTarget || other.gameObject == dummyTarget)
         {
             enemy.isWithinRange = true;
         }
     }
     void  OnTriggerExit(Collider other)
     {
-        if (other.gameObject == target)
+        if (other.gameObject == playerTarget && other.gameObject == dummyTarget)
         {
             enemy.isWithinRange = false;
         }
