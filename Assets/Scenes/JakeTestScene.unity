@@ -895,7 +895,6 @@ GameObject:
   - component: {fileID: 605655281}
   - component: {fileID: 605655280}
   - component: {fileID: 605655279}
-  - component: {fileID: 605655278}
   - component: {fileID: 605655277}
   - component: {fileID: 605655276}
   - component: {fileID: 605655275}
@@ -956,81 +955,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AbilityRunner
   primaryAbility:
-    ability: {fileID: 11400000, guid: 0f20af10f86869c4caffe02f5747c973, type: 2}
+    ability: {fileID: 0}
     nextReadyTime: 0
   secondaryAbility:
     ability: {fileID: 0}
     nextReadyTime: 0
---- !u!114 &605655278
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 605655274}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc960c89d32458542807e5199d730899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerConsume
-  inventory: {fileID: 0}
-  stats: {fileID: 605655281}
-  passiveManager: {fileID: 605655280}
-  foodPassives:
-  - foodItem: {fileID: 0}
-    passive: {fileID: 0}
-  foodStatBoosts:
-  - foodItem: {fileID: 11400000, guid: bfea8cffb2d7dae41812a587b52c29ae, type: 2}
-    statPassive: {fileID: 11400000, guid: 8cc14eb9eb227c346bf1b6ffebd284f5, type: 2}
-  - foodItem: {fileID: 11400000, guid: cb86999ceee886045995211269833873, type: 2}
-    statPassive: {fileID: 11400000, guid: 545d2474311aed44c886fd86c0149dd6, type: 2}
-  - foodItem: {fileID: 11400000, guid: 3d7d28f06753912418f92a4d41fa03bb, type: 2}
-    statPassive: {fileID: 11400000, guid: 76929216e69d4a041a36f8913108bdde, type: 2}
-  - foodItem: {fileID: 11400000, guid: 35f0a2f7f3638694dbd42fb610918b31, type: 2}
-    statPassive: {fileID: 11400000, guid: 20058ff17df109643a73dbdbfb8a2f90, type: 2}
-  - foodItem: {fileID: 11400000, guid: e0c82b0a1bdfd2f4c988499a94c8a501, type: 2}
-    statPassive: {fileID: 11400000, guid: f961c9fd3f5707c4eb9425db6a14c2ef, type: 2}
-  - foodItem: {fileID: 11400000, guid: 03a44696ca7f5e44a9677c3ac7543d0c, type: 2}
-    statPassive: {fileID: 11400000, guid: fb5febc3ead11574fa8056b9bed56edb, type: 2}
-  - foodItem: {fileID: 11400000, guid: 72d9c3ddccd81c94cb2dce383931c23a, type: 2}
-    statPassive: {fileID: 11400000, guid: 00e17bddac844f34eb8facbf0c9dc470, type: 2}
-  - foodItem: {fileID: 11400000, guid: 541156653c89dca498b58c5ad64eb3b4, type: 2}
-    statPassive: {fileID: 11400000, guid: 38e9622e0c3d6bb49997a72c6745c50a, type: 2}
-  - foodItem: {fileID: 11400000, guid: e8b3507044b04424bbfd778f117c1f95, type: 2}
-    statPassive: {fileID: 11400000, guid: 6b03e65f8c21e9344bfcc7040bf8052c, type: 2}
-  - foodItem: {fileID: 11400000, guid: bd12fde65cab0984eb98cf5006e40870, type: 2}
-    statPassive: {fileID: 11400000, guid: 4dbc1174447a90642851ba1faffc2432, type: 2}
-  - foodItem: {fileID: 11400000, guid: 810c2a53fc518db4c87659375362e4d1, type: 2}
-    statPassive: {fileID: 11400000, guid: 2b09abbf5e1437246af1b5554d07a5f1, type: 2}
-  - foodItem: {fileID: 11400000, guid: 171304c3565b07f45947e1552a2419cd, type: 2}
-    statPassive: {fileID: 11400000, guid: de86e3b510fa9154ba9d9db46baa6394, type: 2}
-  - foodItem: {fileID: 11400000, guid: fa4a3737dc31cc7468ea844f81fe6e70, type: 2}
-    statPassive: {fileID: 11400000, guid: c07c4532e19e05f4f8a9cbe36472f016, type: 2}
-  - foodItem: {fileID: 11400000, guid: e8fdbe70ca546d94a8b1ddb27e27d186, type: 2}
-    statPassive: {fileID: 11400000, guid: 8611e9c20ef1c92498ebeaf19ea5a964, type: 2}
-  - foodItem: {fileID: 11400000, guid: a240f604107deca4988a2bfca41aeb70, type: 2}
-    statPassive: {fileID: 11400000, guid: dc04bd9e2e17b9143b0b156c10e00390, type: 2}
-  - foodItem: {fileID: 11400000, guid: db4d3b28bdb41e540be578beeda2be56, type: 2}
-    statPassive: {fileID: 11400000, guid: f548d7b29d5ad22468f87044baee930f, type: 2}
-  - foodItem: {fileID: 11400000, guid: a0244d0fdf0be0649a463e4c3e2bf802, type: 2}
-    statPassive: {fileID: 11400000, guid: 84a0fcff777cc1f45931a7f0bafc97a4, type: 2}
-  - foodItem: {fileID: 11400000, guid: e9b0d2b4d3e39b949b881dcb6775568e, type: 2}
-    statPassive: {fileID: 11400000, guid: c02f90fd139d94d40bb880706b1d6acd, type: 2}
-  - foodItem: {fileID: 11400000, guid: fb773a123b5e25c44b28d23e662f9388, type: 2}
-    statPassive: {fileID: 11400000, guid: 2b4dca007292ba64b848473f2cce2fcf, type: 2}
-  - foodItem: {fileID: 11400000, guid: 973ad7f005a5f974ca0fa68cb908a30d, type: 2}
-    statPassive: {fileID: 11400000, guid: 77114cfc5b00d844eb217326a95d2235, type: 2}
-  - foodItem: {fileID: 11400000, guid: dceaca65fc12b4e419c928ae1003ca99, type: 2}
-    statPassive: {fileID: 11400000, guid: aaf1f8f3a9585ff48be37b929aaefb6f, type: 2}
-  - foodItem: {fileID: 11400000, guid: 56ddad23fa48cb448961448513db4c4a, type: 2}
-    statPassive: {fileID: 11400000, guid: a0a67cade0d61df42937af4d6cfe841c, type: 2}
-  - foodItem: {fileID: 11400000, guid: 649c24713352f7f4fa3e10d93c8aff52, type: 2}
-    statPassive: {fileID: 11400000, guid: 56e3d74a78bac0d4aa1a5256a873b92d, type: 2}
-  - foodItem: {fileID: 11400000, guid: d1561ec9a8fee0a4f8531dde49e0aec6, type: 2}
-    statPassive: {fileID: 11400000, guid: 0dea2a52d67d28746a99f584e441769d, type: 2}
-  - foodItem: {fileID: 11400000, guid: d1561ec9a8fee0a4f8531dde49e0aec6, type: 2}
-    statPassive: {fileID: 11400000, guid: 0dea2a52d67d28746a99f584e441769d, type: 2}
-  foodKillBoosts: []
 --- !u!114 &605655279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1060,10 +989,12 @@ MonoBehaviour:
   alwaysOnPassives: []
   startingFoodPassives: []
   startingKillPassives: []
+  startingDebuffPassives: []
   debugAlwaysOnPassives: []
   debugFoodPassives: []
   debugStatBoosts: []
   debugKillPassives: []
+  debugDebuffPassives: []
 --- !u!114 &605655281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1493,8 +1424,8 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 811193354}
   m_Enabled: 1
-  m_AgentTypeID: -1372625422
-  m_Radius: 0.5
+  m_AgentTypeID: 0
+  m_Radius: 0.55
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -1524,7 +1455,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -1593,7 +1524,7 @@ Transform:
   m_GameObject: {fileID: 811193354}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 226, y: 1.19, z: 221.89}
+  m_LocalPosition: {x: 226, y: 1.122, z: 221.89}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1654,6 +1585,9 @@ MonoBehaviour:
   canFly: 0
   currentTarget: {fileID: 0}
   navMeshAgent: {fileID: 811193355}
+  layer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!54 &811193363
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1676,7 +1610,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
@@ -2406,7 +2340,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1364906157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2435,7 +2369,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.083333336
+  m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 1037478569592489f9aa6398737e0b14, type: 2}
   m_BuildHeightMesh: 1
@@ -4652,64 +4586,65 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc960c89d32458542807e5199d730899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerConsume
-  inventory: {fileID: 0}
+  inventory: {fileID: 9066587255386774701}
   stats: {fileID: 861042797160996047}
   passiveManager: {fileID: 8972480033670179717}
   foodPassives:
   - foodItem: {fileID: 0}
     passive: {fileID: 0}
   foodStatBoosts:
-  - foodItem: {fileID: 11400000, guid: bfea8cffb2d7dae41812a587b52c29ae, type: 2}
-    statPassive: {fileID: 11400000, guid: 8cc14eb9eb227c346bf1b6ffebd284f5, type: 2}
-  - foodItem: {fileID: 11400000, guid: cb86999ceee886045995211269833873, type: 2}
-    statPassive: {fileID: 11400000, guid: 545d2474311aed44c886fd86c0149dd6, type: 2}
-  - foodItem: {fileID: 11400000, guid: 3d7d28f06753912418f92a4d41fa03bb, type: 2}
-    statPassive: {fileID: 11400000, guid: 76929216e69d4a041a36f8913108bdde, type: 2}
-  - foodItem: {fileID: 11400000, guid: 35f0a2f7f3638694dbd42fb610918b31, type: 2}
-    statPassive: {fileID: 11400000, guid: 20058ff17df109643a73dbdbfb8a2f90, type: 2}
-  - foodItem: {fileID: 11400000, guid: e0c82b0a1bdfd2f4c988499a94c8a501, type: 2}
-    statPassive: {fileID: 11400000, guid: f961c9fd3f5707c4eb9425db6a14c2ef, type: 2}
-  - foodItem: {fileID: 11400000, guid: 03a44696ca7f5e44a9677c3ac7543d0c, type: 2}
-    statPassive: {fileID: 11400000, guid: fb5febc3ead11574fa8056b9bed56edb, type: 2}
-  - foodItem: {fileID: 11400000, guid: 72d9c3ddccd81c94cb2dce383931c23a, type: 2}
-    statPassive: {fileID: 11400000, guid: 00e17bddac844f34eb8facbf0c9dc470, type: 2}
-  - foodItem: {fileID: 11400000, guid: 541156653c89dca498b58c5ad64eb3b4, type: 2}
-    statPassive: {fileID: 11400000, guid: 38e9622e0c3d6bb49997a72c6745c50a, type: 2}
-  - foodItem: {fileID: 11400000, guid: e8b3507044b04424bbfd778f117c1f95, type: 2}
-    statPassive: {fileID: 11400000, guid: 6b03e65f8c21e9344bfcc7040bf8052c, type: 2}
-  - foodItem: {fileID: 11400000, guid: bd12fde65cab0984eb98cf5006e40870, type: 2}
-    statPassive: {fileID: 11400000, guid: 4dbc1174447a90642851ba1faffc2432, type: 2}
-  - foodItem: {fileID: 11400000, guid: 810c2a53fc518db4c87659375362e4d1, type: 2}
-    statPassive: {fileID: 11400000, guid: 2b09abbf5e1437246af1b5554d07a5f1, type: 2}
-  - foodItem: {fileID: 11400000, guid: 171304c3565b07f45947e1552a2419cd, type: 2}
-    statPassive: {fileID: 11400000, guid: de86e3b510fa9154ba9d9db46baa6394, type: 2}
-  - foodItem: {fileID: 11400000, guid: fa4a3737dc31cc7468ea844f81fe6e70, type: 2}
-    statPassive: {fileID: 11400000, guid: c07c4532e19e05f4f8a9cbe36472f016, type: 2}
-  - foodItem: {fileID: 11400000, guid: e8fdbe70ca546d94a8b1ddb27e27d186, type: 2}
-    statPassive: {fileID: 11400000, guid: 8611e9c20ef1c92498ebeaf19ea5a964, type: 2}
-  - foodItem: {fileID: 11400000, guid: a240f604107deca4988a2bfca41aeb70, type: 2}
-    statPassive: {fileID: 11400000, guid: dc04bd9e2e17b9143b0b156c10e00390, type: 2}
-  - foodItem: {fileID: 11400000, guid: db4d3b28bdb41e540be578beeda2be56, type: 2}
-    statPassive: {fileID: 11400000, guid: f548d7b29d5ad22468f87044baee930f, type: 2}
-  - foodItem: {fileID: 11400000, guid: a0244d0fdf0be0649a463e4c3e2bf802, type: 2}
-    statPassive: {fileID: 11400000, guid: 84a0fcff777cc1f45931a7f0bafc97a4, type: 2}
-  - foodItem: {fileID: 11400000, guid: e9b0d2b4d3e39b949b881dcb6775568e, type: 2}
-    statPassive: {fileID: 11400000, guid: c02f90fd139d94d40bb880706b1d6acd, type: 2}
-  - foodItem: {fileID: 11400000, guid: fb773a123b5e25c44b28d23e662f9388, type: 2}
-    statPassive: {fileID: 11400000, guid: 2b4dca007292ba64b848473f2cce2fcf, type: 2}
-  - foodItem: {fileID: 11400000, guid: 973ad7f005a5f974ca0fa68cb908a30d, type: 2}
-    statPassive: {fileID: 11400000, guid: 77114cfc5b00d844eb217326a95d2235, type: 2}
-  - foodItem: {fileID: 11400000, guid: dceaca65fc12b4e419c928ae1003ca99, type: 2}
-    statPassive: {fileID: 11400000, guid: aaf1f8f3a9585ff48be37b929aaefb6f, type: 2}
-  - foodItem: {fileID: 11400000, guid: 56ddad23fa48cb448961448513db4c4a, type: 2}
-    statPassive: {fileID: 11400000, guid: a0a67cade0d61df42937af4d6cfe841c, type: 2}
-  - foodItem: {fileID: 11400000, guid: 649c24713352f7f4fa3e10d93c8aff52, type: 2}
-    statPassive: {fileID: 11400000, guid: 56e3d74a78bac0d4aa1a5256a873b92d, type: 2}
-  - foodItem: {fileID: 11400000, guid: d1561ec9a8fee0a4f8531dde49e0aec6, type: 2}
-    statPassive: {fileID: 11400000, guid: 0dea2a52d67d28746a99f584e441769d, type: 2}
-  - foodItem: {fileID: 11400000, guid: d1561ec9a8fee0a4f8531dde49e0aec6, type: 2}
-    statPassive: {fileID: 11400000, guid: 0dea2a52d67d28746a99f584e441769d, type: 2}
+  - foodItem: {fileID: 0}
+    statPassive: {fileID: 0}
+  - foodItem: {fileID: 0}
+    statPassive: {fileID: 0}
+  - foodItem: {fileID: 0}
+    statPassive: {fileID: 0}
+  - foodItem: {fileID: 0}
+    statPassive: {fileID: 0}
+  - foodItem: {fileID: 0}
+    statPassive: {fileID: 0}
+  - foodItem: {fileID: 0}
+    statPassive: {fileID: 0}
+  - foodItem: {fileID: 0}
+    statPassive: {fileID: 0}
+  - foodItem: {fileID: 0}
+    statPassive: {fileID: 0}
+  - foodItem: {fileID: 0}
+    statPassive: {fileID: 0}
+  - foodItem: {fileID: 0}
+    statPassive: {fileID: 0}
+  - foodItem: {fileID: 0}
+    statPassive: {fileID: 0}
+  - foodItem: {fileID: 0}
+    statPassive: {fileID: 0}
+  - foodItem: {fileID: 0}
+    statPassive: {fileID: 0}
+  - foodItem: {fileID: 0}
+    statPassive: {fileID: 0}
+  - foodItem: {fileID: 0}
+    statPassive: {fileID: 0}
+  - foodItem: {fileID: 0}
+    statPassive: {fileID: 0}
+  - foodItem: {fileID: 0}
+    statPassive: {fileID: 0}
+  - foodItem: {fileID: 0}
+    statPassive: {fileID: 0}
+  - foodItem: {fileID: 0}
+    statPassive: {fileID: 0}
+  - foodItem: {fileID: 0}
+    statPassive: {fileID: 0}
+  - foodItem: {fileID: 0}
+    statPassive: {fileID: 0}
+  - foodItem: {fileID: 0}
+    statPassive: {fileID: 0}
+  - foodItem: {fileID: 0}
+    statPassive: {fileID: 0}
+  - foodItem: {fileID: 0}
+    statPassive: {fileID: 0}
+  - foodItem: {fileID: 0}
+    statPassive: {fileID: 0}
   foodKillBoosts: []
+  foodDebuffBoosts: []
 --- !u!1 &3219252241420071806
 GameObject:
   m_ObjectHideFlags: 0
@@ -5123,6 +5058,7 @@ GameObject:
   - component: {fileID: 9066587255386774700}
   - component: {fileID: 1286005578949247795}
   - component: {fileID: 2250891609349677549}
+  - component: {fileID: 9066587255386774701}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -5757,10 +5693,12 @@ MonoBehaviour:
   alwaysOnPassives: []
   startingFoodPassives: []
   startingKillPassives: []
+  startingDebuffPassives: []
   debugAlwaysOnPassives: []
   debugFoodPassives: []
   debugStatBoosts: []
   debugKillPassives: []
+  debugDebuffPassives: []
 --- !u!114 &9066587255386774700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5774,11 +5712,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AbilityRunner
   primaryAbility:
-    ability: {fileID: 11400000, guid: 0f20af10f86869c4caffe02f5747c973, type: 2}
+    ability: {fileID: 0}
     nextReadyTime: 0
   secondaryAbility:
     ability: {fileID: 0}
     nextReadyTime: 0
+--- !u!114 &9066587255386774701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5644280609380985502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5df2cdfa5517f544e97c4f522a9fda07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Inventory
+  InventorySlots: []
+  UISlots: []
+  removedColor: {r: 0, g: 0, b: 0, a: 0}
+  inventory: {fileID: 0}
 --- !u!1 &9129846322312727477
 GameObject:
   m_ObjectHideFlags: 0

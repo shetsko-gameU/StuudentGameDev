@@ -6,13 +6,14 @@ using UnityEngine.InputSystem;
 using UnityEditor.Experimental.GraphView;
 //using System.Diagnostics;
 //using System.Numerics;
-
+[RequireComponent(typeof(NavMeshAgent))]
 public class EnemyMove : EnemyState
 {
     [Header("Speed Stuff")]
     public float acceleration;
     public float maxSpeed;
     public float haltSpeed;
+    public float airControl = 0.3f;
 
     [Header("Stats")]
     public StatsManager stats;
@@ -24,6 +25,17 @@ public class EnemyMove : EnemyState
     [Header("Model Stuff")]
     public float modelRotateSpeed;
     public Transform enemyModel;
+    float ledgeProbeDistance = 0.45f;
+    float minFallHeight = 0.5f;
+
+    private Vector3 currentVelocity;
+      private bool warnedNotOnNavMesh;
+    private bool warnedEmptyGroundMask;
+    private float fallStartY;
+    private float fallStartTime;
+
+    // The player's solid body collider. Probes measure foot level from its bounds because
+    // the transform root is NOT at the feet on this player (capsule center 0 / base offset 1).
     bool isMoving;
     public Rigidbody rb;
 
@@ -31,13 +43,14 @@ public class EnemyMove : EnemyState
     public float playerHight;
     public LayerMask isGround;
     bool grounded;
-    bool IsFalling { get; private set; }
+    bool IsFalling;
     bool canSeeTarget;
     public float groundDrag;
     Vector2 movevalue;
     Vector3 moveDir;
     public float obstacleDetectionRange = 3f;
     public float avoidanceForce = 4f;
+    private Collider bodyCollider;
 
     public EnemyMove(EnemyBase enemy, EnemyStateMachine enemyStateMachine)
     {
@@ -52,6 +65,10 @@ public class EnemyMove : EnemyState
         // Auto-grab StatManager if not assigned on the enemy
         if (stats == null && enemy != null)
             stats = enemy.GetComponent<StatsManager>();
+    }
+    private float FootY()
+    {
+        return bodyCollider != null ? bodyCollider.bounds.min.y : enemy.transform.position.y;
     }
 
     public override void FrameUpdate()
@@ -162,14 +179,14 @@ public class EnemyMove : EnemyState
             return;
         }
 
-        if (agent.isOnNavMesh)
+        if (enemy.navMeshAgent.isOnNavMesh)
         {
-            agent.Move(currentVelocity * Time.deltaTime);
+            enemy.navMeshAgent.Move(currentVelocity * Time.deltaTime);
         }
         else if (!warnedNotOnNavMesh)
         {
             warnedNotOnNavMesh = true;
-            Debug.LogWarning($"PlayerMove on '{name}': NavMeshAgent isn't on a baked NavMesh — bake one under the spawn point (Window > AI > Navigation, or a NavMeshSurface). Movement is disabled until it is.");
+            //Debug.LogWarning($"PlayerMove on '{name}': NavMeshAgent isn't on a baked NavMesh — bake one under the spawn point (Window > AI > Navigation, or a NavMeshSurface). Movement is disabled until it is.");
         }
     }
     /// <summary>
@@ -183,8 +200,8 @@ public class EnemyMove : EnemyState
     {
         dir = dir.normalized;
 
-        float probeDistance = Mathf.Max(ledgeProbeDistance, agent.radius + 0.2f);
-        Vector3 kneeOrigin = new Vector3(transform.position.x, FootY() + 0.3f, transform.position.z);
+        float probeDistance = Mathf.Max(ledgeProbeDistance, enemy.navMeshAgent.radius + 0.2f);
+        Vector3 kneeOrigin = new Vector3(enemy.transform.position.x, FootY() + 0.3f, enemy.transform.position.z);
 
         if (Physics.Raycast(kneeOrigin, dir, probeDistance, GroundMask(), QueryTriggerInteraction.Ignore))
             return false;
@@ -198,11 +215,11 @@ public class EnemyMove : EnemyState
     private void StartFalling()
     {
         IsFalling = true;
-        fallStartY = transform.position.y;
+        fallStartY = enemy.transform.position.y;
         fallStartTime = Time.time;
 
         // A merely-stopped agent still snaps to the mesh; it has to be fully disabled.
-        agent.enabled = false;
+        enemy.navMeshAgent.enabled = false;
 
         rb.isKinematic = false;
         rb.linearVelocity = currentVelocity; // carry momentum over the edge
@@ -230,7 +247,7 @@ public class EnemyMove : EnemyState
         if (Time.time - fallStartTime < 0.1f) return;
         if (rb.linearVelocity.y > 0.05f) return;
 
-        Vector3 landOrigin = new Vector3(transform.position.x, FootY() + 0.3f, transform.position.z);
+        Vector3 landOrigin = new Vector3(enemy.transform.position.x, FootY() + 0.3f, enemy.transform.position.z);
         if (!Physics.Raycast(landOrigin, Vector3.down,
                 out RaycastHit hit, 0.55f, GroundMask(), QueryTriggerInteraction.Ignore))
             return;
@@ -238,7 +255,7 @@ public class EnemyMove : EnemyState
         // Right after stepping off, the player often slides across the physical lip that
         // sticks out past the NavMesh edge — don't count that as a landing. The stuck
         // check recovers the rare case of stopping dead on the lip without ever dropping.
-        bool droppedEnough = fallStartY - transform.position.y > minFallHeight * 0.5f;
+        bool droppedEnough = fallStartY - enemy.transform.position.y > minFallHeight * 0.5f;
         bool stuckOnLip = Time.time - fallStartTime > 1f && rb.linearVelocity.magnitude < 0.5f;
         if (!droppedEnough && !stuckOnLip) return;
 
@@ -258,8 +275,8 @@ public class EnemyMove : EnemyState
         rb.isKinematic = true;
         IsFalling = false;
 
-        agent.enabled = true;
-        agent.Warp(navPosition);
+        enemy.navMeshAgent.enabled = true;
+        enemy.navMeshAgent.Warp(navPosition);
     }
 
     // ------------------------------------------------------------------ Helpers
@@ -272,12 +289,12 @@ public class EnemyMove : EnemyState
         if (!warnedEmptyGroundMask)
         {
             warnedEmptyGroundMask = true;
-            Debug.LogWarning($"PlayerMove on '{name}': isGround mask is empty — falling back to " +
+            /*//Debug.LogWarning($"PlayerMove on '{name}': isGround mask is empty — falling back to " +
                              "'everything except the player layer' for ledge/landing raycasts. " +
-                             "Set it to your ground (and wall) layers in the Inspector.");
+                             "Set it to your ground (and wall) layers in the Inspector.");*/
         }
 
-        return ~(1 << gameObject.layer);
+        return ~(1 << enemy.layer);
     }
 
     public void OnMove(InputAction.CallbackContext context)

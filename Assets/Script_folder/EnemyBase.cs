@@ -31,6 +31,7 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     public bool canFly;
    public GameObject currentTarget;
    public NavMeshAgent navMeshAgent;
+   public LayerMask layer;
 
 
     void Awake()
