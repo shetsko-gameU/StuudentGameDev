@@ -16,6 +16,10 @@ public class EnemyManager : MonoBehaviour
 
     public int EnemyWave;
 
+    /// <summary>Fires once, the moment the last configured wave has no enemies left. Lets
+    /// other systems (e.g. RoomExit) react without EnemyManager needing to know what they do.</summary>
+    public event System.Action OnAllWavesCleared;
+
     private bool allWavesCleared;
 
     private void Awake()
@@ -42,6 +46,7 @@ public class EnemyManager : MonoBehaviour
         {
             allWavesCleared = true;
             Debug.Log($"EnemyManager on '{name}': All waves cleared.");
+            OnAllWavesCleared?.Invoke();
             return;
         }
 
