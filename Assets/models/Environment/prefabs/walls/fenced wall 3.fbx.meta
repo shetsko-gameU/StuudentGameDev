@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 76aad1ff064f4d645a4ced973aa2f502
+guid: 40fb20bb23861034bb18bafb20204004
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -7,33 +7,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: ears
-    second: {fileID: 2100000, guid: 26040d33f6bf05348b8d182466d326c7, type: 2}
+      name: cast iron
+    second: {fileID: 2100000, guid: db829673f05776a43be27b07b9f19421, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: eye whites
-    second: {fileID: 2100000, guid: 8379210926be8334cacf4f546bb50853, type: 2}
+      name: wall 1
+    second: {fileID: 2100000, guid: 7bf432abee210274cb98d9b547367001, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: eyes and nose
-    second: {fileID: 2100000, guid: 29e540d5f5948fd4a8b3a13d2575da5b, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: fur
-    second: {fileID: 2100000, guid: 158c00a7f3e9aab47b0e46988fbf43e2, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: glow
-    second: {fileID: -876546973899608171, guid: 5dfccfaa6fd41ba4b8d93c712065fb10, type: 3}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: sun mark
-    second: {fileID: -876546973899608171, guid: fce24436d75eb6843857674c25ce6046, type: 3}
+      name: wall 2
+    second: {fileID: 2100000, guid: 84d4f5e71abbbf6439b5dfab7f9b330c, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -63,7 +48,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 1.5
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -121,7 +106,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1.5
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
