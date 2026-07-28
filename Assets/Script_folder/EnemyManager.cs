@@ -17,6 +17,7 @@ public class EnemyManager : MonoBehaviour
     public List<int> EnemiesPerWave;
 
     public int EnemyWave;
+    public int EnemyWaveMax;
 
     /// <summary>Fires once, the moment the last configured wave has no enemies left. Lets
     /// other systems (e.g. RoomExit) react without EnemyManager needing to know what they do.</summary>
