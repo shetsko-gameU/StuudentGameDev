@@ -3,8 +3,10 @@ using System.Collections.Generic;
 
 public class EnemyManager : MonoBehaviour
 {
-    public GameObject[] SpawnLocations;
+    public List <GameObject> SpawnLocations = new List<GameObject>();
+    public List <GameObject> TempSpawnLocations = new List<GameObject>();
     public List<EnemyBase> EnemiesInWave = new List<EnemyBase>();
+    public StatsManager PlayerStats;
 
     [Tooltip("Pool of enemy prefabs this manager can spawn. Each spawn picks one at random, " +
              "the same way a random SpawnLocation is picked.")]
@@ -27,11 +29,15 @@ public class EnemyManager : MonoBehaviour
         if (EnemyTypes == null || EnemyTypes.Length == 0)
             Debug.LogError($"EnemyManager on '{name}': No EnemyTypes assigned.");
 
-        if (SpawnLocations == null || SpawnLocations.Length == 0)
+        if (SpawnLocations == null || SpawnLocations.Count == 0)
             Debug.LogError($"EnemyManager on '{name}': No SpawnLocations assigned.");
 
         if (EnemiesPerWave == null || EnemiesPerWave.Count == 0)
             Debug.LogError($"EnemyManager on '{name}': EnemiesPerWave is empty — no waves configured.");
+        foreach (GameObject Location in SpawnLocations)
+        {
+            TempSpawnLocations.Add(Location);
+        }
     }
 
     // Update is called once per frame
@@ -39,7 +45,7 @@ public class EnemyManager : MonoBehaviour
     {
         if (allWavesCleared) return;
 
-        if (EnemyTypes == null || EnemyTypes.Length == 0 || SpawnLocations == null || SpawnLocations.Length == 0 || EnemiesPerWave == null)
+        if (EnemyTypes == null || EnemyTypes.Length == 0 || SpawnLocations == null || SpawnLocations.Count == 0 || EnemiesPerWave == null)
             return;
 
         if (EnemyWave >= EnemiesPerWave.Count)
@@ -64,13 +70,21 @@ public class EnemyManager : MonoBehaviour
         if (EnemiesPerWave[EnemyWave] <= 0 && EnemiesInWave.Count == 0)
         {
             EnemyWave += 1;
+            TempSpawnLocations.Clear();
+            foreach (GameObject Location in SpawnLocations)
+            {
+                TempSpawnLocations.Add(Location);
+            }
         }
     }
 
     private void SpawnEnemy()
     {
         GameObject enemyPrefab = EnemyTypes[Random.Range(0, EnemyTypes.Length)];
-        Vector3 spawnPos = SpawnLocations[Random.Range(0, SpawnLocations.Length)].transform.position;
+        int RandomPostion = Random.Range(0, TempSpawnLocations.Count);
+        Vector3 spawnPos = TempSpawnLocations[RandomPostion].transform.position;
+        TempSpawnLocations[RandomPostion].GetComponentInChildren<ParticleSystem>().Play();
+        TempSpawnLocations.Remove(TempSpawnLocations[RandomPostion]);
 
         GameObject newEnemy = Instantiate(enemyPrefab, spawnPos, enemyPrefab.transform.rotation);
 
@@ -87,6 +101,7 @@ public class EnemyManager : MonoBehaviour
             enemyBase.stats.OnDied += () => HandleEnemyDied(enemyBase);
         else
             Debug.LogWarning($"EnemyManager on '{name}': Spawned enemy '{newEnemy.name}' has no StatsManager assigned on its EnemyBase — it will never be removed from the wave when it dies.");
+        enemyBase.Player_Stats = PlayerStats;
     }
 
     // Called when a tracked enemy's StatsManager fires OnDied. Without this, EnemiesInWave
