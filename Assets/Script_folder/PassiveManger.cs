@@ -20,6 +20,12 @@ using UnityEngine;
 ///
 ///   DebuffOnHitPassiveSO  — applies a debuff to the ENEMY on every confirmed hit
 ///                           (via DebuffOnHitTrigger) — the mirror of OnHitPassiveSO.
+///
+///   UltFoodSO              — equips an activated ability (e.g. SnaghettiAbilitySO) into
+///                           AbilityRunner.secondaryAbility. Different from the other five:
+///                           targets AbilityRunner, not StatsManager, and only ONE can ever
+///                           be equipped — a different ult family always replaces it, the
+///                           same family only replaces on strictly higher rarity.
 /// </summary>
 public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
 {
@@ -60,6 +66,9 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
     [Header("References")]
     public StatsManager stats;
 
+    [Tooltip("Auto-found if on the same GameObject. Required for UltFoodSO to equip abilities.")]
+    public AbilityRunner abilityRunner;
+
     [Header("Always-On Passives")]
     [Tooltip("Permanent stat effects applied once on Start. Drag PassiveEffectSO assets here.")]
     public List<PassiveEffectSO> alwaysOnPassives = new List<PassiveEffectSO>();
@@ -76,6 +85,10 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
     [Tooltip("DebuffOnHitPassiveSOs the character starts with.")]
     public List<DebuffOnHitPassiveSO> startingDebuffPassives = new List<DebuffOnHitPassiveSO>();
 
+    [Header("Starting Ult Ability")]
+    [Tooltip("UltFoodSO the character starts with equipped, if any. Only one can ever be active.")]
+    public UltFoodSO startingUltFood;
+
     // ------------------------------------------------------------------ Debug (read-only in Inspector)
 
     [Header("─── Active Passives (Read Only) ───────────────────────")]
@@ -84,6 +97,7 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
     [SerializeField] private List<string> debugStatBoosts = new List<string>();
     [SerializeField] private List<string> debugKillPassives = new List<string>();
     [SerializeField] private List<string> debugDebuffPassives = new List<string>();
+    [SerializeField] private string debugUltAbility = "(none)";
 
     // ------------------------------------------------------------------ Runtime data
 
@@ -91,6 +105,7 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
     private readonly List<StatBoostEntry> activeStatBoosts = new List<StatBoostEntry>();
     private readonly List<KillPassiveEntry> activeKillEntries = new List<KillPassiveEntry>();
     private readonly List<DebuffPassiveEntry> activeDebuffEntries = new List<DebuffPassiveEntry>();
+    private UltFoodSO activeUltFood;
     private bool subscribed = false;
 
     // ------------------------------------------------------------------ Unity lifecycle
@@ -102,6 +117,12 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
 
         if (stats == null)
             Debug.LogError($"PassiveManager on '{name}': No StatsManager found.");
+
+        if (abilityRunner == null)
+            abilityRunner = GetComponent<AbilityRunner>();
+
+        if (abilityRunner == null)
+            Debug.LogWarning($"PassiveManager on '{name}': No AbilityRunner found — ult food won't be able to equip.");
     }
 
     private void Start()
@@ -119,6 +140,9 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
 
         foreach (DebuffOnHitPassiveSO p in startingDebuffPassives)
             if (p != null) AddDebuffPassive(p, null);
+
+        if (startingUltFood != null)
+            AddUltAbility(startingUltFood);
     }
 
     private void OnEnable() => Subscribe();
@@ -431,6 +455,68 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
             if (e.passive != null) yield return e.passive;
     }
 
+    // ------------------------------------------------------------------ Ult ability (UltFoodSO)
+
+    /// <summary>
+    /// Equips an ultimate ability into AbilityRunner.secondaryAbility. Only one ult can ever
+    /// be equipped: a food from a DIFFERENT ultFamily always replaces the current one; a food
+    /// from the SAME ultFamily only replaces it if strictly higher rarity (no downgrading,
+    /// no re-equipping the same rarity). Returns true if the ult was equipped or upgraded.
+    /// </summary>
+    public bool AddUltAbility(UltFoodSO newUlt)
+    {
+        if (newUlt == null || newUlt.ability == null)
+        {
+            Debug.LogWarning("PassiveManager.AddUltAbility: passive or its ability was null.");
+            return false;
+        }
+
+        if (abilityRunner == null)
+        {
+            Debug.LogWarning($"PassiveManager: Cannot equip ult '{newUlt.displayName}' — AbilityRunner missing.");
+            return false;
+        }
+
+        bool sameFamily = activeUltFood != null
+                        && !string.IsNullOrEmpty(newUlt.ultFamily)
+                        && activeUltFood.ultFamily == newUlt.ultFamily;
+
+        if (sameFamily)
+        {
+            if (activeUltFood.ability == newUlt.ability)
+            {
+                Debug.Log($"PassiveManager: Already have '{newUlt.displayName}', ignoring.");
+                return false;
+            }
+
+            if (newUlt.rarity <= activeUltFood.rarity)
+            {
+                Debug.Log($"PassiveManager: Already have equal or higher rarity of ult '{newUlt.displayName}', ignoring.");
+                return false;
+            }
+
+            Debug.Log($"PassiveManager: Upgrading ult '{activeUltFood.displayName}' → '{newUlt.displayName}'");
+        }
+        else if (activeUltFood != null)
+        {
+            Debug.Log($"PassiveManager: Replacing ult '{activeUltFood.displayName}' → '{newUlt.displayName}'");
+        }
+        else
+        {
+            Debug.Log($"PassiveManager: Equipped ult '{newUlt.displayName}'");
+        }
+
+        activeUltFood = newUlt;
+        abilityRunner.secondaryAbility.ability = newUlt.ability;
+        newUlt.ability.OnEquipped(gameObject); // AbilityRunner only calls this itself on its own Start()
+
+        RefreshDebugLists();
+        return true;
+    }
+
+    public UltFoodSO ActiveUltFood => activeUltFood;
+    public bool HasUltAbility => activeUltFood != null;
+
     // ------------------------------------------------------------------ IEnumerable
 
     public IEnumerator<OnHitPassiveSO> GetEnumerator()
@@ -654,6 +740,10 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
                 ? e.passive.debuffTemplate.rarity.ToString() : "No Template";
             debugDebuffPassives.Add($"{e.passive.displayName}  [{rarity}]");
         }
+
+        debugUltAbility = activeUltFood != null
+            ? $"{activeUltFood.displayName}  [{activeUltFood.rarity}]"
+            : "(none)";
     }
 
     // ------------------------------------------------------------------ On-hit handler

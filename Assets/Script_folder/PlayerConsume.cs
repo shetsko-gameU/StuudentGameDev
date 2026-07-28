@@ -36,6 +36,14 @@ public class PlayerConsume : MonoBehaviour
         public DebuffOnHitPassiveSO debuffPassive;
     }
 
+    // Links a food SO to the ult ability it equips when eaten
+    [Serializable]
+    public class FoodUltBoostLink
+    {
+        public StatsModifierSO foodItem;
+        public UltFoodSO ultFood;
+    }
+
     [Header("References")]
     public Inventory inventory;
     public StatsManager stats;
@@ -64,6 +72,11 @@ public class PlayerConsume : MonoBehaviour
              "(not on a miss/dodge) — until the player eats a higher rarity version of the same food.")]
     public List<FoodDebuffBoostLink> foodDebuffBoosts = new List<FoodDebuffBoostLink>();
 
+    [Header("Food → Ult Ability Links")]
+    [Tooltip("Link food SOs to an ult ability. Eating one equips it into the player's " +
+             "secondary ability slot — only one ult can ever be equipped at a time.")]
+    public List<FoodUltBoostLink> foodUltBoosts = new List<FoodUltBoostLink>();
+
     private void Awake()
     {
         if (inventory == null) inventory = GetComponent<Inventory>();
@@ -87,7 +100,8 @@ public class PlayerConsume : MonoBehaviour
     ///   3. If the food has a stat boost linked         → PassiveManager.AddStatBoostPassive
     ///   4. If the food has a kill passive linked       → PassiveManager.AddKillPassive
     ///   5. If the food has a debuff passive linked     → PassiveManager.AddDebuffPassive
-    ///   6. If none of the above are linked             → stats applied directly (no tracking)
+    ///   6. If the food has an ult ability linked        → PassiveManager.AddUltAbility
+    ///   7. If none of the above are linked             → stats applied directly (no tracking)
     ///
     /// A food can have MULTIPLE links — the first one uses the original rolled stats,
     /// every additional linked type gets its own fresh roll of the same template.
@@ -124,6 +138,7 @@ public class PlayerConsume : MonoBehaviour
         FoodStatPassiveSO statPassive = FindStatBoostPassive(foodSO);
         KillPassiveSO killPassive = FindKillBoostPassive(foodSO);
         DebuffOnHitPassiveSO debuffPassive = FindDebuffBoostPassive(foodSO);
+        UltFoodSO ultFood = FindUltBoostPassive(foodSO);
 
         bool handled = false;
 
@@ -165,6 +180,13 @@ public class PlayerConsume : MonoBehaviour
                 : rolledStats;
 
             passiveManager.AddDebuffPassive(debuffPassive, debuffRoll);
+            handled = true;
+        }
+
+        // Handle ult ability — no stat roll needed, it just equips into the ability slot
+        if (ultFood != null && passiveManager != null)
+        {
+            passiveManager.AddUltAbility(ultFood);
             handled = true;
         }
 
@@ -245,6 +267,16 @@ public class PlayerConsume : MonoBehaviour
         {
             if (link != null && link.foodItem == foodItemSO)
                 return link.debuffPassive;
+        }
+        return null;
+    }
+
+    private UltFoodSO FindUltBoostPassive(StatsModifierSO foodItemSO)
+    {
+        foreach (FoodUltBoostLink link in foodUltBoosts)
+        {
+            if (link != null && link.foodItem == foodItemSO)
+                return link.ultFood;
         }
         return null;
     }
