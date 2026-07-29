@@ -13,6 +13,9 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     public List<Transform> raycasts;
     public bool doesAttackPivot;
 
+    [Tooltip("Excludes this enemy from guaranteed-kill effects (e.g. Legendary Roasted Whole Slime).")]
+    public bool isBoss;
+
     public float sightRange;
     //Vector3 moveValue;
 
