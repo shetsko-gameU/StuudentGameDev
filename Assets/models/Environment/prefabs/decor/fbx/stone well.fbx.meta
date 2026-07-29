@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: bcba27e3d4d1d3e4cbad0526bf4e0e35
+guid: 58a2ba857c9392a4d849e1797f545ced
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -7,18 +7,23 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material.001
-    second: {fileID: 2100000, guid: e338e3f296670204ab00e8c882a803c9, type: 2}
+      name: brown
+    second: {fileID: 2100000, guid: 095f93d3ae1c8fb4ab13155aed6a416d, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material.003
-    second: {fileID: 2100000, guid: 29e540d5f5948fd4a8b3a13d2575da5b, type: 2}
+      name: grey
+    second: {fileID: 2100000, guid: d3061f8e5f00a2b47a98553dfe211b75, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: rusty metal
-    second: {fileID: -876546973899608171, guid: f0ff91446beda9a4eb260615c55b183d, type: 3}
+      name: wall 1
+    second: {fileID: 2100000, guid: 7bf432abee210274cb98d9b547367001, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wall 2
+    second: {fileID: 2100000, guid: 2940a570a0eb7ff49b15a3da86caa10e, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -48,7 +53,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 75
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -106,7 +111,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 75
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
