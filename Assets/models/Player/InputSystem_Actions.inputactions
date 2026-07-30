@@ -106,6 +106,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Ult",
+                    "type": "Button",
+                    "id": "6dd1378d-3263-4cb2-97bb-107d940a412e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "EatSlot1",
                     "type": "Button",
                     "id": "7bbcd2a6-edd1-4fa3-80f2-c8714853b68d",
@@ -671,6 +680,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "EatSlot8",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cd7a4569-e9d9-47d8-a98b-cac66f1e1c49",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Ult",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

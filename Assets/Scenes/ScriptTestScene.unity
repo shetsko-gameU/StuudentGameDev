@@ -2952,6 +2952,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: d373ce9e-d3bb-4f48-a112-88c70326dd54
     m_ActionName: 'Player/EatSlot8[/Keyboard/8]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1430486904}
+        m_TargetAssemblyTypeName: AbilityRunner, Assembly-CSharp
+        m_MethodName: UseSecondary
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 6dd1378d-3263-4cb2-97bb-107d940a412e
+    m_ActionName: 'Player/Ult[/Keyboard/q]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
@@ -3028,7 +3044,7 @@ MonoBehaviour:
     ability: {fileID: 11400000, guid: f7f30aa914f792a41aee001910d467ae, type: 2}
     nextReadyTime: 0
   secondaryAbility:
-    ability: {fileID: 0}
+    ability: {fileID: 11400000, guid: 3c227502d8010744a8d925dff324e4c5, type: 2}
     nextReadyTime: 0
 --- !u!114 &1430486906
 MonoBehaviour:
