@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5c5fb71827c264799d2bd9f429b97f, type: 3}
+  m_Name: New Dryad Delights Ability SO
+  m_EditorClassIdentifier: Assembly-CSharp::DryadDelightsAbilitySO
+  displayName: Ability
+  cooldownSeconds: 1
+  growDuration: 0.5
+  growEffect: {fileID: 0}
+  slamRange: 4
+  slamAngle: 90
+  slamDamage: 40
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  slamEffect: {fileID: 0}
