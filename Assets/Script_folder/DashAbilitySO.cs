@@ -17,8 +17,19 @@ public class DashAbilitySO : AbilitySO
             return false;
         }
 
+<<<<<<< HEAD
         Rigidbody rb = user.GetComponent<Rigidbody>();
         if (rb == null)
+=======
+        PlayerMove pm = user.GetComponent<PlayerMove>();
+        if (pm == null || pm.agent == null)
+        {
+            return false;
+        }
+
+        // No dashing mid-air â€” the agent is disabled while falling, so Move() would no-op anyway.
+        if (pm.IsFalling)
+>>>>>>> ScriptBreanchfixs
         {
             return false;
         }
@@ -40,10 +51,17 @@ public class DashAbilitySO : AbilitySO
 
     private System.Collections.IEnumerator DashRoutine(GameObject user)
     {
+<<<<<<< HEAD
         Rigidbody rb = user.GetComponent<Rigidbody>();
         PlayerMove pm = user.GetComponent<PlayerMove>();
 
         if (rb == null)
+=======
+        PlayerMove pm = user.GetComponent<PlayerMove>();
+        StatsManager stats = user.GetComponent<StatsManager>();
+
+        if (pm == null || pm.agent == null)
+>>>>>>> ScriptBreanchfixs
         {
             yield break;
         }
@@ -51,7 +69,11 @@ public class DashAbilitySO : AbilitySO
         // Pick direction (your model rotates, not the root)
         Vector3 dir = user.transform.forward;
 
+<<<<<<< HEAD
         if (usePlayerModelForward && pm != null && pm.playerModel != null)
+=======
+        if (usePlayerModelForward && pm.playerModel != null)
+>>>>>>> ScriptBreanchfixs
         {
             dir = pm.playerModel.forward;
         }
@@ -65,6 +87,7 @@ public class DashAbilitySO : AbilitySO
 
         dir.Normalize();
 
+<<<<<<< HEAD
         // Temporarily disable PlayerMove so it doesn't overwrite velocity during dash
         if (pm != null)
         {
@@ -72,18 +95,38 @@ public class DashAbilitySO : AbilitySO
         }
 
         Vector3 oldVel = rb.linearVelocity;
+=======
+        // Temporarily disable PlayerMove so it doesn't fight the dash with its own Move() calls.
+        // Side effect we rely on: no ledge probes run during the dash, and the agent's mesh
+        // clamp stays active â€” so dashing across a gap carries you over it instead of falling.
+        pm.enabled = false;
+>>>>>>> ScriptBreanchfixs
 
         float t = 0f;
         while (t < dashDuration)
         {
+<<<<<<< HEAD
             t += Time.deltaTime;
 
             // Set dash velocity every frame so nothing else “wins”
             rb.linearVelocity = new Vector3(dir.x * dashSpeed, rb.linearVelocity.y, dir.z * dashSpeed);
+=======
+            // Bail out if the player died mid-dash so the agent doesn't keep
+            // sliding the corpse around after PlayerDeathHandler takes over.
+            if (stats != null && stats.IsDead)
+            {
+                yield break;
+            }
+
+            t += Time.deltaTime;
+            if (pm.agent.enabled && pm.agent.isOnNavMesh)
+                pm.agent.Move(dir * dashSpeed * Time.deltaTime);
+>>>>>>> ScriptBreanchfixs
 
             yield return null;
         }
 
+<<<<<<< HEAD
         // Restore
         rb.linearVelocity = oldVel;
 
@@ -93,3 +136,8 @@ public class DashAbilitySO : AbilitySO
         }
     }
 }
+=======
+        pm.enabled = true;
+    }
+}
+>>>>>>> ScriptBreanchfixs

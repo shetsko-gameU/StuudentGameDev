@@ -13,6 +13,12 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     public List<Transform> raycasts;
     public bool doesAttackPivot;
 
+<<<<<<< HEAD
+=======
+    [Tooltip("Excludes this enemy from guaranteed-kill effects (e.g. Legendary Roasted Whole Slime).")]
+    public bool isBoss;
+
+>>>>>>> ScriptBreanchfixs
     public float sightRange;
     //Vector3 moveValue;
 
@@ -29,12 +35,20 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     public float randomMovementRange;
     public float randomMovementSpeed;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     public bool canFly;
    public GameObject currentTarget;
    public NavMeshAgent navMeshAgent;
 
 >>>>>>> main
+=======
+    public bool canFly;
+   public GameObject currentTarget;
+   public NavMeshAgent navMeshAgent;
+   public LayerMask layer;
+
+>>>>>>> ScriptBreanchfixs
 
     void Awake()
     {
@@ -52,18 +66,28 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     void Start()
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
         stateMachine.Initialize(idleState);
 =======
         if(currentTarget == null)
             stateMachine.Initialize(idleState);
         navMeshAgent = GetComponent<NavMeshAgent>();
 >>>>>>> main
+=======
+        if(currentTarget == null)
+            stateMachine.Initialize(idleState);
+        navMeshAgent = GetComponent<NavMeshAgent>();
+>>>>>>> ScriptBreanchfixs
     }
 
     // Update is called once per frame
     void Update()
     {
         stateMachine.CurrentEnemyState?.FrameUpdate();
+<<<<<<< HEAD
+=======
+        Debug.Log("Current State: " + stateMachine.CurrentEnemyState?.ToString());
+>>>>>>> ScriptBreanchfixs
     }
     void FixedUpdate()
     {

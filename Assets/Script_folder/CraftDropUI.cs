@@ -13,6 +13,15 @@ public class CraftDropSlotUI : MonoBehaviour, IDropHandler
     // Changed from Image to RawImage
     public RawImage slotImage;
 
+<<<<<<< HEAD
+=======
+    public void Awake()
+    {
+      craftSystem = FindAnyObjectByType<CraftSystem>();
+    }
+
+
+>>>>>>> ScriptBreanchfixs
     public void OnDrop(PointerEventData eventData)
     {
         var dragged = eventData.pointerDrag;

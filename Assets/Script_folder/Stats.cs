@@ -23,6 +23,13 @@ public class BaseStatsSO : ScriptableObject
     [Min(0.01f)] public float attackSpeed = 1f;      // attacks per second
 
     [Range(0f, 1f)] public float dodgeChance = 0f;
+<<<<<<< HEAD
+=======
+
+    [Range(0f, 1f)]
+    [Tooltip("Fraction of damage dealt restored as health. 0.20 = 20% of damage dealt is healed back.")]
+    public float healthSteal = 0f;
+>>>>>>> ScriptBreanchfixs
     
 
     [CreateAssetMenu(fileName = "PlayerStats", menuName = "Game/Stats/Player Stats")]

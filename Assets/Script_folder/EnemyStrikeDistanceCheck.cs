@@ -32,7 +32,11 @@ public class EnemyStrikeDistanceCheck : MonoBehaviour
     }
     void  OnTriggerExit(Collider other)
     {
+<<<<<<< HEAD
         if (other.gameObject == playerTarget && other.gameObject == dummyTarget)
+=======
+        if (other.gameObject == playerTarget || other.gameObject == dummyTarget)
+>>>>>>> ScriptBreanchfixs
         {
             enemy.isWithinRange = false;
         }

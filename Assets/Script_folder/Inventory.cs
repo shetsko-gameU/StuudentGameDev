@@ -11,6 +11,11 @@ public class Inventory : MonoBehaviour
 
     public Color removedColor;
 
+<<<<<<< HEAD
+=======
+    public GameObject inventory;
+
+>>>>>>> ScriptBreanchfixs
     // ------------------------------------------------------------------ Picking up items
 
     /// <summary>
@@ -38,6 +43,16 @@ public class Inventory : MonoBehaviour
         return true;
     }
 
+<<<<<<< HEAD
+=======
+    public void Awake()
+    {
+        foreach (RawImage UIslot in inventory.GetComponentsInChildren<RawImage>())
+        {
+            UISlots.Add(UIslot);
+        }
+    }
+>>>>>>> ScriptBreanchfixs
     // ------------------------------------------------------------------ Consuming items
 
     /// <summary>
