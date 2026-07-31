@@ -7,12 +7,7 @@ public enum StatType
     Defense,
     MoveSpeed,
     AttackSpeed,
-<<<<<<< HEAD
     DodgeChance, // 0 to 1 (so 0.15 = 15%)
-=======
-    DodgeChance,  // 0 to 1 (so 0.15 = 15%)
-    HealthSteal,  // 0 to 1 — fraction of damage dealt restored as health (so 0.20 = 20% lifesteal)
->>>>>>> ScriptBreanchfixs
 }
 
 public enum ModifierMode
@@ -55,13 +50,6 @@ public class StatsModifierSO : ScriptableObject
     public string displayName;
     public Rarity rarity = Rarity.Common;
 
-<<<<<<< HEAD
-=======
-    [Tooltip("Items sharing the same craft family can be combined with a RarityRecipeSO. " +
-             "Example: set 'apple' on Common/Rare/Epic/Legendary apple SOs so they can be combined.")]
-    public string craftFamily = "";
-
->>>>>>> ScriptBreanchfixs
     [Tooltip("0 = permanent. Otherwise expires after this many seconds.")]
     public float durationSeconds = 0f;
 

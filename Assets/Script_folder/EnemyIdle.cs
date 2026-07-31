@@ -6,10 +6,6 @@ public class EnemyIdle : EnemyState
 
     public Vector3 targetPosition;
     public Vector3 direction;
-<<<<<<< HEAD
-=======
-    Vector3 startPosition;
->>>>>>> ScriptBreanchfixs
     public EnemyIdle(EnemyBase enemy, EnemyStateMachine enemyStateMachine)
     {
         this.enemy = enemy;
@@ -20,10 +16,6 @@ public class EnemyIdle : EnemyState
     public override void EnterState()
     {
        targetPosition = GetRandomPointInRadius();
-<<<<<<< HEAD
-=======
-       startPosition = enemy.transform.position;
->>>>>>> ScriptBreanchfixs
     }
 
     public override void FrameUpdate()
@@ -33,17 +25,6 @@ public class EnemyIdle : EnemyState
              enemyStateMachine.ChangeState(enemy.moveState);
              return;
         }
-<<<<<<< HEAD
-=======
-
-        Vector3 offsetFromStart = enemy.transform.position - startPosition;
-        if (offsetFromStart.magnitude >= enemy.randomMovementRange)
-        {
-            targetPosition = GetRandomPointInRadius();
-            enemy.transform.position = startPosition + (offsetFromStart.normalized * enemy.randomMovementRange);
-        }
-        
->>>>>>> ScriptBreanchfixs
         direction = (targetPosition - enemy.transform.position).normalized;
         enemy.MoveEnemy(direction * enemy.randomMovementSpeed);
         if((enemy.transform.position - targetPosition).magnitude < 0.5f)
@@ -58,11 +39,7 @@ public class EnemyIdle : EnemyState
     {
         Vector2 randomPosition = UnityEngine.Random.insideUnitCircle * enemy.randomMovementRange;
         Vector3 adjustedPosition = new Vector3(randomPosition.x, 0, randomPosition.y);
-<<<<<<< HEAD
         return enemy.transform.position + adjustedPosition;
-=======
-        return startPosition + adjustedPosition;
->>>>>>> ScriptBreanchfixs
     }
 
     void CheckLineOfSite()
@@ -74,15 +51,7 @@ public class EnemyIdle : EnemyState
             if(Physics.Raycast(point.position, point.forward, out hit, enemy.sightRange))
             {
                 if(hit.collider.gameObject.CompareTag("Player") || hit.collider.gameObject.CompareTag("Dummy"))
-<<<<<<< HEAD
                     enemy.isAggroed = true;
-=======
-                {
-                    enemy.currentTarget = hit.collider.gameObject;
-                    enemy.isAggroed = true;
-                    return;
-                }
->>>>>>> ScriptBreanchfixs
             }
         }
     }
@@ -94,11 +63,6 @@ public class EnemyIdle : EnemyState
             if(hitCollider.gameObject.CompareTag("Dummy") || hitCollider.gameObject.CompareTag("Player"))
             {
                 enemy.currentTarget = hitCollider.gameObject;
-<<<<<<< HEAD
-=======
-                enemy.isAggroed = true;
-                return;
->>>>>>> ScriptBreanchfixs
             }
         }
     }
