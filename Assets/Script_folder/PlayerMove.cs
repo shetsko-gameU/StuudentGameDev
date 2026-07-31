@@ -15,7 +15,6 @@ public class PlayerMove : MonoBehaviour
     public Transform playerModel;
     public Rigidbody rb;
     public Animator animator;
-    public Animator objectAnimator;
 
     [Header("Ground Check")]
     public float playerHeight;
@@ -33,7 +32,7 @@ public class PlayerMove : MonoBehaviour
             stats = GetComponent<StatsManager>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, isGround);
         rb.linearDamping = grounded ? groundDrag : 0f;
@@ -72,7 +71,29 @@ public class PlayerMove : MonoBehaviour
         if (!isMoving)
             rb.AddForce(-rb.linearVelocity * haltSpeed);
 
+<<<<<<< HEAD
         objectAnimator.SetFloat("FaceDirection", moveDir.x);
+=======
+        if (agent.isOnNavMesh)
+        {
+            agent.Move(currentVelocity * Time.deltaTime);
+        }
+        else if (!warnedNotOnNavMesh)
+        {
+            warnedNotOnNavMesh = true;
+            Debug.LogWarning($"PlayerMove on '{name}': NavMeshAgent isn't on a baked NavMesh — bake one under the spawn point (Window > AI > Navigation, or a NavMeshSurface). Movement is disabled until it is.");
+        }
+
+        // Rotate model to face movement direction.
+        // Runs in Update now instead of FixedUpdate, so modelRotateSpeed must be scaled
+        // by deltaTime to stay framerate-independent — the old Inspector value (tuned
+        // for a per-fixed-tick rate) will need to be scaled up to match the old feel.
+        if (moveInput.magnitude > .1f)
+        {
+            transform.forward = Vector3.MoveTowards(transform.forward, desiredDir, modelRotateSpeed * Time.deltaTime);
+        }
+
+>>>>>>> main
     }
 
     public void OnMove(InputAction.CallbackContext context)
