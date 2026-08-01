@@ -13,6 +13,9 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     public List<Transform> raycasts;
     public bool doesAttackPivot;
 
+    [Tooltip("Excludes this enemy from guaranteed-kill effects (e.g. Legendary Roasted Whole Slime).")]
+    public bool isBoss;
+
     public float sightRange;
     //Vector3 moveValue;
 
@@ -28,13 +31,11 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
 
     public float randomMovementRange;
     public float randomMovementSpeed;
-<<<<<<< HEAD
-=======
     public bool canFly;
    public GameObject currentTarget;
    public NavMeshAgent navMeshAgent;
+   public LayerMask layer;
 
->>>>>>> main
 
     void Awake()
     {
@@ -51,19 +52,16 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-<<<<<<< HEAD
-        stateMachine.Initialize(idleState);
-=======
         if(currentTarget == null)
             stateMachine.Initialize(idleState);
         navMeshAgent = GetComponent<NavMeshAgent>();
->>>>>>> main
     }
 
     // Update is called once per frame
     void Update()
     {
         stateMachine.CurrentEnemyState?.FrameUpdate();
+        Debug.Log("Current State: " + stateMachine.CurrentEnemyState?.ToString());
     }
     void FixedUpdate()
     {
