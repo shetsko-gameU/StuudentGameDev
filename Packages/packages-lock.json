@@ -1,7 +1,20 @@
 {
   "dependencies": {
+    "com.autodesk.fbx": {
+      "version": "5.1.1",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.2d.sprite": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
+    },
     "com.unity.ai.navigation": {
-      "version": "2.0.13",
+      "version": "2.0.9",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -44,6 +57,27 @@
       "depth": 1,
       "source": "builtin",
       "dependencies": {}
+    },
+    "com.unity.film-internal-utilities": {
+      "version": "0.20.0-preview",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.timeline": "1.2.18",
+        "com.unity.modules.uielements": "1.0.0",
+        "com.unity.modules.imageconversion": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.formats.fbx": {
+      "version": "5.1.5",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.autodesk.fbx": "5.1.1",
+        "com.unity.timeline": "1.7.1"
+      },
+      "url": "https://packages.unity.com"
     },
     "com.unity.ide.rider": {
       "version": "3.0.38",
@@ -92,6 +126,18 @@
       "depth": 3,
       "source": "registry",
       "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.probuilder": {
+      "version": "6.0.9",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.shadergraph": "17.0.3",
+        "com.unity.modules.imgui": "1.0.0",
+        "com.unity.modules.physics": "1.0.0",
+        "com.unity.settings-manager": "1.0.3"
+      },
       "url": "https://packages.unity.com"
     },
     "com.unity.render-pipelines.core": {
@@ -144,6 +190,13 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.unity.settings-manager": {
+      "version": "2.1.0",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.unity.shadergraph": {
       "version": "17.2.0",
       "depth": 1,
@@ -185,6 +238,16 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.unity.toonshader": {
+      "version": "0.15.0-preview",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.render-pipelines.core": "17.0.3",
+        "com.unity.film-internal-utilities": "0.20.0-preview"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.ugui": {
       "version": "2.0.0",
       "depth": 0,
@@ -194,8 +257,17 @@
         "com.unity.modules.imgui": "1.0.0"
       }
     },
+    "com.unity.visualeffectgraph": {
+      "version": "17.2.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.shadergraph": "17.2.0",
+        "com.unity.render-pipelines.core": "17.2.0"
+      }
+    },
     "com.unity.visualscripting": {
-      "version": "1.9.11",
+      "version": "1.9.8",
       "depth": 0,
       "source": "registry",
       "dependencies": {

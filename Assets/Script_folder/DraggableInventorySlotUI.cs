@@ -23,7 +23,6 @@ public class DraggableInventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragH
     {
         rootCanvas = GetComponentInParent<Canvas>();
         originalPosition = dragIcon.anchoredPosition;
-        inventory = FindAnyObjectByType<Inventory>();
     }
 
     // ------------------------------------------------------------------ Item helpers

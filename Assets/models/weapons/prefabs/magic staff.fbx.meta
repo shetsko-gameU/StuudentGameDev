@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 137fee8610129254dae06bde5f4b8910
+guid: f24b789cc44901a409b8e959ed6ab675
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -7,43 +7,23 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: bottom spiral
-    second: {fileID: 2100000, guid: 62d532eef97436a45b25cf33a89a9dd6, type: 2}
+      name: Material
+    second: {fileID: 2100000, guid: e376bda8be31ed242a2c3a16c9757b32, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: glow
-    second: {fileID: 2100000, guid: dc6ac784382a6714983a839a5542db63, type: 2}
+      name: glow.001
+    second: {fileID: 2100000, guid: acaf53140666817459fb8dd9db41adce, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: handle
-    second: {fileID: 2100000, guid: 8f5a714708f3acf4fbd942121b773809, type: 2}
+      name: highlights
+    second: {fileID: 2100000, guid: 429581e419f05d340930a66fd334109a, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: handle gems
-    second: {fileID: 2100000, guid: 13fa6963c967f23498dfa9fa01752526, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: outline
-    second: {fileID: 2100000, guid: e86f24b0519139646b9cadd4876f7c93, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: rod
-    second: {fileID: 2100000, guid: 3174666e28e5ac7408de4efbd02c3f52, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: top gem
-    second: {fileID: 2100000, guid: 5b30ecf3c68ca544fbf81748ff5cf5c4, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: top spiral
-    second: {fileID: 2100000, guid: 68722502728cc1543956867b353163d4, type: 2}
+      name: rod.001
+    second: {fileID: 2100000, guid: c55d6e036f3a7934a95b9fb7bd6b2190, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -73,7 +53,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 0.75
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -131,7 +111,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1
+    globalScale: 0.75
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

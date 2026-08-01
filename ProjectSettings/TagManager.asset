@@ -4,20 +4,18 @@
 TagManager:
   serializedVersion: 3
   tags:
+  - Player_Attack
   - PlayerAttack
-  - CraftPot
-  - EnemyAttack
-  - Dummy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Player
+  - 
   - Water
   - UI
   - isGround
-  - PlayerSpawnObject
-  - Enemy
+  - on top
+  - obstruction
   - 
   - 
   - 
