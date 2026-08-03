@@ -29,6 +29,12 @@ public class EnemyAttack : EnemyState
 
     public override void FrameUpdate()
     {
+        if (enemy.currentTarget == null)
+        {
+            enemy.stateMachine.ChangeState(enemy.idleState);
+            return;
+        }
+
         enemy.moveState.StopMovement(); // Stop movement during attack
         if(attackTimer >= timeBetweenAttacks)
         {

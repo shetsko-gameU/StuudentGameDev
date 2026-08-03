@@ -28,12 +28,13 @@ public class EnemyAggroCheck : MonoBehaviour
     {
         if (other.gameObject == playerTarget || other.gameObject == dummyTarget)
         {
+            enemy.currentTarget = other.gameObject;
             enemy.isAggroed = true;
         }
     }
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject == playerTarget && other.gameObject == dummyTarget)
+        if (other.gameObject == playerTarget || other.gameObject == dummyTarget)
         {
             enemy.isAggroed = false;
         }

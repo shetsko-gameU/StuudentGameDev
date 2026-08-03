@@ -27,6 +27,7 @@ public class EnemyStrikeDistanceCheck : MonoBehaviour
     {
         if (other.gameObject == playerTarget || other.gameObject == dummyTarget)
         {
+            enemy.currentTarget = other.gameObject;
             enemy.isWithinRange = true;
         }
     }

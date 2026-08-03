@@ -40,9 +40,8 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     void Awake()
     {
         stateMachine = new EnemyStateMachine();
-        // construct state instances and pass references they need
+        
         idleState = new EnemyIdle(this, stateMachine);
-        // Create constructed state instances
         attackState = new EnemyAttack(this, stateMachine);
         moveState = new EnemyMove(this, stateMachine);
         

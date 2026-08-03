@@ -73,6 +73,15 @@ public class EnemyMove : EnemyState
 
     public override void FrameUpdate()
     {
+        // isAggroed/isWithinRange can be flipped by EnemyAggroCheck/EnemyStrikeDistanceCheck
+        // trigger colliders, which don't set currentTarget themselves — bail to Idle instead
+        // of dereferencing a null target below.
+        if (enemy.currentTarget == null)
+        {
+            enemy.stateMachine.ChangeState(enemy.idleState);
+            return;
+        }
+
         // ground check and non-physics per-frame logic
         grounded = Physics.Raycast(enemy.transform.position, Vector3.down, playerHight * 0.5f + 0.2f, isGround);
         if (grounded)
@@ -105,6 +114,11 @@ public class EnemyMove : EnemyState
 
     public override void PhysicsUpdate()
     {
+        // PhysicsUpdate runs on FixedUpdate cadence — OnTriggerEnter (which flips isAggroed
+        // via EnemyAggroCheck) fires during the same physics pass, so this can run with a
+        // still-null currentTarget before FrameUpdate's Update-cadence guard ever catches it.
+        if (enemy.currentTarget == null) return;
+
         // Get movespeed from stats (fallback to 1 if missing)
         float moveSpeedMultiplier = (stats != null) ? stats.MoveSpeed : 1f;
 
