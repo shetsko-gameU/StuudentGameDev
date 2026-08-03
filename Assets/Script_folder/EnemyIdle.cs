@@ -6,6 +6,7 @@ public class EnemyIdle : EnemyState
 
     public Vector3 targetPosition;
     public Vector3 direction;
+    Vector3 startPosition;
     public EnemyIdle(EnemyBase enemy, EnemyStateMachine enemyStateMachine)
     {
         this.enemy = enemy;
@@ -16,6 +17,7 @@ public class EnemyIdle : EnemyState
     public override void EnterState()
     {
        targetPosition = GetRandomPointInRadius();
+       startPosition = enemy.transform.position;
     }
 
     public override void FrameUpdate()
@@ -25,6 +27,14 @@ public class EnemyIdle : EnemyState
              enemyStateMachine.ChangeState(enemy.moveState);
              return;
         }
+
+        Vector3 offsetFromStart = enemy.transform.position - startPosition;
+        if (offsetFromStart.magnitude >= enemy.randomMovementRange)
+        {
+            targetPosition = GetRandomPointInRadius();
+            enemy.transform.position = startPosition + (offsetFromStart.normalized * enemy.randomMovementRange);
+        }
+        
         direction = (targetPosition - enemy.transform.position).normalized;
         enemy.MoveEnemy(direction * enemy.randomMovementSpeed);
         if((enemy.transform.position - targetPosition).magnitude < 0.5f)
@@ -39,7 +49,7 @@ public class EnemyIdle : EnemyState
     {
         Vector2 randomPosition = UnityEngine.Random.insideUnitCircle * enemy.randomMovementRange;
         Vector3 adjustedPosition = new Vector3(randomPosition.x, 0, randomPosition.y);
-        return enemy.transform.position + adjustedPosition;
+        return startPosition + adjustedPosition;
     }
 
     void CheckLineOfSite()
@@ -51,7 +61,11 @@ public class EnemyIdle : EnemyState
             if(Physics.Raycast(point.position, point.forward, out hit, enemy.sightRange))
             {
                 if(hit.collider.gameObject.CompareTag("Player") || hit.collider.gameObject.CompareTag("Dummy"))
+                {
+                    enemy.currentTarget = hit.collider.gameObject;
                     enemy.isAggroed = true;
+                    return;
+                }
             }
         }
     }
@@ -63,6 +77,8 @@ public class EnemyIdle : EnemyState
             if(hitCollider.gameObject.CompareTag("Dummy") || hitCollider.gameObject.CompareTag("Player"))
             {
                 enemy.currentTarget = hitCollider.gameObject;
+                enemy.isAggroed = true;
+                return;
             }
         }
     }

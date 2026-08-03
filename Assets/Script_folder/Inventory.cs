@@ -11,6 +11,8 @@ public class Inventory : MonoBehaviour
 
     public Color removedColor;
 
+    public GameObject inventory;
+
     // ------------------------------------------------------------------ Picking up items
 
     /// <summary>
@@ -38,6 +40,13 @@ public class Inventory : MonoBehaviour
         return true;
     }
 
+    public void Awake()
+    {
+        foreach (RawImage UIslot in inventory.GetComponentsInChildren<RawImage>())
+        {
+            UISlots.Add(UIslot);
+        }
+    }
     // ------------------------------------------------------------------ Consuming items
 
     /// <summary>
