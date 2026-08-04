@@ -22,6 +22,8 @@ public class CutOutManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (targetObject == null) return;
+
         for (int i = 0; i < raycastHits.Length; i++)
         {
             Material[] materials = raycastHits[i].transform.GetComponent<Renderer>().materials;
@@ -57,6 +59,8 @@ public class CutOutManager : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
+        if (targetObject == null) return;
+
         Vector3 offset = targetObject.position - transform.position;
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, offset);
