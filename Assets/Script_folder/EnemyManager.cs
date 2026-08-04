@@ -7,6 +7,7 @@ public class EnemyManager : MonoBehaviour
     public List <GameObject> TempSpawnLocations = new List<GameObject>();
     public List<EnemyBase> EnemiesInWave = new List<EnemyBase>();
     public StatsManager PlayerStats;
+    
 
     [Tooltip("Pool of enemy prefabs this manager can spawn. Each spawn picks one at random, " +
              "the same way a random SpawnLocation is picked.")]
@@ -16,6 +17,7 @@ public class EnemyManager : MonoBehaviour
 
     public List<int> EnemiesPerWave;
 
+    public bool Active;
     public int EnemyWave;
     public int EnemyWaveMax;
 
@@ -27,6 +29,8 @@ public class EnemyManager : MonoBehaviour
 
     private void Awake()
     {
+        
+
         if (EnemyTypes == null || EnemyTypes.Length == 0)
             Debug.LogError($"EnemyManager on '{name}': No EnemyTypes assigned.");
 
@@ -44,7 +48,9 @@ public class EnemyManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        if (!Active) return;
         if (allWavesCleared) return;
+
 
         if (EnemyTypes == null || EnemyTypes.Length == 0 || SpawnLocations == null || SpawnLocations.Count == 0 || EnemiesPerWave == null)
             return;
@@ -114,4 +120,16 @@ public class EnemyManager : MonoBehaviour
         if (enemyBase != null)
             Destroy(enemyBase.gameObject);
     }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            Active = true;
+        }
+
+    }
+
+
+
 }
