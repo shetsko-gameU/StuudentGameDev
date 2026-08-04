@@ -65,8 +65,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 15
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 3.6314235
+  m_Center: {x: 0.9383321, y: -0, z: 0}
 --- !u!1 &1782787069862494850
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,9 +484,16 @@ MonoBehaviour:
   - {fileID: 3708767087804469475}
   - {fileID: 1630182751664075115}
   doesAttackPivot: 0
+  isBoss: 0
+  sightRange: 0
   randomMovementRange: 5
   randomMovementSpeed: 1
+  canFly: 0
   currentTarget: {fileID: 0}
+  navMeshAgent: {fileID: 0}
+  layer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &5397998645940285148
 MonoBehaviour:
   m_ObjectHideFlags: 0

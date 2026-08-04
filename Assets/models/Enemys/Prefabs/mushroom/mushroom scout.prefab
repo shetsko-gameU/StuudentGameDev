@@ -356,8 +356,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 15
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 2.4528506
+  m_Center: {x: -0.000001434245, y: 0, z: -0.40024066}
 --- !u!1001 &8346133873166823285
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -469,8 +469,16 @@ MonoBehaviour:
   - {fileID: 6152967307714516846}
   - {fileID: 3114085855774693738}
   doesAttackPivot: 0
+  isBoss: 0
+  sightRange: 0
   randomMovementRange: 5
   randomMovementSpeed: 1
+  canFly: 0
+  currentTarget: {fileID: 0}
+  navMeshAgent: {fileID: 0}
+  layer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!136 &1157479315724096603
 CapsuleCollider:
   m_ObjectHideFlags: 0
