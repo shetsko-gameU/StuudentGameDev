@@ -478,7 +478,7 @@ MonoBehaviour:
   randomMovementSpeed: 1
   canFly: 0
   currentTarget: {fileID: 0}
-  navMeshAgent: {fileID: 0}
+  navMeshAgent: {fileID: 1746206944659751081}
   layer:
     serializedVersion: 2
     m_Bits: 0
@@ -565,6 +565,6 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 0
+  m_BaseOffset: 1.22
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
