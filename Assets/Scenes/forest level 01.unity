@@ -59594,6 +59594,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7454554729176608045, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 884052332}
+    - target: {fileID: 7454554729176608045, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
       propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 884052325}
@@ -59684,6 +59688,10 @@ PrefabInstance:
     - target: {fileID: 7454554729176608045, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
       propertyPath: m_ActionEvents.Array.data[29].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7454554729176608045, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnAttack
       objectReference: {fileID: 0}
     - target: {fileID: 7454554729176608045, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
       propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -59920,6 +59928,10 @@ PrefabInstance:
     - target: {fileID: 8695995254235815111, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8814090635867657241, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: currentHealth
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 9209424948233896381, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
       propertyPath: m_Layer
