@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: ComboSo
   m_EditorClassIdentifier: Assembly-CSharp::ComboSO
   hits:
-  - displayName: Swing
+  - displayName: Attack
     damageMultiplier: 1
     chainWindowSeconds: 0
     hitCheckDelay: 0
-    animatorTrigger: Attack
+    animatorTrigger: attack

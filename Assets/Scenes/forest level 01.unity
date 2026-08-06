@@ -59265,6 +59265,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3404841204398637809, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -89.98
+      objectReference: {fileID: 0}
     - target: {fileID: 3563704980855927101, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -59285,6 +59289,10 @@ PrefabInstance:
       propertyPath: combo
       value: 
       objectReference: {fileID: 11400000, guid: 4edec3698243df047ae8cbe8fd775f07, type: 2}
+    - target: {fileID: 4228190003025015144, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: useAnimationEvents
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4352574945050071376, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -59335,7 +59343,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6278440642534877205, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
       propertyPath: enemyLayer.m_Bits
-      value: 0
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6365657406793625504, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
       propertyPath: m_Layer

@@ -114,7 +114,6 @@ GameObject:
   - component: {fileID: 7279202257106433179}
   - component: {fileID: 4797080191231004307}
   - component: {fileID: 6303557501991920254}
-  - component: {fileID: 2884274164294587415}
   - component: {fileID: 2811520563896596546}
   - component: {fileID: 1825293724853251305}
   m_Layer: 7
@@ -509,12 +508,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMove
   acceleration: 100
   haltSpeed: 5
+  isGround:
+    serializedVersion: 2
+    m_Bits: 0
+  ledgeProbeDistance: 0.45
+  minFallHeight: 0.5
+  airControl: 0.3
   stats: {fileID: 8814090635867657241}
   modelRotateSpeed: 5
   playerModel: {fileID: 7012104281757605223}
   agent: {fileID: 1825293724853251305}
   rb: {fileID: 4578822220498060287}
   animator: {fileID: 8688106626611857384}
+  objectAnimator: {fileID: 0}
   Cam: {fileID: 0}
 --- !u!114 &8814090635867657241
 MonoBehaviour:
@@ -607,11 +613,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PassiveManager
   stats: {fileID: 8814090635867657241}
+  abilityRunner: {fileID: 0}
   alwaysOnPassives: []
   startingFoodPassives: []
+  startingKillPassives: []
+  startingDebuffPassives: []
+  startingUltFood: {fileID: 0}
   debugAlwaysOnPassives: []
   debugFoodPassives: []
   debugStatBoosts: []
+  debugKillPassives: []
+  debugDebuffPassives: []
+  debugUltAbility: (none)
 --- !u!114 &4228190003025015144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -644,7 +657,6 @@ MonoBehaviour:
   comboRunner: {fileID: 4228190003025015144}
   passiveManager: {fileID: 4625043910456940208}
   stats: {fileID: 8814090635867657241}
-  hitbox: {fileID: 6278440642534877205}
 --- !u!114 &7279202257106433179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -727,6 +739,9 @@ MonoBehaviour:
     statPassive: {fileID: 11400000, guid: 0dea2a52d67d28746a99f584e441769d, type: 2}
   - foodItem: {fileID: 11400000, guid: d1561ec9a8fee0a4f8531dde49e0aec6, type: 2}
     statPassive: {fileID: 11400000, guid: 0dea2a52d67d28746a99f584e441769d, type: 2}
+  foodKillBoosts: []
+  foodDebuffBoosts: []
+  foodUltBoosts: []
 --- !u!114 &6303557501991920254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -745,18 +760,6 @@ MonoBehaviour:
   secondaryAbility:
     ability: {fileID: 0}
     nextReadyTime: 0
---- !u!114 &2884274164294587415
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3994294546509096518}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 609fc4c020a73be48a9dc538ef0b8076, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AnimationEventRelay
 --- !u!114 &2811520563896596546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1189,7 +1192,6 @@ MonoBehaviour:
     m_Bits: 8
   boxCollider: {fileID: 0}
   attackerStats: {fileID: 8814090635867657241}
-  comboRunner: {fileID: 4228190003025015144}
 --- !u!4 &3404841204398637809 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3830919163000477356, guid: 76fb44b93627b0f42ad7a0e36cac079d, type: 3}
