@@ -21,12 +21,12 @@ MonoBehaviour:
     randomizeYRotation: 1
     randomizeZRotation: 0
     parentContainer: {fileID: 0}
-    density: 0.8
+    density: 1
     brushSize: 18.8
-    minScale: 300
-    maxScale: 600
+    minScale: 2
+    maxScale: 4
     offsetFromPivot: {x: 0, y: 0, z: 0}
-    rotOffsetFromPivot: {x: -90, y: 0, z: 0}
+    rotOffsetFromPivot: {x: 0, y: 0, z: 0}
     minSlope: 0
     maxSlope: 360
     layerFilter:
@@ -42,12 +42,12 @@ MonoBehaviour:
     randomizeYRotation: 1
     randomizeZRotation: 0
     parentContainer: {fileID: 0}
-    density: 0.8
+    density: 1
     brushSize: 18.8
-    minScale: 300
-    maxScale: 600
+    minScale: 2
+    maxScale: 4
     offsetFromPivot: {x: 0, y: 0, z: 0}
-    rotOffsetFromPivot: {x: -90, y: 0, z: 0}
+    rotOffsetFromPivot: {x: 0, y: 0, z: 0}
     minSlope: 0
     maxSlope: 360
     layerFilter:
@@ -140,7 +140,7 @@ MonoBehaviour:
     isTagFilteringEnabled: 0
     tagFilter: 
   primarySelectedBrush:
-    brushObject: {fileID: 7549369957695017836, guid: c1b70b0b3eff18e4e86c60c141f37263, type: 3}
+    brushObject: {fileID: 6231329199666101755, guid: b0d9592a01daf1f44b281668bbc5a9bc, type: 3}
     usePrefabs: 1
     allowIntercollision: 0
     alignToSurface: 1
@@ -162,7 +162,28 @@ MonoBehaviour:
     isTagFilteringEnabled: 0
     tagFilter: 
   selectedBrushes:
-  - brushObject: {fileID: 7549369957695017836, guid: c1b70b0b3eff18e4e86c60c141f37263, type: 3}
+  - brushObject: {fileID: 6231329199666101755, guid: b0d9592a01daf1f44b281668bbc5a9bc, type: 3}
+    usePrefabs: 1
+    allowIntercollision: 0
+    alignToSurface: 1
+    randomizeXRotation: 0
+    randomizeYRotation: 1
+    randomizeZRotation: 0
+    parentContainer: {fileID: 0}
+    density: 0.8
+    brushSize: 18.8
+    minScale: 50
+    maxScale: 400
+    offsetFromPivot: {x: 0, y: 0, z: 0}
+    rotOffsetFromPivot: {x: -90, y: 0, z: 0}
+    minSlope: 0
+    maxSlope: 360
+    layerFilter:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    isTagFilteringEnabled: 0
+    tagFilter: 
+  - brushObject: {fileID: 2570426913809909779, guid: 28c61021d2493d14e87bbe5f8d1beaea, type: 3}
     usePrefabs: 1
     allowIntercollision: 0
     alignToSurface: 1
