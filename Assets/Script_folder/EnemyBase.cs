@@ -77,31 +77,37 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     {
         stateMachine.CurrentEnemyState?.AnimationTriggerEvent(triggerType);
     }
-    public void OnTriggerEnter(Collider other)
-    {
-        if (!other.gameObject.CompareTag("PlayerAttack")) return;
-
-        if (stats == null)
-        {
-            Debug.LogError($"EnemyBase on '{name}': stats is null � assign StatsManager in Inspector.");
-            return;
-        }
-
-        if (Player_Stats == null)
-        {
-            Debug.LogError($"EnemyBase on '{name}': playerStats is null � assign the Player StatsManager in Inspector.");
-            return;
-        }
-
-        float damage = Player_Stats.GetDamageRoll();
-        Debug.Log($"EnemyBase: '{name}' taking {damage} damage. Health before: {stats.currentHealth}");
-
-        // IMPORTANT: must call TakeDamage � not currentHealth directly.
-        // TakeDamage is where OnDied fires, which LootDropper listens to.
-        stats.TakeDamage(damage);
-
-        Debug.Log($"EnemyBase: '{name}' health after: {stats.currentHealth}. IsDead: {stats.IsDead}");
-    }
+    // Commented out 2026-06-29: this duplicated AttackHitbox's damage-dealing. The sword mesh
+    // ("warrior blade") is tagged PlayerAttack and carries the trigger collider AttackHitbox
+    // controls, so every hitbox connection fired BOTH AttackHitbox.OnTriggerEnter (the real
+    // pipeline — combo-scaled damage, HealthSteal, OnEnemyHit for passives) AND this method
+    // (raw Attack stat, no multiplier, no HealthSteal, no passive triggers) from the same
+    // physical contact — enemies were taking damage twice per hit through two different formulas.
+    //public void OnTriggerEnter(Collider other)
+    //{
+    //    if (!other.gameObject.CompareTag("PlayerAttack")) return;
+    //
+    //    if (stats == null)
+    //    {
+    //        Debug.LogError($"EnemyBase on '{name}': stats is null — assign StatsManager in Inspector.");
+    //        return;
+    //    }
+    //
+    //    if (Player_Stats == null)
+    //    {
+    //        Debug.LogError($"EnemyBase on '{name}': playerStats is null — assign the Player StatsManager in Inspector.");
+    //        return;
+    //    }
+    //
+    //    float damage = Player_Stats.GetDamageRoll();
+    //    Debug.Log($"EnemyBase: '{name}' taking {damage} damage. Health before: {stats.currentHealth}");
+    //
+    //    // IMPORTANT: must call TakeDamage — not currentHealth directly.
+    //    // TakeDamage is where OnDied fires, which LootDropper listens to.
+    //    stats.TakeDamage(damage);
+    //
+    //    Debug.Log($"EnemyBase: '{name}' health after: {stats.currentHealth}. IsDead: {stats.IsDead}");
+    //}
     public void OnAttack()
     {
         animator.SetTrigger("Attack");

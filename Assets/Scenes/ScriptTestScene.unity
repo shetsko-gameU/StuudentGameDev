@@ -1877,7 +1877,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1126053413}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d850c9c729e6074e902b3629de611df, type: 3}
   m_Name: 
@@ -1886,7 +1886,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   boxCollider: {fileID: 0}
-  attackerStats: {fileID: 0}
+  attackerStats: {fileID: 1430486900}
 --- !u!1 &1170081888
 GameObject:
   m_ObjectHideFlags: 0
@@ -2334,7 +2334,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1394594511}
   - component: {fileID: 1394594512}
-  - component: {fileID: 1394594513}
   m_Layer: 3
   m_Name: mesh
   m_TagString: Untagged
@@ -2367,18 +2366,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1394594510}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1394594513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1394594510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 609fc4c020a73be48a9dc538ef0b8076, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AnimationEventRelay
 --- !u!1 &1421065161
 GameObject:
   m_ObjectHideFlags: 0
@@ -3109,6 +3096,7 @@ MonoBehaviour:
   alwaysOnPassives: []
   startingFoodPassives:
   - {fileID: 11400000, guid: 7d516ec7cb627f74488b41d6b271b2e2, type: 2}
+  - {fileID: 11400000, guid: 000c3a6a58610ba4cace4624749fcf0d, type: 2}
   startingKillPassives: []
   startingDebuffPassives: []
   startingUltFood: {fileID: 0}
@@ -3163,6 +3151,7 @@ MonoBehaviour:
   comboRunner: {fileID: 1430486909}
   passiveManager: {fileID: 1430486907}
   stats: {fileID: 1430486900}
+  hitbox: {fileID: 1126053418}
 --- !u!114 &1430486911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4698,7 +4687,7 @@ PrefabInstance:
       objectReference: {fileID: 1430486891}
     - target: {fileID: 4879958320921740623, guid: 026025a3d746d544f847330d566c954b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.36
+      value: 30.32
       objectReference: {fileID: 0}
     - target: {fileID: 4879958320921740623, guid: 026025a3d746d544f847330d566c954b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4740,6 +4729,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: slime
       objectReference: {fileID: 0}
+    - target: {fileID: 7775518985100981295, guid: 026025a3d746d544f847330d566c954b, type: 3}
+      propertyPath: baseStats
+      value: 
+      objectReference: {fileID: 11400000, guid: e80729fe5bfeee84bb313ab31c8e4003, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

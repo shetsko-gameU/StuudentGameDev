@@ -28,6 +28,14 @@ public class AttackHitbox : MonoBehaviour
     /// Used by DebuffOnHitTrigger to apply enemy-targeted debuffs only on confirmed hits.</summary>
     public event System.Action<StatsManager> OnEnemyHit;
 
+    /// <summary>Whether the currently-armed hit is the first/last of its combo.
+    /// Set by ComboRunner via SetHitContext() at the same time as SetDamage() — i.e. at
+    /// swing-start, before ComboRunner's own currentHitIndex advances to the next hit.
+    /// Reading ComboRunner.IsFirstHit/IsLastHit live from OnTriggerEnter would be wrong,
+    /// since the index has already moved on by the time a trigger can possibly fire.</summary>
+    public bool CurrentIsFirstHit { get; private set; }
+    public bool CurrentIsLastHit { get; private set; }
+
     private float currentDamage;
 
     // ------------------------------------------------------------------ Lifecycle
@@ -49,6 +57,14 @@ public class AttackHitbox : MonoBehaviour
     public void SetDamage(float damage)
     {
         currentDamage = damage;
+    }
+
+    /// <summary>Called by ComboRunner alongside SetDamage(), before the hit actually fires,
+    /// so OnTriggerEnter/OnEnemyHit reflect which swing this was.</summary>
+    public void SetHitContext(bool isFirstHit, bool isLastHit)
+    {
+        CurrentIsFirstHit = isFirstHit;
+        CurrentIsLastHit = isLastHit;
     }
 
     /// <summary>

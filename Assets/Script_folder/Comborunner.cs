@@ -169,17 +169,22 @@ public class ComboRunner : MonoBehaviour
 
         // Tell the hitbox what damage to deal before the animation fires.
         // This way when AnimationEventRelay calls EnableHitbox the damage is already set.
+        // SetHitContext must happen here too — currentHitIndex advances a few lines below,
+        // so isFirst/isLast have to be captured now, not read live when the hit resolves.
         if (hitbox != null)
+        {
             hitbox.SetDamage(damage);
+            hitbox.SetHitContext(isFirst, isLast);
+        }
 
         // Fire animation trigger
         if (animator != null && !string.IsNullOrEmpty(hitData.animatorTrigger))
             animator.SetTrigger(hitData.animatorTrigger);
 
         // Fire combo started event on the first hit.
-        // Guard: if this is also the last hit (single-hit combo) skip OnComboStarted
-        // so ComboPassiveTrigger doesn't apply first-hit passives AND last-hit passives
-        // in the same frame, which would double-apply any passive flagged for both.
+        // Guard: skip OnComboStarted for single-hit combos (where isFirst and isLast are
+        // both true) so listeners don't see both "combo started" and "combo finished" fire
+        // for the same swing.
         if (isFirst && !isLast)
         {
             OnComboStarted?.Invoke();
