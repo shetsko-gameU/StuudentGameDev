@@ -185,6 +185,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "CamLeft/right",
+                    "type": "Value",
+                    "id": "0c2c5ee9-8d03-4525-b445-4a34be00db9e",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -693,6 +702,39 @@
                     "action": "Ult",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "d557a9d6-f32d-45d6-81cb-f3a17345462c",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CamLeft/right",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "edb3f525-6396-4d76-9d05-8c2dcea70694",
+                    "path": "<Keyboard>/comma",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CamLeft/right",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "716ec7ef-0890-47cd-b3c8-b9f6898b8da1",
+                    "path": "<Keyboard>/period",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CamLeft/right",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },

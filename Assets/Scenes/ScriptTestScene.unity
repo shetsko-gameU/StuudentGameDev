@@ -2968,6 +2968,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 6dd1378d-3263-4cb2-97bb-107d940a412e
     m_ActionName: 'Player/Ult[/Keyboard/q]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1430486914}
+        m_TargetAssemblyTypeName: PlayerCam, Assembly-CSharp
+        m_MethodName: OnCamMove
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 0c2c5ee9-8d03-4525-b445-4a34be00db9e
+    m_ActionName: 'Player/CamLeft[/Keyboard/comma]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
@@ -3221,7 +3237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCam
   CamTarget: {fileID: 382498173}
-  CameraMoveSpeed: 1
+  CameraMoveSpeed: 90
   CameraDirection: 0
 --- !u!114 &1430486915
 MonoBehaviour:
