@@ -145,6 +145,8 @@ public class ComboRunner : MonoBehaviour
         if (!hitActive)
         {
             TriggerCurrentHit();
+            
+
         }
         else
         {
@@ -174,6 +176,7 @@ public class ComboRunner : MonoBehaviour
 
         // Fire animation trigger
         if (animator != null && !string.IsNullOrEmpty(hitData.animatorTrigger))
+            Debug.Log(hitData.animatorTrigger);
             animator.SetTrigger(hitData.animatorTrigger);
 
         // Fire combo started event on the first hit.
