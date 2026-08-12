@@ -76,7 +76,18 @@ public class PlayerMove : MonoBehaviour
         // Kept kinematic while agent-driven so existing trigger/collision callbacks
         // (pickups, CraftPot zone, etc.) still fire — physics only takes over during falls.
         if (rb != null)
+        {
             rb.isKinematic = true;
+
+            // The agent's baseOffset leaves only a few cm of clearance between the capsule's
+            // feet and the ground while grounded. Unity's default depenetration speed is
+            // unlimited, so if the capsule is even slightly overlapping the ground the instant
+            // StartFalling() flips isKinematic to false, the physics solver can shove it out
+            // in a single step — looking exactly like being launched into the air. Clamping
+            // this forces any overlap to resolve gently over a few frames instead.
+            rb.maxDepenetrationVelocity = 2f;
+        }
+        
 
         foreach (Collider c in GetComponents<Collider>())
         {
@@ -181,12 +192,22 @@ public class PlayerMove : MonoBehaviour
 
     private void StartFalling()
     {
+        // A merely-stopped agent still snaps to the mesh; it has to be fully disabled.
+        agent.enabled = false;
+
+        // Nudge up a hair BEFORE going non-kinematic. The agent's baseOffset only leaves a
+        // thin clearance above the ground mesh, so the capsule is often slightly embedded
+        // in it right at a ledge edge. Kinematic bodies can be freely repositioned with zero
+        // physics cost, so this clears that overlap pre-emptively — otherwise, the instant
+        // isKinematic flips off, PhysX depenetrates the overlap over several physics steps,
+        // imparting real upward velocity. TryLand() then refuses to land while rb.linearVelocity.y
+        // is positive, so that velocity has to fully decay under gravity first — turning what
+        // should be a clean drop into a visible multi-second launch/float.
+        rb.position += Vector3.up * 0.1f;
+
         IsFalling = true;
         fallStartY = transform.position.y;
         fallStartTime = Time.time;
-
-        // A merely-stopped agent still snaps to the mesh; it has to be fully disabled.
-        agent.enabled = false;
 
         rb.isKinematic = false;
         rb.linearVelocity = currentVelocity; // carry momentum over the edge
