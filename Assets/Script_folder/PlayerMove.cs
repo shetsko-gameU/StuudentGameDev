@@ -73,10 +73,30 @@ public class PlayerMove : MonoBehaviour
         // so it must not also try to auto-rotate towards its steering target.
         agent.updateRotation = false;
 
+        // Obstacle avoidance is RVO steering for autopilot navigation around other agents —
+        // irrelevant here since the player never uses SetDestination(). Left on (the Inspector
+        // had it at High Quality), it still runs its own internal velocity smoothing on top of
+        // Move() calls, based on the agent's own Speed/Acceleration (3.5 / 8) — much lower than
+        // what GroundedUpdate() computes itself (acceleration = 100) — so the two fight each
+        // other and movement feels sluggish/"heavy". Static geometry blocking (walls, ledges)
+        // is unaffected — that comes from the baked NavMesh itself via Move()'s own clamping.
+        agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
+
         // Kept kinematic while agent-driven so existing trigger/collision callbacks
         // (pickups, CraftPot zone, etc.) still fire — physics only takes over during falls.
         if (rb != null)
+        {
             rb.isKinematic = true;
+
+            // The agent's baseOffset leaves only a few cm of clearance between the capsule's
+            // feet and the ground while grounded. Unity's default depenetration speed is
+            // unlimited, so if the capsule is even slightly overlapping the ground the instant
+            // StartFalling() flips isKinematic to false, the physics solver can shove it out
+            // in a single step — looking exactly like being launched into the air. Clamping
+            // this forces any overlap to resolve gently over a few frames instead.
+            rb.maxDepenetrationVelocity = 2f;
+        }
+        
 
         foreach (Collider c in GetComponents<Collider>())
         {
@@ -97,8 +117,29 @@ public class PlayerMove : MonoBehaviour
         return bodyCollider != null ? bodyCollider.bounds.min.y : transform.position.y;
     }
 
+    private bool pendingDrop;
+
+    /// <summary>
+    /// Called by StartPortal.DropPlayer() (an Animation Event) to make the player physically
+    /// fall from wherever the portal spawned them, using the same fall/land state machine as
+    /// walking off a ledge. Deferred to a flag checked at the top of Update() rather than
+    /// calling StartFalling() directly, since the player GameObject starts deactivated and
+    /// Start() (which sets up rb/agent/bodyCollider) may not have run yet at the exact moment
+    /// the animation event fires — Update() is guaranteed to run only after Start() has.
+    /// </summary>
+    public void DropFromPortal()
+    {
+        pendingDrop = true;
+    }
+
     private void Update()
     {
+        if (pendingDrop)
+        {
+            pendingDrop = false;
+            StartFalling();
+        }
+
         // MoveSpeed from the stat system IS the max speed (e.g. base 5 units/s).
         // Modifiers add to or multiply it directly — no extra multiplier gymnastics needed.
         float maxSpeed = (stats != null) ? stats.MoveSpeed : 5f;
@@ -181,12 +222,22 @@ public class PlayerMove : MonoBehaviour
 
     private void StartFalling()
     {
+        // A merely-stopped agent still snaps to the mesh; it has to be fully disabled.
+        agent.enabled = false;
+
+        // Nudge up a hair BEFORE going non-kinematic. The agent's baseOffset only leaves a
+        // thin clearance above the ground mesh, so the capsule is often slightly embedded
+        // in it right at a ledge edge. Kinematic bodies can be freely repositioned with zero
+        // physics cost, so this clears that overlap pre-emptively — otherwise, the instant
+        // isKinematic flips off, PhysX depenetrates the overlap over several physics steps,
+        // imparting real upward velocity. TryLand() then refuses to land while rb.linearVelocity.y
+        // is positive, so that velocity has to fully decay under gravity first — turning what
+        // should be a clean drop into a visible multi-second launch/float.
+        rb.position += Vector3.up * 0.1f;
+
         IsFalling = true;
         fallStartY = transform.position.y;
         fallStartTime = Time.time;
-
-        // A merely-stopped agent still snaps to the mesh; it has to be fully disabled.
-        agent.enabled = false;
 
         rb.isKinematic = false;
         rb.linearVelocity = currentVelocity; // carry momentum over the edge
@@ -204,6 +255,16 @@ public class PlayerMove : MonoBehaviour
             Vector3 clamped = horizontal.normalized * maxSpeed;
             rb.linearVelocity = new Vector3(clamped.x, rb.linearVelocity.y, clamped.z);
         }
+
+        // There's no jump — the player should never legitimately gain upward velocity while
+        // falling. Right at a ledge the capsule can still be clipping the edge/corner of the
+        // ground geometry (not just sinking straight down into it), so PhysX's depenetration
+        // can shove it sideways-and-up together; a purely vertical pre-emptive nudge (above)
+        // can't fully prevent that. Clamping this away every frame kills the launch outright,
+        // regardless of which direction the overlap resolves in, with zero effect on a real
+        // fall (whose Y velocity is never positive past the very first instant anyway).
+        if (rb.linearVelocity.y > 0f)
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
 
         TryLand();
     }

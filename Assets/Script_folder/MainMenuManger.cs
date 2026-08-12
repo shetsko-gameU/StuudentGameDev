@@ -3,9 +3,16 @@ using UnityEngine.SceneManagement; // Lets us switch scenes
 
 public class MainMenuManager : MonoBehaviour
 {
-    // This is the name of your game scene — must match exactly
+    // This is the name of your game scene ï¿½ must match exactly
     [Header("Scene To Load")]
     public string ScriptTestScene = "ScriptTestScene";
+
+    [Header("Menu UI")]
+    [Tooltip("The main button panel (Start/Options/Exit). Hidden while Settings is open.")]
+    public GameObject mainPanel;
+
+    [Tooltip("Same SettingsMenu component pattern PauseMenu uses ï¿½ volume + fullscreen.")]
+    public SettingsMenu settingsMenu;
 
     // -----------------------------------------------
     // Called when player clicks "Start Game"
@@ -19,13 +26,27 @@ public class MainMenuManager : MonoBehaviour
 
     // -----------------------------------------------
     // Called when player clicks "Options"
-    // Right now just logs a message
-    // You can hook up an options panel later
+    // Hides the main button panel and opens Settings.
     // -----------------------------------------------
     public void OnOptions()
     {
-        Debug.Log("Options button clicked");
-        // TODO: show options panel
+        if (settingsMenu == null) return;
+
+        if (mainPanel != null)
+            mainPanel.SetActive(false);
+
+        settingsMenu.Open();
+    }
+
+    /// <summary>Wire the Settings panel's own Back button to this ï¿½ NOT to
+    /// SettingsMenu.Close() directly ï¿½ so the main button panel reappears underneath it.</summary>
+    public void OnCloseSettings()
+    {
+        if (settingsMenu != null)
+            settingsMenu.Close();
+
+        if (mainPanel != null)
+            mainPanel.SetActive(true);
     }
 
     // -----------------------------------------------
