@@ -3,7 +3,22 @@ guid: 798fcfbdee498ef44b1c31ae0043a96a
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material
+    second: {fileID: 2100000, guid: 743053fce30a58f43b67343bbc4197bb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.003
+    second: {fileID: 2100000, guid: db829673f05776a43be27b07b9f19421, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: dirty cloth
+    second: {fileID: 2100000, guid: 9eb5c263c9ce7b74a86f93c94acad0c3, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
