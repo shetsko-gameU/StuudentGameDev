@@ -1,7 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 /// <summary>
 /// Add to the player alongside ComboRunner and PassiveManager.
+///
+/// Listens to AttackHitbox.OnEnemyHit — which only fires when a swing actually connects
+/// and wasn't dodged — then checks AttackHitbox.CurrentIsFirstHit/CurrentIsLastHit (set by
+/// ComboRunner at swing-start) to fire whatever passives are flagged for that hit type.
 ///
 /// Instead of hardcoded passive lists, this reads whatever passives are currently
 /// active in PassiveManager and fires the ones flagged for combo triggers.
@@ -20,66 +24,58 @@ public class ComboPassiveTrigger : MonoBehaviour
     public PassiveManager passiveManager;
     public StatsManager stats;
 
+    [Tooltip("Auto-found from ComboRunner.hitbox, then from a child search, since AttackHitbox usually lives on a child (the weapon).")]
+    public AttackHitbox hitbox;
+
     // ------------------------------------------------------------------ Lifecycle
 
     private void Awake()
     {
         if (comboRunner == null) comboRunner = GetComponent<ComboRunner>();
+        if (hitbox == null && comboRunner != null) hitbox = comboRunner.hitbox;
+        if (hitbox == null) hitbox = GetComponentInChildren<AttackHitbox>();
         if (passiveManager == null) passiveManager = GetComponent<PassiveManager>();
         if (stats == null) stats = GetComponent<StatsManager>();
 
         if (comboRunner == null) Debug.LogError($"ComboPassiveTrigger on '{name}': ComboRunner missing.");
+        if (hitbox == null) Debug.LogError($"ComboPassiveTrigger on '{name}': AttackHitbox missing (checked ComboRunner.hitbox and children).");
         if (passiveManager == null) Debug.LogError($"ComboPassiveTrigger on '{name}': PassiveManager missing.");
         if (stats == null) Debug.LogError($"ComboPassiveTrigger on '{name}': StatsManager missing.");
     }
 
     private void OnEnable()
     {
-        if (comboRunner == null) return;
-        comboRunner.OnComboStarted += HandleFirstHit;
-        comboRunner.OnComboFinished += HandleLastHit;
+        if (hitbox != null)
+            hitbox.OnEnemyHit += HandleEnemyHit;
     }
 
     private void OnDisable()
     {
-        if (comboRunner == null) return;
-        comboRunner.OnComboStarted -= HandleFirstHit;
-        comboRunner.OnComboFinished -= HandleLastHit;
+        if (hitbox != null)
+            hitbox.OnEnemyHit -= HandleEnemyHit;
     }
 
-    // ------------------------------------------------------------------ Handlers
+    // ------------------------------------------------------------------ Handler
 
-    private void HandleFirstHit()
+    private void HandleEnemyHit(StatsManager enemyHit)
     {
-        if (passiveManager == null) return;
+        if (passiveManager == null || hitbox == null) return;
 
-        // Loop through every active food passive in PassiveManager
-        // PassiveManager implements IEnumerable so foreach works directly on it
+        bool isFirst = hitbox.CurrentIsFirstHit;
+        bool isLast = hitbox.CurrentIsLastHit;
+
         foreach (OnHitPassiveSO passive in passiveManager)
         {
             if (passive == null) continue;
 
-            // Only fire passives that have triggerOnFirstHit ticked
-            if (passive.triggerOnFirstHit)
+            if (isFirst && passive.triggerOnFirstHit)
             {
-                Debug.Log($"ComboPassiveTrigger: First hit — firing '{passive.displayName}'");
+                Debug.Log($"ComboPassiveTrigger: First hit connected — firing '{passive.displayName}'");
                 ApplyPassive(passive);
             }
-        }
-    }
-
-    private void HandleLastHit()
-    {
-        if (passiveManager == null) return;
-
-        foreach (OnHitPassiveSO passive in passiveManager)
-        {
-            if (passive == null) continue;
-
-            // Only fire passives that have triggerOnLastHit ticked
-            if (passive.triggerOnLastHit)
+            else if (isLast && passive.triggerOnLastHit)
             {
-                Debug.Log($"ComboPassiveTrigger: Last hit — firing '{passive.displayName}'");
+                Debug.Log($"ComboPassiveTrigger: Last hit connected — firing '{passive.displayName}'");
                 ApplyPassive(passive);
             }
         }

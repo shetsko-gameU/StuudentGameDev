@@ -60256,12 +60256,16 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 4edec3698243df047ae8cbe8fd775f07, type: 2}
     - target: {fileID: 4228190003025015144, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
       propertyPath: useAnimationEvents
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4352574945050071376, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4625043910456940208, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: abilityRunner
+      value: 
+      objectReference: {fileID: 884052319}
     - target: {fileID: 5250477695553304955, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
       propertyPath: primaryUI
       value: 
@@ -60307,6 +60311,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6278440642534877205, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: attackerStats
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6278440642534877205, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
       propertyPath: enemyLayer.m_Bits
       value: 8
       objectReference: {fileID: 0}
@@ -60318,6 +60326,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6780839009957222210, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: hitbox
+      value: 
+      objectReference: {fileID: 1681284283}
     - target: {fileID: 6862551295371354802, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -60892,7 +60904,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8695995254235815111, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8814090635867657241, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
       propertyPath: currentHealth
