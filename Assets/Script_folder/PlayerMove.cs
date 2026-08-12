@@ -73,6 +73,15 @@ public class PlayerMove : MonoBehaviour
         // so it must not also try to auto-rotate towards its steering target.
         agent.updateRotation = false;
 
+        // Obstacle avoidance is RVO steering for autopilot navigation around other agents —
+        // irrelevant here since the player never uses SetDestination(). Left on (the Inspector
+        // had it at High Quality), it still runs its own internal velocity smoothing on top of
+        // Move() calls, based on the agent's own Speed/Acceleration (3.5 / 8) — much lower than
+        // what GroundedUpdate() computes itself (acceleration = 100) — so the two fight each
+        // other and movement feels sluggish/"heavy". Static geometry blocking (walls, ledges)
+        // is unaffected — that comes from the baked NavMesh itself via Move()'s own clamping.
+        agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
+
         // Kept kinematic while agent-driven so existing trigger/collision callbacks
         // (pickups, CraftPot zone, etc.) still fire — physics only takes over during falls.
         if (rb != null)
@@ -108,8 +117,29 @@ public class PlayerMove : MonoBehaviour
         return bodyCollider != null ? bodyCollider.bounds.min.y : transform.position.y;
     }
 
+    private bool pendingDrop;
+
+    /// <summary>
+    /// Called by StartPortal.DropPlayer() (an Animation Event) to make the player physically
+    /// fall from wherever the portal spawned them, using the same fall/land state machine as
+    /// walking off a ledge. Deferred to a flag checked at the top of Update() rather than
+    /// calling StartFalling() directly, since the player GameObject starts deactivated and
+    /// Start() (which sets up rb/agent/bodyCollider) may not have run yet at the exact moment
+    /// the animation event fires — Update() is guaranteed to run only after Start() has.
+    /// </summary>
+    public void DropFromPortal()
+    {
+        pendingDrop = true;
+    }
+
     private void Update()
     {
+        if (pendingDrop)
+        {
+            pendingDrop = false;
+            StartFalling();
+        }
+
         // MoveSpeed from the stat system IS the max speed (e.g. base 5 units/s).
         // Modifiers add to or multiply it directly — no extra multiplier gymnastics needed.
         float maxSpeed = (stats != null) ? stats.MoveSpeed : 5f;
@@ -225,6 +255,16 @@ public class PlayerMove : MonoBehaviour
             Vector3 clamped = horizontal.normalized * maxSpeed;
             rb.linearVelocity = new Vector3(clamped.x, rb.linearVelocity.y, clamped.z);
         }
+
+        // There's no jump — the player should never legitimately gain upward velocity while
+        // falling. Right at a ledge the capsule can still be clipping the edge/corner of the
+        // ground geometry (not just sinking straight down into it), so PhysX's depenetration
+        // can shove it sideways-and-up together; a purely vertical pre-emptive nudge (above)
+        // can't fully prevent that. Clamping this away every frame kills the launch outright,
+        // regardless of which direction the overlap resolves in, with zero effect on a real
+        // fall (whose Y velocity is never positive past the very first instant anyway).
+        if (rb.linearVelocity.y > 0f)
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
 
         TryLand();
     }

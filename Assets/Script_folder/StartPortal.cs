@@ -21,14 +21,17 @@ public class StartPortal : MonoBehaviour
     }
     public void DropPlayer()
     {
+        // Toggling rb.useGravity directly doesn't do anything — the Rigidbody is kinematic
+        // while agent-driven (PlayerMove.Start() forces this), and kinematic bodies ignore
+        // gravity regardless of that flag. DropFromPortal() routes through PlayerMove's own
+        // fall/land state machine instead, the same one used for walking off a ledge.
         playerMove.gameObject.SetActive(true);
-        playerMove.rb.useGravity = true;
-
+        playerMove.DropFromPortal();
     }
     public void ReactivatePlayer()
     {
-        playerMove.enabled = true;
-        playerMove.rb.useGravity = false;
+        // PlayerMove.Land() already re-enables the agent and re-kinematics the Rigidbody the
+        // moment the player actually touches down — nothing left to do here but clean up.
         Destroy(gameObject);
     }
 
