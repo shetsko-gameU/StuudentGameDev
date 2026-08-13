@@ -17063,6 +17063,18 @@ PrefabInstance:
       propertyPath: Player_Stats
       value: 
       objectReference: {fileID: 884052315}
+    - target: {fileID: 251468783644898187, guid: 5165064e6242bad4a97ac791364eefe0, type: 3}
+      propertyPath: layer.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 251468783644898187, guid: 5165064e6242bad4a97ac791364eefe0, type: 3}
+      propertyPath: navMeshAgent
+      value: 
+      objectReference: {fileID: 1776307040}
+    - target: {fileID: 251468783644898187, guid: 5165064e6242bad4a97ac791364eefe0, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 2788690275683774444, guid: 5165064e6242bad4a97ac791364eefe0, type: 3}
       propertyPath: baseStats
       value: 
@@ -31765,6 +31777,14 @@ PrefabInstance:
       propertyPath: Player_Stats
       value: 
       objectReference: {fileID: 884052315}
+    - target: {fileID: 2591448729946721236, guid: 600dfdd3e17893e4d896050cbbb57242, type: 3}
+      propertyPath: layer.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 2591448729946721236, guid: 600dfdd3e17893e4d896050cbbb57242, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 2726526004166987046, guid: 600dfdd3e17893e4d896050cbbb57242, type: 3}
       propertyPath: m_Radius
       value: 0.05
@@ -38852,6 +38872,18 @@ PrefabInstance:
       propertyPath: Player_Stats
       value: 
       objectReference: {fileID: 884052315}
+    - target: {fileID: 251468783644898187, guid: 5165064e6242bad4a97ac791364eefe0, type: 3}
+      propertyPath: layer.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 251468783644898187, guid: 5165064e6242bad4a97ac791364eefe0, type: 3}
+      propertyPath: navMeshAgent
+      value: 
+      objectReference: {fileID: 1475573930}
+    - target: {fileID: 251468783644898187, guid: 5165064e6242bad4a97ac791364eefe0, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 2788690275683774444, guid: 5165064e6242bad4a97ac791364eefe0, type: 3}
       propertyPath: baseStats
       value: 
@@ -40083,6 +40115,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4797080191231004307, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: foodPassives.Array.data[0].passive
+      value: 
+      objectReference: {fileID: 11400000, guid: 0973e53835c06a34f9f8b3f06c2cfbd8, type: 2}
     - target: {fileID: 5250477695553304955, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
       propertyPath: primaryUI
       value: 
@@ -40099,6 +40135,106 @@ PrefabInstance:
       propertyPath: resultSlotImage
       value: 
       objectReference: {fileID: 799796819}
+    - target: {fileID: 5250477695553304955, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: rarityRecipes.Array.size
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 5250477695553304955, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: 'rarityRecipes.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 9468ddf70aaaa594ab29618f141e6276, type: 2}
+    - target: {fileID: 5250477695553304955, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: 'rarityRecipes.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ca199c029db44d4c9aa71e9bd5a0c21, type: 2}
+    - target: {fileID: 5250477695553304955, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: 'rarityRecipes.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: a0594b5a9bfb4c2428aca8435f044768, type: 2}
+    - target: {fileID: 5250477695553304955, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: 'rarityRecipes.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 120182e6489507c49ac7c84e3d055781, type: 2}
+    - target: {fileID: 5250477695553304955, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: 'rarityRecipes.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: f71cb09626622964ca855854f4a794f5, type: 2}
+    - target: {fileID: 5250477695553304955, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: 'rarityRecipes.Array.data[5]'
+      value: 
+      objectReference: {fileID: 11400000, guid: f76f91c64375ae84abd0ee4e6526302e, type: 2}
+    - target: {fileID: 5250477695553304955, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: 'rarityRecipes.Array.data[6]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 1a76c356dbf2b364d9882cd77c510156, type: 2}
+    - target: {fileID: 5250477695553304955, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: 'rarityRecipes.Array.data[7]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 87236406d6b6cf54a89ca63c3279dfa6, type: 2}
+    - target: {fileID: 5250477695553304955, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: 'rarityRecipes.Array.data[8]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 52161b2e0e2732d48b4ffac315125a53, type: 2}
+    - target: {fileID: 5250477695553304955, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: 'rarityRecipes.Array.data[9]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 26821e58e0eaa3040b7e7be9df166b44, type: 2}
+    - target: {fileID: 5250477695553304955, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: 'rarityRecipes.Array.data[10]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 92fb6f29d63c7334faf7bdb5e1b6ed61, type: 2}
+    - target: {fileID: 5250477695553304955, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: 'rarityRecipes.Array.data[11]'
+      value: 
+      objectReference: {fileID: 11400000, guid: aaae696bb67c2a147bd1ec923932a197, type: 2}
+    - target: {fileID: 5250477695553304955, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: 'rarityRecipes.Array.data[12]'
+      value: 
+      objectReference: {fileID: 11400000, guid: afd9941e4cb70f24c84d1788db674b0d, type: 2}
+    - target: {fileID: 5250477695553304955, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: 'rarityRecipes.Array.data[13]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 5a398ebd07d6c474dbd0e4b287c9ccc1, type: 2}
+    - target: {fileID: 5250477695553304955, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: 'rarityRecipes.Array.data[14]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 554090d91ee77f14d97f5a085ce66351, type: 2}
+    - target: {fileID: 5250477695553304955, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: 'rarityRecipes.Array.data[15]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 8ccd98fde42cf0e458050bb4fff6a94a, type: 2}
+    - target: {fileID: 5250477695553304955, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: 'rarityRecipes.Array.data[16]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 1a05fb2800ac200498223efeeb25e4e4, type: 2}
+    - target: {fileID: 5250477695553304955, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: 'rarityRecipes.Array.data[17]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 209ce07b1ff600c4e9eb86ec5c1984d0, type: 2}
+    - target: {fileID: 5250477695553304955, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: 'rarityRecipes.Array.data[18]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 8cbd3ac5ecb132d4ca70104a77eed9ca, type: 2}
+    - target: {fileID: 5250477695553304955, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: 'rarityRecipes.Array.data[19]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4be67eb83fa5b4941b9498a35c923d83, type: 2}
+    - target: {fileID: 5250477695553304955, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: 'rarityRecipes.Array.data[20]'
+      value: 
+      objectReference: {fileID: 11400000, guid: dec82aeec95180c4e8b015162d8e6ee5, type: 2}
+    - target: {fileID: 5250477695553304955, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: 'rarityRecipes.Array.data[21]'
+      value: 
+      objectReference: {fileID: 11400000, guid: c50fdddd2b57ad0439abf6cdcefe9cd0, type: 2}
+    - target: {fileID: 5250477695553304955, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: 'rarityRecipes.Array.data[22]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 17471f072428f9f4eb2952e0e720f6ac, type: 2}
+    - target: {fileID: 5250477695553304955, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: 'rarityRecipes.Array.data[23]'
+      value: 
+      objectReference: {fileID: 11400000, guid: a0594b5a9bfb4c2428aca8435f044768, type: 2}
     - target: {fileID: 6190257048604273967, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
       propertyPath: Cam
       value: 
