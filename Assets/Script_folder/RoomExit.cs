@@ -6,21 +6,27 @@ using UnityEngine.SceneManagement;
 /// reveals a portal/door object that starts hidden in the scene. Minimal first step toward
 /// a Hades-style "clear the room, then move on" flow — not a full doors-with-rewards system.
 ///
+/// EnemyManager is optional. With one assigned/found, the door stays hidden until all waves
+/// clear. With none, RoomExit skips the gating entirely and acts as a plain always-open exit —
+/// useful for rooms that don't have combat (e.g. a hub or a corridor).
+///
 /// Setup:
 ///   1. Build a portal/door GameObject in the scene (any visual + a trigger Collider).
-///   2. Drag it into portalOrDoor here — it gets SetActive(false) on Awake automatically.
+///   2. Drag it into portalOrDoor here.
 ///   3. Add PortalTrigger.cs to that same portal GameObject and drag this RoomExit into it.
 ///   4. Set nextSceneName once you know what the next scene should be.
+///   5. Only add an EnemyManager reference if this exit should be wave-gated.
 /// </summary>
 public class RoomExit : MonoBehaviour
 {
     [Header("References")]
-    [Tooltip("Auto-found if on the same GameObject.")]
+    [Tooltip("Optional. Auto-found if on the same GameObject. Leave unassigned (and don't add " +
+             "an EnemyManager component) to make this a plain exit with no wave gating.")]
     public EnemyManager enemyManager;
 
     [Header("Portal / Door")]
-    [Tooltip("The portal or door object to reveal once the last wave is cleared. " +
-             "Hidden automatically on Awake — build it inactive-friendly (visual + trigger Collider).")]
+    [Tooltip("The portal or door object. Hidden until waves clear when an EnemyManager is " +
+             "present; revealed immediately if not. Build it inactive-friendly (visual + trigger Collider).")]
     public GameObject portalOrDoor;
 
     [Header("Next Scene")]
@@ -33,7 +39,13 @@ public class RoomExit : MonoBehaviour
             enemyManager = GetComponent<EnemyManager>();
 
         if (enemyManager == null)
-            Debug.LogError($"RoomExit on '{name}': No EnemyManager found.");
+        {
+            // Plain exit mode — no waves to wait for, so open the door immediately.
+            Debug.Log($"RoomExit on '{name}': No EnemyManager found — acting as a plain exit (no wave gating).");
+            if (portalOrDoor != null)
+                portalOrDoor.SetActive(true);
+            return;
+        }
 
         if (portalOrDoor != null)
             portalOrDoor.SetActive(false);
