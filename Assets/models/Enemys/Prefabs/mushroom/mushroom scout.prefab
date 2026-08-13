@@ -439,6 +439,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f137ca6d9814dd648b39cdd448f028b3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1746206944659751081}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f137ca6d9814dd648b39cdd448f028b3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5322451959339578987}
   m_SourcePrefab: {fileID: 100100000, guid: f137ca6d9814dd648b39cdd448f028b3, type: 3}
 --- !u!4 &8383967428686366878 stripped
 Transform:
@@ -476,10 +479,14 @@ MonoBehaviour:
   sightRange: 0
   randomMovementRange: 5
   randomMovementSpeed: 1
+  baseFlyHeight: 0
   canFly: 0
   currentTarget: {fileID: 0}
   navMeshAgent: {fileID: 1746206944659751081}
   layer:
+    serializedVersion: 2
+    m_Bits: 0
+  groundMask:
     serializedVersion: 2
     m_Bits: 0
 --- !u!136 &1157479315724096603
@@ -568,3 +575,19 @@ NavMeshAgent:
   m_BaseOffset: 1.22
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &5322451959339578987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9156386869288342052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf2621e2f5958e42a7a5082f2e2fee9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LootDropper
+  stats: {fileID: 2788690275683774444}
+  lootTable: {fileID: 11400000, guid: 5069ed09ca5fc924796461fa1c2c6a88, type: 2}
+  spawnHeightOffset: 0.5
+  scatterRadius: 0.6

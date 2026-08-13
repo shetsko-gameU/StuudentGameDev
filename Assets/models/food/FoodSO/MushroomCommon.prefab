@@ -158,11 +158,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d048aa0fa3103e4db274dfcbc058715, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ModifierPickup
-  modifierTemplate: {fileID: 11400000, guid: 25c70f6eab89c684aae37e6e0e89d56c, type: 2}
+  modifierTemplate: {fileID: 0}
   Name: FoodName
   ItemId: 1
   Image: {fileID: 0}
-  RenderTexture: {fileID: 8400000, guid: 5f0de016f20776640a9601512dd344e7, type: 2}
 --- !u!54 &8896205824841896493
 Rigidbody:
   m_ObjectHideFlags: 0
