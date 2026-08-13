@@ -41855,6 +41855,10 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 4797080191231004307, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: foodPassives.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4797080191231004307, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
       propertyPath: foodUltBoosts.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -41866,6 +41870,10 @@ PrefabInstance:
       propertyPath: foodUltBoosts.Array.data[0].ultFood
       value: 
       objectReference: {fileID: 11400000, guid: 51de0e414e86ae545854577ba6cfeedd, type: 2}
+    - target: {fileID: 4797080191231004307, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      propertyPath: foodUltBoosts.Array.data[0].foodItem
+      value: 
+      objectReference: {fileID: 11400000, guid: 2016b70759c3e2b4fb0a8112e916e6c7, type: 2}
     - target: {fileID: 5250477695553304955, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
       propertyPath: primaryUI
       value: 
