@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class DraggableInventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class DraggableInventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
     [Header("Wiring")]
     public Inventory inventory;
@@ -60,6 +60,12 @@ public class DraggableInventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragH
         dragIconImage.texture = GetIcon();
         dragIcon.position = eventData.position;
 
+        // The dragged icon stays at its original sibling index while following the cursor —
+        // it isn't reparented to float above everything. Sibling order decides raycast
+        // priority for overlapping UI, so a later-indexed slot's flying icon would otherwise
+        // win the raycast over an earlier-indexed slot it passes over, stealing its own drop.
+        dragIconImage.raycastTarget = false;
+
         removed = true;
     }
 
@@ -82,7 +88,30 @@ public class DraggableInventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragH
         {
             removed = false;
             dragIconImage.enabled = true;
+            dragIconImage.raycastTarget = true;
         }
+    }
+
+    // ------------------------------------------------------------------ Drop (item dragged from another inventory slot onto this one)
+
+    /// <summary>
+    /// Handles another inventory item being dropped onto this slot — swaps the two slots'
+    /// contents (or just moves, if this slot was empty). The dragged-from slot's own visuals
+    /// reset themselves via its OnEndDrag, which always fires right after this.
+    /// </summary>
+    public void OnDrop(PointerEventData eventData)
+    {
+        if (removed) return; // this slot is mid-drag itself, or staged in a craft slot
+
+        var dragged = eventData.pointerDrag;
+        if (dragged == null) return;
+
+        var sourceSlot = dragged.GetComponent<DraggableInventorySlotUI>();
+        if (sourceSlot == null || sourceSlot == this) return;
+
+        if (inventory == null) return;
+
+        inventory.SwapSlots(sourceSlot.slotIndex, slotIndex);
     }
 
     // ------------------------------------------------------------------ Reset (called by CraftSystem after crafting)
@@ -96,7 +125,6 @@ public class DraggableInventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragH
         dragIcon.anchoredPosition = originalPosition;
 
         dragIconImage.raycastTarget = true;
-        dragIconImage.color = Color.white;
 
         InventoryItem item = GetItem();
 
@@ -104,12 +132,18 @@ public class DraggableInventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragH
         {
             // Changed from .sprite to .texture
             dragIconImage.texture = item.Image;
-            dragIconImage.enabled = true;
+            dragIconImage.color = Color.white;
         }
         else
         {
             dragIconImage.texture = null;
-            dragIconImage.enabled = false;
+
+            // Made invisible via alpha rather than disabled — a disabled Graphic drops out of
+            // Unity's raycast registry, which would make this slot unable to receive OnDrop.
+            dragIconImage.color = Color.clear;
         }
+
+        // Stays enabled either way, for the same reason.
+        dragIconImage.enabled = true;
     }
 }

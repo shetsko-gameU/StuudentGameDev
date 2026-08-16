@@ -93,6 +93,8 @@ public class CraftSystem : MonoBehaviour
         CraftRecipeSO recipe = FindMatch();
         if (recipe != null)
         {
+            if (!IngredientsStillAvailable()) return;
+
             playerInventory.RemoveSO(recipe.primary);
             if (recipe.secondary != null)
                 playerInventory.RemoveSO(recipe.secondary);
@@ -107,6 +109,8 @@ public class CraftSystem : MonoBehaviour
         RarityRecipeSO rarityRecipe = FindRarityMatch();
         if (rarityRecipe != null)
         {
+            if (!IngredientsStillAvailable()) return;
+
             Rarity primaryRarity  = primarySlot != null  ? primarySlot.rarity  : Rarity.Common;
             Rarity secondaryRarity = secondarySlot != null ? secondarySlot.rarity : primaryRarity;
 
@@ -132,6 +136,47 @@ public class CraftSystem : MonoBehaviour
         }
 
         Debug.Log("No matching recipe.");
+    }
+
+    /// <summary>
+    /// Confirms the staged ingredient(s) are still physically in inventory right before
+    /// crafting consumes them. Without this, an item dragged into a craft slot can be eaten
+    /// (or otherwise removed) in the meantime — Craft() would then either silently skip
+    /// removing it (free result) or remove an unrelated item that happens to share the same
+    /// SO. Also requires a second physical copy when primary and secondary reference the
+    /// same SO, so one item can't be double-counted as both ingredients.
+    /// Clears whichever slot went stale and refreshes the UI; leaves a still-valid slot staged.
+    /// </summary>
+    private bool IngredientsStillAvailable()
+    {
+        if (primarySlot == null) return false;
+
+        int neededOfPrimary = (secondarySlot == primarySlot) ? 2 : 1;
+        if (CountSO(primarySlot) < neededOfPrimary)
+        {
+            Debug.LogWarning($"CraftSystem: '{primarySlot.displayName}' is no longer available in inventory — aborting craft.");
+            primarySlot = null;
+            RefreshUI();
+            return false;
+        }
+
+        if (secondarySlot != null && secondarySlot != primarySlot && !playerInventory.HasSO(secondarySlot))
+        {
+            Debug.LogWarning($"CraftSystem: '{secondarySlot.displayName}' is no longer available in inventory — aborting craft.");
+            secondarySlot = null;
+            RefreshUI();
+            return false;
+        }
+
+        return true;
+    }
+
+    private int CountSO(StatsModifierSO so)
+    {
+        int count = 0;
+        foreach (var item in playerInventory.InventorySlots)
+            if (item != null && item.ModifierSO == so) count++;
+        return count;
     }
 
     private CraftRecipeSO FindMatch()
