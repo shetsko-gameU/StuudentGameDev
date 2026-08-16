@@ -138,7 +138,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d4c867f6b72b714dbb5fd1780afe208, type: 3}
-  m_Name: sword swing
+  m_Name: generic swing
   m_EditorClassIdentifier: 
   m_UIIgnoredErrors: []
   m_Parent: {fileID: 0}
@@ -554,7 +554,7 @@ VisualEffectResource:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: sword swing
+  m_Name: generic swing
   m_Graph: {fileID: 114350483966674976}
   m_Infos:
     m_RendererSettings:
@@ -933,7 +933,7 @@ MonoBehaviour:
     - rid: 1001
       type: {class: ParticleShadingShaderGraph, ns: UnityEditor.VFX, asm: Unity.VisualEffectGraph.Editor}
       data:
-        shaderGraph: {fileID: 4333940904281232215, guid: 37b2718c71febce4bac783757e30a39d, type: 3}
+        shaderGraph: {fileID: 4333940904281232215, guid: 4d7a77b6edd8ded498edb7a8844006ff, type: 3}
         materialSettings:
           m_PropertyNames: []
           m_PropertyValues: []
@@ -963,7 +963,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Mesh, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":8792586484180348971,"guid":"f6ec3394e8bee61489223aad5f9eb845","type":3}}'
+      m_SerializableObject: '{"obj":{"fileID":7567532504055388576,"guid":"edd37403282c7ab4f853d23d1e930e19","type":3}}'
     m_Space: -1
   m_Property:
     name: mesh
@@ -2666,7 +2666,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"1fb999e294291624ba2e7ca99da9694e","type":3}}'
+      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"c0bcbfb68ef03c04785fe4844b3f47d9","type":3}}'
     m_Space: -1
   m_Property:
     name: mainTexture
@@ -7173,7 +7173,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Gradient, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"colorKeys":[{"color":{"r":0.014123552478849888,"g":2.9960787296295168,"b":0.0,"a":1.0},"time":0.17059586942195893},{"color":{"r":0.5218855738639832,"g":0.0,"b":2.007843494415283,"a":1.0},"time":0.7376516461372376}],"alphaKeys":[{"alpha":1.0,"time":0.0},{"alpha":1.0,"time":0.10000763088464737},{"alpha":1.0,"time":0.800000011920929},{"alpha":1.0,"time":1.0}],"gradientMode":2}'
+      m_SerializableObject: '{"colorKeys":[{"color":{"r":5.3403143882751469,"g":0.0,"b":0.0,"a":1.0},"time":0.4129396378993988},{"color":{"r":3.578850746154785,"g":0.5201532244682312,"b":0.0,"a":1.0},"time":0.8341192007064819}],"alphaKeys":[{"alpha":1.0,"time":0.0},{"alpha":1.0,"time":0.10000763088464737},{"alpha":1.0,"time":0.800000011920929},{"alpha":1.0,"time":1.0}],"gradientMode":2}'
     m_Space: -1
   m_Property:
     name: gradient
