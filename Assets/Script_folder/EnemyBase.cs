@@ -32,12 +32,14 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     public float randomMovementRange;
     public float randomMovementSpeed;
 
+    public List<AttackBase> attacks;
     public float baseFlyHeight;
     public bool canFly;
    public GameObject currentTarget;
    public NavMeshAgent navMeshAgent;
    public LayerMask layer;
    public LayerMask groundMask;
+
 
 
     void Awake()
