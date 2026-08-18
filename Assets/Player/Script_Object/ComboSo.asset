@@ -15,11 +15,11 @@ MonoBehaviour:
   hits:
   - displayName: Attack1
     damageMultiplier: 1
-    chainWindowSeconds: 1
+    chainWindowSeconds: 0.5
     hitCheckDelay: 0
     animatorTrigger: Attack
   - displayName: Attack2
     damageMultiplier: 1
-    chainWindowSeconds: 1
+    chainWindowSeconds: 0
     hitCheckDelay: 0
     animatorTrigger: Attack

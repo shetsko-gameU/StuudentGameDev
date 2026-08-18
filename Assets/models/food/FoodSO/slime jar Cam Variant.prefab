@@ -75,7 +75,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 32
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 6c1d876af72dfa84a912845f7aebbec1, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: c474be91af701434a8a0bb5d9ec7ed62, type: 2}
   m_TargetDisplay: 1
   m_TargetEye: 3
   m_HDR: 1
@@ -146,9 +146,13 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5733561176354500042, guid: cd916b1695bbab74caae4350cf0a8ea5, type: 3}
+      propertyPath: Image
+      value: 
+      objectReference: {fileID: 8400000, guid: c474be91af701434a8a0bb5d9ec7ed62, type: 2}
+    - target: {fileID: 5733561176354500042, guid: cd916b1695bbab74caae4350cf0a8ea5, type: 3}
       propertyPath: modifierTemplate
       value: 
-      objectReference: {fileID: 11400000, guid: 7621c14d7512c3440aacf8b0ace57eb7, type: 2}
+      objectReference: {fileID: 11400000, guid: a6ca944a8aeaf384e958dae5a36f8e9a, type: 2}
     - target: {fileID: 7277300781036928984, guid: cd916b1695bbab74caae4350cf0a8ea5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 59.3

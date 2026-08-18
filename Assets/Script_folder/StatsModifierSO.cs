@@ -62,7 +62,7 @@ public class StatsModifierSO : ScriptableObject
     public StatRollLine[] lines;
 
     
-    public Texture2D Image;
+    public Texture Image;
 
     public string EffectDescription;
 }
