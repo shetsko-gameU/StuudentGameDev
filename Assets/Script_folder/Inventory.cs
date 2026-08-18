@@ -19,7 +19,7 @@ public class Inventory : MonoBehaviour
     /// Stores an item in inventory when the player walks over it.
     /// Stats are NOT applied here � they happen when the player eats the item.
     /// </summary>
-    public bool TryAddModifierPickup(StatsModifierSO modifierTemplate, string itemName, int itemId, Texture2D image)
+    public bool TryAddModifierPickup(StatsModifierSO modifierTemplate, string itemName, int itemId, Texture image)
     {
         if (modifierTemplate == null)
         {
@@ -139,7 +139,7 @@ public class Inventory : MonoBehaviour
     /// <summary>
     /// Adds an item directly without rolling stats � used for crafted results.
     /// </summary>
-    public void AddSO(StatsModifierSO so, Texture2D iconOverride = null)
+    public void AddSO(StatsModifierSO so, Texture iconOverride = null)
     {
         if (so == null) return;
 
