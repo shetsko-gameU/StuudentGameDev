@@ -17,9 +17,9 @@ public class Inventory : MonoBehaviour
 
     /// <summary>
     /// Stores an item in inventory when the player walks over it.
-    /// Stats are NOT applied here — they happen when the player eats the item.
+    /// Stats are NOT applied here ï¿½ they happen when the player eats the item.
     /// </summary>
-    public bool TryAddModifierPickup(StatsModifierSO modifierTemplate, string itemName, int itemId, Texture2D image)
+    public bool TryAddModifierPickup(StatsModifierSO modifierTemplate, string itemName, int itemId, Texture image)
     {
         if (modifierTemplate == null)
         {
@@ -51,7 +51,7 @@ public class Inventory : MonoBehaviour
 
     /// <summary>
     /// Rolls the item's stats and removes it from inventory.
-    /// Does NOT apply the stats — returns the rolled instance so the caller decides what to do with it.
+    /// Does NOT apply the stats ï¿½ returns the rolled instance so the caller decides what to do with it.
     /// </summary>
     public RolledModifierInstance ConsumeItem(int index)
     {
@@ -62,6 +62,7 @@ public class Inventory : MonoBehaviour
 
         RolledModifierInstance rolled = ModifierRoller.Roll(item.ModifierSO);
 
+        // Auto-compacts â€” every later item shifts down one slot to close the gap.
         InventorySlots.RemoveAt(index);
         RefreshUI();
 
@@ -107,6 +108,7 @@ public class Inventory : MonoBehaviour
         {
             if (InventorySlots[i] != null && InventorySlots[i].ModifierSO == so)
             {
+                // Auto-compacts â€” see ConsumeItem.
                 InventorySlots.RemoveAt(i);
                 RefreshUI();
                 return true;
@@ -115,12 +117,29 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
+    // ------------------------------------------------------------------ Moving items
+
+    /// <summary>
+    /// Swaps the items at two inventory slot indices â€” used when the player drags one
+    /// inventory item onto another slot. If the destination is empty this just moves the
+    /// item there and leaves the source empty (a swap against a hole degrades to a move).
+    /// </summary>
+    public void SwapSlots(int indexA, int indexB)
+    {
+        if (indexA < 0 || indexA >= InventorySlots.Count) return;
+        if (indexB < 0 || indexB >= InventorySlots.Count) return;
+        if (indexA == indexB) return;
+
+        (InventorySlots[indexA], InventorySlots[indexB]) = (InventorySlots[indexB], InventorySlots[indexA]);
+        RefreshUI();
+    }
+
     // ------------------------------------------------------------------ Adding by SO (crafting results etc.)
 
     /// <summary>
-    /// Adds an item directly without rolling stats — used for crafted results.
+    /// Adds an item directly without rolling stats ï¿½ used for crafted results.
     /// </summary>
-    public void AddSO(StatsModifierSO so, Texture2D iconOverride = null)
+    public void AddSO(StatsModifierSO so, Texture iconOverride = null)
     {
         if (so == null) return;
 
@@ -145,12 +164,36 @@ public class Inventory : MonoBehaviour
             {
                 // Changed from .sprite to .texture
                 UISlots[i].texture = InventorySlots[i].Image;
+                UISlots[i].color = Color.white;
                 UISlots[i].enabled = true;
             }
             else
             {
                 UISlots[i].texture = null;
-                UISlots[i].enabled = false;
+
+                // Stays enabled (just made invisible via alpha) instead of disabled â€” a
+                // disabled Graphic is dropped from Unity's raycast registry entirely, which
+                // would make empty slots unable to receive OnDrop and silently block dragging
+                // an item into an empty slot.
+                UISlots[i].color = Color.clear;
+                UISlots[i].enabled = true;
+
+                // The item that used to live here is gone (eaten directly, or removed by
+                // crafting) â€” clear any drag/craft lock left on this slot so a future item
+                // that lands in this hole isn't stuck greyed-out and undraggable. Only runs
+                // when the slot is actually empty, so a slot legitimately staged in a craft
+                // slot (item still present, still mid-consideration) is left untouched.
+                DraggableInventorySlotUI slot = UISlots[i].GetComponent<DraggableInventorySlotUI>();
+                if (slot != null)
+                {
+                    slot.removed = false;
+                    slot.craftInSlot = false;
+                    if (slot.dragIconImage != null)
+                    {
+                        slot.dragIconImage.color = Color.clear;
+                        slot.dragIconImage.raycastTarget = true;
+                    }
+                }
             }
         }
     }

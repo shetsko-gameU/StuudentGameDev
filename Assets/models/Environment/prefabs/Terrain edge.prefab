@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!218 &2198938472651230279
 Terrain:
   m_ObjectHideFlags: 0
@@ -91,5 +91,5 @@ TerrainCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_TerrainData: {fileID: 15600000, guid: fd9417c3b558a2a4483bd6ab1313f16c, type: 2}
+  m_TerrainData: {fileID: 15600000, guid: 00636b78793e1e348874008b779ccf3b, type: 2}
   m_EnableTreeColliders: 1

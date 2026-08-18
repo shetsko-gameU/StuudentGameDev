@@ -43,6 +43,8 @@ public class EnemyManager : MonoBehaviour
         {
             TempSpawnLocations.Add(Location);
         }
+        GetComponent<MeshRenderer>().enabled = false;
+
     }
 
     // Update is called once per frame
