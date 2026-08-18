@@ -176,7 +176,15 @@ public class PlayerMove : MonoBehaviour
 
         // Exponential-decay damping, same curve the old AddForce(-velocity * haltSpeed) gave.
         if (!isMoving)
+        {
             currentVelocity *= Mathf.Exp(-haltSpeed * Time.deltaTime);
+
+            // Exponential decay only approaches zero asymptotically — snap away the last
+            // sliver so the player comes to a true stop instead of an imperceptible,
+            // never-ending drift.
+            if (currentVelocity.magnitude < 0.05f)
+                currentVelocity = Vector3.zero;
+        }
 
         // The agent clamps at the NavMesh edge, so it can never walk off a drop by itself.
         // When the player is actively pushing toward a ledge, hand control to physics.
