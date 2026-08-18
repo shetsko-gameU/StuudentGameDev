@@ -77,6 +77,15 @@ public class PlayerConsume : MonoBehaviour
              "secondary ability slot — only one ult can ever be equipped at a time.")]
     public List<FoodUltBoostLink> foodUltBoosts = new List<FoodUltBoostLink>();
 
+    [Header("Eating")]
+    [Tooltip("Minimum time between processed eat inputs, in seconds. Guards against a single " +
+             "key press registering more than once (e.g. input-system repeat while the key is " +
+             "held) — without this, holding a hotkey down could eat the item that slides into " +
+             "that slot right after the first one is consumed.")]
+    public float eatCooldownSeconds = 0.25f;
+
+    private float nextEatAllowedTime = 0f;
+
     private void Awake()
     {
         if (inventory == null) inventory = GetComponent<Inventory>();
@@ -108,6 +117,9 @@ public class PlayerConsume : MonoBehaviour
     /// </summary>
     public void EatFoodAtIndex(int inventoryIndex)
     {
+        if (Time.time < nextEatAllowedTime) return;
+        nextEatAllowedTime = Time.time + eatCooldownSeconds;
+
         if (inventory == null)
         {
             Debug.LogError("PlayerConsume: Cannot eat — Inventory is null.");
