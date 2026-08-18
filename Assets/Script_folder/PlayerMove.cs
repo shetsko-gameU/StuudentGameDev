@@ -196,6 +196,16 @@ public class PlayerMove : MonoBehaviour
 
         if (agent.isOnNavMesh)
         {
+            // Keep the agent's own speed/acceleration ceiling at or above what this system is
+            // actually driving. Move() bypasses pathing, but the agent still uses its own
+            // Speed/Acceleration internally to conform to the mesh surface (slopes, height
+            // changes, crossing between polygons) — on flat single-polygon ground that's
+            // negligible, but on ramps/uneven terrain it does real work every frame, and a
+            // ceiling below maxSpeed throttles it (the same class of fight that made obstacle
+            // avoidance feel "heavy" before it was disabled above).
+            agent.speed = maxSpeed;
+            agent.acceleration = acceleration;
+
             agent.Move(currentVelocity * Time.deltaTime);
         }
         else if (!warnedNotOnNavMesh)
