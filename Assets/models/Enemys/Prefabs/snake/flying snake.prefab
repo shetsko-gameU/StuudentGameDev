@@ -55,5 +55,45 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0cd850034b39d3d45b437b57f5392017, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5953229619626688590}
   m_SourcePrefab: {fileID: 100100000, guid: 0cd850034b39d3d45b437b57f5392017, type: 3}
+--- !u!1 &942058555012059683 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0cd850034b39d3d45b437b57f5392017, type: 3}
+  m_PrefabInstance: {fileID: 131647354843541362}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5953229619626688590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 942058555012059683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c6da126ac3e50842a85868e75624d7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBase
+  stats: {fileID: 0}
+  Player_Stats: {fileID: 0}
+  animator: {fileID: 0}
+  raycasts: []
+  doesAttackPivot: 0
+  isBoss: 0
+  sightRange: 0
+  randomMovementRange: 0
+  randomMovementSpeed: 0
+  attacks: []
+  baseFlyHeight: 0
+  canFly: 0
+  currentTarget: {fileID: 0}
+  navMeshAgent: {fileID: 0}
+  layer:
+    serializedVersion: 2
+    m_Bits: 0
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 0
