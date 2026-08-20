@@ -1028,6 +1028,54 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: be430e41-9582-4de4-a98b-6c5948be6979
+    m_ActionName: 'Player/Craft[/Keyboard/e]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 02cbec44-2d0c-4b74-902f-8584ceb4208e
+    m_ActionName: 'Player/Dash[/Keyboard/r]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6dd1378d-3263-4cb2-97bb-107d940a412e
+    m_ActionName: 'Player/Ult[/Keyboard/q]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7bbcd2a6-edd1-4fa3-80f2-c8714853b68d
+    m_ActionName: 'Player/EatSlot1[/Keyboard/1]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 40cee0af-c8de-49c3-9ba4-64d1fdf56eed
+    m_ActionName: 'Player/EatSlot2[/Keyboard/2]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 65508052-2975-4015-b070-09ba47ba9cd2
+    m_ActionName: 'Player/EatSlot3[/Keyboard/3]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b5adb237-1def-4625-8e26-d7d4f9631faa
+    m_ActionName: 'Player/EatSlot4[/Keyboard/4]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 27431586-cda9-4d01-9f9b-51749108af95
+    m_ActionName: 'Player/EatSlot5[/Keyboard/5]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5f236708-db4a-41ce-8fbd-40b21e79c622
+    m_ActionName: 'Player/EatSlot6[/Keyboard/6]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 88dc4abe-d2d8-4e53-a4c8-461b51f3fd37
+    m_ActionName: 'Player/EatSlot7[/Keyboard/7]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d373ce9e-d3bb-4f48-a112-88c70326dd54
+    m_ActionName: 'Player/EatSlot8[/Keyboard/8]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d9ecbd5f-53f4-4c52-9451-61aab94bc1dd
+    m_ActionName: 'Player/CamMove[/Keyboard/comma,/Keyboard/period]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
@@ -1109,7 +1157,7 @@ MonoBehaviour:
   rb: {fileID: 1840290053}
   animator: {fileID: 1840290052}
   objectAnimator: {fileID: 0}
-  Cam: {fileID: 0}
+  Cam: {fileID: 157761564}
 --- !u!136 &1840290055
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1225,7 +1273,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 0
+  m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!1660057539 &9223372036854775807
