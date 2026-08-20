@@ -671,8 +671,7 @@ MonoBehaviour:
   playerInventory: {fileID: 7831356397626104457}
   primarySlot: {fileID: 0}
   secondarySlot: {fileID: 0}
-  recipes:
-  - {fileID: 11400000, guid: ee103aa8d6e9b8042bbe0321328d46e8, type: 2}
+  recipes: []
   rarityRecipes:
   - {fileID: 11400000, guid: 9468ddf70aaaa594ab29618f141e6276, type: 2}
   - {fileID: 11400000, guid: 4ca199c029db44d4c9aa71e9bd5a0c21, type: 2}
@@ -850,6 +849,8 @@ MonoBehaviour:
     statPassive: {fileID: 11400000, guid: 88888888888888888888888888888813, type: 2}
   - foodItem: {fileID: 11400000, guid: 1941ccfbeabd68a44ae3bd3fb696280c, type: 2}
     statPassive: {fileID: 11400000, guid: 88888888888888888888888888888814, type: 2}
+  - foodItem: {fileID: 11400000, guid: 2016b70759c3e2b4fb0a8112e916e6c7, type: 2}
+    statPassive: {fileID: 11400000, guid: 1a57b747b3896414e807f2b551bd44f6, type: 2}
   foodKillBoosts:
   - foodItem: {fileID: 11400000, guid: a1a1a1a1a1a1a1a1a1a1a1a1a1a1a101, type: 2}
     killPassive: {fileID: 11400000, guid: a1a1a1a1a1a1a1a1a1a1a1a1a1a1a111, type: 2}
