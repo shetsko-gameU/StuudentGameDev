@@ -697,6 +697,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: dec82aeec95180c4e8b015162d8e6ee5, type: 2}
   - {fileID: 11400000, guid: c50fdddd2b57ad0439abf6cdcefe9cd0, type: 2}
   - {fileID: 11400000, guid: 17471f072428f9f4eb2952e0e720f6ac, type: 2}
+  - {fileID: 11400000, guid: e5e5e5e5e5e5e5e5e5e5e5e5e5e5e599, type: 2}
+  - {fileID: 11400000, guid: f6f6f6f6f6f6f6f6f6f6f6f6f6f6f699, type: 2}
   NearCraftPot: 0
 --- !u!114 &4625043910456940208
 MonoBehaviour:
@@ -784,10 +786,16 @@ MonoBehaviour:
   inventory: {fileID: 7831356397626104457}
   stats: {fileID: 8814090635867657241}
   passiveManager: {fileID: 4625043910456940208}
-  foodPassives: []
+  foodPassives:
+  - foodItem: {fileID: 11400000, guid: b2b2b2b2b2b2b2b2b2b2b2b2b2b2b201, type: 2}
+    passive: {fileID: 11400000, guid: b2b2b2b2b2b2b2b2b2b2b2b2b2b2b211, type: 2}
+  - foodItem: {fileID: 11400000, guid: b2b2b2b2b2b2b2b2b2b2b2b2b2b2b202, type: 2}
+    passive: {fileID: 11400000, guid: b2b2b2b2b2b2b2b2b2b2b2b2b2b2b212, type: 2}
+  - foodItem: {fileID: 11400000, guid: b2b2b2b2b2b2b2b2b2b2b2b2b2b2b203, type: 2}
+    passive: {fileID: 11400000, guid: b2b2b2b2b2b2b2b2b2b2b2b2b2b2b213, type: 2}
+  - foodItem: {fileID: 11400000, guid: b2b2b2b2b2b2b2b2b2b2b2b2b2b2b204, type: 2}
+    passive: {fileID: 11400000, guid: b2b2b2b2b2b2b2b2b2b2b2b2b2b2b214, type: 2}
   foodStatBoosts:
-  - foodItem: {fileID: 11400000, guid: bfea8cffb2d7dae41812a587b52c29ae, type: 2}
-    statPassive: {fileID: 11400000, guid: 8cc14eb9eb227c346bf1b6ffebd284f5, type: 2}
   - foodItem: {fileID: 11400000, guid: cb86999ceee886045995211269833873, type: 2}
     statPassive: {fileID: 11400000, guid: 545d2474311aed44c886fd86c0149dd6, type: 2}
   - foodItem: {fileID: 11400000, guid: 3d7d28f06753912418f92a4d41fa03bb, type: 2}
@@ -834,10 +842,48 @@ MonoBehaviour:
     statPassive: {fileID: 11400000, guid: 56e3d74a78bac0d4aa1a5256a873b92d, type: 2}
   - foodItem: {fileID: 11400000, guid: d1561ec9a8fee0a4f8531dde49e0aec6, type: 2}
     statPassive: {fileID: 11400000, guid: 0dea2a52d67d28746a99f584e441769d, type: 2}
-  - foodItem: {fileID: 11400000, guid: d1561ec9a8fee0a4f8531dde49e0aec6, type: 2}
-    statPassive: {fileID: 11400000, guid: 0dea2a52d67d28746a99f584e441769d, type: 2}
-  foodKillBoosts: []
-  foodDebuffBoosts: []
+  - foodItem: {fileID: 11400000, guid: fe52e2e7d82849d45a8d35d39321bb45, type: 2}
+    statPassive: {fileID: 11400000, guid: 5fb637c04593fcb4a8c4f61669a76043, type: 2}
+  - foodItem: {fileID: 11400000, guid: 737043f101382d8408b55c350176ffec, type: 2}
+    statPassive: {fileID: 11400000, guid: 88888888888888888888888888888812, type: 2}
+  - foodItem: {fileID: 11400000, guid: 9d8e4f936b9ca9c49bb27f4f495cfbc4, type: 2}
+    statPassive: {fileID: 11400000, guid: 88888888888888888888888888888813, type: 2}
+  - foodItem: {fileID: 11400000, guid: 1941ccfbeabd68a44ae3bd3fb696280c, type: 2}
+    statPassive: {fileID: 11400000, guid: 88888888888888888888888888888814, type: 2}
+  foodKillBoosts:
+  - foodItem: {fileID: 11400000, guid: a1a1a1a1a1a1a1a1a1a1a1a1a1a1a101, type: 2}
+    killPassive: {fileID: 11400000, guid: a1a1a1a1a1a1a1a1a1a1a1a1a1a1a111, type: 2}
+  - foodItem: {fileID: 11400000, guid: a1a1a1a1a1a1a1a1a1a1a1a1a1a1a102, type: 2}
+    killPassive: {fileID: 11400000, guid: a1a1a1a1a1a1a1a1a1a1a1a1a1a1a112, type: 2}
+  - foodItem: {fileID: 11400000, guid: a1a1a1a1a1a1a1a1a1a1a1a1a1a1a103, type: 2}
+    killPassive: {fileID: 11400000, guid: a1a1a1a1a1a1a1a1a1a1a1a1a1a1a113, type: 2}
+  - foodItem: {fileID: 11400000, guid: a1a1a1a1a1a1a1a1a1a1a1a1a1a1a104, type: 2}
+    killPassive: {fileID: 11400000, guid: a1a1a1a1a1a1a1a1a1a1a1a1a1a1a114, type: 2}
+  - foodItem: {fileID: 11400000, guid: c3c3c3c3c3c3c3c3c3c3c3c3c3c3c301, type: 2}
+    killPassive: {fileID: 11400000, guid: c3c3c3c3c3c3c3c3c3c3c3c3c3c3c311, type: 2}
+  - foodItem: {fileID: 11400000, guid: c3c3c3c3c3c3c3c3c3c3c3c3c3c3c302, type: 2}
+    killPassive: {fileID: 11400000, guid: c3c3c3c3c3c3c3c3c3c3c3c3c3c3c312, type: 2}
+  - foodItem: {fileID: 11400000, guid: c3c3c3c3c3c3c3c3c3c3c3c3c3c3c303, type: 2}
+    killPassive: {fileID: 11400000, guid: c3c3c3c3c3c3c3c3c3c3c3c3c3c3c313, type: 2}
+  - foodItem: {fileID: 11400000, guid: c3c3c3c3c3c3c3c3c3c3c3c3c3c3c304, type: 2}
+    killPassive: {fileID: 11400000, guid: c3c3c3c3c3c3c3c3c3c3c3c3c3c3c314, type: 2}
+  foodDebuffBoosts:
+  - foodItem: {fileID: 11400000, guid: d4d4d4d4d4d4d4d4d4d4d4d4d4d4d401, type: 2}
+    debuffPassive: {fileID: 11400000, guid: d4d4d4d4d4d4d4d4d4d4d4d4d4d4d411, type: 2}
+  - foodItem: {fileID: 11400000, guid: d4d4d4d4d4d4d4d4d4d4d4d4d4d4d402, type: 2}
+    debuffPassive: {fileID: 11400000, guid: d4d4d4d4d4d4d4d4d4d4d4d4d4d4d412, type: 2}
+  - foodItem: {fileID: 11400000, guid: d4d4d4d4d4d4d4d4d4d4d4d4d4d4d403, type: 2}
+    debuffPassive: {fileID: 11400000, guid: d4d4d4d4d4d4d4d4d4d4d4d4d4d4d413, type: 2}
+  - foodItem: {fileID: 11400000, guid: d4d4d4d4d4d4d4d4d4d4d4d4d4d4d404, type: 2}
+    debuffPassive: {fileID: 11400000, guid: d4d4d4d4d4d4d4d4d4d4d4d4d4d4d414, type: 2}
+  - foodItem: {fileID: 11400000, guid: e5e5e5e5e5e5e5e5e5e5e5e5e5e5e501, type: 2}
+    debuffPassive: {fileID: 11400000, guid: e5e5e5e5e5e5e5e5e5e5e5e5e5e5e511, type: 2}
+  - foodItem: {fileID: 11400000, guid: e5e5e5e5e5e5e5e5e5e5e5e5e5e5e502, type: 2}
+    debuffPassive: {fileID: 11400000, guid: e5e5e5e5e5e5e5e5e5e5e5e5e5e5e512, type: 2}
+  - foodItem: {fileID: 11400000, guid: e5e5e5e5e5e5e5e5e5e5e5e5e5e5e503, type: 2}
+    debuffPassive: {fileID: 11400000, guid: e5e5e5e5e5e5e5e5e5e5e5e5e5e5e513, type: 2}
+  - foodItem: {fileID: 11400000, guid: e5e5e5e5e5e5e5e5e5e5e5e5e5e5e504, type: 2}
+    debuffPassive: {fileID: 11400000, guid: e5e5e5e5e5e5e5e5e5e5e5e5e5e5e514, type: 2}
   foodUltBoosts:
   - foodItem: {fileID: 11400000, guid: 2016b70759c3e2b4fb0a8112e916e6c7, type: 2}
     ultFood: {fileID: 11400000, guid: 51de0e414e86ae545854577ba6cfeedd, type: 2}

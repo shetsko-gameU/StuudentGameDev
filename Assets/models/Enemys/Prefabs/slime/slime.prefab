@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6230862734881163142}
   - component: {fileID: 3111652887242741739}
   - component: {fileID: 2726526004166987046}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: StrikingDistance
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,7 +76,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2605357047671106822}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6651867950344296298}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Raycast
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -143,7 +143,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3579305251646812935}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,7 +174,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3708767087804469475}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -205,7 +205,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1630182751664075115}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -236,7 +236,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1157777075350272980}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Trigger Areas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -271,7 +271,7 @@ GameObject:
   - component: {fileID: 2318470458794773011}
   - component: {fileID: 1163422862556570498}
   - component: {fileID: 8705800657243627818}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: AggroRadius
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -336,7 +336,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4663554616622040108}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -422,9 +422,25 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7579103995338469470, guid: 3aca100ff2f5e7a429ac5b6ac6653171, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -4384043553416365507, guid: 3aca100ff2f5e7a429ac5b6ac6653171, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 3aca100ff2f5e7a429ac5b6ac6653171, type: 3}
       propertyPath: m_Name
       value: slime
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3aca100ff2f5e7a429ac5b6ac6653171, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8609243906049295167, guid: 3aca100ff2f5e7a429ac5b6ac6653171, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -488,10 +504,15 @@ MonoBehaviour:
   sightRange: 0
   randomMovementRange: 5
   randomMovementSpeed: 1
+  attacks: []
+  baseFlyHeight: 0
   canFly: 0
   currentTarget: {fileID: 0}
   navMeshAgent: {fileID: 4223936067243152761}
   layer:
+    serializedVersion: 2
+    m_Bits: 0
+  groundMask:
     serializedVersion: 2
     m_Bits: 0
 --- !u!114 &5397998645940285148

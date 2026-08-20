@@ -16,6 +16,13 @@ MonoBehaviour:
   rarity: 2
   craftFamily: MushroomsOnALog
   durationSeconds: 0
-  lines: []
+  lines:
+  - stat: 6
+    mode: 0
+    minValue: 0.12
+    maxValue: 0.12
+    step: 0
+    canStack: 0
+    maxStacks: 0
   Image: {fileID: 0}
   EffectDescription: 

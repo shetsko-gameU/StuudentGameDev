@@ -16,6 +16,13 @@ MonoBehaviour:
   rarity: 3
   craftFamily: SlimyMushroomStew
   durationSeconds: 0
-  lines: []
+  lines:
+  - stat: 5
+    mode: 0
+    minValue: 0.22
+    maxValue: 0.22
+    step: 0
+    canStack: 0
+    maxStacks: 0
   Image: {fileID: 0}
   EffectDescription: 

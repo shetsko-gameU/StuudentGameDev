@@ -16,6 +16,13 @@ MonoBehaviour:
   rarity: 3
   craftFamily: SlitheringCasserole
   durationSeconds: 0
-  lines: []
+  lines:
+  - stat: 3
+    mode: 0
+    minValue: 3
+    maxValue: 3
+    step: 0
+    canStack: 0
+    maxStacks: 0
   Image: {fileID: 0}
   EffectDescription: 

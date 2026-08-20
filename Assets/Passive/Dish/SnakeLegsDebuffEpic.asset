@@ -10,12 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8bda450636d4274197a16252ff6807b, type: 3}
-  m_Name: DryaCommon 1
+  m_Name: SnakeLegsDebuffEpic
   m_EditorClassIdentifier: Assembly-CSharp::StatsModifierSO
-  displayName: Drya
-  rarity: 0
-  craftFamily: DryaCommon
-  durationSeconds: 0
-  lines: []
+  displayName: Snake Legs Debuff Epic
+  rarity: 2
+  craftFamily:
+  durationSeconds: 4
+  lines:
+  - stat: 1
+    mode: 0
+    minValue: -6
+    maxValue: -6
+    step: 0
+    canStack: 0
+    maxStacks: 0
   Image: {fileID: 0}
-  EffectDescription: 
+  EffectDescription: Weakens the enemy's Attack for a short time.
