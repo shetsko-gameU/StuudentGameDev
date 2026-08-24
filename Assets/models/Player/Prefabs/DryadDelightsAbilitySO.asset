@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bc5c5fb71827c264799d2bd9f429b97f, type: 3}
-  m_Name: New Dryad Delights Ability SO
+  m_Name: DryadDelightsAbilitySO
   m_EditorClassIdentifier: Assembly-CSharp::DryadDelightsAbilitySO
-  displayName: Ability
+  displayName: Dryad Delights
   cooldownSeconds: 1
   growDuration: 0.5
   growEffect: {fileID: 0}
@@ -21,5 +21,5 @@ MonoBehaviour:
   slamDamage: 40
   enemyLayer:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 256
   slamEffect: {fileID: 0}

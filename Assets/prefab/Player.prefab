@@ -1601,6 +1601,11 @@ MonoBehaviour:
     statPassive: {fileID: 11400000, guid: 0dea2a52d67d28746a99f584e441769d, type: 2}
   - foodItem: {fileID: 11400000, guid: d1561ec9a8fee0a4f8531dde49e0aec6, type: 2}
     statPassive: {fileID: 11400000, guid: 0dea2a52d67d28746a99f584e441769d, type: 2}
+  foodKillBoosts: []
+  foodDebuffBoosts: []
+  foodUltBoosts:
+  - foodItem: {fileID: 11400000, guid: abe868be47cf789feb99f810e0c6bad7, type: 2}
+    ultFood: {fileID: 11400000, guid: 2f7afcd6a042d08d12a6dcd86b64c57d, type: 2}
 --- !u!114 &9066587255646813811
 MonoBehaviour:
   m_ObjectHideFlags: 0
