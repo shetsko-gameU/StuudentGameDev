@@ -3376,34 +3376,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 9000000000000001, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9000000000000010, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9100000000000041, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9100000000000041, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9100000000000047, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9100000000000047, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9100000000000047, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 613056026674455729, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -3488,10 +3460,6 @@ PrefabInstance:
       propertyPath: stats
       value: 
       objectReference: {fileID: 1430486900}
-    - target: {fileID: 858163705870446456, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1034361101023528575, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
       propertyPath: inventory
       value: 
@@ -3524,14 +3492,6 @@ PrefabInstance:
       propertyPath: inventory
       value: 
       objectReference: {fileID: 1430486902}
-    - target: {fileID: 3747061646338294022, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
-      propertyPath: m_Type
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3747061646338294022, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 4010428295499618018, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -3539,10 +3499,6 @@ PrefabInstance:
     - target: {fileID: 4010428295499618018, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4484687311033824764, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4564823801684749486, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
       propertyPath: craftSystem
@@ -3552,10 +3508,6 @@ PrefabInstance:
       propertyPath: inventory
       value: 
       objectReference: {fileID: 1430486902}
-    - target: {fileID: 5001590776071423828, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5572548466095695212, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -3568,18 +3520,6 @@ PrefabInstance:
       propertyPath: inventory
       value: 
       objectReference: {fileID: 1430486902}
-    - target: {fileID: 7161044037139938577, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7161044037139938577, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7161044037139938577, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7223351677761028318, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
       propertyPath: inventory
       value: 
@@ -3600,10 +3540,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1430486903}
-    - target: {fileID: 8452173740195618474, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ResetSlots
-      objectReference: {fileID: 0}
     - target: {fileID: 9182679560067676829, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
       propertyPath: craftSystem
       value: 
