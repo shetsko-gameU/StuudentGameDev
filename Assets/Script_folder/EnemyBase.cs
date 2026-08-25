@@ -60,6 +60,7 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
         if(currentTarget == null)
             stateMachine.Initialize(idleState);
         navMeshAgent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -67,6 +68,14 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     {
         stateMachine.CurrentEnemyState?.FrameUpdate();
         Debug.Log("Current State: " + stateMachine.CurrentEnemyState?.ToString());
+        if(navMeshAgent.velocity.magnitude != 0 || stateMachine.CurrentEnemyState == idleState)
+        {
+            animator.SetBool("Move", true);
+        }
+        else
+        {
+            animator.SetBool("Move", false);
+        }
     }
     void FixedUpdate()
     {
@@ -113,6 +122,7 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     //
     //    Debug.Log($"EnemyBase: '{name}' health after: {stats.currentHealth}. IsDead: {stats.IsDead}");
     //}
+
     public void OnAttack()
     {
         animator.SetTrigger("Attack");

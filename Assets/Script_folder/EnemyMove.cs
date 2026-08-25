@@ -87,11 +87,13 @@ public class EnemyMove : EnemyState
         if (enemy.isWithinRange)
         {
             enemy.navMeshAgent.isStopped = true;
+            enemy.animator.SetBool("Attack", true);
             enemy.stateMachine.ChangeState(enemy.attackState);
         }
         else
         {
             enemy.navMeshAgent.isStopped = false;
+            enemy.animator.SetBool("Attack", false);
             enemy.navMeshAgent.destination = enemy.currentTarget.transform.position;
         }
         
@@ -118,10 +120,6 @@ public class EnemyMove : EnemyState
         moveDir = (enemy.currentTarget.transform.position - enemy.transform.position).normalized;
         rb.AddForce(moveDir * finalAcceleration);
         Vector3 desiredDir = moveDir * -1;
-        if(enemy.canFly)
-        {
-            
-        }
 
         if (IsFalling)
             FallingUpdate(desiredDir, maxSpeed);
