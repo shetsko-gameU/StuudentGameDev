@@ -1048,6 +1048,7 @@ GameObject:
   - component: {fileID: 249915610623416156}
   - component: {fileID: 1286005578739491308}
   - component: {fileID: 2250891609039242034}
+  - component: {fileID: 1004250839946928}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -2462,3 +2463,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: adda84a41fdb64c4b90a63641854c218, type: 3}
+--- !u!114 &1004250839946928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5644280609087391809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06c342be6be145cb7c6b5f45f8ed3202, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RunStatePlayerLink
+  passiveManager: {fileID: 8972480033963821402}
+  inventory: {fileID: 1829965202145993110}
+  currencyTracker: {fileID: 0}

@@ -68,6 +68,17 @@ public class RoomExit : MonoBehaviour
             return;
         }
 
+        // Snapshot passives/inventory/currency before the scene unloads — RunStatePlayerLink
+        // on the new scene's Player reapplies this once it's initialized. Purely in-memory,
+        // separate from any future meta-progression save-to-disk system.
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        RunStatePlayerLink runState = player != null ? player.GetComponent<RunStatePlayerLink>() : null;
+        if (runState != null)
+            runState.CaptureAndStore();
+        else
+            Debug.LogWarning($"RoomExit on '{name}': No RunStatePlayerLink found on the Player — " +
+                              "passives/inventory/currency won't carry over to the next scene.");
+
         Time.timeScale = 1f; // Time.timeScale persists across scene loads — must clear before loading
         SceneManager.LoadScene(nextSceneName);
     }
