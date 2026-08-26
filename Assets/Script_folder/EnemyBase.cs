@@ -28,6 +28,7 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     public EnemyIdle idleState { get; set; }
     public EnemyAttack attackState { get; set; }
     public EnemyMove moveState { get; set; }
+    public EnemyDeath deathState { get; set; }
 
     public float randomMovementRange;
     public float randomMovementSpeed;
@@ -38,7 +39,6 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
    public GameObject currentTarget;
    public NavMeshAgent navMeshAgent;
    public LayerMask layer;
-   public LayerMask groundMask;
 
 
 
@@ -50,6 +50,7 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
         // Create constructed state instances
         attackState = new EnemyAttack(this, stateMachine);
         moveState = new EnemyMove(this, stateMachine);
+        deathState = new EnemyDeath(this, stateMachine);
         
     }
 
@@ -76,6 +77,10 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
         {
             animator.SetBool("Move", false);
         }
+        if(stats != null && stats.currentHealth <= 0)
+        {
+            stateMachine.ChangeState(deathState);
+        }
     }
     void FixedUpdate()
     {
@@ -84,8 +89,10 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     }
     public enum AnimationTriggerType
     {
+        Attack,
         Damaged,
-        Traveling
+        Death,
+        Move
     }
     public void AnimationTriggerEvent(AnimationTriggerType triggerType)
     {

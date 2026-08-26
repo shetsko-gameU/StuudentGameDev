@@ -35,7 +35,7 @@ public class EnemyAttack : EnemyState
             return;
         }
 
-        enemy.moveState.StopMovement(); // Stop movement during attack
+        
         if(attackTimer >= timeBetweenAttacks)
         {
             enemy.animator.SetBool("Move", false); //pivoting enemies should stop movement animation when ready to attack

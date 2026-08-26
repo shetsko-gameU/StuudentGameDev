@@ -161,11 +161,6 @@ public class EnemyMove : EnemyState
 
     }
 
-    public void StopMovement()
-    {
-        //to do
-    }
-
     private void GroundedUpdate(Vector3 desiredDir, float maxSpeed)
     {
         // Accelerate unconditionally (matches the old AddForce, which was naturally zero
