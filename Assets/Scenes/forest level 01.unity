@@ -15178,14 +15178,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2029561652}
-    - target: {fileID: 1607244672088771331, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Craft
-      objectReference: {fileID: 0}
-    - target: {fileID: 1634134886320640399, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1939795786168456433, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
       propertyPath: inventory
       value: 
@@ -15226,14 +15218,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2029561652}
-    - target: {fileID: 5572548466095695212, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: CloseCraftMenu
-      objectReference: {fileID: 0}
-    - target: {fileID: 5572548466095695212, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CraftSystem, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 5584022199286886874, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
       propertyPath: inventory
       value: 
@@ -15258,10 +15242,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2029561652}
-    - target: {fileID: 8452173740195618474, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ResetSlots
-      objectReference: {fileID: 0}
     - target: {fileID: 9182679560067676829, guid: 2a090df19d05dde499df476bd11ce5dc, type: 3}
       propertyPath: craftSystem
       value: 
