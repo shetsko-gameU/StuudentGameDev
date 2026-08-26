@@ -87,11 +87,13 @@ public class EnemyMove : EnemyState
         if (enemy.isWithinRange)
         {
             enemy.navMeshAgent.isStopped = true;
+            enemy.animator.SetBool("Attack", true);
             enemy.stateMachine.ChangeState(enemy.attackState);
         }
         else
         {
             enemy.navMeshAgent.isStopped = false;
+            enemy.animator.SetBool("Attack", false);
             enemy.navMeshAgent.destination = enemy.currentTarget.transform.position;
         }
         
@@ -105,6 +107,11 @@ public class EnemyMove : EnemyState
 
     public override void PhysicsUpdate()
     {
+        // PhysicsUpdate runs on FixedUpdate cadence — OnTriggerEnter (which flips isAggroed
+        // via EnemyAggroCheck) fires during the same physics pass, so this can run with a
+        // still-null currentTarget before FrameUpdate's Update-cadence guard ever catches it.
+        if (enemy.currentTarget == null) return;
+        
         // Get movespeed from stats (fallback to 1 if missing)
         float moveSpeedMultiplier = (stats != null) ? stats.MoveSpeed : 1f;
 
@@ -113,6 +120,7 @@ public class EnemyMove : EnemyState
         moveDir = (enemy.currentTarget.transform.position - enemy.transform.position).normalized;
         rb.AddForce(moveDir * finalAcceleration);
         Vector3 desiredDir = moveDir * -1;
+
         if (IsFalling)
             FallingUpdate(desiredDir, maxSpeed);
         else
@@ -151,11 +159,6 @@ public class EnemyMove : EnemyState
             rb.AddForce(-rb.linearVelocity * haltSpeed);
         }*/
 
-    }
-
-    public void StopMovement()
-    {
-        //to do
     }
 
     private void GroundedUpdate(Vector3 desiredDir, float maxSpeed)

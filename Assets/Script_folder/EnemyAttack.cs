@@ -29,9 +29,16 @@ public class EnemyAttack : EnemyState
 
     public override void FrameUpdate()
     {
-        enemy.moveState.StopMovement(); // Stop movement during attack
+        if (enemy.currentTarget == null)
+        {
+            enemy.stateMachine.ChangeState(enemy.idleState);
+            return;
+        }
+
+        
         if(attackTimer >= timeBetweenAttacks)
         {
+            enemy.animator.SetBool("Move", false); //pivoting enemies should stop movement animation when ready to attack
             OnAttack();
             attackTimer = 0;
             //Vector2 dir = (enemy.currentTarget.transform.position - enemy.transform.position).normalized;
@@ -98,6 +105,8 @@ public class EnemyAttack : EnemyState
 
             // Apply direction (clockwise or counter-clockwise) to the step
             float actualRotationStep = deltaAngle * angleDirection;
+
+            enemy.animator.SetBool("Move", true);
 
             // Execute rotation around player pivot
             enemy.transform.RotateAround(enemy.currentTarget.transform.position, Vector3.up, actualRotationStep);
