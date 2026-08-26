@@ -61,6 +61,24 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
         public RolledModifierInstance permanentStatRoll;
     }
 
+    // Snapshot of every runtime-acquired passive/ult, used by RunStatePlayerLink to carry
+    // state across a scene load. RolledModifierInstance is plain data with no scene ties, so
+    // the exact same rolled instances (remaining buff duration included) get reapplied to
+    // the new scene's StatsManager instead of being re-rolled from scratch.
+    public class PassiveSnapshot
+    {
+        public struct FoodEntry { public OnHitPassiveSO passive; public RolledModifierInstance roll; }
+        public struct StatEntry { public FoodStatPassiveSO passive; public RolledModifierInstance roll; }
+        public struct KillEntry { public KillPassiveSO passive; public RolledModifierInstance roll; }
+        public struct DebuffEntry { public DebuffOnHitPassiveSO passive; public RolledModifierInstance roll; }
+
+        public List<FoodEntry> foodPassives = new List<FoodEntry>();
+        public List<StatEntry> statBoosts = new List<StatEntry>();
+        public List<KillEntry> killPassives = new List<KillEntry>();
+        public List<DebuffEntry> debuffPassives = new List<DebuffEntry>();
+        public UltFoodSO ultFood;
+    }
+
     // ------------------------------------------------------------------ Inspector
 
     [Header("References")]
@@ -516,6 +534,68 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
 
     public UltFoodSO ActiveUltFood => activeUltFood;
     public bool HasUltAbility => activeUltFood != null;
+
+    // ------------------------------------------------------------------ Snapshot (scene transitions)
+
+    /// <summary>Captures every runtime-acquired passive/ult so it can be reapplied after a scene load.</summary>
+    public PassiveSnapshot CaptureSnapshot()
+    {
+        var snap = new PassiveSnapshot();
+
+        foreach (FoodPassiveEntry e in activeFoodEntries)
+            snap.foodPassives.Add(new PassiveSnapshot.FoodEntry { passive = e.passive, roll = e.permanentStatRoll });
+
+        foreach (StatBoostEntry e in activeStatBoosts)
+            snap.statBoosts.Add(new PassiveSnapshot.StatEntry { passive = e.passive, roll = e.statRoll });
+
+        foreach (KillPassiveEntry e in activeKillEntries)
+            snap.killPassives.Add(new PassiveSnapshot.KillEntry { passive = e.passive, roll = e.permanentStatRoll });
+
+        foreach (DebuffPassiveEntry e in activeDebuffEntries)
+            snap.debuffPassives.Add(new PassiveSnapshot.DebuffEntry { passive = e.passive, roll = e.permanentStatRoll });
+
+        snap.ultFood = activeUltFood;
+        return snap;
+    }
+
+    /// <summary>
+    /// Reapplies a captured snapshot on top of whatever this scene's Player already started
+    /// with. Removes any entry sharing the same passive first — the new scene's own Start()
+    /// may have already registered that same starting passive with no roll (rolledStats:
+    /// null), which would otherwise block the captured, already-rolled instance via the
+    /// "already have it, ignoring" duplicate guard in each Add* method.
+    /// </summary>
+    public void RestoreSnapshot(PassiveSnapshot snap)
+    {
+        if (snap == null) return;
+
+        foreach (PassiveSnapshot.FoodEntry e in snap.foodPassives)
+        {
+            RemoveFoodPassive(e.passive);
+            AddFoodPassive(e.passive, e.roll);
+        }
+
+        foreach (PassiveSnapshot.StatEntry e in snap.statBoosts)
+        {
+            RemoveStatBoostPassive(e.passive);
+            AddStatBoostPassive(e.passive, e.roll);
+        }
+
+        foreach (PassiveSnapshot.KillEntry e in snap.killPassives)
+        {
+            RemoveKillPassive(e.passive);
+            AddKillPassive(e.passive, e.roll);
+        }
+
+        foreach (PassiveSnapshot.DebuffEntry e in snap.debuffPassives)
+        {
+            RemoveDebuffPassive(e.passive);
+            AddDebuffPassive(e.passive, e.roll);
+        }
+
+        if (snap.ultFood != null)
+            AddUltAbility(snap.ultFood);
+    }
 
     // ------------------------------------------------------------------ IEnumerable
 

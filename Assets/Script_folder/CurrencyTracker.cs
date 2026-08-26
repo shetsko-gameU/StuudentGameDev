@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -64,6 +65,14 @@ public class CurrencyTracker : MonoBehaviour
         if (currency == null) return 0;
         int index = IndexOf(currency);
         return index == -1 ? 0 : amounts[index];
+    }
+
+    /// <summary>Every currently tracked (currency, amount) pair — used to snapshot balances across a scene load.</summary>
+    public IEnumerable<(CurrencySO currency, int amount)> GetAllBalances()
+    {
+        for (int i = 0; i < trackedTypes.Length; i++)
+            if (trackedTypes[i] != null)
+                yield return (trackedTypes[i], amounts[i]);
     }
 
     // ------------------------------------------------------------------ Internals
