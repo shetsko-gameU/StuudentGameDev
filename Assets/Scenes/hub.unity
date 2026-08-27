@@ -253,6 +253,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: church carpet
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5dfbeaca4264b734fbfaef6e5ee14b61, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -710,6 +714,63 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!1001 &588760517
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3550281765791632961, guid: 240359733de371a46b2387e48d3e75cf, type: 3}
+      propertyPath: m_Name
+      value: slime jar Cam Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 4183548114277160187, guid: 240359733de371a46b2387e48d3e75cf, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 17.919304
+      objectReference: {fileID: 0}
+    - target: {fileID: 4183548114277160187, guid: 240359733de371a46b2387e48d3e75cf, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 38.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4183548114277160187, guid: 240359733de371a46b2387e48d3e75cf, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 71.57898
+      objectReference: {fileID: 0}
+    - target: {fileID: 4183548114277160187, guid: 240359733de371a46b2387e48d3e75cf, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4183548114277160187, guid: 240359733de371a46b2387e48d3e75cf, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4183548114277160187, guid: 240359733de371a46b2387e48d3e75cf, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4183548114277160187, guid: 240359733de371a46b2387e48d3e75cf, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4183548114277160187, guid: 240359733de371a46b2387e48d3e75cf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4183548114277160187, guid: 240359733de371a46b2387e48d3e75cf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4183548114277160187, guid: 240359733de371a46b2387e48d3e75cf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 240359733de371a46b2387e48d3e75cf, type: 3}
 --- !u!1 &614712136
 GameObject:
   m_ObjectHideFlags: 0
@@ -1519,6 +1580,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: church floor
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 50cb5a92ce78e8140a0914708b56ff42, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1722,6 +1787,63 @@ Transform:
   - {fileID: 462283450}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0.634, y: -79.735, z: -3.498}
+--- !u!1001 &1617126366
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7277300781036928984, guid: cd916b1695bbab74caae4350cf0a8ea5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 124.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 7277300781036928984, guid: cd916b1695bbab74caae4350cf0a8ea5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.83
+      objectReference: {fileID: 0}
+    - target: {fileID: 7277300781036928984, guid: cd916b1695bbab74caae4350cf0a8ea5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 70.64
+      objectReference: {fileID: 0}
+    - target: {fileID: 7277300781036928984, guid: cd916b1695bbab74caae4350cf0a8ea5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071067
+      objectReference: {fileID: 0}
+    - target: {fileID: 7277300781036928984, guid: cd916b1695bbab74caae4350cf0a8ea5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7277300781036928984, guid: cd916b1695bbab74caae4350cf0a8ea5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7277300781036928984, guid: cd916b1695bbab74caae4350cf0a8ea5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7277300781036928984, guid: cd916b1695bbab74caae4350cf0a8ea5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7277300781036928984, guid: cd916b1695bbab74caae4350cf0a8ea5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7277300781036928984, guid: cd916b1695bbab74caae4350cf0a8ea5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8049614977823188322, guid: cd916b1695bbab74caae4350cf0a8ea5, type: 3}
+      propertyPath: m_Name
+      value: slime jar SO Variant
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cd916b1695bbab74caae4350cf0a8ea5, type: 3}
 --- !u!114 &1639286923 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2811520563896596546, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
@@ -2476,3 +2598,5 @@ SceneRoots:
   - {fileID: 323225515}
   - {fileID: 1871557651}
   - {fileID: 687737529}
+  - {fileID: 588760517}
+  - {fileID: 1617126366}

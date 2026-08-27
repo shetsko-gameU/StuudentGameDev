@@ -32,13 +32,20 @@ public class RoomExit : MonoBehaviour
         if (enemyManager == null)
             enemyManager = GetComponent<EnemyManager>();
 
-        if (enemyManager == null)
-            Debug.LogError($"RoomExit on '{name}': No EnemyManager found.");
-
-        if (portalOrDoor != null)
-            portalOrDoor.SetActive(false);
-        else
+        if (portalOrDoor == null)
+        {
             Debug.LogWarning($"RoomExit on '{name}': No portalOrDoor assigned — nothing will appear when the waves clear.");
+        }
+        else if (enemyManager == null)
+        {
+            // No EnemyManager to ever fire OnAllWavesCleared — leave the portal open
+            // instead of hiding it and never being able to reveal it again.
+            Debug.LogError($"RoomExit on '{name}': No EnemyManager found — leaving portalOrDoor open.");
+        }
+        else
+        {
+            portalOrDoor.SetActive(false);
+        }
     }
 
     private void OnEnable()
