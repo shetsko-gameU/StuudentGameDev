@@ -25,6 +25,10 @@ public class EnemyManager : MonoBehaviour
     /// other systems (e.g. RoomExit) react without EnemyManager needing to know what they do.</summary>
     public event System.Action OnAllWavesCleared;
 
+    /// <summary>Fires once, the moment the player first triggers this room (Active flips false → true).
+    /// Lets other systems (e.g. RoomMusicTrigger) react without EnemyManager needing to know what they do.</summary>
+    public event System.Action OnCombatStarted;
+
     private bool allWavesCleared;
 
     private void Awake()
@@ -127,6 +131,9 @@ public class EnemyManager : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
+            if (!Active)
+                OnCombatStarted?.Invoke();
+
             Active = true;
         }
 
