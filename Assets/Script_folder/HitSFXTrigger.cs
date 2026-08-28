@@ -5,6 +5,11 @@ using UnityEngine;
 ///
 /// Listens to AttackHitbox.OnEnemyHit — which only fires when a swing actually connects
 /// and wasn't dodged — and plays a positional impact sound at the enemy that was hit.
+///
+/// Setup:
+///   1. Add this component to the Player, alongside ComboRunner and AttackHitbox.
+///   2. Leave comboRunner/hitbox empty — both auto-find on Awake.
+///   3. Create (or reuse) a SoundSO for your hit-impact clip(s) and drag it into hitSound.
 /// </summary>
 public class HitSFXTrigger : MonoBehaviour
 {

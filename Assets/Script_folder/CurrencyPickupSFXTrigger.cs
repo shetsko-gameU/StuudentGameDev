@@ -7,6 +7,11 @@ using UnityEngine;
 /// CurrencyTracker.OnCurrencyChanged fires on both Add and Spend with the same signature —
 /// this compares each update against the last known total per currency so the pickup sound
 /// only plays when a balance actually went up.
+///
+/// Setup:
+///   1. Add this component to the Player, alongside CurrencyTracker.
+///   2. Leave currencyTracker empty — it auto-finds on Awake.
+///   3. Drag a SoundSO into pickupSound.
 /// </summary>
 public class CurrencyPickupSFXTrigger : MonoBehaviour
 {

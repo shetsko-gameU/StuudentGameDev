@@ -6,6 +6,14 @@ using UnityEngine;
 /// Swaps to combat music the instant the player triggers EnemyManager (OnCombatStarted),
 /// then crossfades back to exploration music once the room's last wave clears
 /// (EnemyManager.OnAllWavesCleared) — the same event RoomExit uses to reveal the portal.
+///
+/// Setup:
+///   1. Add this component to the same GameObject as EnemyManager (the object RoomExit
+///      also lives on, if this room has one).
+///   2. Leave enemyManager empty — it auto-finds on Awake.
+///   3. Drag an AudioClip into combatMusic and/or explorationMusic — either can be left
+///      empty to skip that half of the swap.
+///   4. Adjust fadeSeconds to taste.
 /// </summary>
 public class RoomMusicTrigger : MonoBehaviour
 {

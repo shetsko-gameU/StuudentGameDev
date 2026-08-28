@@ -10,6 +10,14 @@ using UnityEngine;
 /// Gameplay scripts should reference a SoundSO asset and call SoundManager.Instance rather
 /// than holding their own AudioSource — keeps pooling and volume centralized in one place.
 /// Fades run on unscaled time so music can fade while the game is paused (Time.timeScale = 0).
+///
+/// Setup:
+///   Nothing to place by hand — SoundManager.Instance creates and persists itself
+///   (DontDestroyOnLoad) the first time any trigger script calls PlaySFX/PlaySFXAtPoint/
+///   PlayMusic. To tune sfxPoolSize/sfxVolume/musicVolume ahead of time instead of at
+///   runtime, add a SoundManager component to a bootstrap GameObject yourself in your
+///   first-loaded scene (e.g. MainMenu) — Awake()'s duplicate-guard makes it safe even if
+///   Instance also gets accessed before that object's Awake runs.
 /// </summary>
 public class SoundManager : MonoBehaviour
 {
