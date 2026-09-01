@@ -33,7 +33,15 @@ public class EnemyManager : MonoBehaviour
 
     private void Awake()
     {
-        
+        if (PlayerStats == null)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+                PlayerStats = player.GetComponent<StatsManager>();
+        }
+
+        if (PlayerStats == null)
+            Debug.LogError($"EnemyManager on '{name}': No PlayerStats found — tag the Player \"Player\" (with a StatsManager on it) or assign PlayerStats manually.");
 
         if (EnemyTypes == null || EnemyTypes.Length == 0)
             Debug.LogError($"EnemyManager on '{name}': No EnemyTypes assigned.");
