@@ -121,6 +121,9 @@ GameObject:
   - component: {fileID: 6942851225986274451}
   - component: {fileID: 4841218838983478207}
   - component: {fileID: 8559787390676633119}
+  - component: {fileID: 6841626968158633242}
+  - component: {fileID: 980420930665963025}
+  - component: {fileID: 3106192970403256635}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1029,6 +1032,50 @@ MonoBehaviour:
   passiveManager: {fileID: 4625043910456940208}
   inventory: {fileID: 7831356397626104457}
   currencyTracker: {fileID: 4841218838983478207}
+--- !u!114 &6841626968158633242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3994294546509096518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f652e5fbafcc8244b7c684d6be2b642, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitSFXTrigger
+  comboRunner: {fileID: 4228190003025015144}
+  hitbox: {fileID: 6278440642534877205}
+  hitSound: {fileID: 11400000, guid: 1c1b047a7e4a7499cb4d5fa8270dcb60, type: 2}
+--- !u!114 &980420930665963025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3994294546509096518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fed95d7447816404d85b70212597b652, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ComboSFXTrigger
+  comboRunner: {fileID: 4228190003025015144}
+  swingSound: {fileID: 11400000, guid: 8448ed716f6b9408da26d00342000bfd, type: 2}
+  comboFinishSound: {fileID: 11400000, guid: 003a857f95c674ff4a7656641c91ab2d, type: 2}
+--- !u!114 &3106192970403256635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3994294546509096518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d66ce546bf166f4ba80cd59c62354f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CurrencyPickupSFXTrigger
+  currencyTracker: {fileID: 4841218838983478207}
+  pickupSound: {fileID: 11400000, guid: bf15627c403fe4b0cbd6dc27cc51ae80, type: 2}
 --- !u!1 &6025672283703365149
 GameObject:
   m_ObjectHideFlags: 0
