@@ -1578,32 +1578,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: fd02c7f6ad183f3408c588847a2a8e53, type: 3}
   m_PrefabInstance: {fileID: 85786944}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &88623097 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6822558929471881058, guid: 4c5da629dc4860145b715549edc16983, type: 3}
-  m_PrefabInstance: {fileID: 213604480277156576}
-  m_PrefabAsset: {fileID: 0}
---- !u!135 &88623102
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 88623097}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.012615362
-  m_Center: {x: 0, y: -0.000000029802322, z: 0}
 --- !u!1001 &91217690
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21154,8 +21128,31 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6822558929471881058, guid: 4c5da629dc4860145b715549edc16983, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1040217107}
   m_SourcePrefab: {fileID: 100100000, guid: 4c5da629dc4860145b715549edc16983, type: 3}
+--- !u!1 &1040217106 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6822558929471881058, guid: 4c5da629dc4860145b715549edc16983, type: 3}
+  m_PrefabInstance: {fileID: 1040217105}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1040217107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1040217106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a76dbcfab425c3d419a735a87466dcdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoomExit
+  enemyManager: {fileID: 2405719764082157214}
+  portalOrDoor: {fileID: 1040217106}
+  nextSceneName: forest level 02
 --- !u!1001 &1057150378
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43111,10 +43108,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6822558929471881058, guid: 4c5da629dc4860145b715549edc16983, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 88623102}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c5da629dc4860145b715549edc16983, type: 3}
 --- !u!1001 &318513120265204512
 PrefabInstance:
