@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90fe3a28ac28a674d96a2fcbc65fbde5, type: 3}
+  m_Name: Swing Sound
+  m_EditorClassIdentifier: Assembly-CSharp::SoundSO
+  clips:
+  - {fileID: 8300000, guid: e8f8dcfeb20e0074ba3294cb8b25d524, type: 3}
+  - {fileID: 8300000, guid: f7fb4c3f521244e44acd58f81a68a212, type: 3}
+  volume: 1
+  pitchMin: 1
+  pitchMax: 1

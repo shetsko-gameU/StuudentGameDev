@@ -87,11 +87,13 @@ public class EnemyMove : EnemyState
         if (enemy.isWithinRange)
         {
             enemy.navMeshAgent.isStopped = true;
+            enemy.animator.SetBool("Attack", true);
             enemy.stateMachine.ChangeState(enemy.attackState);
         }
         else
         {
             enemy.navMeshAgent.isStopped = false;
+            enemy.animator.SetBool("Attack", false);
             enemy.navMeshAgent.destination = enemy.currentTarget.transform.position;
         }
         
@@ -118,56 +120,6 @@ public class EnemyMove : EnemyState
         moveDir = (enemy.currentTarget.transform.position - enemy.transform.position).normalized;
         rb.AddForce(moveDir * finalAcceleration);
         Vector3 desiredDir = moveDir * -1;
-        if(enemy.canFly)
-        {
-            // 1. Fetch ground references for the target 
-            Vector3 targetGroundPos;
-            NavMeshHit navHit;
-            if (NavMesh.SamplePosition(enemy.currentTarget.transform.position, out navHit, 15f, NavMesh.AllAreas))
-            {
-                targetGroundPos = navHit.position;
-            }
-            else
-            {
-                targetGroundPos = new Vector3(enemy.currentTarget.transform.position.x, enemy.transform.position.y, enemy.currentTarget.transform.position.z);
-            }
-
-            // Update the underlying agent destination
-            enemy.navMeshAgent.SetDestination(targetGroundPos);
-
-            // Match logical agent position beneath the drifting physics body
-            Vector3 agentGroundAnchor = new Vector3(enemy.transform.position.x, targetGroundPos.y, enemy.transform.position.z);
-            if (NavMesh.SamplePosition(agentGroundAnchor, out navHit, 5f, NavMesh.AllAreas))
-            {
-                enemy.navMeshAgent.nextPosition = navHit.position;
-            }
-
-            // 2. Separate horizontal tracking from vertical height adjusting
-            Vector3 horizontalMoveDir = enemy.navMeshAgent.desiredVelocity.normalized;
-            horizontalMoveDir.y = 0; // Lock to flat plane
-
-            // Gather terrain data underneath the agent
-            float currentGroundY = 0f;
-            RaycastHit terrainHit;
-            if (Physics.Raycast(enemy.transform.position, Vector3.down, out terrainHit, 30f, enemy.groundMask))
-            {
-                currentGroundY = terrainHit.point.y;
-            }
-            else
-            {
-                currentGroundY = enemy.navMeshAgent.nextPosition.y; 
-            }
-
-            // Determine flight target height (blending ground clearance and target elevation)
-            float targetFlightHeight = Mathf.Max(currentGroundY + enemy.baseFlyHeight, enemy.currentTarget.transform.position.y);
-            float verticalError = targetFlightHeight - enemy.transform.position.y;
-            Vector3 verticalMoveDir = new Vector3(0, verticalError, 0).normalized;
-
-            // 3. Combine paths and safely apply physics force using finalMaxSpeed
-            moveDir = (horizontalMoveDir + (verticalMoveDir * Mathf.Min(Mathf.Abs(verticalError), 1f))).normalized;
-
-            rb.AddForce(moveDir * finalAcceleration, ForceMode.Acceleration);
-        }
 
         if (IsFalling)
             FallingUpdate(desiredDir, maxSpeed);
@@ -207,11 +159,6 @@ public class EnemyMove : EnemyState
             rb.AddForce(-rb.linearVelocity * haltSpeed);
         }*/
 
-    }
-
-    public void StopMovement()
-    {
-        //to do
     }
 
     private void GroundedUpdate(Vector3 desiredDir, float maxSpeed)

@@ -120,6 +120,10 @@ GameObject:
   - component: {fileID: 2151709278827207410}
   - component: {fileID: 6942851225986274451}
   - component: {fileID: 4841218838983478207}
+  - component: {fileID: 8559787390676633119}
+  - component: {fileID: 6841626968158633242}
+  - component: {fileID: 980420930665963025}
+  - component: {fileID: 3106192970403256635}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -401,7 +405,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5250477695553304955}
         m_TargetAssemblyTypeName: CraftSystem, Assembly-CSharp
-        m_MethodName: Craft
+        m_MethodName: OpenCraftMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -574,7 +578,19 @@ MonoBehaviour:
     m_ActionId: d373ce9e-d3bb-4f48-a112-88c70326dd54
     m_ActionName: 'Player/EatSlot8[/Keyboard/8]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2811520563896596546}
+        m_TargetAssemblyTypeName: PlayerCam, Assembly-CSharp
+        m_MethodName: OnCamMove
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: d9ecbd5f-53f4-4c52-9451-61aab94bc1dd
     m_ActionName: 'Player/CamMove[/Keyboard/comma,/Keyboard/period]'
   m_NeverAutoSwitchControlSchemes: 0
@@ -595,12 +611,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMove
   acceleration: 100
-  haltSpeed: 5
+  haltSpeed: 20
   isGround:
     serializedVersion: 2
     m_Bits: 64
   ledgeProbeDistance: 0.45
-  minFallHeight: 0.5
+  minFallHeight: 1
   airControl: 0.3
   stats: {fileID: 8814090635867657241}
   modelRotateSpeed: 5
@@ -637,16 +653,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Inventory
   InventorySlots: []
-  UISlots:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  removedColor: {r: 0, g: 0, b: 0, a: 0}
+  UISlots: []
+  removedColor: {r: 0.36477977, g: 0.32233682, b: 0.32233682, a: 0}
   inventory: {fileID: 0}
 --- !u!114 &5250477695553304955
 MonoBehaviour:
@@ -667,34 +675,33 @@ MonoBehaviour:
   playerInventory: {fileID: 7831356397626104457}
   primarySlot: {fileID: 0}
   secondarySlot: {fileID: 0}
-  recipes:
-  - {fileID: 11400000, guid: ee103aa8d6e9b8042bbe0321328d46e8, type: 2}
+  recipes: []
   rarityRecipes:
-  - {fileID: 11400000, guid: 674faf2e1b3328d48a3c91e03fe1b3b5, type: 2}
-  - {fileID: 11400000, guid: 7efc10fecc0898a459e284dfcd292cf2, type: 2}
-  - {fileID: 11400000, guid: 85ec3cd7ad85acd48920d89caebe9588, type: 2}
-  - {fileID: 11400000, guid: 16393ccb25232d74da7b60109d784c6e, type: 2}
-  - {fileID: 11400000, guid: 98a9152aff9d556428bcf8480edef238, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 9468ddf70aaaa594ab29618f141e6276, type: 2}
+  - {fileID: 11400000, guid: 4ca199c029db44d4c9aa71e9bd5a0c21, type: 2}
+  - {fileID: 11400000, guid: a0594b5a9bfb4c2428aca8435f044768, type: 2}
+  - {fileID: 11400000, guid: 120182e6489507c49ac7c84e3d055781, type: 2}
+  - {fileID: 11400000, guid: f71cb09626622964ca855854f4a794f5, type: 2}
+  - {fileID: 11400000, guid: f76f91c64375ae84abd0ee4e6526302e, type: 2}
+  - {fileID: 11400000, guid: 1a76c356dbf2b364d9882cd77c510156, type: 2}
+  - {fileID: 11400000, guid: 87236406d6b6cf54a89ca63c3279dfa6, type: 2}
+  - {fileID: 11400000, guid: 52161b2e0e2732d48b4ffac315125a53, type: 2}
+  - {fileID: 11400000, guid: 26821e58e0eaa3040b7e7be9df166b44, type: 2}
+  - {fileID: 11400000, guid: 92fb6f29d63c7334faf7bdb5e1b6ed61, type: 2}
+  - {fileID: 11400000, guid: aaae696bb67c2a147bd1ec923932a197, type: 2}
+  - {fileID: 11400000, guid: afd9941e4cb70f24c84d1788db674b0d, type: 2}
+  - {fileID: 11400000, guid: 5a398ebd07d6c474dbd0e4b287c9ccc1, type: 2}
+  - {fileID: 11400000, guid: 554090d91ee77f14d97f5a085ce66351, type: 2}
+  - {fileID: 11400000, guid: 8ccd98fde42cf0e458050bb4fff6a94a, type: 2}
+  - {fileID: 11400000, guid: 1a05fb2800ac200498223efeeb25e4e4, type: 2}
+  - {fileID: 11400000, guid: 209ce07b1ff600c4e9eb86ec5c1984d0, type: 2}
+  - {fileID: 11400000, guid: 8cbd3ac5ecb132d4ca70104a77eed9ca, type: 2}
+  - {fileID: 11400000, guid: 4be67eb83fa5b4941b9498a35c923d83, type: 2}
+  - {fileID: 11400000, guid: dec82aeec95180c4e8b015162d8e6ee5, type: 2}
+  - {fileID: 11400000, guid: c50fdddd2b57ad0439abf6cdcefe9cd0, type: 2}
+  - {fileID: 11400000, guid: 17471f072428f9f4eb2952e0e720f6ac, type: 2}
+  - {fileID: 11400000, guid: e5e5e5e5e5e5e5e5e5e5e5e5e5e5e599, type: 2}
+  - {fileID: 11400000, guid: f6f6f6f6f6f6f6f6f6f6f6f6f6f6f699, type: 2}
   NearCraftPot: 0
 --- !u!114 &4625043910456940208
 MonoBehaviour:
@@ -783,11 +790,15 @@ MonoBehaviour:
   stats: {fileID: 8814090635867657241}
   passiveManager: {fileID: 4625043910456940208}
   foodPassives:
-  - foodItem: {fileID: 0}
-    passive: {fileID: 0}
+  - foodItem: {fileID: 11400000, guid: b2b2b2b2b2b2b2b2b2b2b2b2b2b2b201, type: 2}
+    passive: {fileID: 11400000, guid: b2b2b2b2b2b2b2b2b2b2b2b2b2b2b211, type: 2}
+  - foodItem: {fileID: 11400000, guid: b2b2b2b2b2b2b2b2b2b2b2b2b2b2b202, type: 2}
+    passive: {fileID: 11400000, guid: b2b2b2b2b2b2b2b2b2b2b2b2b2b2b212, type: 2}
+  - foodItem: {fileID: 11400000, guid: b2b2b2b2b2b2b2b2b2b2b2b2b2b2b203, type: 2}
+    passive: {fileID: 11400000, guid: b2b2b2b2b2b2b2b2b2b2b2b2b2b2b213, type: 2}
+  - foodItem: {fileID: 11400000, guid: b2b2b2b2b2b2b2b2b2b2b2b2b2b2b204, type: 2}
+    passive: {fileID: 11400000, guid: b2b2b2b2b2b2b2b2b2b2b2b2b2b2b214, type: 2}
   foodStatBoosts:
-  - foodItem: {fileID: 11400000, guid: bfea8cffb2d7dae41812a587b52c29ae, type: 2}
-    statPassive: {fileID: 11400000, guid: 8cc14eb9eb227c346bf1b6ffebd284f5, type: 2}
   - foodItem: {fileID: 11400000, guid: cb86999ceee886045995211269833873, type: 2}
     statPassive: {fileID: 11400000, guid: 545d2474311aed44c886fd86c0149dd6, type: 2}
   - foodItem: {fileID: 11400000, guid: 3d7d28f06753912418f92a4d41fa03bb, type: 2}
@@ -834,11 +845,54 @@ MonoBehaviour:
     statPassive: {fileID: 11400000, guid: 56e3d74a78bac0d4aa1a5256a873b92d, type: 2}
   - foodItem: {fileID: 11400000, guid: d1561ec9a8fee0a4f8531dde49e0aec6, type: 2}
     statPassive: {fileID: 11400000, guid: 0dea2a52d67d28746a99f584e441769d, type: 2}
-  - foodItem: {fileID: 11400000, guid: d1561ec9a8fee0a4f8531dde49e0aec6, type: 2}
-    statPassive: {fileID: 11400000, guid: 0dea2a52d67d28746a99f584e441769d, type: 2}
-  foodKillBoosts: []
-  foodDebuffBoosts: []
-  foodUltBoosts: []
+  - foodItem: {fileID: 11400000, guid: fe52e2e7d82849d45a8d35d39321bb45, type: 2}
+    statPassive: {fileID: 11400000, guid: 5fb637c04593fcb4a8c4f61669a76043, type: 2}
+  - foodItem: {fileID: 11400000, guid: 737043f101382d8408b55c350176ffec, type: 2}
+    statPassive: {fileID: 11400000, guid: 88888888888888888888888888888812, type: 2}
+  - foodItem: {fileID: 11400000, guid: 9d8e4f936b9ca9c49bb27f4f495cfbc4, type: 2}
+    statPassive: {fileID: 11400000, guid: 88888888888888888888888888888813, type: 2}
+  - foodItem: {fileID: 11400000, guid: 1941ccfbeabd68a44ae3bd3fb696280c, type: 2}
+    statPassive: {fileID: 11400000, guid: 88888888888888888888888888888814, type: 2}
+  - foodItem: {fileID: 11400000, guid: 2016b70759c3e2b4fb0a8112e916e6c7, type: 2}
+    statPassive: {fileID: 11400000, guid: 1a57b747b3896414e807f2b551bd44f6, type: 2}
+  foodKillBoosts:
+  - foodItem: {fileID: 11400000, guid: a1a1a1a1a1a1a1a1a1a1a1a1a1a1a101, type: 2}
+    killPassive: {fileID: 11400000, guid: a1a1a1a1a1a1a1a1a1a1a1a1a1a1a111, type: 2}
+  - foodItem: {fileID: 11400000, guid: a1a1a1a1a1a1a1a1a1a1a1a1a1a1a102, type: 2}
+    killPassive: {fileID: 11400000, guid: a1a1a1a1a1a1a1a1a1a1a1a1a1a1a112, type: 2}
+  - foodItem: {fileID: 11400000, guid: a1a1a1a1a1a1a1a1a1a1a1a1a1a1a103, type: 2}
+    killPassive: {fileID: 11400000, guid: a1a1a1a1a1a1a1a1a1a1a1a1a1a1a113, type: 2}
+  - foodItem: {fileID: 11400000, guid: a1a1a1a1a1a1a1a1a1a1a1a1a1a1a104, type: 2}
+    killPassive: {fileID: 11400000, guid: a1a1a1a1a1a1a1a1a1a1a1a1a1a1a114, type: 2}
+  - foodItem: {fileID: 11400000, guid: c3c3c3c3c3c3c3c3c3c3c3c3c3c3c301, type: 2}
+    killPassive: {fileID: 11400000, guid: c3c3c3c3c3c3c3c3c3c3c3c3c3c3c311, type: 2}
+  - foodItem: {fileID: 11400000, guid: c3c3c3c3c3c3c3c3c3c3c3c3c3c3c302, type: 2}
+    killPassive: {fileID: 11400000, guid: c3c3c3c3c3c3c3c3c3c3c3c3c3c3c312, type: 2}
+  - foodItem: {fileID: 11400000, guid: c3c3c3c3c3c3c3c3c3c3c3c3c3c3c303, type: 2}
+    killPassive: {fileID: 11400000, guid: c3c3c3c3c3c3c3c3c3c3c3c3c3c3c313, type: 2}
+  - foodItem: {fileID: 11400000, guid: c3c3c3c3c3c3c3c3c3c3c3c3c3c3c304, type: 2}
+    killPassive: {fileID: 11400000, guid: c3c3c3c3c3c3c3c3c3c3c3c3c3c3c314, type: 2}
+  foodDebuffBoosts:
+  - foodItem: {fileID: 11400000, guid: d4d4d4d4d4d4d4d4d4d4d4d4d4d4d401, type: 2}
+    debuffPassive: {fileID: 11400000, guid: d4d4d4d4d4d4d4d4d4d4d4d4d4d4d411, type: 2}
+  - foodItem: {fileID: 11400000, guid: d4d4d4d4d4d4d4d4d4d4d4d4d4d4d402, type: 2}
+    debuffPassive: {fileID: 11400000, guid: d4d4d4d4d4d4d4d4d4d4d4d4d4d4d412, type: 2}
+  - foodItem: {fileID: 11400000, guid: d4d4d4d4d4d4d4d4d4d4d4d4d4d4d403, type: 2}
+    debuffPassive: {fileID: 11400000, guid: d4d4d4d4d4d4d4d4d4d4d4d4d4d4d413, type: 2}
+  - foodItem: {fileID: 11400000, guid: d4d4d4d4d4d4d4d4d4d4d4d4d4d4d404, type: 2}
+    debuffPassive: {fileID: 11400000, guid: d4d4d4d4d4d4d4d4d4d4d4d4d4d4d414, type: 2}
+  - foodItem: {fileID: 11400000, guid: e5e5e5e5e5e5e5e5e5e5e5e5e5e5e501, type: 2}
+    debuffPassive: {fileID: 11400000, guid: e5e5e5e5e5e5e5e5e5e5e5e5e5e5e511, type: 2}
+  - foodItem: {fileID: 11400000, guid: e5e5e5e5e5e5e5e5e5e5e5e5e5e5e502, type: 2}
+    debuffPassive: {fileID: 11400000, guid: e5e5e5e5e5e5e5e5e5e5e5e5e5e5e512, type: 2}
+  - foodItem: {fileID: 11400000, guid: e5e5e5e5e5e5e5e5e5e5e5e5e5e5e503, type: 2}
+    debuffPassive: {fileID: 11400000, guid: e5e5e5e5e5e5e5e5e5e5e5e5e5e5e513, type: 2}
+  - foodItem: {fileID: 11400000, guid: e5e5e5e5e5e5e5e5e5e5e5e5e5e5e504, type: 2}
+    debuffPassive: {fileID: 11400000, guid: e5e5e5e5e5e5e5e5e5e5e5e5e5e5e514, type: 2}
+  foodUltBoosts:
+  - foodItem: {fileID: 11400000, guid: 2016b70759c3e2b4fb0a8112e916e6c7, type: 2}
+    ultFood: {fileID: 11400000, guid: 51de0e414e86ae545854577ba6cfeedd, type: 2}
+  eatCooldownSeconds: 0.25
 --- !u!114 &6303557501991920254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -888,10 +942,10 @@ NavMeshAgent:
   m_AngularSpeed: 120
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
-  m_Height: 2.91
-  m_BaseOffset: 1
+  m_Height: 2.9
+  m_BaseOffset: 1.1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &6664376055450238537
@@ -963,6 +1017,65 @@ MonoBehaviour:
   trackedTypes:
   - {fileID: 0}
   amounts: 
+--- !u!114 &8559787390676633119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3994294546509096518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06c342be6be145cb7c6b5f45f8ed3202, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RunStatePlayerLink
+  passiveManager: {fileID: 4625043910456940208}
+  inventory: {fileID: 7831356397626104457}
+  currencyTracker: {fileID: 4841218838983478207}
+--- !u!114 &6841626968158633242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3994294546509096518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f652e5fbafcc8244b7c684d6be2b642, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitSFXTrigger
+  comboRunner: {fileID: 4228190003025015144}
+  hitbox: {fileID: 6278440642534877205}
+  hitSound: {fileID: 11400000, guid: 1c1b047a7e4a7499cb4d5fa8270dcb60, type: 2}
+--- !u!114 &980420930665963025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3994294546509096518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fed95d7447816404d85b70212597b652, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ComboSFXTrigger
+  comboRunner: {fileID: 4228190003025015144}
+  swingSound: {fileID: 11400000, guid: 8448ed716f6b9408da26d00342000bfd, type: 2}
+  comboFinishSound: {fileID: 11400000, guid: 003a857f95c674ff4a7656641c91ab2d, type: 2}
+--- !u!114 &3106192970403256635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3994294546509096518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d66ce546bf166f4ba80cd59c62354f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CurrencyPickupSFXTrigger
+  currencyTracker: {fileID: 4841218838983478207}
+  pickupSound: {fileID: 11400000, guid: bf15627c403fe4b0cbd6dc27cc51ae80, type: 2}
 --- !u!1 &6025672283703365149
 GameObject:
   m_ObjectHideFlags: 0
@@ -1310,7 +1423,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7116853150868261018, guid: 76fb44b93627b0f42ad7a0e36cac079d, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7116853150868261018, guid: 76fb44b93627b0f42ad7a0e36cac079d, type: 3}
       propertyPath: m_Center.x
@@ -1348,7 +1461,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2597378129470888011}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d850c9c729e6074e902b3629de611df, type: 3}
   m_Name: 
@@ -1357,7 +1470,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   boxCollider: {fileID: 0}
-  attackerStats: {fileID: 0}
+  attackerStats: {fileID: 8814090635867657241}
 --- !u!4 &3404841204398637809 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3830919163000477356, guid: 76fb44b93627b0f42ad7a0e36cac079d, type: 3}

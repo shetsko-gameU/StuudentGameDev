@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee6161da4b5a4604584d3c4fbb0c687f, type: 3}
+  m_Name: Steak and mushrooms
+  m_EditorClassIdentifier: Assembly-CSharp::RarityRecipeSO
+  primaryFamily: Wolf
+  secondaryFamily: Mushroom
+  commonResult: {fileID: 11400000, guid: e9b0d2b4d3e39b949b881dcb6775568e, type: 2}
+  rareResult: {fileID: 11400000, guid: fb773a123b5e25c44b28d23e662f9388, type: 2}
+  epicResult: {fileID: 11400000, guid: 973ad7f005a5f974ca0fa68cb908a30d, type: 2}
+  legendaryResult: {fileID: 11400000, guid: dceaca65fc12b4e419c928ae1003ca99, type: 2}

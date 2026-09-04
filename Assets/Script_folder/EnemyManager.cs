@@ -25,11 +25,23 @@ public class EnemyManager : MonoBehaviour
     /// other systems (e.g. RoomExit) react without EnemyManager needing to know what they do.</summary>
     public event System.Action OnAllWavesCleared;
 
+    /// <summary>Fires once, the moment the player first triggers this room (Active flips false → true).
+    /// Lets other systems (e.g. RoomMusicTrigger) react without EnemyManager needing to know what they do.</summary>
+    public event System.Action OnCombatStarted;
+
     private bool allWavesCleared;
 
     private void Awake()
     {
-        
+        if (PlayerStats == null)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+                PlayerStats = player.GetComponent<StatsManager>();
+        }
+
+        if (PlayerStats == null)
+            Debug.LogError($"EnemyManager on '{name}': No PlayerStats found — tag the Player \"Player\" (with a StatsManager on it) or assign PlayerStats manually.");
 
         if (EnemyTypes == null || EnemyTypes.Length == 0)
             Debug.LogError($"EnemyManager on '{name}': No EnemyTypes assigned.");
@@ -127,6 +139,9 @@ public class EnemyManager : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
+            if (!Active)
+                OnCombatStarted?.Invoke();
+
             Active = true;
         }
 
