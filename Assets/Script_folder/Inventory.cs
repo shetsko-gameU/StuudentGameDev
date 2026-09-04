@@ -13,6 +13,10 @@ public class Inventory : MonoBehaviour
 
     public GameObject inventory;
 
+    /// <summary>Fires after a world ingredient pickup is successfully added to the inventory.
+    /// Used by IngredientPickupSFXTrigger — does NOT fire for AddSO (crafted results).</summary>
+    public event System.Action<InventoryItem> OnIngredientPickedUp;
+
     // ------------------------------------------------------------------ Picking up items
 
     /// <summary>
@@ -37,6 +41,7 @@ public class Inventory : MonoBehaviour
 
         InventorySlots.Add(newItem);
         RefreshUI();
+        OnIngredientPickedUp?.Invoke(newItem);
         return true;
     }
 
