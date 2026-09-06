@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90fe3a28ac28a674d96a2fcbc65fbde5, type: 3}
-  m_Name: Hit Sound
+  m_Name: Sword Hit Sound
   m_EditorClassIdentifier: Assembly-CSharp::SoundSO
   clips:
-  - {fileID: 8300000, guid: bcc7ddf4737f88149978106731dee93a, type: 3}
+  - {fileID: 8300000, guid: 19b228a95c4c78f40ac5cb82295bc307, type: 3}
+  - {fileID: 8300000, guid: 90e6785ec7814cf4a9fa69ea7faaecdb, type: 3}
   volume: 1
   pitchMin: 1
   pitchMax: 1

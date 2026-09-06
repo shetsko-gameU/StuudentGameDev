@@ -1337,6 +1337,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3994294546509096518, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1617440511}
+    - targetCorrespondingSourceObject: {fileID: 3994294546509096518, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1617440533}
   m_SourcePrefab: {fileID: 100100000, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
 --- !u!114 &1617440509 stripped
 MonoBehaviour:
@@ -1382,7 +1385,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CurrencyPickupSFXTrigger
   currencyTracker: {fileID: 1617440509}
-  pickupSound: {fileID: 11400000, guid: d2be25ba802d84d5a9b7794f1c3fb206, type: 2}
+  pickupSound: {fileID: 11400000, guid: b0896ccb8d4c740fcb01451c9dcfa494, type: 2}
 --- !u!114 &1617440513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1398,6 +1401,20 @@ MonoBehaviour:
   comboRunner: {fileID: 1198869011}
   swingSound: {fileID: 11400000, guid: 8448ed716f6b9408da26d00342000bfd, type: 2}
   comboFinishSound: {fileID: 11400000, guid: 003a857f95c674ff4a7656641c91ab2d, type: 2}
+--- !u!114 &1617440533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1617440510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc9c3eb00caf2734a907c441cb361430, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IngredientPickupSFXTrigger
+  inventory: {fileID: 0}
+  pickupSound: {fileID: 11400000, guid: d2be25ba802d84d5a9b7794f1c3fb206, type: 2}
 --- !u!1 &1749649774
 GameObject:
   m_ObjectHideFlags: 0
