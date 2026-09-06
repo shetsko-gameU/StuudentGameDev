@@ -122,8 +122,9 @@ GameObject:
   - component: {fileID: 4841218838983478207}
   - component: {fileID: 8559787390676633119}
   - component: {fileID: 6841626968158633242}
-  - component: {fileID: 980420930665963025}
   - component: {fileID: 3106192970403256635}
+  - component: {fileID: 5636082200784174450}
+  - component: {fileID: 6666595988948270429}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1047,21 +1048,6 @@ MonoBehaviour:
   comboRunner: {fileID: 4228190003025015144}
   hitbox: {fileID: 6278440642534877205}
   hitSound: {fileID: 11400000, guid: 1c1b047a7e4a7499cb4d5fa8270dcb60, type: 2}
---- !u!114 &980420930665963025
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3994294546509096518}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fed95d7447816404d85b70212597b652, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ComboSFXTrigger
-  comboRunner: {fileID: 4228190003025015144}
-  swingSound: {fileID: 11400000, guid: 8448ed716f6b9408da26d00342000bfd, type: 2}
-  comboFinishSound: {fileID: 11400000, guid: 003a857f95c674ff4a7656641c91ab2d, type: 2}
 --- !u!114 &3106192970403256635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1076,6 +1062,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CurrencyPickupSFXTrigger
   currencyTracker: {fileID: 4841218838983478207}
   pickupSound: {fileID: 11400000, guid: bf15627c403fe4b0cbd6dc27cc51ae80, type: 2}
+--- !u!114 &5636082200784174450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3994294546509096518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fed95d7447816404d85b70212597b652, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ComboSFXTrigger
+  comboRunner: {fileID: 4228190003025015144}
+  swingSound: {fileID: 11400000, guid: 8448ed716f6b9408da26d00342000bfd, type: 2}
+  comboFinishSound: {fileID: 11400000, guid: 003a857f95c674ff4a7656641c91ab2d, type: 2}
+--- !u!114 &6666595988948270429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3994294546509096518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc9c3eb00caf2734a907c441cb361430, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IngredientPickupSFXTrigger
+  inventory: {fileID: 0}
+  pickupSound: {fileID: 11400000, guid: d2be25ba802d84d5a9b7794f1c3fb206, type: 2}
 --- !u!1 &6025672283703365149
 GameObject:
   m_ObjectHideFlags: 0
