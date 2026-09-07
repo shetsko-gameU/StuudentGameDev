@@ -24,6 +24,19 @@ public class AttackHitbox : MonoBehaviour
     /// </summary>
     public StatsManager attackerStats;
 
+    [Header("Ranged (optional)")]
+    [Tooltip("If true, FireHit/SetActive(true) spawns a projectile instead of enabling the melee trigger collider.")]
+    public bool isRanged;
+
+    [Tooltip("Projectile prefab to spawn — must have a WizardProjectiles component.")]
+    public GameObject projectilePrefab;
+
+    [Tooltip("Where the projectile spawns from and which way it's aimed (e.g. the wand tip). Falls back to this transform if left empty.")]
+    public Transform muzzlePoint;
+
+    [Tooltip("Speed handed to the spawned projectile.")]
+    public float projectileSpeed = 20f;
+
     /// <summary>Fires with the enemy's StatsManager whenever a hit actually lands (not dodged).
     /// Used by DebuffOnHitTrigger to apply enemy-targeted debuffs only on confirmed hits.</summary>
     public event System.Action<StatsManager> OnEnemyHit;
@@ -74,6 +87,13 @@ public class AttackHitbox : MonoBehaviour
     public void FireHit(float damage)
     {
         currentDamage = damage;
+
+        if (isRanged)
+        {
+            FireProjectile();
+            return;
+        }
+
         boxCollider.enabled = true;
 
         Invoke(nameof(DisableCollider), Time.fixedDeltaTime);
@@ -88,12 +108,47 @@ public class AttackHitbox : MonoBehaviour
     /// </summary>
     public void SetActive(bool active)
     {
+        if (isRanged)
+        {
+            if (active)
+                FireProjectile();
+            return;
+        }
+
         boxCollider.enabled = active;
     }
 
     private void DisableCollider()
     {
         boxCollider.enabled = false;
+    }
+
+    // ------------------------------------------------------------------ Ranged
+
+    private void FireProjectile()
+    {
+        if (projectilePrefab == null)
+        {
+            Debug.LogWarning($"AttackHitbox on '{name}': isRanged is set but no projectilePrefab assigned.");
+            return;
+        }
+
+        Transform spawnPoint = muzzlePoint != null ? muzzlePoint : transform;
+        GameObject projectileObj = Instantiate(projectilePrefab, spawnPoint.position, spawnPoint.rotation);
+
+        WizardProjectiles projectile = projectileObj.GetComponent<WizardProjectiles>();
+        if (projectile == null)
+        {
+            Debug.LogWarning($"AttackHitbox on '{name}': projectilePrefab has no WizardProjectiles component.");
+            return;
+        }
+
+        projectile.Initialize(currentDamage, attackerStats, enemyLayer, projectileSpeed, HandleProjectileHit);
+    }
+
+    private void HandleProjectileHit(StatsManager enemyHit)
+    {
+        OnEnemyHit?.Invoke(enemyHit);
     }
 
     // ------------------------------------------------------------------ Collision
