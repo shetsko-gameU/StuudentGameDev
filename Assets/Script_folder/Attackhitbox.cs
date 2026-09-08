@@ -134,7 +134,15 @@ public class AttackHitbox : MonoBehaviour
         }
 
         Transform spawnPoint = muzzlePoint != null ? muzzlePoint : transform;
-        GameObject projectileObj = Instantiate(projectilePrefab, spawnPoint.position, spawnPoint.rotation);
+
+        // Use the attacker's facing direction, not spawnPoint.rotation — the weapon mesh's own
+        // rotation is tuned for how it looks mid-swing (e.g. the sword's -90* tilt), which has
+        // nothing to do with which way the character is actually facing.
+        Quaternion launchRotation = attackerStats != null
+            ? Quaternion.LookRotation(attackerStats.transform.forward, Vector3.up)
+            : spawnPoint.rotation;
+
+        GameObject projectileObj = Instantiate(projectilePrefab, spawnPoint.position, launchRotation);
 
         WizardProjectiles projectile = projectileObj.GetComponent<WizardProjectiles>();
         if (projectile == null)
