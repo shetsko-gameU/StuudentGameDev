@@ -11,6 +11,14 @@
 ///
 /// The actual stat values come from the StatsModifierSO you assign to statTemplate.
 /// Rarity is read from that same SO — you don't set it here.
+///
+/// Setup:
+///   1. Create via Assets → Create → Game → Food → Food Stat Passive.
+///   2. Assign statTemplate (a StatsModifierSO with the stat lines to grant) and,
+///      optionally, a passiveFamily string so higher-rarity versions replace lower ones.
+///   3. Link it to a food item through PlayerConsume's foodStatBoosts list (or drop it in
+///      PassiveManager.startingFoodPassives... no — stat boosts specifically aren't a
+///      "starting" list; add via PassiveManager.AddStatBoostPassive for testing).
 /// </summary>
 [CreateAssetMenu(menuName = "Game/Food/Food Stat Passive")]
 public class FoodStatPassiveSO : ScriptableObject

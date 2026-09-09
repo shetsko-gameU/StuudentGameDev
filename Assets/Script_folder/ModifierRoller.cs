@@ -1,6 +1,16 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+/// <summary>
+/// Static helper that turns a StatsModifierSO's min/max roll lines into a concrete
+/// RolledModifierInstance — rolling each line's value, applying its rarity multiplier and
+/// step rounding, and sorting stackable vs. non-stackable lines into separate buckets for
+/// StatsManager. Called by PassiveManager, PlayerConsume, KillPassiveTrigger, and
+/// DebuffOnHitTrigger anywhere a StatsModifierSO template needs to become a live instance.
+///
+/// Setup: nothing to configure — call ModifierRoller.Roll(yourStatsModifierSO) directly,
+/// no instance or GameObject needed.
+/// </summary>
 public static class ModifierRoller
 {
     public static RolledModifierInstance Roll(StatsModifierSO so)

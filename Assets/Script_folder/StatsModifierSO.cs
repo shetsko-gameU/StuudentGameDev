@@ -45,6 +45,23 @@ public struct StatRollLine
     public int maxStacks;
 }
 
+/// <summary>
+/// A template for a stat modifier — a set of StatRollLine entries, each rolled independently
+/// at runtime by ModifierRoller.Roll into a RolledModifierInstance. Used as the "what stats
+/// does this grant" building block for passives (PassiveEffectSO.modifierToApply,
+/// OnHitPassiveSO/KillPassiveSO/DebuffOnHitPassiveSO's buff/debuff templates), food stat
+/// boosts (FoodStatPassiveSO.statTemplate), and crafted items (CraftRecipeSO/RarityRecipeSO
+/// results — stats aren't rolled until the result is eaten).
+///
+/// Setup:
+///   1. Create via Assets → Create → Game → Stats → Stats Modifier (Roguelite).
+///   2. Add one or more StatRollLine entries under lines — each needs a stat, a mode (Flat
+///      or Percent), a min/max roll range, and canStack/maxStacks if it should stack.
+///   3. Set rarity (affects the roll via ModifierRoller's rarity multiplier) and, if this
+///      SO is meant to be combined via crafting, a craftFamily string.
+///   4. Assign this asset wherever a system asks for a StatsModifierSO — it's the shared
+///      currency for "what does this thing actually do to stats."
+/// </summary>
 [CreateAssetMenu(fileName = "StatsModifier", menuName = "Game/Stats/Stats Modifier (Roguelite)")]
 public class StatsModifierSO : ScriptableObject
 {

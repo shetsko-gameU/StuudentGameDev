@@ -11,7 +11,14 @@ using UnityEngine;
 /// something" — but as a direct player-cast burst instead of a spawned entity that tracks
 /// the nearest enemy on its own. Origin and facing direction are captured once at the
 /// moment of casting and held for the growDuration windup, then resolved as a single
-/// damage cone — not a repeating tick like RoastedSlimeAbilitySO's rain.
+/// damage cone, not a repeating tick like RoastedSlimeAbilitySO's rain.
+///
+/// Setup:
+///   1. Create via Assets, Create, Game, Abilities, Dryad Delights.
+///   2. Fill in growDuration/slamRange/slamAngle/slamDamage/enemyLayer, and optionally
+///      growEffect/slamEffect VFX prefabs.
+///   3. Wrap it in a UltFoodSO (ability field) so it can be granted by eating food, or
+///      drag it directly into AbilityRunner.secondaryAbility.ability for testing.
 /// </summary>
 [CreateAssetMenu(menuName = "Game/Abilities/Dryad Delights")]
 public class DryadDelightsAbilitySO : AbilitySO

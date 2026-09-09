@@ -2,6 +2,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Holds the player's ingredient slots and keeps the slot UI (RawImages, not Images) in
+/// sync. Stats are rolled lazily — ConsumeItem rolls via ModifierRoller at the moment of
+/// eating, not at pickup. Removal (ConsumeItem/RemoveSO) auto-compacts the list, so slot
+/// indices are positional, not identity-based — see CraftSystem.cs's notes on why that
+/// matters for the hardcoded eat hotkeys and DraggableInventorySlotUI.slotIndex.
+///
+/// Setup:
+///   1. Add to the Player.
+///   2. Assign inventory to the inventory panel's root GameObject (its child RawImages
+///      are collected into UISlots automatically on Awake).
+///   3. World pickups (ModifierPickup) and crafting (CraftSystem) call into this directly —
+///      no further wiring needed on this component itself.
+/// </summary>
 public class Inventory : MonoBehaviour
 {
     public List<InventoryItem> InventorySlots = new List<InventoryItem>();

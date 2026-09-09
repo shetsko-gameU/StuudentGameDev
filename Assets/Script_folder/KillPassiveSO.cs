@@ -9,6 +9,14 @@ using UnityEngine;
 /// Typical use: "gain a stack of +Attack for each enemy killed" — set buffTemplate's
 /// stat line to canStack = true with a maxStacks cap, and leave durationSeconds at 0
 /// so stacks last the rest of the run (KillPassiveTrigger does not override duration).
+///
+/// Setup:
+///   1. Create via Assets → Create → Game → Food → Food Passive (On Kill).
+///   2. Assign buffTemplate and, optionally, SpawnEntity.
+///   3. Link it to a food item through PlayerConsume's foodKillBoosts list (or drop it in
+///      PassiveManager.startingKillPassives for testing).
+///   4. Requires KillPassiveTrigger to be present on the player alongside StatsManager —
+///      that's what actually fires this on every confirmed player kill.
 /// </summary>
 [CreateAssetMenu(menuName = "Game/Food/Food Passive (On Kill)")]
 public class KillPassiveSO : ScriptableObject

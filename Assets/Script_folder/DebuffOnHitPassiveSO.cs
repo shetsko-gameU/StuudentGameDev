@@ -11,6 +11,15 @@ using UnityEngine;
 /// durationSeconds = 0 would make it permanent, which is almost never what a debuff wants.
 /// canStack should normally stay OFF — StatsManager now refreshes a non-stacking debuff's
 /// timer on repeated hits instead of letting it stack in magnitude.
+///
+/// Setup:
+///   1. Create via Assets → Create → Game → Food → Food Passive (Debuff On Hit).
+///   2. Assign debuffTemplate (negative stat lines + a positive durationSeconds) and set
+///      procChance; optionally assign SpawnEntity for a status VFX/marker on the enemy.
+///   3. Link it to a food item through PlayerConsume's foodDebuffBoosts list (or drop it
+///      in PassiveManager.startingDebuffPassives for testing).
+///   4. Requires DebuffOnHitTrigger to be present on the player alongside ComboRunner —
+///      that's what actually rolls procChance and applies debuffTemplate on a confirmed hit.
 /// </summary>
 [CreateAssetMenu(menuName = "Game/Food/Food Passive (Debuff On Hit)")]
 public class DebuffOnHitPassiveSO : ScriptableObject

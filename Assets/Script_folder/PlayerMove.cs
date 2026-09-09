@@ -2,6 +2,27 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// NavMeshAgent-driven movement: drives agent.Move() every frame (not SetDestination/
+/// pathing) with agent.updateRotation off, since this script rotates the model manually
+/// toward movement direction instead. The Rigidbody is forced kinematic in code — kept
+/// only so existing trigger/collision callbacks (pickups, the CraftPot zone) still fire.
+///
+/// Also owns the ledge-fall handoff: raycasts ahead for a drop deeper than minFallHeight,
+/// disables the agent, and lets gravity take over (IsFalling) until landing resamples back
+/// onto the NavMesh. See CLAUDE.md's "Ledge falling" section for the full mechanism and the
+/// several movement-feel gotchas (agent.speed/acceleration sync, isGround mask coverage,
+/// haltSpeed tuning) that are easy to reintroduce if this script is touched carelessly.
+///
+/// Setup:
+///   1. Requires a NavMeshAgent (auto-required) and a baked NavMesh under the player.
+///   2. Assign stats/playerModel/agent/rb/animator in the Inspector (or leave stats/agent/
+///      rb empty — they auto-find on Start).
+///   3. Set isGround to every walkable layer (not just flat floor) — an incomplete mask
+///      makes ramps misread as ledges.
+///   4. Tune acceleration/haltSpeed/airControl/minFallHeight to taste; see CLAUDE.md for
+///      what "feels sluggish" or "ice-skating" symptoms map back to.
+/// </summary>
 [RequireComponent(typeof(NavMeshAgent))]
 public class PlayerMove : MonoBehaviour
 {

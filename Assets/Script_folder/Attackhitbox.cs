@@ -6,8 +6,14 @@ using UnityEngine;
 ///
 /// Can be triggered two ways:
 ///   1. ComboRunner.FireHit() � enables for one frame automatically.
-///   2. AnimationEventRelay � enables/disables exactly when animation events fire.
+///   2. AnimationEventRelay - enables/disables exactly when animation events fire.
 ///      Use option 2 for precise hit timing synced to your animation frames.
+///
+/// Setup (ranged, optional): tick isRanged, drag a projectile prefab (needs a
+/// WizardProjectiles component) into projectilePrefab, and optionally assign muzzlePoint
+/// to wherever it should spawn from (falls back to this transform if left empty). With
+/// isRanged on, both trigger methods above spawn a projectile instead of enabling the
+/// melee collider - see WizardProjectiles.cs for the projectile side of this.
 /// </summary>
 [RequireComponent(typeof(BoxCollider))]
 public class AttackHitbox : MonoBehaviour

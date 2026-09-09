@@ -15,6 +15,12 @@ using UnityEngine;
 ///
 /// This means eating food dynamically unlocks combo effects.
 /// No changes needed here when new food passives are added.
+///
+/// Setup:
+///   1. Add to the player alongside ComboRunner and PassiveManager.
+///   2. Leave comboRunner/hitbox/passiveManager/stats empty — all auto-find on Awake.
+///   3. No fields to fill in here — it reacts to whatever OnHitPassiveSOs are currently
+///      active in PassiveManager, gated by their own triggerOnFirstHit/triggerOnLastHit.
 /// </summary>
 public class ComboPassiveTrigger : MonoBehaviour
 {

@@ -12,8 +12,15 @@ using UnityEngine;
 /// Rarity note: same pattern as SnaghettiAbilitySO — this script has no built-in rarity
 /// awareness. To build the GDD's Legendary tier ("can kill all enemies, not including
 /// boss"), create a SEPARATE RoastedSlimeAbilitySO asset for Legendary with
-/// guaranteedKillNonBoss ticked on, and separate lower-tier assets with it left off —
+/// guaranteedKillNonBoss ticked on, and separate lower-tier assets with it left off,
 /// each wrapped by its own UltFoodSO, same as Snaghetti's per-tier assets.
+///
+/// Setup:
+///   1. Create via Assets, Create, Game, Abilities, Roasted Whole Slime.
+///   2. Fill in radius/enemyLayer/rainDuration/tickInterval/damagePerTick, and optionally
+///      rainEffect. Tick guaranteedKillNonBoss only on a Legendary-tier asset.
+///   3. Wrap it in a UltFoodSO (ability field) so it can be granted by eating food, or
+///      drag it directly into AbilityRunner.secondaryAbility.ability for testing.
 /// </summary>
 [CreateAssetMenu(menuName = "Game/Abilities/Roasted Whole Slime")]
 public class RoastedSlimeAbilitySO : AbilitySO

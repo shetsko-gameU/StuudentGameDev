@@ -2,6 +2,21 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// The runtime stat layer attached to every entity (player and enemies alike). Loads base
+/// values from a BaseStatsSO on Awake, then layers RolledModifierInstance buffs/debuffs on
+/// top — final stats (Attack, Defense, etc.) are recalculated from base + all active
+/// modifiers whenever one is added, removed, or expires. Also owns the damage/health
+/// pipeline (dodge → defense mitigation → HealthSteal → death) via TakeDamage.
+///
+/// Setup:
+///   1. Add to any player/enemy GameObject.
+///   2. Assign a BaseStatsSO to the baseStats field in the Inspector.
+///   3. Everything else (AttackHitbox, PassiveManager, ComboRunner, LootDropper, etc.)
+///      finds this component via GetComponent and reacts to its public events
+///      (OnHealthChanged, OnDamaged, OnDied, the static OnAnyDied) — no other wiring needed
+///      on this component itself.
+/// </summary>
 public class StatsManager : MonoBehaviour
 {
     [Header("Source (ScriptableObject)")]

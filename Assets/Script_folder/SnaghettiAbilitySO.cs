@@ -8,6 +8,12 @@ using UnityEngine;
 /// and removes the modifier when buffTemplate.durationSeconds runs out, so Activate() is a
 /// single roll-and-apply. Cooldown between uses is handled by AbilityRunner via the
 /// inherited cooldownSeconds field, same as every other ability.
+///
+/// Setup:
+///   1. Create via Assets, Create, Game, Abilities, Snaghetti.
+///   2. Assign buffTemplate (Attack/MoveSpeed lines with a positive durationSeconds).
+///   3. Wrap it in a UltFoodSO (ability field) so it can be granted by eating food, or
+///      drag it directly into AbilityRunner.secondaryAbility.ability for testing.
 /// </summary>
 [CreateAssetMenu(menuName = "Game/Abilities/Snaghetti")]
 public class SnaghettiAbilitySO : AbilitySO

@@ -1,6 +1,22 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+/// <summary>
+/// Per-room enemy wave spawner. Sits inactive (Active = false) until the player enters its
+/// trigger collider, then spawns from EnemyTypes at random SpawnLocations, waiting
+/// EnemiesPerWave[wave] kills before advancing to the next wave. Fires OnCombatStarted the
+/// moment the room is triggered and OnAllWavesCleared once the last wave is empty - other
+/// systems (RoomExit, RoomMusicTrigger) react to those events without EnemyManager needing
+/// to know what they do.
+///
+/// Setup:
+///   1. Place a trigger-collider GameObject in the room; add this component.
+///   2. Assign EnemyTypes (prefabs with an EnemyBase component), SpawnLocations (empty
+///      Transforms in the room), and EnemiesPerWave (one int per wave).
+///   3. Set SpawnTimerMax to control the delay between spawns within a wave.
+///   4. Leave PlayerStats empty - it auto-finds the "Player"-tagged GameObject's
+///      StatsManager on Awake, used to hand each spawned enemy a reference for damage calc.
+/// </summary>
 public class EnemyManager : MonoBehaviour
 {
     public List <GameObject> SpawnLocations = new List<GameObject>();

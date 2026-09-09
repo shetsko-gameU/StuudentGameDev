@@ -1,5 +1,16 @@
 using UnityEngine;
 
+/// <summary>
+/// An enemy's drop table, rolled by LootDropper on death. Three entry types: guaranteed
+/// (always drops, no chance field), random (independent dropChance roll per entry), and
+/// currency (spawns a CurrencyPickup prefab with a runtime-rolled amount between min/max).
+///
+/// Setup:
+///   1. Create via Assets, Create, Game, Loot, Loot Table.
+///   2. Fill in guaranteedDrops/randomDrops with prefabs that have a ModifierPickup
+///      component, and currencyDrops with prefabs that have a CurrencyPickup component.
+///   3. Drag this asset into LootDropper.lootTable on the enemy prefab.
+/// </summary>
 [CreateAssetMenu(menuName = "Game/Loot/Loot Table")]
 public class LootTableSO : ScriptableObject
 {

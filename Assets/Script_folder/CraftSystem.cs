@@ -1,7 +1,23 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-
+/// <summary>
+/// Owns the craft UI and menu open/close (gated by proximity to a "CraftPot"-tagged
+/// trigger zone). Matches staged primary/secondary ingredients against recipes in this
+/// order: exact CraftRecipeSO first, then family-based RarityRecipeSO — an exact match
+/// short-circuits before the rarity recipe is even checked. Craft() verifies both slots'
+/// ingredients are still physically present in Inventory (a count check, so the same SO
+/// staged in both slots requires two distinct copies) before consuming them, closing a
+/// dupe/delete exploit where eating a staged item via hotkey happens before pressing Craft.
+///
+/// Setup:
+///   1. Add to the crafting UI's root GameObject, near a "CraftPot"-tagged trigger zone
+///      the player walks into.
+///   2. Assign CraftingMenu (the panel), primaryUI/secondaryUI (CraftDropSlotUI instances),
+///      resultSlotImage, and playerInventory.
+///   3. Populate recipes (CraftRecipeSO[]) and rarityRecipes (RarityRecipeSO[]).
+///   4. Wire OpenCraftMenu to an Input System action (see Player.prefab's Craft binding).
+/// </summary>
 public class CraftSystem : MonoBehaviour
 {
     [Header("UI")]

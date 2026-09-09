@@ -6,6 +6,18 @@ public enum UnitType
     Enemy
 }
 
+/// <summary>
+/// The base stat block for one entity — loaded by StatsManager.LoadFromSO on Awake and
+/// never modified at runtime; all buffs/debuffs from RolledModifierInstance are layered
+/// on top of these values, not written back into the asset.
+///
+/// Setup:
+///   1. Project window → right-click → Create → Game → Stats → Unit Stats (or the
+///      Player Stats / Enemy Stats variants below, for organizing by unitType).
+///   2. Fill in maxHealth/attack/defense/moveSpeed/attackSpeed/dodgeChance/healthSteal.
+///   3. Drag the asset into StatsManager's baseStats field (Inspector-only — it's a
+///      private serialized field, not exposed as a public setter) on the entity's prefab.
+/// </summary>
 [CreateAssetMenu(fileName = "UnitStats", menuName = "Game/Stats/Unit Stats")]
 public class BaseStatsSO : ScriptableObject
 {

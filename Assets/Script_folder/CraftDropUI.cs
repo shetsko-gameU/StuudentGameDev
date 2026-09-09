@@ -2,6 +2,18 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+/// <summary>
+/// One craft slot (primary or secondary) in the crafting UI. Receiving a drop from a
+/// DraggableInventorySlotUI stages that item's StatsModifierSO into CraftSystem's
+/// matching slot field and visually marks the source inventory slot as staged
+/// (dragIconImage tinted to Inventory.removedColor, raycastTarget off) without actually
+/// removing it from Inventory — CraftSystem.Craft() consumes it for real later.
+///
+/// Setup:
+///   1. Add to each craft slot's RawImage GameObject in the crafting UI.
+///   2. Set slotType to Primary or Secondary.
+///   3. Assign slotImage — craftSystem auto-finds via FindAnyObjectByType.
+/// </summary>
 public class CraftDropSlotUI : MonoBehaviour, IDropHandler
 {
     public enum SlotType { Primary, Secondary }

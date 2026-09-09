@@ -34,7 +34,10 @@ public class ComboHitData
 ///   BasicSwordCombo
 ///     [0] Slash    1.0x damage  chain window 0.6s
 ///     [1] Slash    1.0x damage  chain window 0.6s
-///     [2] Finisher 2.0x damage  (last hit — no chain needed)
+///     [2] Finisher 2.0x damage  (last hit, no chain needed)
+///
+/// Setup: after creating the asset and filling in hits, drag it into ComboRunner.combo
+/// on the entity that should use it.
 /// </summary>
 [CreateAssetMenu(menuName = "Game/Combat/Combo")]
 public class ComboSO : ScriptableObject
