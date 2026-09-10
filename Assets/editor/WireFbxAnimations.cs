@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// Wires the real baked FBX takes (Idle/Walk/Attack/etc. under Assets/Fbx_exports) into the
@@ -355,33 +356,7 @@ public static class WireFbxAnimations
         GameObject root = PrefabUtility.LoadPrefabContents(prefabPath);
         try
         {
-            // Prefer the Renderer-bearing child (real Dirk / mage FBX). The warrior prefab
-            // also has an empty sibling named "mesh" (capsule collider host) — do NOT swap
-            // that one or the Animator ends up on a meshless object and bones never deform.
-            Transform visual = null;
-            Transform emptyMesh = null;
-            foreach (Transform child in root.transform)
-            {
-                if (child.GetComponentInChildren<Renderer>(true) != null)
-                {
-                    visual = child;
-                    break;
-                }
-            }
-
-            Transform namedMesh = root.transform.Find("mesh");
-            if (namedMesh != null && (visual == null || namedMesh != visual))
-                emptyMesh = namedMesh;
-
-            if (visual == null)
-                visual = namedMesh;
-
-            Vector3 localPos = visual != null ? visual.localPosition : Vector3.zero;
-            Quaternion localRot = visual != null ? visual.localRotation : Quaternion.identity;
-            Vector3 localScale = visual != null ? visual.localScale : Vector3.one;
-            int sibling = visual != null ? visual.GetSiblingIndex() : 0;
-
-            // Capture controller from ANY existing Animator (root or nested mesh) before destroy.
+            // Capture controller from ANY existing Animator before destroying visuals.
             RuntimeAnimatorController controller = fallbackController;
             foreach (Animator existing in root.GetComponentsInChildren<Animator>(true))
             {
@@ -392,23 +367,23 @@ public static class WireFbxAnimations
                 }
             }
 
-            if (visual != null)
-                Object.DestroyImmediate(visual.gameObject);
+            // Destroy EVERY nested visual (old Dirk / mage model / prior mesh FBX / empty
+            // capsule mesh). Leaving any one behind doubles the body in play mode.
+            DestroyAllVisualChildren(root.transform, keepGameplayVolumes: false);
 
-            // Drop the leftover empty "mesh" capsule so it cannot steal the name / confuse wiring.
-            if (emptyMesh != null)
-                Object.DestroyImmediate(emptyMesh.gameObject);
+            // Disable root capsule MeshRenderer if present — collider stays, mesh does not render.
+            MeshRenderer rootMr = root.GetComponent<MeshRenderer>();
+            if (rootMr != null)
+                rootMr.enabled = false;
 
             GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(fbxRoot, root.transform);
             instance.name = "mesh";
-            instance.transform.SetSiblingIndex(Mathf.Min(sibling, root.transform.childCount - 1));
-            instance.transform.localPosition = localPos;
-            instance.transform.localRotation = localRot;
-            instance.transform.localScale = localScale;
+            // Never copy Blender 100/-90 compensations from the old child onto Unity-ready exports.
+            instance.transform.localPosition = Vector3.zero;
+            instance.transform.localRotation = Quaternion.identity;
+            instance.transform.localScale = Vector3.one;
+            instance.transform.SetAsFirstSibling();
 
-            // Animator must live on the armature root (the FBX instance) with the Avatar
-            // from that FBX. Keeping it on Player with avatar=null is why FBX clips never
-            // deformed the mesh.
             foreach (Animator leftover in root.GetComponentsInChildren<Animator>(true))
             {
                 if (leftover.gameObject != instance)
@@ -423,7 +398,6 @@ public static class WireFbxAnimations
             modelAnimator.applyRootMotion = false;
             modelAnimator.runtimeAnimatorController = controller;
 
-            // Retarget script references that pointed at the old root Animator.
             RetargetAnimatorRefs(root, modelAnimator);
 
             PrefabUtility.SaveAsPrefabAsset(root, prefabPath);
@@ -544,32 +518,25 @@ public static class WireFbxAnimations
         GameObject root = PrefabUtility.LoadPrefabContents(prefabPath);
         try
         {
-            // Keep gameplay components on root; replace the first visual child that isn't a trigger volume.
-            Transform visual = null;
-            foreach (Transform child in root.transform)
-            {
-                string n = child.name;
-                if (n == "AggroRadius" || n == "StrikingDistance" || n == "AttackHitbox" || n == "Trigger Areas")
-                    continue;
-                if (child.GetComponentInChildren<Renderer>() != null)
-                {
-                    visual = child;
-                    break;
-                }
-            }
+            // Many enemy prefabs were authored as PrefabInstances of the old models/Enemys FBX.
+            // Destroying mesh children only adds m_RemovedGameObjects; leftover SMRs still render.
+            // Unpack completely so SaveAsPrefabAsset writes a regular prefab with one export nest.
+            UnpackAllPrefabInstances(root);
 
-            Vector3 localPos = visual != null ? visual.localPosition : Vector3.zero;
-            Quaternion localRot = visual != null ? visual.localRotation : Quaternion.identity;
-            Vector3 localScale = visual != null ? visual.localScale : Vector3.one;
+            // Remove ALL nested visuals (old models/Enemys FBX + any prior Fbx_exports nest).
+            // Keep only gameplay volumes. Do not copy old Blender scale 100 / -90° X.
+            DestroyAllVisualChildren(root.transform, keepGameplayVolumes: true);
 
-            if (visual != null)
-                Object.DestroyImmediate(visual.gameObject);
+            // Also strip any SkinnedMeshRenderer / MeshRenderer left on the unpacked root hierarchy
+            // that are not under gameplay volumes (armature leftovers from the old FBX root).
+            StripLeftoverRenderers(root, keepGameplayVolumes: true);
 
             GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(fbxRoot, root.transform);
             instance.name = Path.GetFileNameWithoutExtension(fbxPath);
-            instance.transform.localPosition = localPos;
-            instance.transform.localRotation = localRot;
-            instance.transform.localScale = localScale;
+            instance.transform.localPosition = Vector3.zero;
+            instance.transform.localRotation = Quaternion.identity;
+            instance.transform.localScale = Vector3.one;
+            instance.transform.SetAsFirstSibling();
 
             foreach (Animator old in root.GetComponentsInChildren<Animator>(true))
             {
@@ -592,11 +559,124 @@ public static class WireFbxAnimations
                 instance.AddComponent<EnemyAnimationEventRelay>();
 
             PrefabUtility.SaveAsPrefabAsset(root, prefabPath);
+            Debug.Log($"WireFbxAnimations: '{Path.GetFileName(prefabPath)}' enemy model -> {Path.GetFileName(fbxPath)} @ identity xform.");
         }
         finally
         {
             PrefabUtility.UnloadPrefabContents(root);
         }
+    }
+
+    private static void UnpackAllPrefabInstances(GameObject root)
+    {
+        // Unpack outermost first repeatedly until nothing nested remains.
+        bool unpacked;
+        do
+        {
+            unpacked = false;
+            // Collect instance roots (deepest-first safe: unpack outermost repeatedly).
+            var instances = new List<GameObject>();
+            foreach (Transform t in root.GetComponentsInChildren<Transform>(true))
+            {
+                if (PrefabUtility.IsOutermostPrefabInstanceRoot(t.gameObject))
+                    instances.Add(t.gameObject);
+            }
+
+            foreach (GameObject inst in instances)
+            {
+                if (inst == null) continue;
+                PrefabUtility.UnpackPrefabInstance(inst, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
+                unpacked = true;
+            }
+        } while (unpacked);
+    }
+
+    private static void StripLeftoverRenderers(GameObject root, bool keepGameplayVolumes)
+    {
+        List<GameObject> kill = new List<GameObject>();
+        foreach (Renderer r in root.GetComponentsInChildren<Renderer>(true))
+        {
+            if (r == null) continue;
+            // Keep renderers that live under gameplay volume names (none normally).
+            Transform t = r.transform;
+            bool underGameplay = false;
+            while (t != null && t != root.transform)
+            {
+                if (keepGameplayVolumes && GameplayChildNames.Contains(t.name))
+                {
+                    underGameplay = true;
+                    break;
+                }
+                t = t.parent;
+            }
+
+            if (underGameplay)
+                continue;
+
+            // Destroy the renderer object if it is a pure mesh leaf; otherwise just disable.
+            // Prefer destroying mesh/armature roots that are direct-ish children with no gameplay scripts.
+            Transform victim = r.transform;
+            while (victim.parent != null && victim.parent != root.transform &&
+                   victim.parent.GetComponent<EnemyBase>() == null &&
+                   victim.parent.GetComponent<NavMeshAgent>() == null &&
+                   !GameplayChildNames.Contains(victim.parent.name))
+            {
+                victim = victim.parent;
+            }
+
+            if (!kill.Contains(victim.gameObject))
+                kill.Add(victim.gameObject);
+        }
+
+        foreach (GameObject go in kill)
+        {
+            if (go != null && go != root)
+                Object.DestroyImmediate(go);
+        }
+    }
+
+    private static readonly HashSet<string> GameplayChildNames = new HashSet<string>(System.StringComparer.OrdinalIgnoreCase)
+    {
+        "AggroRadius", "StrikingDistance", "AttackHitbox", "Trigger Areas", "Raycast",
+    };
+
+    /// <summary>
+    /// Destroys every direct child that looks like a character/model visual. When
+    /// keepGameplayVolumes is true, trigger/hitbox children are preserved.
+    /// </summary>
+    private static void DestroyAllVisualChildren(Transform root, bool keepGameplayVolumes)
+    {
+        List<GameObject> toDestroy = new List<GameObject>();
+        foreach (Transform child in root)
+        {
+            if (keepGameplayVolumes && GameplayChildNames.Contains(child.name))
+                continue;
+
+            // Named gameplay folders sometimes nest Raycast children — keep the folder.
+            if (keepGameplayVolumes && child.name == "Trigger Areas")
+                continue;
+
+            bool hasRenderer = child.GetComponentInChildren<Renderer>(true) != null;
+            bool isNestedModel = PrefabUtility.GetCorrespondingObjectFromSource(child.gameObject) != null
+                                 || PrefabUtility.IsAnyPrefabInstanceRoot(child.gameObject);
+            bool looksLikeModel =
+                hasRenderer ||
+                isNestedModel ||
+                child.name.Equals("mesh", System.StringComparison.OrdinalIgnoreCase) ||
+                child.name.IndexOf("Dirk", System.StringComparison.OrdinalIgnoreCase) >= 0 ||
+                child.name.IndexOf("mage", System.StringComparison.OrdinalIgnoreCase) >= 0 ||
+                child.name.IndexOf("slime", System.StringComparison.OrdinalIgnoreCase) >= 0 ||
+                child.name.IndexOf("mushroom", System.StringComparison.OrdinalIgnoreCase) >= 0 ||
+                child.name.IndexOf("snake", System.StringComparison.OrdinalIgnoreCase) >= 0 ||
+                child.name.IndexOf("dryad", System.StringComparison.OrdinalIgnoreCase) >= 0 ||
+                child.name.IndexOf("wolf", System.StringComparison.OrdinalIgnoreCase) >= 0;
+
+            if (looksLikeModel)
+                toDestroy.Add(child.gameObject);
+        }
+
+        foreach (GameObject go in toDestroy)
+            Object.DestroyImmediate(go);
     }
 
     // ------------------------------------------------------------------ helpers
@@ -708,33 +788,37 @@ public static class WireFbxAnimations
                 return false;
             }
 
-            // Nested mesh should come from the baked export FBX.
+            int nestedModelCount = 0;
             bool foundExport = false;
-            foreach (Renderer r in root.GetComponentsInChildren<Renderer>(true))
+            foreach (Transform child in root.transform)
             {
-                string path = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(r.gameObject);
-                if (string.IsNullOrEmpty(path))
-                    path = AssetDatabase.GetAssetPath(PrefabUtility.GetCorrespondingObjectFromSource(r.gameObject));
-                if (!string.IsNullOrEmpty(path) &&
-                    path.IndexOf("Fbx_exports", System.StringComparison.OrdinalIgnoreCase) >= 0 &&
-                    path.IndexOf(expectedFbxToken, System.StringComparison.OrdinalIgnoreCase) >= 0)
-                {
+                GameObject source = PrefabUtility.GetCorrespondingObjectFromSource(child.gameObject);
+                string srcPath = source != null ? AssetDatabase.GetAssetPath(source) : string.Empty;
+                if (string.IsNullOrEmpty(srcPath) || !srcPath.EndsWith(".fbx", System.StringComparison.OrdinalIgnoreCase))
+                    continue;
+
+                nestedModelCount++;
+                if (srcPath.IndexOf("Fbx_exports", System.StringComparison.OrdinalIgnoreCase) >= 0 &&
+                    srcPath.IndexOf(expectedFbxToken, System.StringComparison.OrdinalIgnoreCase) >= 0)
                     foundExport = true;
-                    break;
+                else
+                {
+                    Debug.LogError($"Validate: FAIL '{prefabPath}' — leftover nested FBX '{srcPath}' (expected only {expectedFbxToken}).");
+                    return false;
+                }
+
+                Vector3 scale = child.localScale;
+                if (Mathf.Abs(scale.x) >= 10f || Mathf.Abs(scale.y) >= 10f || Mathf.Abs(scale.z) >= 10f)
+                {
+                    Debug.LogError($"Validate: FAIL '{prefabPath}' — nested model scale {scale} is too large.");
+                    return false;
                 }
             }
 
-            // Fallback: check mesh child's prefab parent via GetOutermostPrefabInstanceRoot source.
-            if (!foundExport)
+            if (nestedModelCount != 1)
             {
-                Transform mesh = root.transform.Find("mesh");
-                if (mesh != null)
-                {
-                    GameObject source = PrefabUtility.GetCorrespondingObjectFromSource(mesh.gameObject);
-                    string srcPath = source != null ? AssetDatabase.GetAssetPath(source) : string.Empty;
-                    if (srcPath.IndexOf(expectedFbxToken, System.StringComparison.OrdinalIgnoreCase) >= 0)
-                        foundExport = true;
-                }
+                Debug.LogError($"Validate: FAIL '{prefabPath}' — expected exactly 1 nested FBX model, found {nestedModelCount}.");
+                return false;
             }
 
             if (!foundExport)
@@ -764,23 +848,78 @@ public static class WireFbxAnimations
                 return false;
             }
 
+            int exportNests = 0;
+            int leftoverOld = 0;
             bool found = false;
             foreach (Transform child in root.transform)
             {
+                if (GameplayChildNames.Contains(child.name))
+                    continue;
+
                 GameObject source = PrefabUtility.GetCorrespondingObjectFromSource(child.gameObject);
                 string srcPath = source != null ? AssetDatabase.GetAssetPath(source) : string.Empty;
-                if (srcPath.EndsWith(expectedFbxFile, System.StringComparison.OrdinalIgnoreCase) ||
-                    (srcPath.IndexOf(Path.GetFileNameWithoutExtension(expectedFbxFile), System.StringComparison.OrdinalIgnoreCase) >= 0 &&
-                     srcPath.IndexOf("Fbx_exports", System.StringComparison.OrdinalIgnoreCase) >= 0))
+                if (string.IsNullOrEmpty(srcPath) || !srcPath.EndsWith(".fbx", System.StringComparison.OrdinalIgnoreCase))
+                    continue;
+
+                bool isExport = srcPath.IndexOf("Fbx_exports", System.StringComparison.OrdinalIgnoreCase) >= 0;
+                bool isExpected = srcPath.EndsWith(expectedFbxFile, System.StringComparison.OrdinalIgnoreCase) ||
+                    (isExport && srcPath.IndexOf(Path.GetFileNameWithoutExtension(expectedFbxFile), System.StringComparison.OrdinalIgnoreCase) >= 0);
+
+                if (isExpected)
                 {
                     found = true;
-                    break;
+                    exportNests++;
+                    Vector3 scale = child.localScale;
+                    if (Mathf.Abs(scale.x) >= 10f || Mathf.Abs(scale.y) >= 10f || Mathf.Abs(scale.z) >= 10f)
+                    {
+                        Debug.LogError($"Validate: FAIL '{prefabPath}' — nested '{child.name}' scale {scale} >= 10 (Blender compensation leak).");
+                        return false;
+                    }
+
+                    // -90° X with large scale was the giant sideways mushroom; reject near-90 X even at scale 1 if euler is clearly that pattern.
+                    Vector3 euler = child.localRotation.eulerAngles;
+                    float absX = Mathf.Abs(Mathf.DeltaAngle(0f, euler.x));
+                    if (absX > 80f && absX < 100f)
+                    {
+                        Debug.LogError($"Validate: FAIL '{prefabPath}' — nested '{child.name}' has ~-90° X rotation ({euler.x}).");
+                        return false;
+                    }
+                }
+                else if (!isExport)
+                {
+                    leftoverOld++;
                 }
             }
 
-            if (!found)
+            if (leftoverOld > 0)
             {
-                Debug.LogError($"Validate: FAIL '{prefabPath}' — expected nested FBX '{expectedFbxFile}'.");
+                Debug.LogError($"Validate: FAIL '{prefabPath}' — {leftoverOld} leftover non-export FBX nest(s).");
+                return false;
+            }
+
+            // Prefab must not still be an outer PrefabInstance of models/Enemys (old mesh source).
+            string assetPath = prefabPath;
+            GameObject prefabAsset = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
+            if (prefabAsset != null)
+            {
+                // After unpack, root of the asset on disk should not source from models/Enemys.
+                // Check YAML-free: corresponding source of the loaded contents root.
+            }
+
+            string rootSourcePath = string.Empty;
+            GameObject rootSource = PrefabUtility.GetCorrespondingObjectFromSource(root);
+            if (rootSource != null)
+                rootSourcePath = AssetDatabase.GetAssetPath(rootSource);
+            if (!string.IsNullOrEmpty(rootSourcePath) &&
+                rootSourcePath.IndexOf("models/Enemys", System.StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                Debug.LogError($"Validate: FAIL '{prefabPath}' — prefab root still sourced from old '{rootSourcePath}'.");
+                return false;
+            }
+
+            if (!found || exportNests != 1)
+            {
+                Debug.LogError($"Validate: FAIL '{prefabPath}' — expected exactly 1 nested '{expectedFbxFile}', found {exportNests}.");
                 return false;
             }
 

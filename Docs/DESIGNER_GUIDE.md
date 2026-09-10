@@ -184,11 +184,15 @@ the old transform-bob placeholders under `Assets/animations/Generated/` or
 2. Put the Animator on that model with the Avatar set — never a null-avatar root Animator.
 3. Point Idle / Walk / Attack / Hit / Death motions at the FBX sub-asset clips.
 4. Idle / Walk / Run / Hop must have **Loop Time** enabled on the FBX importer.
-5. After dropping a new export into `Fbx_exports`, re-run **Tools → Animations → Wire Real FBX Clips**.
+5. Nested export visuals use **scale (1,1,1)** and **identity rotation**. Do not copy Blender’s
+   classic scale-100 / -90° X compensations from older prefabs onto `Fbx_exports` models — that
+   is what produced giant sideways mushrooms and doubled player meshes.
+6. After dropping a new export into `Fbx_exports`, re-run **Tools → Animations → Wire Real FBX Clips**.
 
 Generic rigs cannot retarget across different FBXs. Swapping the nested model to the FBX that
 contains the bakes is required; pasting export clips onto an older mesh-only asset will not
-deform bones.
+deform bones. The wire tool unpacks old `models/Enemys` FBX instance roots so only one export
+mesh remains.
 
 Legacy bob `.anim` files may still exist on disk for history; they must not be assigned on
 playable controllers. Flying snake Idle/Walk stay empty until art adds those takes to the FBX.
