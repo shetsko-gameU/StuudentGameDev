@@ -88,20 +88,35 @@ public class EnemyMove : EnemyState
         }
 
         NavMeshAgent agent = enemy.navMeshAgent;
-        if (agent == null || !agent.isOnNavMesh)
+        if (agent == null)
         {
             if (!warnedNotOnNavMesh)
             {
                 warnedNotOnNavMesh = true;
-                Debug.LogWarning($"EnemyMove on '{enemy.name}': NavMeshAgent is missing or not on a " +
-                                 "baked NavMesh, so this enemy cannot chase. Bake a NavMesh for the room " +
-                                 "(Window > AI > Navigation, or a NavMeshSurface covering the floor).");
+                Debug.LogWarning($"EnemyMove on '{enemy.name}': no NavMeshAgent, so this enemy cannot chase.");
             }
             return;
         }
 
         // Re-read tuning every frame so buffs/debuffs to MoveSpeed take effect mid-chase.
         ApplyTuning(agent);
+
+        // Scenes like GamePlayTesting ship with no baked NavMesh (m_NavMeshData is null), which
+        // left every enemy frozen in playtests. When the agent is off-mesh, fall back to a
+        // straight-line transform move so combat is still testable. Prefer baking a NavMesh
+        // (Window > AI > Navigation, or NavMeshSurface) for real pathfinding around obstacles.
+        if (!agent.isOnNavMesh)
+        {
+            if (!warnedNotOnNavMesh)
+            {
+                warnedNotOnNavMesh = true;
+                Debug.LogWarning($"EnemyMove on '{enemy.name}': not on a baked NavMesh — using " +
+                                 "straight-line chase fallback. Bake a NavMesh for proper pathfinding.");
+            }
+
+            ChaseWithoutNavMesh();
+            return;
+        }
 
         repathTimer -= Time.deltaTime;
         if (repathTimer <= 0f)
@@ -114,6 +129,35 @@ public class EnemyMove : EnemyState
         // matches what the model is really doing (e.g. slowed by a corner or a crowd).
         if (enemy.animator != null)
             enemy.animator.SetFloat(EnemyAnimatorParams.SpeedHash, agent.velocity.magnitude);
+    }
+
+    /// <summary>
+    /// Direct chase used only when there is no baked NavMesh under this enemy. Disables the
+    /// agent so it stops fighting the transform write, then walks straight at the target.
+    /// </summary>
+    private void ChaseWithoutNavMesh()
+    {
+        NavMeshAgent agent = enemy.navMeshAgent;
+        if (agent.enabled)
+            agent.enabled = false;
+
+        Vector3 toTarget = enemy.currentTarget.transform.position - enemy.transform.position;
+        toTarget.y = 0f;
+        float distance = toTarget.magnitude;
+        if (distance < 0.05f) return;
+
+        Vector3 dir = toTarget / distance;
+        float speed = enemy.moveTuning.moveSpeed * (stats != null ? stats.MoveSpeed : 1f);
+        enemy.transform.position += dir * speed * Time.deltaTime;
+
+        if (dir.sqrMagnitude > 0.001f)
+            enemy.transform.rotation = Quaternion.Slerp(
+                enemy.transform.rotation,
+                Quaternion.LookRotation(dir),
+                enemy.moveTuning.angularSpeed * Mathf.Deg2Rad * Time.deltaTime);
+
+        if (enemy.animator != null)
+            enemy.animator.SetFloat(EnemyAnimatorParams.SpeedHash, speed);
     }
 
     /// <summary>

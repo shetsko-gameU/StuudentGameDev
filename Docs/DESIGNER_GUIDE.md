@@ -158,49 +158,59 @@ silently never plays. Every enemy controller must expose all four:
 The player state machine skips any parameter its controller doesn't declare, so a
 half-finished controller degrades quietly instead of burying the console in warnings.
 
-### 3.2 Placeholder clips — read this before replacing them
+### 3.2 Baked FBX takes are the animation source of truth
 
-Every enemy currently uses **generated placeholder animation**. The clips are crude on
-purpose. They exist so combat is playable and the wiring is proven end-to-end before anyone
-spends time animating.
+Each character already ships with skeletal Idle / Walk / Attack (or Slash) / Hit / Death
+takes **baked into its FBX** under `Assets/Fbx_exports/`. Controllers must play **those**
+clips from **that** character’s export — not Mixamo retargets onto a different mesh, and not
+the old transform-bob placeholders under `Assets/animations/Generated/` or
+`PlayerIdle.anim`.
 
-Why they're crude: the enemy models are imported as **Generic** rigs with no skeleton
-entries. Generic rigs cannot retarget, so Mixamo and Asset Store humanoid clips **cannot** be
-dropped onto a slime. What *does* work on an unrigged mesh is transform-level animation —
-moving, rotating and scaling the model object. That's what the generator produces, following
-the one pre-existing enemy clip in the project (`Assets/animations/Flying Snake Hover.anim`,
-which animates nothing but `m_LocalPosition` on a child called `Model`).
+| Character | Baked FBX |
+|---|---|
+| Warrior | `Fbx_exports/Dirk Pekkanen6_sword.fbx` |
+| Wizard | `Fbx_exports/molly_the_mage_staff.fbx` (Swing_01/02/03 for attack) |
+| slime / crystal slime | `Fbx_exports/slime.fbx` |
+| metal slime | `Fbx_exports/metal slime.fbx` |
+| mushroom scout | `Fbx_exports/mushroom_creature1.fbx` |
+| mage shroom | `Fbx_exports/Mage_Shroom.fbx` |
+| flying snake / hammer | `Fbx_exports/flying snake.fbx` (Attack/Hit/Death; no Idle/Walk yet) |
+| dryad crawler | `Fbx_exports/dryad_crawler.fbx` |
+| static wolf2 | `Fbx_exports/static wolf2.fbx` |
 
-Clips are always bound to the **model child, never the enemy root**, because the
-`NavMeshAgent` owns the root's position. Animating the root fights the agent.
+**Rules**
 
-**Wired enemies (all nine):** slime, crystal slime, metal slime, mushroom scout, mage shroom,
-flying snake, flying hammer snake, dryad crawler1, static wolf2. Re-run
-**Tools → Enemies → Wire Remaining NPCs (FSM + Placeholders)** after adding a new creature
-prefab under `Assets/models/Enemys/Prefabs` (add its path to both editor generators first).
+1. Nest the export FBX as the visual on the prefab (Generic + Avatar from that model).
+2. Put the Animator on that model with the Avatar set — never a null-avatar root Animator.
+3. Point Idle / Walk / Attack / Hit / Death motions at the FBX sub-asset clips.
+4. Idle / Walk / Run / Hop must have **Loop Time** enabled on the FBX importer.
+5. After dropping a new export into `Fbx_exports`, re-run **Tools → Animations → Wire Real FBX Clips**.
 
-**To replace them with real animation:** open the generated controller in
-`Assets/animations/Generated/<enemy>.controller` and swap the Motion on each state. Change
-nothing else — the parameters and transitions stay valid. Don't delete the states.
+Generic rigs cannot retarget across different FBXs. Swapping the nested model to the FBX that
+contains the bakes is required; pasting export clips onto an older mesh-only asset will not
+deform bones.
 
-**If you want to retarget humanoid animation instead**, you must first change the model's
-import settings from Generic to Humanoid and configure an avatar. That's a modelling task,
-not a scripting one.
+Legacy bob `.anim` files may still exist on disk for history; they must not be assigned on
+playable controllers. Flying snake Idle/Walk stay empty until art adds those takes to the FBX.
 
-### 3.3 Regenerating
+### 3.3 Regenerating / wiring tools
 
-Two editor tools, both safe to re-run:
+Safe to re-run:
 
+- **Tools → Animations → Wire Real FBX Clips** — configures export importers (loop Idle/Walk),
+  swaps player/enemy prefabs onto `Fbx_exports` models, and points controllers at baked takes.
+- **Tools → Animations → Validate FBX Wiring** — asserts Avatar set, Idle from `Fbx_exports`,
+  and Loop Time on locomotion clips.
 - **Tools → Enemies → Wire Remaining NPCs (FSM + Placeholders)** — installs EnemyBase /
-  StatsManager / NavMeshAgent / detection spheres on visual-only creature prefabs, then runs
-  the placeholder animation pass. Safe to re-run; repairs incomplete prefabs.
-- **Tools → Enemies → Validate NPC Wiring** — smoke-checks all nine spawnable enemies for the
-  required components and trigger colliders.
-- **Tools → Enemies → Generate Placeholder Animations** — rebuilds clips and controllers only.
-  *This overwrites the generated controllers*, so don't put hand-authored work in them.
-- **Tools → Player → Run Player Setup** — adds the contract parameters to the player
-  controllers, builds the death screen prefab, and adds `PlayerStateMachine` to the player
-  prefabs. Only *adds* — it never touches existing states, transitions or clips.
+  StatsManager / NavMeshAgent / detection spheres. Do **not** rely on its placeholder anim
+  pass for shipping art; run Wire Real FBX Clips after.
+- **Tools → Enemies → Validate NPC Wiring** — smoke-checks components, triggers, Avatar, and
+  that Idle is not still a Generated bob clip.
+- **Tools → Player → Run Player Setup** — adds contract parameters / death screen /
+  `PlayerStateMachine`. Skips placeholder locomotion if Idle already uses `Fbx_exports`.
+
+**Do not** run **Generate Placeholder Animations** on characters that are already FBX-wired —
+it overwrites controller motions with bob clips.
 
 ---
 
@@ -310,7 +320,7 @@ Assets/
   editor/                 editor-only tools (not shipped in builds)
     PlaceholderEnemyAnimationGenerator.cs
     PlayerSetupGenerator.cs
-  animations/Generated/   generated placeholder clips + enemy controllers
+  animations/Generated/   enemy Animator Controllers (motions = Fbx_exports clips)
   UI/DeathScreen.prefab
 Docs/DESIGNER_GUIDE.md    this file
 ```

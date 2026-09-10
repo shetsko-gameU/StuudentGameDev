@@ -41,6 +41,7 @@ public static class PlayerSetupGenerator
     public static void Run()
     {
         AddAnimatorParameters();
+        WireLocomotion();
         GameObject deathScreen = BuildDeathScreenPrefab();
         WirePlayerPrefabs(deathScreen);
 
@@ -48,6 +49,273 @@ public static class PlayerSetupGenerator
         AssetDatabase.Refresh();
 
         Debug.Log("PlayerSetupGenerator: finished.");
+    }
+
+    /// <summary>
+    /// Legacy placeholder locomotion. Skipped when Idle already uses an Fbx_exports clip —
+    /// re-running must not overwrite baked skeletal takes with mesh bob.
+    /// </summary>
+    private static void WireLocomotion()
+    {
+        if (ControllerIdleIsFbx("Assets/Player/Player_Animation/Player.controller"))
+        {
+            Debug.Log("PlayerSetupGenerator: skipping placeholder locomotion — Player.controller already uses Fbx_exports.");
+            return;
+        }
+
+        const string folder = "Assets/Player/Player_Animation";
+
+        // Binding path "mesh" matches the child name on Player.prefab. Animating the Animator
+        // root would fight NavMeshAgent; animating mesh keeps locomotion visual-only.
+        AnimationClip idle = CreatePlayerIdleClip($"{folder}/PlayerIdle.anim", "mesh");
+        AnimationClip walk = CreatePlayerWalkClip($"{folder}/PlayerWalk.anim", "mesh");
+        AnimationClip death = CreatePlayerDeathClip($"{folder}/PlayerDeath.anim", "mesh");
+
+        WireControllerLocomotion(
+            "Assets/Player/Player_Animation/Player.controller",
+            idle, walk, death,
+            defaultStateName: "Idle",
+            attackTrigger: "Attack");
+
+        WireControllerLocomotion(
+            "Assets/Player/Player_Animation/Player_Wizard.controller",
+            idle, walk, death,
+            defaultStateName: "New State",
+            attackTrigger: "WizardAttack");
+    }
+
+    private static bool ControllerIdleIsFbx(string controllerPath)
+    {
+        AnimatorController controller = AssetDatabase.LoadAssetAtPath<AnimatorController>(controllerPath);
+        if (controller == null) return false;
+        foreach (ChildAnimatorState child in controller.layers[0].stateMachine.states)
+        {
+            if (child.state == null || child.state.name != "Idle") continue;
+            Motion motion = child.state.motion;
+            if (motion == null) return false;
+            string path = AssetDatabase.GetAssetPath(motion);
+            return path.IndexOf("Fbx_exports", System.StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+        return false;
+    }
+
+    private static AnimationClip CreatePlayerIdleClip(string assetPath, string bindingPath)
+    {
+        AnimationClip clip = new AnimationClip { frameRate = 30f, name = "PlayerIdle" };
+
+        // Soft vertical breathe. Enough to prove Idle is playing instead of a dead T-pose bind.
+        clip.SetCurve(bindingPath, typeof(Transform), "m_LocalPosition.y",
+            new AnimationCurve(
+                new Keyframe(0f, 0f),
+                new Keyframe(1.2f, 0.04f),
+                new Keyframe(2.4f, 0f)));
+
+        // Slight torso twist so idle doesn't read as a frozen statue.
+        clip.SetCurve(bindingPath, typeof(Transform), "localEulerAnglesRaw.y",
+            new AnimationCurve(
+                new Keyframe(0f, -2f),
+                new Keyframe(1.2f, 2f),
+                new Keyframe(2.4f, -2f)));
+
+        return SaveClip(clip, assetPath, loop: true);
+    }
+
+    private static AnimationClip CreatePlayerWalkClip(string assetPath, string bindingPath)
+    {
+        AnimationClip clip = new AnimationClip { frameRate = 30f, name = "PlayerWalk" };
+
+        clip.SetCurve(bindingPath, typeof(Transform), "m_LocalPosition.y",
+            new AnimationCurve(
+                new Keyframe(0f, 0f),
+                new Keyframe(0.15f, 0.08f),
+                new Keyframe(0.3f, 0f),
+                new Keyframe(0.45f, 0.08f),
+                new Keyframe(0.6f, 0f)));
+
+        clip.SetCurve(bindingPath, typeof(Transform), "localEulerAnglesRaw.z",
+            new AnimationCurve(
+                new Keyframe(0f, -3f),
+                new Keyframe(0.3f, 3f),
+                new Keyframe(0.6f, -3f)));
+
+        return SaveClip(clip, assetPath, loop: true);
+    }
+
+    private static AnimationClip CreatePlayerDeathClip(string assetPath, string bindingPath)
+    {
+        AnimationClip clip = new AnimationClip { frameRate = 30f, name = "PlayerDeath" };
+
+        clip.SetCurve(bindingPath, typeof(Transform), "m_LocalPosition.y",
+            new AnimationCurve(
+                new Keyframe(0f, 0f),
+                new Keyframe(0.7f, -0.35f)));
+
+        clip.SetCurve(bindingPath, typeof(Transform), "localEulerAnglesRaw.z",
+            new AnimationCurve(
+                new Keyframe(0f, 0f),
+                new Keyframe(0.7f, 70f)));
+
+        return SaveClip(clip, assetPath, loop: false);
+    }
+
+    private static AnimationClip SaveClip(AnimationClip clip, string assetPath, bool loop)
+    {
+        AnimationClipSettings settings = AnimationUtility.GetAnimationClipSettings(clip);
+        settings.loopTime = loop;
+        AnimationUtility.SetAnimationClipSettings(clip, settings);
+
+        AnimationClip existing = AssetDatabase.LoadAssetAtPath<AnimationClip>(assetPath);
+        if (existing != null)
+        {
+            EditorUtility.CopySerialized(clip, existing);
+            EditorUtility.SetDirty(existing);
+            return existing;
+        }
+
+        AssetDatabase.CreateAsset(clip, assetPath);
+        return clip;
+    }
+
+    private static void WireControllerLocomotion(string controllerPath,
+                                                 AnimationClip idle,
+                                                 AnimationClip walk,
+                                                 AnimationClip death,
+                                                 string defaultStateName,
+                                                 string attackTrigger)
+    {
+        AnimatorController controller = AssetDatabase.LoadAssetAtPath<AnimatorController>(controllerPath);
+        if (controller == null)
+        {
+            Debug.LogError($"PlayerSetupGenerator: missing controller at '{controllerPath}'.");
+            return;
+        }
+
+        AddParameterIfMissing(controller, PlayerAnimatorParams.Speed, AnimatorControllerParameterType.Float);
+        AddParameterIfMissing(controller, PlayerAnimatorParams.Grounded, AnimatorControllerParameterType.Bool);
+        AddParameterIfMissing(controller, PlayerAnimatorParams.Dead, AnimatorControllerParameterType.Bool);
+
+        AnimatorStateMachine stateMachine = controller.layers[0].stateMachine;
+
+        AnimatorState idleState = FindState(stateMachine, defaultStateName)
+                               ?? FindState(stateMachine, "Idle");
+        if (idleState == null)
+        {
+            idleState = stateMachine.AddState("Idle");
+            stateMachine.defaultState = idleState;
+        }
+
+        // Rename wizard's empty "New State" so the graph is readable.
+        if (idleState.name != "Idle")
+            idleState.name = "Idle";
+
+        idleState.motion = idle;
+        stateMachine.defaultState = idleState;
+
+        AnimatorState walkState = FindState(stateMachine, "Walk");
+        if (walkState == null)
+            walkState = stateMachine.AddState("Walk");
+        walkState.motion = walk;
+
+        AnimatorState deathState = FindState(stateMachine, "Death");
+        if (deathState == null)
+            deathState = stateMachine.AddState("Death");
+        deathState.motion = death;
+
+        EnsureSpeedTransitions(idleState, walkState);
+        EnsureDeathTransition(stateMachine, deathState);
+
+        // Attacks must be reachable from Walk as well as Idle, otherwise swinging while
+        // moving does nothing once locomotion is live.
+        EnsureAttackFromState(walkState, stateMachine, attackTrigger);
+
+        EditorUtility.SetDirty(controller);
+        Debug.Log($"PlayerSetupGenerator: locomotion wired on '{System.IO.Path.GetFileName(controllerPath)}'.");
+    }
+
+    private static AnimatorState FindState(AnimatorStateMachine stateMachine, string name)
+    {
+        foreach (ChildAnimatorState child in stateMachine.states)
+        {
+            if (child.state != null && child.state.name == name)
+                return child.state;
+        }
+
+        return null;
+    }
+
+    private static void EnsureSpeedTransitions(AnimatorState idleState, AnimatorState walkState)
+    {
+        if (!HasFloatCondition(idleState, walkState, PlayerAnimatorParams.Speed, greater: true))
+        {
+            AnimatorStateTransition idleToWalk = idleState.AddTransition(walkState);
+            idleToWalk.AddCondition(AnimatorConditionMode.Greater, 0.1f, PlayerAnimatorParams.Speed);
+            idleToWalk.hasExitTime = false;
+            idleToWalk.duration = 0.1f;
+        }
+
+        if (!HasFloatCondition(walkState, idleState, PlayerAnimatorParams.Speed, greater: false))
+        {
+            AnimatorStateTransition walkToIdle = walkState.AddTransition(idleState);
+            walkToIdle.AddCondition(AnimatorConditionMode.Less, 0.1f, PlayerAnimatorParams.Speed);
+            walkToIdle.hasExitTime = false;
+            walkToIdle.duration = 0.1f;
+        }
+    }
+
+    private static void EnsureDeathTransition(AnimatorStateMachine stateMachine, AnimatorState deathState)
+    {
+        foreach (AnimatorStateTransition transition in stateMachine.anyStateTransitions)
+        {
+            if (transition.destinationState == deathState)
+                return;
+        }
+
+        AnimatorStateTransition anyToDeath = stateMachine.AddAnyStateTransition(deathState);
+        anyToDeath.AddCondition(AnimatorConditionMode.If, 0f, PlayerAnimatorParams.Dead);
+        anyToDeath.hasExitTime = false;
+        anyToDeath.duration = 0.05f;
+        anyToDeath.canTransitionToSelf = false;
+    }
+
+    private static void EnsureAttackFromState(AnimatorState fromState,
+                                              AnimatorStateMachine stateMachine,
+                                              string attackTrigger)
+    {
+        AnimatorState attackState = FindState(stateMachine, "PlayerAttack")
+                                 ?? FindState(stateMachine, "PlayerWizardAttack")
+                                 ?? FindState(stateMachine, "Sword_Swing");
+        if (attackState == null || fromState == null) return;
+
+        foreach (AnimatorStateTransition existing in fromState.transitions)
+        {
+            if (existing.destinationState == attackState)
+                return;
+        }
+
+        AnimatorStateTransition transition = fromState.AddTransition(attackState);
+        transition.AddCondition(AnimatorConditionMode.If, 0f, attackTrigger);
+        transition.hasExitTime = false;
+        transition.duration = 0.05f;
+    }
+
+    private static bool HasFloatCondition(AnimatorState from, AnimatorState to, string parameter, bool greater)
+    {
+        foreach (AnimatorStateTransition transition in from.transitions)
+        {
+            if (transition.destinationState != to) continue;
+
+            foreach (AnimatorCondition condition in transition.conditions)
+            {
+                bool modeMatch = greater
+                    ? condition.mode == AnimatorConditionMode.Greater
+                    : condition.mode == AnimatorConditionMode.Less;
+
+                if (modeMatch && condition.parameter == parameter)
+                    return true;
+            }
+        }
+
+        return false;
     }
 
     // ------------------------------------------------------------------ 1. Animator parameters

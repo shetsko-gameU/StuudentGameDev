@@ -1,4 +1,5 @@
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -302,6 +303,29 @@ public static class EnemyPrefabSetupGenerator
             Animator animator = root.GetComponentInChildren<Animator>();
             if (animator == null || animator.runtimeAnimatorController == null)
                 fails.Append("Animator+Controller ");
+            else if (animator.avatar == null)
+                fails.Append("Avatar ");
+            else
+            {
+                AnimatorController ctrl = animator.runtimeAnimatorController as AnimatorController;
+                if (ctrl == null && animator.runtimeAnimatorController is AnimatorOverrideController ov)
+                    ctrl = ov.runtimeAnimatorController as AnimatorController;
+                if (ctrl != null)
+                {
+                    foreach (ChildAnimatorState child in ctrl.layers[0].stateMachine.states)
+                    {
+                        if (child.state == null || child.state.name != "Idle") continue;
+                        Motion motion = child.state.motion;
+                        if (motion == null) break; // snake OK
+                        string motionPath = AssetDatabase.GetAssetPath(motion);
+                        if (motionPath.IndexOf("animations/Generated", System.StringComparison.OrdinalIgnoreCase) >= 0)
+                            fails.Append("IdleStillBob ");
+                        else if (motionPath.IndexOf("Fbx_exports", System.StringComparison.OrdinalIgnoreCase) < 0)
+                            fails.Append("IdleNotFbx ");
+                        break;
+                    }
+                }
+            }
 
             if (root.GetComponentInChildren<EnemyHitbox>() == null) fails.Append("EnemyHitbox ");
             if (root.GetComponentInChildren<EnemyAggroCheck>() == null) fails.Append("EnemyAggroCheck ");
