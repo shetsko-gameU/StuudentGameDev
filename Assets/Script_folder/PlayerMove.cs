@@ -181,11 +181,16 @@ public class PlayerMove : MonoBehaviour
         else
             GroundedUpdate(desiredDir, maxSpeed);
 
-        // Rotate model to face movement direction (both grounded and airborne).
-        // modelRotateSpeed is per-second; scale by deltaTime to stay framerate-independent.
-        if (moveInput.magnitude > .1f)
+        // Rotate to face movement. Do NOT use Vector3.MoveTowards on transform.forward —
+        // a 180° reverse passes through a zero-length forward, which NaNs the rotation and
+        // permanently breaks Speed (NaN fails both >0.1 and <0.1), so Walk never restarts.
+        if (moveInput.magnitude > .1f && desiredDir.sqrMagnitude > 0.0001f)
         {
-            transform.forward = Vector3.MoveTowards(transform.forward, desiredDir, modelRotateSpeed * Time.deltaTime);
+            Quaternion targetRot = Quaternion.LookRotation(desiredDir.normalized, Vector3.up);
+            transform.rotation = Quaternion.RotateTowards(
+                transform.rotation,
+                targetRot,
+                modelRotateSpeed * Mathf.Rad2Deg * Time.deltaTime);
         }
     }
 

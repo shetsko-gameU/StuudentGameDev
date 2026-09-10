@@ -70,6 +70,40 @@ public static class WireFbxAnimations
         };
     }
 
+    /// <summary>Headless entry that only re-nests player meshes (feet Y) + rewires player
+    /// controllers — skips the slow full export reimport when fixing hover/walk quickly.</summary>
+    public static void FixPlayerFeetAndControllers()
+    {
+        const string swordFbx = ExportsFolder + "/Dirk Pekkanen6_sword.fbx";
+        const string mageFbx = ExportsFolder + "/molly_the_mage_staff.fbx";
+
+        Dictionary<string, AnimationClip> warriorClips = LoadClips(swordFbx);
+        Dictionary<string, AnimationClip> mageClips = LoadClips(mageFbx);
+
+        if (warriorClips.Count > 0)
+        {
+            WirePlayerController(
+                "Assets/Player/Player_Animation/Player.controller",
+                warriorClips,
+                attackTrigger: "Attack",
+                attackClipNames: new[] { "Slash_01", "Slash_02", "Slash_03", "Attack" });
+        }
+
+        if (mageClips.Count > 0)
+        {
+            WirePlayerController(
+                "Assets/Player/Player_Animation/Player_Wizard.controller",
+                mageClips,
+                attackTrigger: "WizardAttack",
+                attackClipNames: new[] { "Swing_01", "Swing_02", "Swing_03", "Attack", "Slash_01" });
+        }
+
+        SwapPlayerModel("Assets/Player/Player.prefab", swordFbx);
+        SwapPlayerModel("Assets/Player/Player_Wizard.prefab", mageFbx);
+        AssetDatabase.SaveAssets();
+        Debug.Log("WireFbxAnimations.FixPlayerFeetAndControllers: done.");
+    }
+
     [MenuItem("Tools/Animations/Wire Real FBX Clips")]
     public static void Run()
     {
@@ -311,6 +345,7 @@ public static class WireFbxAnimations
             EnsureParam(controller, "Hit", AnimatorControllerParameterType.Trigger);
             AnimatorState hitState = GetOrCreateState(sm, "Hit", new Vector3(560, 40, 0));
             hitState.motion = hit;
+            ClearTransitions(hitState);
             AnimatorStateTransition anyHit = sm.AddAnyStateTransition(hitState);
             anyHit.AddCondition(AnimatorConditionMode.If, 0f, "Hit");
             anyHit.hasExitTime = false;
@@ -378,8 +413,14 @@ public static class WireFbxAnimations
 
             GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(fbxRoot, root.transform);
             instance.name = "mesh";
-            // Never copy Blender 100/-90 compensations from the old child onto Unity-ready exports.
-            instance.transform.localPosition = Vector3.zero;
+            // Player root sits above the NavMesh by agent.baseOffset (feet are not at the
+            // transform). Historical Dirk nest used localY ≈ -1 with baseOffset 1.1 — nesting
+            // at y=0 made the character hover. Drop the mesh by -baseOffset so feet meet ground.
+            float feetY = 0f;
+            NavMeshAgent agent = root.GetComponent<NavMeshAgent>();
+            if (agent != null)
+                feetY = -agent.baseOffset;
+            instance.transform.localPosition = new Vector3(0f, feetY, 0f);
             instance.transform.localRotation = Quaternion.identity;
             instance.transform.localScale = Vector3.one;
             instance.transform.SetAsFirstSibling();

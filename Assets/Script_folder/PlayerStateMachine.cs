@@ -157,7 +157,10 @@ public class PlayerStateMachine : MonoBehaviour
             velocity = playerMove.rb.linearVelocity;
 
         velocity.y = 0f;
-        return velocity.magnitude;
+        float speed = velocity.magnitude;
+        // NaN from a broken transform (e.g. zero forward) would permanently fail Idle↔Walk
+        // transitions (NaN is neither > nor < threshold).
+        return float.IsFinite(speed) ? speed : 0f;
     }
 
     private void WriteAnimatorParameters()
