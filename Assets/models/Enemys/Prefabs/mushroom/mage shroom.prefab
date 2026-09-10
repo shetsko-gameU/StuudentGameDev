@@ -35,7 +35,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5227099417898234413}
+  - {fileID: 3140873961623086998}
   - {fileID: 3634278697216913202}
   - {fileID: 7149728565833985338}
   - {fileID: 5094943876218785573}
@@ -55,7 +55,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBase
   stats: {fileID: 3531939655586463947}
   Player_Stats: {fileID: 0}
-  animator: {fileID: 2191652049807239255}
+  animator: {fileID: 9040568258434743788}
   raycasts: []
   doesAttackPivot: 0
   isBoss: 0
@@ -386,7 +386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStrikeDistanceCheck
   enemy: {fileID: 8789704940777332895}
---- !u!1001 &5692789917135197638
+--- !u!1001 &3178443231367790717
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -400,7 +400,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: babd496896152b64cb907eb8de903e8e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.06588662
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: babd496896152b64cb907eb8de903e8e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -448,32 +448,32 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: babd496896152b64cb907eb8de903e8e, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 528426296632539827}
+      addedObject: {fileID: 3475147614642608770}
   m_SourcePrefab: {fileID: 100100000, guid: babd496896152b64cb907eb8de903e8e, type: 3}
---- !u!95 &2191652049807239255 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: babd496896152b64cb907eb8de903e8e, type: 3}
-  m_PrefabInstance: {fileID: 5692789917135197638}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &4882380925520439447 stripped
+--- !u!1 &2368172770835119404 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: babd496896152b64cb907eb8de903e8e, type: 3}
-  m_PrefabInstance: {fileID: 5692789917135197638}
+  m_PrefabInstance: {fileID: 3178443231367790717}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &528426296632539827
+--- !u!114 &3475147614642608770
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4882380925520439447}
+  m_GameObject: {fileID: 2368172770835119404}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df38a27b729262c4ebc1e36027b4571f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimationEventRelay
---- !u!4 &5227099417898234413 stripped
+--- !u!4 &3140873961623086998 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: babd496896152b64cb907eb8de903e8e, type: 3}
-  m_PrefabInstance: {fileID: 5692789917135197638}
+  m_PrefabInstance: {fileID: 3178443231367790717}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &9040568258434743788 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: babd496896152b64cb907eb8de903e8e, type: 3}
+  m_PrefabInstance: {fileID: 3178443231367790717}
   m_PrefabAsset: {fileID: 0}

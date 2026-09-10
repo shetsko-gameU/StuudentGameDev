@@ -141,26 +141,26 @@ public class PlayerStateMachine : MonoBehaviour
     }
 
     /// <summary>
-    /// The player's speed across the ground. Falls back to the Rigidbody while the ledge-fall
-    /// system has the agent disabled mid-air, so the animator does not see a sudden zero
-    /// every time the player steps off a ledge.
+    /// The player's speed across the ground. Uses PlayerMove's gameplay velocity (what
+    /// agent.Move actually drives). agent.velocity is unreliable with manual Move() and
+    /// caused Walk to play once then never re-enter. Falls back to rb while ledge-falling.
     /// </summary>
     private float CurrentHorizontalSpeed()
     {
         if (playerMove == null) return 0f;
 
-        Vector3 velocity = Vector3.zero;
+        if (!playerMove.IsFalling)
+            return playerMove.HorizontalSpeed;
 
-        if (playerMove.agent != null && playerMove.agent.enabled && playerMove.agent.isOnNavMesh)
-            velocity = playerMove.agent.velocity;
-        else if (playerMove.rb != null)
-            velocity = playerMove.rb.linearVelocity;
+        if (playerMove.rb != null)
+        {
+            Vector3 velocity = playerMove.rb.linearVelocity;
+            velocity.y = 0f;
+            float speed = velocity.magnitude;
+            return float.IsFinite(speed) ? speed : 0f;
+        }
 
-        velocity.y = 0f;
-        float speed = velocity.magnitude;
-        // NaN from a broken transform (e.g. zero forward) would permanently fail Idle↔Walk
-        // transitions (NaN is neither > nor < threshold).
-        return float.IsFinite(speed) ? speed : 0f;
+        return playerMove.HorizontalSpeed;
     }
 
     private void WriteAnimatorParameters()

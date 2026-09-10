@@ -54,6 +54,7 @@ public class PlayerMove : MonoBehaviour
     public StatsManager stats;
 
     [Header("Model")]
+    [Tooltip("Turn rate multiplier. Effective yaw ≈ modelRotateSpeed * 90 deg/s (Inspector 5 ≈ 450°/s).")]
     public float modelRotateSpeed;
     public Transform playerModel;
     public NavMeshAgent agent;
@@ -66,6 +67,24 @@ public class PlayerMove : MonoBehaviour
 
     /// <summary>True while gravity/physics owns the player instead of the NavMeshAgent.</summary>
     public bool IsFalling { get; private set; }
+
+    /// <summary>
+    /// Horizontal gameplay speed from the internal velocity used by agent.Move — not
+    /// NavMeshAgent.velocity, which often reads ~0 with manual Move() and broke Idle↔Walk.
+    /// </summary>
+    public float HorizontalSpeed
+    {
+        get
+        {
+            Vector3 v = currentVelocity;
+            v.y = 0f;
+            float speed = v.magnitude;
+            return float.IsFinite(speed) ? speed : 0f;
+        }
+    }
+
+    /// <summary>True when stick/keyboard move input is above the grounded movement threshold.</summary>
+    public bool HasMoveInput => isMoving;
 
     private bool isMoving;
     private Vector2 moveInput;
@@ -181,16 +200,15 @@ public class PlayerMove : MonoBehaviour
         else
             GroundedUpdate(desiredDir, maxSpeed);
 
-        // Rotate to face movement. Do NOT use Vector3.MoveTowards on transform.forward —
-        // a 180° reverse passes through a zero-length forward, which NaNs the rotation and
-        // permanently breaks Speed (NaN fails both >0.1 and <0.1), so Walk never restarts.
+        // Rotate to face movement. Quaternion path avoids NaN from zero-length forward.
+        // modelRotateSpeed is a multiplier: *90 ≈ deg/s (Inspector 5 → ~450°/s).
         if (moveInput.magnitude > .1f && desiredDir.sqrMagnitude > 0.0001f)
         {
             Quaternion targetRot = Quaternion.LookRotation(desiredDir.normalized, Vector3.up);
             transform.rotation = Quaternion.RotateTowards(
                 transform.rotation,
                 targetRot,
-                modelRotateSpeed * Mathf.Rad2Deg * Time.deltaTime);
+                modelRotateSpeed * 90f * Time.deltaTime);
         }
     }
 
@@ -204,6 +222,16 @@ public class PlayerMove : MonoBehaviour
 
         if (currentVelocity.magnitude > maxSpeed)
             currentVelocity = currentVelocity.normalized * maxSpeed;
+
+        // Steer velocity toward the facing/input direction so turns do not strafe-slide
+        // while the root rotates separately.
+        if (isMoving && desiredDir.sqrMagnitude > 0.0001f && currentVelocity.sqrMagnitude > 0.0001f)
+        {
+            float speed = currentVelocity.magnitude;
+            Vector3 targetVel = desiredDir.normalized * speed;
+            float maxRadiansDelta = modelRotateSpeed * 90f * Mathf.Deg2Rad * Time.deltaTime;
+            currentVelocity = Vector3.RotateTowards(currentVelocity, targetVel, maxRadiansDelta, 0f);
+        }
 
         // Exponential-decay damping, same curve the old AddForce(-velocity * haltSpeed) gave.
         if (!isMoving)

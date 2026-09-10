@@ -413,16 +413,7 @@ public static class WireFbxAnimations
 
             GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(fbxRoot, root.transform);
             instance.name = "mesh";
-            // Player root sits above the NavMesh by agent.baseOffset (feet are not at the
-            // transform). Historical Dirk nest used localY ≈ -1 with baseOffset 1.1 — nesting
-            // at y=0 made the character hover. Drop the mesh by -baseOffset so feet meet ground.
-            float feetY = 0f;
-            NavMeshAgent agent = root.GetComponent<NavMeshAgent>();
-            if (agent != null)
-                feetY = -agent.baseOffset;
-            instance.transform.localPosition = new Vector3(0f, feetY, 0f);
-            instance.transform.localRotation = Quaternion.identity;
-            instance.transform.localScale = Vector3.one;
+            FootPlantVisual(root, instance, skipFootPlant: false);
             instance.transform.SetAsFirstSibling();
 
             foreach (Animator leftover in root.GetComponentsInChildren<Animator>(true))
@@ -574,9 +565,8 @@ public static class WireFbxAnimations
 
             GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(fbxRoot, root.transform);
             instance.name = Path.GetFileNameWithoutExtension(fbxPath);
-            instance.transform.localPosition = Vector3.zero;
-            instance.transform.localRotation = Quaternion.identity;
-            instance.transform.localScale = Vector3.one;
+            bool flying = IsFlyingEnemyPrefab(prefabPath);
+            FootPlantVisual(root, instance, skipFootPlant: flying);
             instance.transform.SetAsFirstSibling();
 
             foreach (Animator old in root.GetComponentsInChildren<Animator>(true))
@@ -676,10 +666,84 @@ public static class WireFbxAnimations
         }
     }
 
+    private static bool IsFlyingEnemyPrefab(string prefabPath)
+    {
+        return prefabPath.IndexOf("flying", System.StringComparison.OrdinalIgnoreCase) >= 0;
+    }
+
     private static readonly HashSet<string> GameplayChildNames = new HashSet<string>(System.StringComparer.OrdinalIgnoreCase)
     {
         "AggroRadius", "StrikingDistance", "AttackHitbox", "Trigger Areas", "Raycast",
     };
+
+    /// <summary>
+    /// Places a nested FBX so its renderer feet sit on the NavMeshAgent foot plane.
+    /// localY starts at -baseOffset, then a bounds refine corrects pivots that are not at the feet.
+    /// Flying enemies skip this so they stay elevated.
+    /// </summary>
+    private static void FootPlantVisual(GameObject root, GameObject instance, bool skipFootPlant)
+    {
+        instance.transform.localRotation = Quaternion.identity;
+        instance.transform.localScale = Vector3.one;
+
+        if (skipFootPlant)
+        {
+            instance.transform.localPosition = Vector3.zero;
+            return;
+        }
+
+        NavMeshAgent agent = root.GetComponent<NavMeshAgent>();
+        float baseOffset = agent != null ? agent.baseOffset : 0f;
+        instance.transform.localPosition = new Vector3(0f, -baseOffset, 0f);
+
+        Renderer[] renderers = instance.GetComponentsInChildren<Renderer>(true);
+        if (renderers == null || renderers.Length == 0)
+            return;
+
+        Bounds b = renderers[0].bounds;
+        for (int i = 1; i < renderers.Length; i++)
+        {
+            if (renderers[i] != null)
+                b.Encapsulate(renderers[i].bounds);
+        }
+
+        // Agent foot plane in world space: root.position.y - baseOffset.
+        float desiredFootY = root.transform.position.y - baseOffset;
+        float delta = desiredFootY - b.min.y;
+        if (Mathf.Abs(delta) > 0.001f)
+            instance.transform.position += new Vector3(0f, delta, 0f);
+    }
+
+    /// <summary>Re-nest player + enemy visuals with foot planting; no full FBX reimport.</summary>
+    public static void FixFeetOnly()
+    {
+        SwapPlayerModel("Assets/Player/Player.prefab", ExportsFolder + "/Dirk Pekkanen6_sword.fbx");
+        SwapPlayerModel("Assets/Player/Player_Wizard.prefab", ExportsFolder + "/molly_the_mage_staff.fbx");
+
+        foreach (KeyValuePair<string, string> pair in EnemyFbxByPrefab)
+        {
+            string fbxPath = $"{ExportsFolder}/{pair.Value}";
+            string enemyName = Path.GetFileNameWithoutExtension(pair.Key);
+            string controllerPath = $"Assets/animations/Generated/{enemyName}.controller";
+            RuntimeAnimatorController controller =
+                AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>(controllerPath);
+            if (controller == null)
+            {
+                Debug.LogWarning($"FixFeetOnly: missing controller '{controllerPath}'.");
+                continue;
+            }
+
+            SwapEnemyModel(pair.Key, fbxPath, controller);
+        }
+
+        AssetDatabase.SaveAssets();
+        int fails = ValidateWiring();
+        File.WriteAllText(ResultPath,
+            fails == 0
+                ? $"PASS\nFixFeetOnly + ValidateWiring 0 failures at {System.DateTime.Now:O}\n"
+                : $"FAIL\nValidateWiring reported {fails} failure(s) at {System.DateTime.Now:O}\n");
+        Debug.Log($"WireFbxAnimations.FixFeetOnly: done (fails={fails}).");
+    }
 
     /// <summary>
     /// Destroys every direct child that looks like a character/model visual. When
@@ -924,6 +988,31 @@ public static class WireFbxAnimations
                     {
                         Debug.LogError($"Validate: FAIL '{prefabPath}' — nested '{child.name}' has ~-90° X rotation ({euler.x}).");
                         return false;
+                    }
+
+                    // Grounded enemies: renderer feet should sit near the agent foot plane.
+                    if (!IsFlyingEnemyPrefab(prefabPath))
+                    {
+                        NavMeshAgent agent = root.GetComponent<NavMeshAgent>();
+                        float baseOffset = agent != null ? agent.baseOffset : 0f;
+                        float desiredFootY = root.transform.position.y - baseOffset;
+                        Renderer[] rends = child.GetComponentsInChildren<Renderer>(true);
+                        if (rends != null && rends.Length > 0)
+                        {
+                            Bounds b = rends[0].bounds;
+                            for (int i = 1; i < rends.Length; i++)
+                            {
+                                if (rends[i] != null)
+                                    b.Encapsulate(rends[i].bounds);
+                            }
+
+                            float hover = b.min.y - desiredFootY;
+                            if (hover > 0.15f)
+                            {
+                                Debug.LogError($"Validate: FAIL '{prefabPath}' — nested mesh hovers {hover:F2} above agent feet (baseOffset={baseOffset}).");
+                                return false;
+                            }
+                        }
                     }
                 }
                 else if (!isExport)
