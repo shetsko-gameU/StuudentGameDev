@@ -242,7 +242,6 @@ GameObject:
   - component: {fileID: 4625043910456940208}
   - component: {fileID: 4228190003025015144}
   - component: {fileID: 6780839009957222210}
-  - component: {fileID: 7279202257106433179}
   - component: {fileID: 4797080191231004307}
   - component: {fileID: 6303557501991920254}
   - component: {fileID: 2811520563896596546}
@@ -256,6 +255,7 @@ GameObject:
   - component: {fileID: 3106192970403256635}
   - component: {fileID: 5636082200784174450}
   - component: {fileID: 6666595988948270429}
+  - component: {fileID: 1138206840341885622}
   m_Layer: 0
   m_Name: Player_Wizard
   m_TagString: Player
@@ -396,7 +396,7 @@ Animator:
   m_GameObject: {fileID: 3994294546509096518}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 63f6d3c634580634c9bbc3db64c4aec7, type: 2}
+  m_Controller: {fileID: 9100000, guid: a3fb51fce31bac448b8a1955dd7c1872, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -893,19 +893,6 @@ MonoBehaviour:
   passiveManager: {fileID: 4625043910456940208}
   stats: {fileID: 8814090635867657241}
   hitbox: {fileID: 6278440642534877205}
---- !u!114 &7279202257106433179
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3994294546509096518}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6324f360661b8b24192e931839d2d757, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TakeDamage
-  StatsManager: {fileID: 8814090635867657241}
 --- !u!114 &4797080191231004307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1100,9 +1087,11 @@ MonoBehaviour:
   comboPassiveTrigger: {fileID: 0}
   killPassiveTrigger: {fileID: 0}
   animator: {fileID: 0}
+  stateMachine: {fileID: 0}
   deathAnimatorTrigger: Death
   deathScreenDelay: 1.5
   deathScreenPanel: {fileID: 0}
+  deathScreenPrefab: {fileID: 8434099390052200176, guid: 30e4cfe61a171d44b9bbf8ba15531eab, type: 3}
   mainMenuSceneName: MainMenu
   hubSceneName: Hub
 --- !u!114 &2151709278827207410
@@ -1222,6 +1211,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IngredientPickupSFXTrigger
   inventory: {fileID: 0}
   pickupSound: {fileID: 11400000, guid: d2be25ba802d84d5a9b7794f1c3fb206, type: 2}
+--- !u!114 &1138206840341885622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3994294546509096518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16741ef39c0f4c84b9040324115d1ff9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStateMachine
+  stats: {fileID: 0}
+  playerMove: {fileID: 0}
+  comboRunner: {fileID: 0}
+  playerConsume: {fileID: 0}
+  animator: {fileID: 0}
+  moveSpeedThreshold: 0.1
 --- !u!1 &6025672283703365149
 GameObject:
   m_ObjectHideFlags: 0

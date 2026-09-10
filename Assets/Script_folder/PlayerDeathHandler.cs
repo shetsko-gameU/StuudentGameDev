@@ -23,6 +23,10 @@ public class PlayerDeathHandler : MonoBehaviour
     public KillPassiveTrigger killPassiveTrigger;
     public Animator animator;
 
+    [Tooltip("Optional. When present, death is applied through the state machine's Dead parameter " +
+             "instead of the Death Animator Trigger below.")]
+    public PlayerStateMachine stateMachine;
+
     [Header("Death Animation")]
     [Tooltip("Must match a Trigger parameter on the Animator Controller with a transition into a death state.")]
     public string deathAnimatorTrigger = "Death";
@@ -31,8 +35,13 @@ public class PlayerDeathHandler : MonoBehaviour
     public float deathScreenDelay = 1.5f;
 
     [Header("Death Screen UI")]
-    [Tooltip("Panel shown after the death animation. Hidden automatically on Awake.")]
+    [Tooltip("Optional per-scene panel shown after the death animation. Hidden automatically on " +
+             "Awake. Leave empty to use Death Screen Prefab instead, which is the normal setup.")]
     public GameObject deathScreenPanel;
+
+    [Tooltip("Spawned on death when Death Screen Panel is empty. Points at Assets/UI/DeathScreen.prefab " +
+             "by default, which wires its own buttons - so a new scene needs no death screen setup.")]
+    public GameObject deathScreenPrefab;
 
     [Header("Scenes")]
     public string mainMenuSceneName = "MainMenu";
@@ -52,6 +61,7 @@ public class PlayerDeathHandler : MonoBehaviour
         if (comboPassiveTrigger == null) comboPassiveTrigger = GetComponent<ComboPassiveTrigger>();
         if (killPassiveTrigger == null) killPassiveTrigger = GetComponent<KillPassiveTrigger>();
         if (animator == null) animator = GetComponentInChildren<Animator>();
+        if (stateMachine == null) stateMachine = GetComponent<PlayerStateMachine>();
 
         if (stats == null)
             Debug.LogError($"PlayerDeathHandler on '{name}': No StatsManager found.");
@@ -78,7 +88,14 @@ public class PlayerDeathHandler : MonoBehaviour
     {
         DisablePlayerSystems();
 
-        if (animator != null && !string.IsNullOrEmpty(deathAnimatorTrigger))
+        // Prefer the state machine: it writes the Dead bool from the shared parameter
+        // contract and skips the write when the controller does not declare it. The direct
+        // trigger below is the fallback for a player prefab with no PlayerStateMachine, and
+        // it fires blind - if the controller has no such trigger Unity logs a warning, which
+        // is exactly what happens today on Player.controller.
+        if (stateMachine != null)
+            stateMachine.ApplyDeath();
+        else if (animator != null && !string.IsNullOrEmpty(deathAnimatorTrigger))
             animator.SetTrigger(deathAnimatorTrigger);
 
         Invoke(nameof(ShowDeathScreen), deathScreenDelay);
@@ -123,8 +140,31 @@ public class PlayerDeathHandler : MonoBehaviour
 
     private void ShowDeathScreen()
     {
+        // A panel placed in the scene wins, so a bespoke death screen can still override the
+        // shared one.
         if (deathScreenPanel != null)
+        {
             deathScreenPanel.SetActive(true);
+            return;
+        }
+
+        if (deathScreenPrefab == null)
+        {
+            Debug.LogWarning($"PlayerDeathHandler on '{name}': the player is dead but neither " +
+                             "Death Screen Panel nor Death Screen Prefab is assigned, so there is " +
+                             "no way to restart. Assign Assets/UI/DeathScreen.prefab.");
+            return;
+        }
+
+        GameObject instance = Instantiate(deathScreenPrefab);
+
+        // The prefab wires its own buttons; it only needs to know which handler to call.
+        DeathScreenController controller = instance.GetComponent<DeathScreenController>();
+        if (controller != null)
+            controller.Initialize(this);
+        else
+            Debug.LogWarning($"PlayerDeathHandler on '{name}': Death Screen Prefab has no " +
+                             "DeathScreenController, so its buttons are not connected to anything.");
     }
 
     // ------------------------------------------------------------------ Death screen buttons

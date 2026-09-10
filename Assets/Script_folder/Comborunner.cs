@@ -72,6 +72,14 @@ public class ComboRunner : MonoBehaviour
     /// <summary>Which hit in the combo we are currently on (0 = first).</summary>
     public int CurrentHitIndex => currentHitIndex;
 
+    /// <summary>
+    /// True while a swing is resolving or the chain window is still open for the next input.
+    /// Read by PlayerStateMachine to decide when the player is in the Attack state. Exposed
+    /// read-only on purpose: ComboRunner stays the owner of its own sequencing, and the
+    /// state machine only observes it.
+    /// </summary>
+    public bool IsAttacking => hitActive || inChainWindow;
+
     // ------------------------------------------------------------------ Runtime state
 
     private int currentHitIndex = 0;

@@ -10,9 +10,13 @@ using UnityEngine.InputSystem;
 ///
 /// Also owns the ledge-fall handoff: raycasts ahead for a drop deeper than minFallHeight,
 /// disables the agent, and lets gravity take over (IsFalling) until landing resamples back
-/// onto the NavMesh. See CLAUDE.md's "Ledge falling" section for the full mechanism and the
-/// several movement-feel gotchas (agent.speed/acceleration sync, isGround mask coverage,
-/// haltSpeed tuning) that are easy to reintroduce if this script is touched carelessly.
+/// onto the NavMesh. See Docs/DESIGNER_GUIDE.md's "Ledge falling" section for the full
+/// mechanism and the several movement-feel gotchas (agent.speed/acceleration sync, isGround
+/// mask coverage, haltSpeed tuning) that are easy to reintroduce if this script is touched
+/// carelessly.
+///
+/// This script does NOT write animator parameters. PlayerStateMachine owns Speed, Grounded
+/// and Dead - see PlayerAnimatorParams.
 ///
 /// Setup:
 ///   1. Requires a NavMeshAgent (auto-required) and a baked NavMesh under the player.
@@ -20,8 +24,9 @@ using UnityEngine.InputSystem;
 ///      rb empty — they auto-find on Start).
 ///   3. Set isGround to every walkable layer (not just flat floor) — an incomplete mask
 ///      makes ramps misread as ledges.
-///   4. Tune acceleration/haltSpeed/airControl/minFallHeight to taste; see CLAUDE.md for
-///      what "feels sluggish" or "ice-skating" symptoms map back to.
+///   4. Tune acceleration/haltSpeed/airControl/minFallHeight to taste; see
+///      Docs/DESIGNER_GUIDE.md for what "feels sluggish" or "ice-skating" symptoms map
+///      back to.
 /// </summary>
 [RequireComponent(typeof(NavMeshAgent))]
 public class PlayerMove : MonoBehaviour
