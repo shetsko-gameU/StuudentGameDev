@@ -1,11 +1,12 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Place this on a child GameObject � your weapon, hand, or attack pivot point.
+/// Place this on a child GameObject — your weapon, hand, or attack pivot point.
 /// Requires a BoxCollider on the same GameObject set to Is Trigger = ON.
 ///
 /// Can be triggered two ways:
-///   1. ComboRunner.FireHit() � enables for one frame automatically.
+///   1. ComboRunner.FireHit() — enables for a short swing window.
 ///   2. AnimationEventRelay - enables/disables exactly when animation events fire.
 ///      Use option 2 for precise hit timing synced to your animation frames.
 ///
@@ -43,6 +44,10 @@ public class AttackHitbox : MonoBehaviour
     [Tooltip("Speed handed to the spawned projectile.")]
     public float projectileSpeed = 20f;
 
+    [Header("Melee window")]
+    [Tooltip("How long FireHit keeps the trigger enabled. One physics frame is too short to reliably overlap.")]
+    public float fireHitSeconds = 0.12f;
+
     /// <summary>Fires with the enemy's StatsManager whenever a hit actually lands (not dodged).
     /// Used by DebuffOnHitTrigger to apply enemy-targeted debuffs only on confirmed hits.</summary>
     public event System.Action<StatsManager> OnEnemyHit;
@@ -57,6 +62,9 @@ public class AttackHitbox : MonoBehaviour
 
     private float currentDamage;
 
+    /// <summary>Enemies already damaged during the current FireHit/SetActive window.</summary>
+    private readonly HashSet<StatsManager> alreadyHitThisSwing = new HashSet<StatsManager>();
+
     // ------------------------------------------------------------------ Lifecycle
 
     private void Awake()
@@ -70,8 +78,8 @@ public class AttackHitbox : MonoBehaviour
 
     /// <summary>
     /// Sets the damage value for the next hit.
-    /// ComboRunner calls this immediately when a hit is triggered � before
-    /// the animation event fires EnableHitbox � so the damage is ready.
+    /// ComboRunner calls this immediately when a hit is triggered — before
+    /// the animation event fires EnableHitbox — so the damage is ready.
     /// </summary>
     public void SetDamage(float damage)
     {
@@ -87,8 +95,8 @@ public class AttackHitbox : MonoBehaviour
     }
 
     /// <summary>
-    /// Enables the hitbox for one frame.
-    /// Used when not using animation events � ComboRunner calls this after hitCheckDelay.
+    /// Enables the hitbox for <see cref="fireHitSeconds"/>.
+    /// Used when not using animation events — ComboRunner calls this after hitCheckDelay.
     /// </summary>
     public void FireHit(float damage)
     {
@@ -100,9 +108,10 @@ public class AttackHitbox : MonoBehaviour
             return;
         }
 
+        alreadyHitThisSwing.Clear();
+        CancelInvoke(nameof(DisableCollider));
         boxCollider.enabled = true;
-
-        Invoke(nameof(DisableCollider), Time.fixedDeltaTime);
+        Invoke(nameof(DisableCollider), Mathf.Max(fireHitSeconds, Time.fixedDeltaTime));
     }
 
     // ------------------------------------------------------------------ Called by AnimationEventRelay
@@ -120,6 +129,9 @@ public class AttackHitbox : MonoBehaviour
                 FireProjectile();
             return;
         }
+
+        if (active)
+            alreadyHitThisSwing.Clear();
 
         boxCollider.enabled = active;
     }
@@ -175,6 +187,7 @@ public class AttackHitbox : MonoBehaviour
                                ?? other.GetComponentInParent<StatsManager>();
 
         if (enemyStats == null) return;
+        if (!alreadyHitThisSwing.Add(enemyStats)) return;
 
         bool landed = enemyStats.TakeDamage(currentDamage, attackerStats);
 #if COMBAT_DEBUG

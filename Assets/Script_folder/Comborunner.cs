@@ -98,6 +98,9 @@ public class ComboRunner : MonoBehaviour
         if (animator == null)
             animator = GetComponentInChildren<Animator>();
 
+        if (hitbox == null)
+            hitbox = GetComponentInChildren<AttackHitbox>();
+
         if (stats == null)
             Debug.LogError($"ComboRunner on '{name}': No StatsManager found.");
 

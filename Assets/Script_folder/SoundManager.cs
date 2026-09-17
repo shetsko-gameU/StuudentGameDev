@@ -40,7 +40,7 @@ public class SoundManager : MonoBehaviour
     [Header("SFX")]
     [Tooltip("Number of simultaneous non-positional SFX voices.")]
     public int sfxPoolSize = 8;
-    [Range(0f, 1f)] public float sfxVolume = 1f;
+    [Range(0f, 1f)] public float sfxVolume = 0.35f;
 
     [Header("Music")]
     [Range(0f, 1f)] public float musicVolume = 1f;

@@ -1,28 +1,24 @@
 using UnityEngine;
 
 public class EnemyStrikeDistanceCheck : MonoBehaviour
-{ 
-    public GameObject playerTarget{get; set;}
-    public GameObject dummyTarget{get; set;}
+{
+    public GameObject playerTarget { get; set; }
+    public GameObject dummyTarget { get; set; }
     public EnemyBase enemy;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Awake()
     {
         enemy = GetComponentInParent<EnemyBase>();
         playerTarget = GameObject.FindGameObjectWithTag("Player");
         dummyTarget = GameObject.FindGameObjectWithTag("Dummy");
     }
+
     void Start()
     {
-        
+        TryMarkInRangeIfOverlapping(playerTarget);
+        TryMarkInRangeIfOverlapping(dummyTarget);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    //Enemy determines trigger based on spotting the player
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject == playerTarget || other.gameObject == dummyTarget)
@@ -31,11 +27,27 @@ public class EnemyStrikeDistanceCheck : MonoBehaviour
             enemy.isWithinRange = true;
         }
     }
-    void  OnTriggerExit(Collider other)
+
+    void OnTriggerExit(Collider other)
     {
         if (other.gameObject == playerTarget || other.gameObject == dummyTarget)
         {
             enemy.isWithinRange = false;
+        }
+    }
+
+    void TryMarkInRangeIfOverlapping(GameObject target)
+    {
+        if (target == null || enemy == null) return;
+
+        Collider self = GetComponent<Collider>();
+        Collider other = target.GetComponent<Collider>() ?? target.GetComponentInChildren<Collider>();
+        if (self == null || other == null) return;
+
+        if (self.bounds.Intersects(other.bounds))
+        {
+            enemy.currentTarget = target;
+            enemy.isWithinRange = true;
         }
     }
 }

@@ -52,10 +52,11 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.99814755, z: 0, w: 0.060839552}
   m_LocalPosition: {x: 189.9, y: 2.26, z: 250.3}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4640441715402957049}
+  - {fileID: 8800000001156783750}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 173.024, z: 0}
 --- !u!33 &696037991725483000
@@ -133,10 +134,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.24
-  m_Height: 2.9026763
+  m_Radius: 0.4
+  m_Height: 2.2
   m_Direction: 1
-  m_Center: {x: 0, y: 0.4885596, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!54 &4578822220498060287
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -629,7 +630,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ComboRunner
   stats: {fileID: 8814090635867657241}
-  hitbox: {fileID: 0}
+  hitbox: {fileID: 8800000001156783752}
   animator: {fileID: 0}
   combo: {fileID: 11400000, guid: 4edec3698243df047ae8cbe8fd775f07, type: 2}
   useAnimationEvents: 0
@@ -648,7 +649,7 @@ MonoBehaviour:
   comboRunner: {fileID: 4228190003025015144}
   passiveManager: {fileID: 4625043910456940208}
   stats: {fileID: 8814090635867657241}
-  hitbox: {fileID: 0}
+  hitbox: {fileID: 8800000001156783752}
 --- !u!114 &4797080191231004307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -810,7 +811,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 3994294546509096518}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.24
+  m_Radius: 0.4
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -819,7 +820,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1
-  m_Height: 2.9
+  m_Height: 2.2
   m_BaseOffset: 1.1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
@@ -877,7 +878,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DebuffOnHitTrigger
   comboRunner: {fileID: 4228190003025015144}
-  hitbox: {fileID: 0}
+  hitbox: {fileID: 8800000001156783752}
   passiveManager: {fileID: 4625043910456940208}
 --- !u!114 &4841218838983478207
 MonoBehaviour:
@@ -891,8 +892,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56930dab64ae24d49b00e5336fc885e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CurrencyTracker
-  trackedTypes:
-  - {fileID: 0}
+  trackedTypes: []
   amounts: 
 --- !u!114 &8559787390676633119
 MonoBehaviour:
@@ -922,7 +922,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitSFXTrigger
   comboRunner: {fileID: 4228190003025015144}
-  hitbox: {fileID: 0}
+  hitbox: {fileID: 8800000001156783752}
   hitSound: {fileID: 11400000, guid: 1c1b047a7e4a7499cb4d5fa8270dcb60, type: 2}
 --- !u!114 &3106192970403256635
 MonoBehaviour:
@@ -985,6 +985,82 @@ MonoBehaviour:
   playerConsume: {fileID: 0}
   animator: {fileID: 0}
   moveSpeedThreshold: 0.1
+--- !u!1 &8800000001156783749
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8800000001156783750}
+  - component: {fileID: 8800000001156783751}
+  - component: {fileID: 8800000001156783752}
+  m_Layer: 0
+  m_Name: AttackHitbox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8800000001156783750
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8800000001156783749}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0.9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7012104281757605223}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &8800000001156783751
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8800000001156783749}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1.2}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8800000001156783752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8800000001156783749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d850c9c729e6074e902b3629de611df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttackHitbox
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  boxCollider: {fileID: 0}
+  attackerStats: {fileID: 8814090635867657241}
+  isRanged: 0
+  projectilePrefab: {fileID: 0}
+  muzzlePoint: {fileID: 0}
+  projectileSpeed: 20
+  fireHitSeconds: 0.12
 --- !u!1001 &5182675987715983122
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -994,12 +1070,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 7012104281757605223}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 990e4dc8a387da7479af74358970d266, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 990e4dc8a387da7479af74358970d266, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 990e4dc8a387da7479af74358970d266, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 990e4dc8a387da7479af74358970d266, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 990e4dc8a387da7479af74358970d266, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.37720442
+      value: -1.1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 990e4dc8a387da7479af74358970d266, type: 3}
       propertyPath: m_LocalPosition.z

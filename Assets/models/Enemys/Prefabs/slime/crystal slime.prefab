@@ -251,8 +251,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -384,7 +384,7 @@ MonoBehaviour:
     m_Bits: 1
   attackerStats: {fileID: 888238076280750206}
   damageMultiplier: 1
-  useSwingWindow: 0
+  useSwingWindow: 1
   swingWindowSeconds: 0.2
 --- !u!1001 &8708988174278283183
 PrefabInstance:
@@ -400,7 +400,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f5d9aa960e2815545a156e943026831c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.7924856
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f5d9aa960e2815545a156e943026831c, type: 3}
       propertyPath: m_LocalPosition.z

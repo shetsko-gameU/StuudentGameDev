@@ -147,7 +147,7 @@ public class EnemyMove : EnemyState
         if (distance < 0.05f) return;
 
         Vector3 dir = toTarget / distance;
-        float speed = enemy.moveTuning.moveSpeed * (stats != null ? stats.MoveSpeed : 1f);
+        float speed = enemy.moveTuning.moveSpeed * (stats != null ? Mathf.Max(0.05f, stats.MoveSpeed) : 1f);
         enemy.transform.position += dir * speed * Time.deltaTime;
 
         if (dir.sqrMagnitude > 0.001f)
@@ -161,13 +161,14 @@ public class EnemyMove : EnemyState
     }
 
     /// <summary>
-    /// Pushes the prefab's tuning onto the agent, scaled by the StatsManager MoveSpeed stat
-    /// so slows and haste actually change how fast the enemy closes distance.
+    /// Pushes the prefab's tuning onto the agent. StatsManager.MoveSpeed is treated as a
+    /// multiplier (1 = normal). Enemy BaseStatsSO moveSpeed should stay near 1 so chase
+    /// speed is roughly moveTuning.moveSpeed (not tuning × 5).
     /// </summary>
     private void ApplyTuning(NavMeshAgent agent)
     {
         EnemyMoveTuning tuning = enemy.moveTuning;
-        float speedMultiplier = stats != null ? stats.MoveSpeed : 1f;
+        float speedMultiplier = stats != null ? Mathf.Max(0.05f, stats.MoveSpeed) : 1f;
 
         agent.speed = tuning.moveSpeed * speedMultiplier;
         agent.acceleration = tuning.acceleration;

@@ -23,6 +23,7 @@ public static class WireFbxAnimations
     private const string ExportsFolder = "Assets/Fbx_exports";
     private const string RunFlagPath = "Temp/WireFbxAnimations.run";
     private const string ResultPath = "Temp/WireFbxAnimations.result.txt";
+    private const string EnsureHitboxesFlagPath = "Temp/EnsurePlayerAttackHitboxes.run";
 
     private static readonly Dictionary<string, string> EnemyFbxByPrefab = new Dictionary<string, string>
     {
@@ -46,6 +47,25 @@ public static class WireFbxAnimations
     {
         EditorApplication.delayCall += () =>
         {
+            if (File.Exists(EnsureHitboxesFlagPath))
+            {
+                try { File.Delete(EnsureHitboxesFlagPath); }
+                catch (IOException) { return; }
+
+                Debug.Log("WireFbxAnimations: EnsureHitboxes flag detected — running.");
+                try
+                {
+                    EnsurePlayerAttackHitboxes();
+                    File.WriteAllText(ResultPath,
+                        $"PASS\nEnsurePlayerAttackHitboxes completed at {System.DateTime.Now:O}\n");
+                }
+                catch (System.Exception ex)
+                {
+                    File.WriteAllText(ResultPath, $"FAIL\n{ex}\n");
+                    Debug.LogException(ex);
+                }
+            }
+
             if (!File.Exists(RunFlagPath))
                 return;
 
@@ -476,9 +496,8 @@ public static class WireFbxAnimations
                 }
             }
 
-            // Destroy EVERY nested visual (old Dirk / mage model / prior mesh FBX / empty
-            // capsule mesh). Leaving any one behind doubles the body in play mode.
-            DestroyAllVisualChildren(root.transform, keepGameplayVolumes: false);
+            // Keep AttackHitbox / other gameplay volumes — visuals only get swapped.
+            DestroyAllVisualChildren(root.transform, keepGameplayVolumes: true);
 
             // Disable root capsule MeshRenderer if present — collider stays, mesh does not render.
             MeshRenderer rootMr = root.GetComponent<MeshRenderer>();
@@ -505,6 +524,7 @@ public static class WireFbxAnimations
             modelAnimator.runtimeAnimatorController = controller;
 
             RetargetAnimatorRefs(root, modelAnimator);
+            EnsurePlayerAttackHitbox(root);
 
             PrefabUtility.SaveAsPrefabAsset(root, prefabPath);
             Debug.Log($"WireFbxAnimations: '{Path.GetFileName(prefabPath)}' model -> {Path.GetFileName(fbxPath)}, " +
@@ -514,6 +534,104 @@ public static class WireFbxAnimations
         {
             PrefabUtility.UnloadPrefabContents(root);
         }
+    }
+
+    /// <summary>
+    /// Creates / rewires a forward AttackHitbox child and points ComboRunner + related
+    /// triggers at it. Safe to re-run.
+    /// </summary>
+    private static void EnsurePlayerAttackHitbox(GameObject root)
+    {
+        AttackHitbox hitbox = root.GetComponentInChildren<AttackHitbox>(true);
+        if (hitbox == null)
+        {
+            GameObject go = new GameObject("AttackHitbox");
+            go.transform.SetParent(root.transform, false);
+            go.transform.localPosition = new Vector3(0f, 1f, 0.9f);
+            go.transform.localRotation = Quaternion.identity;
+            go.transform.localScale = Vector3.one;
+
+            BoxCollider box = go.AddComponent<BoxCollider>();
+            box.isTrigger = true;
+            box.enabled = false;
+            box.size = new Vector3(1f, 1f, 1.2f);
+            box.center = Vector3.zero;
+
+            hitbox = go.AddComponent<AttackHitbox>();
+        }
+
+        // Enemy layer is User layer index 3 → mask bit 1<<3 = 8.
+        hitbox.enemyLayer = 1 << 3;
+
+        StatsManager stats = root.GetComponent<StatsManager>();
+        if (stats != null)
+            hitbox.attackerStats = stats;
+
+        Animator anim = root.GetComponentInChildren<Animator>(true);
+
+        ComboRunner combo = root.GetComponent<ComboRunner>();
+        if (combo != null)
+        {
+            combo.hitbox = hitbox;
+            if (anim != null)
+                combo.animator = anim;
+        }
+
+        foreach (MonoBehaviour behaviour in root.GetComponentsInChildren<MonoBehaviour>(true))
+        {
+            if (behaviour == null) continue;
+            SerializedObject so = new SerializedObject(behaviour);
+            SerializedProperty hitboxProp = so.FindProperty("hitbox");
+            if (hitboxProp != null && hitboxProp.propertyType == SerializedPropertyType.ObjectReference)
+            {
+                hitboxProp.objectReferenceValue = hitbox;
+                so.ApplyModifiedPropertiesWithoutUndo();
+            }
+
+            SerializedProperty animProp = so.FindProperty("animator");
+            if (animProp != null && anim != null &&
+                animProp.propertyType == SerializedPropertyType.ObjectReference)
+            {
+                animProp.objectReferenceValue = anim;
+                so.ApplyModifiedPropertiesWithoutUndo();
+            }
+        }
+
+        EditorUtility.SetDirty(root);
+        Debug.Log($"WireFbxAnimations: EnsurePlayerAttackHitbox on '{root.name}'.");
+    }
+
+    /// <summary>Headless / menu: recreate AttackHitbox on both player prefabs without full FBX reimport.</summary>
+    [MenuItem("Tools/Player/Ensure Attack Hitboxes")]
+    public static void EnsurePlayerAttackHitboxesMenu()
+    {
+        EnsurePlayerAttackHitboxes();
+    }
+
+    public static void EnsurePlayerAttackHitboxes()
+    {
+        string[] paths =
+        {
+            "Assets/Player/Player.prefab",
+            "Assets/Player/Player_Wizard.prefab",
+        };
+
+        foreach (string path in paths)
+        {
+            GameObject root = PrefabUtility.LoadPrefabContents(path);
+            try
+            {
+                EnsurePlayerAttackHitbox(root);
+                PrefabUtility.SaveAsPrefabAsset(root, path);
+            }
+            finally
+            {
+                PrefabUtility.UnloadPrefabContents(root);
+            }
+        }
+
+        AssetDatabase.SaveAssets();
+        Debug.Log("WireFbxAnimations.EnsurePlayerAttackHitboxes: done.");
     }
 
     private static void RetargetAnimatorRefs(GameObject root, Animator animator)
@@ -527,7 +645,8 @@ public static class WireFbxAnimations
             while (prop.NextVisible(true))
             {
                 if (prop.propertyType == SerializedPropertyType.ObjectReference &&
-                    prop.objectReferenceValue is Animator)
+                    (prop.objectReferenceValue is Animator ||
+                     (prop.objectReferenceValue == null && prop.name == "animator")))
                 {
                     prop.objectReferenceValue = animator;
                     changed = true;
