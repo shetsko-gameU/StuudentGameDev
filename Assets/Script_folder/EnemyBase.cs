@@ -154,7 +154,10 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     void FixedUpdate()
     {
         stateMachine?.CurrentEnemyState?.PhysicsUpdate();
-        CheckForDummy();
+        // Optional Dummy-training backstop. Disabled when sightRange == 0 (default for
+        // trigger-aggro enemies) so we do not OverlapSphere every physics tick per enemy.
+        if (sightRange > 0f)
+            CheckForDummy();
     }
     public enum AnimationTriggerType
     {
@@ -231,15 +234,16 @@ public class EnemyBase : MonoBehaviour, TriggerCheck
     }
     public void CheckForDummy()
     {
+        if (sightRange <= 0f) return;
+
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, sightRange);
         foreach (var hitCollider in hitColliders)
         {
-            if(hitCollider.gameObject.CompareTag("Dummy"))
+            if (hitCollider.gameObject.CompareTag("Dummy"))
             {
                 currentTarget = hitCollider.gameObject;
             }
         }
-        
     }
     /*public void OnMove(InputAction.CallbackContext context)
     {

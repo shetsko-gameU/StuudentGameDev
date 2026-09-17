@@ -177,7 +177,9 @@ public class AttackHitbox : MonoBehaviour
         if (enemyStats == null) return;
 
         bool landed = enemyStats.TakeDamage(currentDamage, attackerStats);
+#if COMBAT_DEBUG
         Debug.Log($"AttackHitbox: Hit '{other.name}' for {currentDamage} damage.");
+#endif
 
         if (landed)
             OnEnemyHit?.Invoke(enemyStats);

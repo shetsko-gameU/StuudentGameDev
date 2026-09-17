@@ -63,8 +63,12 @@
   <ItemGroup>
     <Compile Include="Assets\TutorialInfo\Scripts\Editor\ReadmeEditor.cs" />
     <Compile Include="Assets\GameObjectBrush\Scripts\Editor\GameObjectBrushEditor.cs" />
+    <Compile Include="Assets\editor\EnemyPrefabSetupGenerator.cs" />
     <Compile Include="Assets\GameObjectBrush\Scripts\Editor\BrushCollection.cs" />
     <Compile Include="Assets\editor\SnapToTerrainTool.cs" />
+    <Compile Include="Assets\editor\PlaceholderEnemyAnimationGenerator.cs" />
+    <Compile Include="Assets\editor\WireFbxAnimations.cs" />
+    <Compile Include="Assets\editor\PlayerSetupGenerator.cs" />
     <Compile Include="Assets\GameObjectBrush\Scripts\Editor\BrushObject.cs" />
     <Compile Include="Assets\GameObjectBrush\Scripts\Editor\AddObjectPopup.cs" />
     <Compile Include="Assets\GameObjectBrush\Scripts\Editor\StringPopupDialog.cs" />
@@ -568,6 +572,10 @@
     </Reference>
     <Reference Include="UnityEditor.Graphs">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.2.10f1\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.WebGL.Extensions">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.2.10f1\Editor\Data\PlaybackEngines\WebGLSupport\UnityEditor.WebGL.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">

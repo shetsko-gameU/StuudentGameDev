@@ -242,7 +242,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7461825373840520433}
+  - {fileID: 9063318319325293910}
   - {fileID: 3783948904563934350}
   - {fileID: 1254445901433627808}
   - {fileID: 553753481178284843}
@@ -262,11 +262,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBase
   stats: {fileID: 2955427503013788615}
   Player_Stats: {fileID: 0}
-  animator: {fileID: 3561668288549187211}
+  animator: {fileID: 3109580689412028204}
   raycasts: []
   doesAttackPivot: 0
   isBoss: 0
-  sightRange: 5
+  sightRange: 0
   moveTuning:
     moveSpeed: 3.5
     acceleration: 8
@@ -386,7 +386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df38a27b729262c4ebc1e36027b4571f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimationEventRelay
---- !u!1001 &6919503586804093722
+--- !u!1001 &8812953485731547837
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -448,32 +448,32 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1ae7393cfda0d9848984cd219194019a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4506440505677202045}
+      addedObject: {fileID: 8633969043994096485}
   m_SourcePrefab: {fileID: 100100000, guid: 1ae7393cfda0d9848984cd219194019a, type: 3}
---- !u!95 &3561668288549187211 stripped
+--- !u!95 &3109580689412028204 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 1ae7393cfda0d9848984cd219194019a, type: 3}
-  m_PrefabInstance: {fileID: 6919503586804093722}
+  m_PrefabInstance: {fileID: 8812953485731547837}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &7461825373840520433 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1ae7393cfda0d9848984cd219194019a, type: 3}
-  m_PrefabInstance: {fileID: 6919503586804093722}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &7838068784168627787 stripped
+--- !u!1 &8542360173268498412 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1ae7393cfda0d9848984cd219194019a, type: 3}
-  m_PrefabInstance: {fileID: 6919503586804093722}
+  m_PrefabInstance: {fileID: 8812953485731547837}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4506440505677202045
+--- !u!114 &8633969043994096485
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7838068784168627787}
+  m_GameObject: {fileID: 8542360173268498412}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df38a27b729262c4ebc1e36027b4571f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimationEventRelay
+--- !u!4 &9063318319325293910 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1ae7393cfda0d9848984cd219194019a, type: 3}
+  m_PrefabInstance: {fileID: 8812953485731547837}
+  m_PrefabAsset: {fileID: 0}

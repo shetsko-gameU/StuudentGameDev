@@ -100,6 +100,12 @@ public static class WireFbxAnimations
 
         SwapPlayerModel("Assets/Player/Player.prefab", swordFbx);
         SwapPlayerModel("Assets/Player/Player_Wizard.prefab", mageFbx);
+        WireComboSlashTriggers(
+            "Assets/Player/Script_Object/ComboSo.asset",
+            new[] { "Attack", "Attack2", "Attack3" });
+        WireComboSlashTriggers(
+            "Assets/Player/Script_Object/WizardComboSo.asset",
+            new[] { "WizardAttack", "WizardAttack2", "WizardAttack3" });
         AssetDatabase.SaveAssets();
         Debug.Log("WireFbxAnimations.FixPlayerFeetAndControllers: done.");
     }
@@ -219,7 +225,8 @@ public static class WireFbxAnimations
                 Contains(copy.name, "idle") ||
                 Contains(copy.name, "walk") ||
                 Contains(copy.name, "run") ||
-                Contains(copy.name, "hop");
+                Contains(copy.name, "hop") ||
+                Contains(copy.name, "fly");
 
             copy.loopTime = shouldLoop;
             configured.Add(copy);
@@ -270,10 +277,56 @@ public static class WireFbxAnimations
         SwapPlayerModel("Assets/Player/Player.prefab", swordFbx);
         SwapPlayerModel("Assets/Player/Player_Wizard.prefab", mageFbx);
 
-        // Combo hits should fire triggers that exist on the controller. Keep "Attack" /
-        // "WizardAttack" as the trigger names; the state plays Slash_01 / Attack clips.
-        UpdateComboTriggers("Assets/Player/Script_Object/ComboSo.asset", "Attack");
-        UpdateComboTriggers("Assets/Player/Script_Object/WizardComboSo.asset", "WizardAttack");
+        // Combo hits fire Attack / Attack2 / Attack3 (or WizardAttack*) so each swing can
+        // play a different baked Slash_*/Swing_* take from the character FBX.
+        WireComboSlashTriggers(
+            "Assets/Player/Script_Object/ComboSo.asset",
+            new[] { "Attack", "Attack2", "Attack3" });
+        WireComboSlashTriggers(
+            "Assets/Player/Script_Object/WizardComboSo.asset",
+            new[] { "WizardAttack", "WizardAttack2", "WizardAttack3" });
+    }
+
+    private static void WireComboSlashTriggers(string assetPath, string[] triggers)
+    {
+        ComboSO combo = AssetDatabase.LoadAssetAtPath<ComboSO>(assetPath);
+        if (combo == null) return;
+
+        ComboHitData[] hits = combo.hits;
+        if (hits == null || hits.Length < triggers.Length)
+        {
+            ComboHitData[] resized = new ComboHitData[triggers.Length];
+            for (int i = 0; i < triggers.Length; i++)
+            {
+                if (hits != null && i < hits.Length && hits[i] != null)
+                    resized[i] = hits[i];
+                else
+                    resized[i] = new ComboHitData();
+            }
+
+            combo.hits = resized;
+            hits = resized;
+        }
+
+        for (int i = 0; i < triggers.Length; i++)
+        {
+            if (hits[i] == null)
+                hits[i] = new ComboHitData();
+
+            hits[i].animatorTrigger = triggers[i];
+            if (string.IsNullOrEmpty(hits[i].displayName) || hits[i].displayName == "Hit")
+                hits[i].displayName = triggers[i];
+            if (i < triggers.Length - 1 && hits[i].chainWindowSeconds <= 0f)
+                hits[i].chainWindowSeconds = 0.5f;
+            if (hits[i].damageMultiplier <= 0f)
+                hits[i].damageMultiplier = 1f;
+        }
+
+        // Last hit: no chain window needed.
+        hits[triggers.Length - 1].chainWindowSeconds = 0f;
+
+        EditorUtility.SetDirty(combo);
+        Debug.Log($"WireFbxAnimations: {Path.GetFileName(assetPath)} triggers -> {string.Join(", ", triggers)}.");
     }
 
     private static void WirePlayerController(string controllerPath,
@@ -287,50 +340,72 @@ public static class WireFbxAnimations
         EnsureParam(controller, PlayerAnimatorParams.Speed, AnimatorControllerParameterType.Float);
         EnsureParam(controller, PlayerAnimatorParams.Grounded, AnimatorControllerParameterType.Bool);
         EnsureParam(controller, PlayerAnimatorParams.Dead, AnimatorControllerParameterType.Bool);
-        EnsureParam(controller, attackTrigger, AnimatorControllerParameterType.Trigger);
 
         AnimationClip idle = FindClip(clips, "Idle") ?? FindClip(clips, "Hop");
         AnimationClip walk = FindClip(clips, "Walk") ?? FindClip(clips, "Run") ?? FindClip(clips, "Hop");
-        AnimationClip attack = null;
-        foreach (string name in attackClipNames)
-        {
-            attack = FindClip(clips, name);
-            if (attack != null) break;
-        }
-
         AnimationClip death = FindClip(clips, "Death");
         AnimationClip hit = FindClip(clips, "Hit");
+
+        // Resolve up to 3 baked attack takes (Slash_01/02/03 or Swing_01/02/03).
+        AnimationClip[] attackClips = new AnimationClip[3];
+        for (int i = 0; i < 3 && i < attackClipNames.Length; i++)
+            attackClips[i] = FindClip(clips, attackClipNames[i]);
+
+        string[] attackTriggers =
+        {
+            attackTrigger,
+            attackTrigger == "WizardAttack" ? "WizardAttack2" : "Attack2",
+            attackTrigger == "WizardAttack" ? "WizardAttack3" : "Attack3",
+        };
+        foreach (string t in attackTriggers)
+            EnsureParam(controller, t, AnimatorControllerParameterType.Trigger);
 
         AnimatorStateMachine sm = controller.layers[0].stateMachine;
 
         AnimatorState idleState = GetOrCreateState(sm, "Idle", new Vector3(300, 240, 0));
         AnimatorState walkState = GetOrCreateState(sm, "Walk", new Vector3(560, 240, 0));
-        AnimatorState attackState = GetOrCreateState(sm, "Attack", new Vector3(300, 40, 0));
         AnimatorState deathState = GetOrCreateState(sm, "Death", new Vector3(300, 400, 0));
+        AnimatorState[] attackStates =
+        {
+            GetOrCreateState(sm, "Attack", new Vector3(300, 40, 0)),
+            GetOrCreateState(sm, "Attack2", new Vector3(480, 40, 0)),
+            GetOrCreateState(sm, "Attack3", new Vector3(660, 40, 0)),
+        };
 
         if (idle != null) idleState.motion = idle;
         if (walk != null) walkState.motion = walk;
-        if (attack != null) attackState.motion = attack;
         if (death != null) deathState.motion = death;
+        for (int i = 0; i < 3; i++)
+        {
+            if (attackClips[i] != null)
+                attackStates[i].motion = attackClips[i];
+        }
 
         sm.defaultState = idleState;
 
         ClearTransitions(idleState);
         ClearTransitions(walkState);
-        ClearTransitions(attackState);
+        foreach (AnimatorState atk in attackStates)
+            ClearTransitions(atk);
 
-        AddFloatTransition(idleState, walkState, PlayerAnimatorParams.Speed, greater: true, 0.1f);
+        // Locomotion only while grounded — falling must leave Walk.
+        AddFloatAndBoolTransition(idleState, walkState, PlayerAnimatorParams.Speed, greater: true, 0.1f,
+            PlayerAnimatorParams.Grounded, grounded: true);
         AddFloatTransition(walkState, idleState, PlayerAnimatorParams.Speed, greater: false, 0.1f);
-        AddTriggerTransition(idleState, attackState, attackTrigger);
-        AddTriggerTransition(walkState, attackState, attackTrigger);
+        AddBoolTransition(walkState, idleState, PlayerAnimatorParams.Grounded, grounded: false);
 
-        AnimatorStateTransition attackDone = attackState.AddTransition(idleState);
-        attackDone.hasExitTime = true;
-        attackDone.exitTime = 0.9f;
-        attackDone.duration = 0.1f;
-        attackDone.hasFixedDuration = true;
+        for (int i = 0; i < 3; i++)
+        {
+            if (attackClips[i] == null) continue;
+            AddTriggerTransition(idleState, attackStates[i], attackTriggers[i]);
+            AddTriggerTransition(walkState, attackStates[i], attackTriggers[i]);
+            AnimatorStateTransition attackDone = attackStates[i].AddTransition(idleState);
+            attackDone.hasExitTime = true;
+            attackDone.exitTime = 0.9f;
+            attackDone.duration = 0.1f;
+            attackDone.hasFixedDuration = true;
+        }
 
-        // Remove stale Any-state death transitions then re-add one.
         foreach (AnimatorStateTransition t in sm.anyStateTransitions.ToArray())
             sm.RemoveAnyStateTransition(t);
 
@@ -357,7 +432,6 @@ public static class WireFbxAnimations
             hitDone.duration = 0.1f;
         }
 
-        // Hide legacy empty states that confuse the graph (Sword_Swing / PlayerAttack / New State).
         foreach (string legacy in new[] { "Sword_Swing", "PlayerAttack", "PlayerWizardAttack", "New State" })
         {
             AnimatorState legacyState = FindState(sm, legacy);
@@ -366,8 +440,8 @@ public static class WireFbxAnimations
         }
 
         EditorUtility.SetDirty(controller);
-        Debug.Log($"WireFbxAnimations: player controller '{Path.GetFileName(controllerPath)}' now uses FBX clips " +
-                  $"(idle={(idle != null)}, walk={(walk != null)}, attack={(attack != null)}).");
+        Debug.Log($"WireFbxAnimations: player controller '{Path.GetFileName(controllerPath)}' FBX clips " +
+                  $"(idle={idle != null}, walk={walk != null}, atk0={attackClips[0] != null}, atk1={attackClips[1] != null}, atk2={attackClips[2] != null}).");
     }
 
     private static void SwapPlayerModel(string prefabPath, string fbxPath)
@@ -465,28 +539,6 @@ public static class WireFbxAnimations
         }
     }
 
-    private static void UpdateComboTriggers(string assetPath, string trigger)
-    {
-        ComboSO combo = AssetDatabase.LoadAssetAtPath<ComboSO>(assetPath);
-        if (combo == null || combo.hits == null) return;
-
-        bool dirty = false;
-        foreach (ComboHitData hit in combo.hits)
-        {
-            if (hit != null && hit.animatorTrigger != trigger)
-            {
-                hit.animatorTrigger = trigger;
-                dirty = true;
-            }
-        }
-
-        if (dirty)
-        {
-            EditorUtility.SetDirty(combo);
-            Debug.Log($"WireFbxAnimations: {Path.GetFileName(assetPath)} triggers -> '{trigger}'.");
-        }
-    }
-
     // ------------------------------------------------------------------ Enemies
 
     private static void WireEnemies()
@@ -520,14 +572,16 @@ public static class WireFbxAnimations
                 continue;
             }
 
-            AnimationClip idle = FindClip(clips, "Idle") ?? FindClip(clips, "Hop") ?? FindClip(clips, "Run");
-            AnimationClip walk = FindClip(clips, "Walk") ?? FindClip(clips, "Run") ?? FindClip(clips, "Hop");
+            AnimationClip idle = FindClip(clips, "Idle") ?? FindClip(clips, "Hop") ?? FindClip(clips, "Run")
+                                 ?? FindClip(clips, "Fly");
+            AnimationClip walk = FindClip(clips, "Walk") ?? FindClip(clips, "Run") ?? FindClip(clips, "Hop")
+                                 ?? FindClip(clips, "Fly");
             AnimationClip attack = FindClip(clips, "Attack") ?? FindClip(clips, "Slash_01");
             AnimationClip hit = FindClip(clips, "Hit");
             AnimationClip death = FindClip(clips, "Death");
 
             AnimatorStateMachine sm = controller.layers[0].stateMachine;
-            // Clear placeholder bob clips when a take is missing (e.g. flying snake Idle/Walk).
+            // Prefer baked FBX takes. Snake has Fly (not Idle/Walk) — map that for locomotion.
             SetStateMotionOrClear(sm, "Idle", idle);
             SetStateMotionOrClear(sm, "Walk", walk ?? idle);
             SetStateMotionOrClear(sm, "Attack", attack);
@@ -1127,7 +1181,8 @@ public static class WireFbxAnimations
             {
                 string n = clip.name ?? string.Empty;
                 bool shouldLoop =
-                    Contains(n, "idle") || Contains(n, "walk") || Contains(n, "run") || Contains(n, "hop");
+                    Contains(n, "idle") || Contains(n, "walk") || Contains(n, "run") ||
+                    Contains(n, "hop") || Contains(n, "fly");
                 if (shouldLoop && !clip.loopTime)
                 {
                     Debug.LogError($"Validate: FAIL '{Path.GetFileName(path)}' clip '{n}' should have Loop Time.");
@@ -1137,7 +1192,7 @@ public static class WireFbxAnimations
         }
 
         if (fails == 0)
-            Debug.Log("Validate: PASS Loop Time on Idle/Walk/Run/Hop export clips.");
+            Debug.Log("Validate: PASS Loop Time on Idle/Walk/Run/Hop/Fly export clips.");
         return fails;
     }
 
@@ -1151,6 +1206,26 @@ public static class WireFbxAnimations
     {
         AnimatorStateTransition t = from.AddTransition(to);
         t.AddCondition(greater ? AnimatorConditionMode.Greater : AnimatorConditionMode.Less, threshold, param);
+        t.hasExitTime = false;
+        t.duration = 0.1f;
+        t.hasFixedDuration = true;
+    }
+
+    private static void AddBoolTransition(AnimatorState from, AnimatorState to, string param, bool grounded)
+    {
+        AnimatorStateTransition t = from.AddTransition(to);
+        t.AddCondition(grounded ? AnimatorConditionMode.If : AnimatorConditionMode.IfNot, 0f, param);
+        t.hasExitTime = false;
+        t.duration = 0.05f;
+        t.hasFixedDuration = true;
+    }
+
+    private static void AddFloatAndBoolTransition(AnimatorState from, AnimatorState to,
+        string floatParam, bool greater, float threshold, string boolParam, bool grounded)
+    {
+        AnimatorStateTransition t = from.AddTransition(to);
+        t.AddCondition(greater ? AnimatorConditionMode.Greater : AnimatorConditionMode.Less, threshold, floatParam);
+        t.AddCondition(grounded ? AnimatorConditionMode.If : AnimatorConditionMode.IfNot, 0f, boolParam);
         t.hasExitTime = false;
         t.duration = 0.1f;
         t.hasFixedDuration = true;

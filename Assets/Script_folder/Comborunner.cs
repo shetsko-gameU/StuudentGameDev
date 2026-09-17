@@ -128,7 +128,9 @@ public class ComboRunner : MonoBehaviour
                 chainTimer = 0f;
                 resetTriggers();
                 OnComboReset?.Invoke();
+#if COMBAT_DEBUG
                 Debug.Log("ComboRunner: Chain window expired — combo reset.");
+#endif
             }
         }
 
@@ -196,7 +198,9 @@ public class ComboRunner : MonoBehaviour
         if (isFirst && !isLast)
         {
             OnComboStarted?.Invoke();
+#if COMBAT_DEBUG
             Debug.Log($"ComboRunner: Combo started — '{hitData.displayName}'");
+#endif
         }
 
         // Advance or reset the combo index
@@ -239,12 +243,16 @@ public class ComboRunner : MonoBehaviour
         {
             resetTriggers();
             OnComboFinished?.Invoke();
+#if COMBAT_DEBUG
             Debug.Log($"ComboRunner: Combo finished — last hit '{hitData.displayName}' dealt {damage} damage.");
+#endif
         }
+#if COMBAT_DEBUG
         else
         {
             Debug.Log($"ComboRunner: Hit {hitIndex} '{hitData.displayName}' dealt {damage} damage.");
         }
+#endif
 
         hitActive = false;
     }

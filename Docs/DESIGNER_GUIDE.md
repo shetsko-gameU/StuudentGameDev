@@ -51,6 +51,10 @@ owns the animator parameters, and arbitrates the rules between systems.
 `ObjectLibrary`, `MainMenu`, `hub`, and `forest level 01`–`05` are in Build Settings.
 `MainMenu` and `hub` are the two that `PlayerDeathHandler` loads by name.
 
+**Do not use `Assets/Scenes/GamePlayTesting.unity` for combat or movement QA.** It has
+no baked NavMesh (`m_NavMeshData` is null) and still references the legacy `Player_Move`
+component. Use a forest room (or hub) instead.
+
 ---
 
 ## 2. Making a new enemy
@@ -70,7 +74,9 @@ Everything below is Inspector work. No scripting.
    - One with `EnemyStrikeDistanceCheck` — radius = how close before it swings
    - Assign the `enemy` field on both to the root `EnemyBase`
 3. Set the enemy's layer to **Enemy**.
-4. On `EnemyBase`, set `Sight Range` to roughly the aggro collider's radius.
+4. On `EnemyBase`, leave **Sight Range at 0** so the optional OverlapSphere backstop stays
+   off (aggro comes from `EnemyAggroCheck` triggers). Only raise it for Dummy-training
+   scenes that lack a trigger volume.
 5. Save as a prefab. Copy `slime.prefab` or `mushroom scout.prefab` if you want a known-good
    starting point.
 
@@ -147,7 +153,7 @@ silently never plays. Every enemy controller must expose all four:
 | `Speed` | Float | `PlayerStateMachine` | Horizontal speed. |
 | `Grounded` | Bool | `PlayerStateMachine` | False mid-ledge-fall. |
 | `Dead` | Bool | `PlayerStateMachine` | Latched true. |
-| `Attack` / `WizardAttack` | Trigger | `ComboRunner` | **Exception** — see below. |
+| `Attack` / `Attack2` / `Attack3` (warrior) or `WizardAttack*` (mage) | Trigger | `ComboRunner` | Per-hit baked Slash/Swing. **Exception** — see below. |
 
 > **The one exception to "the FSM owns the animator":** `ComboRunner` writes its own attack
 > triggers. Their names come from `ComboSO` data (each hit carries its own `animatorTrigger`),
@@ -174,7 +180,7 @@ the old transform-bob placeholders under `Assets/animations/Generated/` or
 | metal slime | `Fbx_exports/metal slime.fbx` |
 | mushroom scout | `Fbx_exports/mushroom_creature1.fbx` |
 | mage shroom | `Fbx_exports/Mage_Shroom.fbx` |
-| flying snake / hammer | `Fbx_exports/flying snake.fbx` (Attack/Hit/Death; no Idle/Walk yet) |
+| flying snake / hammer | `Fbx_exports/flying snake.fbx` (locomotion = baked `Fly`; also Attack/Hit/Death) |
 | dryad crawler | `Fbx_exports/dryad_crawler.fbx` |
 | static wolf2 | `Fbx_exports/static wolf2.fbx` |
 
@@ -183,7 +189,7 @@ the old transform-bob placeholders under `Assets/animations/Generated/` or
 1. Nest the export FBX as the visual on the prefab (Generic + Avatar from that model).
 2. Put the Animator on that model with the Avatar set — never a null-avatar root Animator.
 3. Point Idle / Walk / Attack / Hit / Death motions at the FBX sub-asset clips.
-4. Idle / Walk / Run / Hop must have **Loop Time** enabled on the FBX importer.
+4. Idle / Walk / Run / Hop / **Fly** must have **Loop Time** enabled on the FBX importer.
 5. Nested export visuals use **scale (1,1,1)** and **identity rotation**. Do not copy Blender’s
    classic scale-100 / -90° X compensations from older prefabs onto `Fbx_exports` models — that
    is what produced giant sideways mushrooms and doubled player meshes.
@@ -194,15 +200,18 @@ contains the bakes is required; pasting export clips onto an older mesh-only ass
 deform bones. The wire tool unpacks old `models/Enemys` FBX instance roots so only one export
 mesh remains.
 
-Legacy bob `.anim` files may still exist on disk for history; they must not be assigned on
-playable controllers. Flying snake Idle/Walk stay empty until art adds those takes to the FBX.
+Legacy bob `.anim` files and the old `Assets/Player/Prefabs/Player.prefab` live under
+`Assets/_Obsolete/` — never reassign them onto playable controllers. Snake Idle/Walk
+motions use the baked `Fly` take from `flying snake.fbx` (wired by the tool above).
 
 ### 3.3 Regenerating / wiring tools
 
 Safe to re-run:
 
-- **Tools → Animations → Wire Real FBX Clips** — configures export importers (loop Idle/Walk),
-  swaps player/enemy prefabs onto `Fbx_exports` models, and points controllers at baked takes.
+- **Tools → Animations → Wire Real FBX Clips** — configures export importers (loop Idle/Walk/Fly),
+  swaps player/enemy prefabs onto `Fbx_exports` models, points controllers at baked takes
+  (snake Idle/Walk ← `Fly`), and sets ComboSO hit triggers to Attack/Attack2/Attack3
+  (wizard: WizardAttack*).
 - **Tools → Animations → Validate FBX Wiring** — asserts Avatar set, Idle from `Fbx_exports`,
   and Loop Time on locomotion clips.
 - **Tools → Enemies → Wire Remaining NPCs (FSM + Placeholders)** — installs EnemyBase /
