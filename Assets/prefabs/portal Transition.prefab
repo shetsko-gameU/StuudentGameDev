@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 761211108006758879, guid: 9948a22b65984164c97c0fd7d5128669, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1418548380100751416, guid: 9948a22b65984164c97c0fd7d5128669, type: 3}
       propertyPath: m_LocalPosition.x
       value: 150.7
@@ -50,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1793666926479420034, guid: 9948a22b65984164c97c0fd7d5128669, type: 3}
       propertyPath: m_Name
-      value: portal frame Variant
+      value: portal Transition
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -62,6 +66,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5372291833208421945, guid: 9948a22b65984164c97c0fd7d5128669, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8609627524599038207}
+    - targetCorrespondingSourceObject: {fileID: 5372291833208421945, guid: 9948a22b65984164c97c0fd7d5128669, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7822916032400483215}
   m_SourcePrefab: {fileID: 100100000, guid: 9948a22b65984164c97c0fd7d5128669, type: 3}
 --- !u!1 &920085999456201689 stripped
 GameObject:
@@ -83,12 +90,25 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Radius: 1.6555662
   m_Center: {x: -0.13060549, y: -0.11658743, z: 0.0051059485}
+--- !u!114 &7822916032400483215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920085999456201689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a33a204a07b26084fb3a360cd931c176, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PortalTrigger
+  roomExit: {fileID: 2961642130982272646}
 --- !u!1 &6822558929471881058 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1793666926479420034, guid: 9948a22b65984164c97c0fd7d5128669, type: 3}

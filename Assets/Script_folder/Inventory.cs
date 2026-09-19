@@ -61,6 +61,22 @@ public class Inventory : MonoBehaviour
 
     public void Awake()
     {
+        if (inventory == null)
+        {
+            Transform panel = null;
+            Canvas[] canvases = Object.FindObjectsByType<Canvas>(FindObjectsSortMode.None);
+            for (int i = 0; i < canvases.Length && panel == null; i++)
+                panel = canvases[i].transform.Find("Inventory");
+            if (panel != null)
+                inventory = panel.gameObject;
+        }
+
+        if (inventory == null)
+        {
+            Debug.LogWarning($"Inventory on '{name}': no inventory panel assigned or found — slot icons will not update.");
+            return;
+        }
+
         foreach (RawImage UIslot in inventory.GetComponentsInChildren<RawImage>())
         {
             UISlots.Add(UIslot);
