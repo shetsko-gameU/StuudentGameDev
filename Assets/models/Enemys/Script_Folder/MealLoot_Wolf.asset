@@ -10,13 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 824b78c151fe2cc4e8f01728ea1960c2, type: 3}
-  m_Name: New Loot Table SO
+  m_Name: MealLoot_Wolf
   m_EditorClassIdentifier: Assembly-CSharp::LootTableSO
   guaranteedDrops:
-  - pickupPrefab: {fileID: 5001629584986424403, guid: feb22ab9050f4b7c8c3f9eb58306547d, type: 3}
+  - pickupPrefab: {fileID: 5001629584986424403, guid: fbd2cd47402d4c88877198a1c84859c1, type: 3}
     count: 1
   randomDrops:
-  - pickupPrefab: {fileID: 5001629584986424403, guid: 6a41aade1805462299d0a87b83e12575, type: 3}
-    dropChance: 0.35
+  - pickupPrefab: {fileID: 5001629584986424403, guid: 1a19c57c3fa84400a53e84496b20fb00, type: 3}
+    dropChance: 0.3
+    count: 1
+  - pickupPrefab: {fileID: 5001629584986424403, guid: 55f56d28397b43729c7c7a88210fcdbb, type: 3}
+    dropChance: 0.3
     count: 1
   currencyDrops: []

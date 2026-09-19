@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 4932786297942384259}
   - component: {fileID: 426990164231291489}
   - component: {fileID: 2826309022219575926}
+  - component: {fileID: 1675573347469050733}
   m_Layer: 3
   m_Name: flying hammer snake
   m_TagString: Untagged
@@ -300,6 +301,22 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1675573347469050733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6733634661040634657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf2621e2f5958e42a7a5082f2e2fee9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LootDropper
+  stats: {fileID: 3476368123055923398}
+  lootTable: {fileID: 11400000, guid: 76ada2f471ff6e64484eee6a5e2500f7, type: 2}
+  spawnHeightOffset: 0.5
+  scatterRadius: 0.6
 --- !u!1 &7633821746063030590
 GameObject:
   m_ObjectHideFlags: 0

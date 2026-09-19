@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 824b78c151fe2cc4e8f01728ea1960c2, type: 3}
-  m_Name: New Loot Table SO
+  m_Name: MealLoot_Dryad
   m_EditorClassIdentifier: Assembly-CSharp::LootTableSO
   guaranteedDrops:
-  - pickupPrefab: {fileID: 5001629584986424403, guid: feb22ab9050f4b7c8c3f9eb58306547d, type: 3}
+  - pickupPrefab: {fileID: 5001629584986424403, guid: 8bb126b0401a4df4a956d9ec81ba3339, type: 3}
     count: 1
   randomDrops:
-  - pickupPrefab: {fileID: 5001629584986424403, guid: 6a41aade1805462299d0a87b83e12575, type: 3}
-    dropChance: 0.35
+  - pickupPrefab: {fileID: 5001629584986424403, guid: 5637a3b700c64b39973d3b2e5b20dde6, type: 3}
+    dropChance: 0.3
     count: 1
   currencyDrops: []

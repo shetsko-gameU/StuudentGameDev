@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1028402667787274588}
   - component: {fileID: 8032652337879019782}
   - component: {fileID: 6427113309625692934}
+  - component: {fileID: 3860280955775858372}
   m_Layer: 3
   m_Name: mage shroom
   m_TagString: Untagged
@@ -179,6 +180,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df38a27b729262c4ebc1e36027b4571f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimationEventRelay
+--- !u!114 &3860280955775858372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 926948484694079588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf2621e2f5958e42a7a5082f2e2fee9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LootDropper
+  stats: {fileID: 3531939655586463947}
+  lootTable: {fileID: 11400000, guid: ff42e7538022397459a6397153c10a72, type: 2}
+  spawnHeightOffset: 0.5
+  scatterRadius: 0.6
 --- !u!1 &1462402649111260700
 GameObject:
   m_ObjectHideFlags: 0

@@ -42,16 +42,21 @@ public class CraftSystem : MonoBehaviour
     [Header("State")]
     public bool NearCraftPot;
 
+    [Tooltip("Descoped rogue run: crafting is retired. Leave false so OpenCraftMenu is a no-op.")]
+    public bool craftingEnabled = false;
+
     // ------------------------------------------------------------------ Trigger zone
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!craftingEnabled) return;
         if (other.gameObject.CompareTag("CraftPot"))
             NearCraftPot = true;
     }
 
     private void OnTriggerExit(Collider other)
     {
+        if (!craftingEnabled) return;
         if (other.gameObject.CompareTag("CraftPot"))
             NearCraftPot = false;
     }
@@ -60,6 +65,8 @@ public class CraftSystem : MonoBehaviour
 
     public void OpenCraftMenu()
     {
+        // Soft-retired: meals drop from enemies instead of craft pots.
+        if (!craftingEnabled) return;
         if (NearCraftPot && CraftingMenu != null)
             CraftingMenu.SetActive(true);
     }

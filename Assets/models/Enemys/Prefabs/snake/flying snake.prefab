@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3258796115520318649}
   - component: {fileID: 5483174244160982619}
   - component: {fileID: 5067194384277222109}
+  - component: {fileID: 4544945618580523402}
   m_Layer: 3
   m_Name: flying snake
   m_TagString: Untagged
@@ -179,6 +180,22 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &4544945618580523402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 942058555012059683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf2621e2f5958e42a7a5082f2e2fee9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LootDropper
+  stats: {fileID: 5483174244160982619}
+  lootTable: {fileID: 11400000, guid: 76ada2f471ff6e64484eee6a5e2500f7, type: 2}
+  spawnHeightOffset: 0.5
+  scatterRadius: 0.6
 --- !u!1 &1083326963943341070
 GameObject:
   m_ObjectHideFlags: 0

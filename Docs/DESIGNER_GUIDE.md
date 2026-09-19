@@ -40,16 +40,50 @@ owns the animator parameters, and arbitrates the rules between systems.
 4. Enemies damage the player through `EnemyHitbox`; the player damages enemies through
    `AttackHitbox`. Both call `StatsManager.TakeDamage`, so dodge/armour/death behave
    identically in both directions.
-5. When an enemy's health hits 0, `StatsManager.OnDied` fires. `LootDropper` drops loot and
-   `EnemyManager` stops tracking it. `EnemyDeath` plays the death clip and destroys the body.
-6. When the list empties, the next wave spawns. After the last wave, `OnAllWavesCleared`.
-7. If the *player* dies, `PlayerDeathHandler` disables every player system and spawns the
-   death screen.
+5. When an enemy's health hits 0, `StatsManager.OnDied` fires. `LootDropper` drops a
+   **meal** pickup (dish `StatsModifierSO`) and `EnemyManager` stops tracking it.
+   `EnemyDeath` plays the death clip and destroys the body. Pick up meals and eat them
+   with `PlayerConsume` to build power **for this run only**.
+6. When the list empties, the next wave spawns. After the last wave, `OnAllWavesCleared`
+   and `RoomExit` reveals the portal to the next stage (`RunStateManager` carries
+   inventory/passives/currency across the load).
+7. If the *player* dies, `PlayerDeathHandler` **clears run state**, disables every player
+   system, and shows the death screen. Restart / Hub / Main Menu all wipe the run —
+   there is **no meta progression**.
+
+### Run loop (descoped — no craft, no shop, no meta)
+
+```
+MainMenu → hub → forest 01 → 02 → 03 → 04 → 05 → boss arena
+                                                      ↓
+                                              Congrats (win) → hub / MainMenu
+                                              Death (loss)   → hub / MainMenu
+```
+
+- **Crafting is retired.** `CraftSystem.craftingEnabled` is false; CraftPots are disabled
+  in forest scenes. Recipe assets remain in the project but are unused.
+- **Shop is off the route.** `forest level 05` portals to `boss arena` (not `shop`).
+- **Loot tables** under `Assets/models/Enemys/Script_Folder/MealLoot_*.asset` drop dish
+  prefabs from `Assets/models/food/FoodSO/Dish/`, not craft ingredients. Assign the matching
+  table on each enemy prefab's `LootDropper`.
+- **Boss:** `BossStageController` in `boss arena` watches the boss `StatsManager.OnDied`
+  and shows `Assets/UI/CongratsScreen.prefab`.
+- **Portals.** Every forest `portal Transition` instance inherits `PortalTrigger` plus an
+  enabled trigger collider. `RoomExit.nextSceneName` is the destination:
+  `01 → 02 → 03 → 04 → 05 → boss arena`. `RunStateManager` carries inventory, passives, and
+  coins across that load.
+- **Eating.** Walk into a meal pickup (`ModifierPickup`, collision — not a trigger). Keys
+  **1–8** call `PlayerConsume.EatFoodAtIndex(0..7)`. Slots 9–12 have HUD icons but no eat
+  hotkeys. Inventory auto-finds a Canvas child named `Inventory` if the Player field is empty.
+- **Tab character sheet.** `CharacterSheetUI` on the Canvas (PauseManager) is a pause-style
+  overlay: live `StatsManager` numbers plus eaten `PassiveManager` lists. Tab toggles it;
+  Escape closes it and opens the pause menu so only one overlay is up.
 
 ### Scenes
 
-`ObjectLibrary`, `MainMenu`, `hub`, and `forest level 01`–`05` are in Build Settings.
-`MainMenu` and `hub` are the two that `PlayerDeathHandler` loads by name.
+`ObjectLibrary`, `MainMenu`, `hub`, `forest level 01`–`05`, and `boss arena` are in Build
+Settings. `PlayerDeathHandler`, `PauseMenu`, and `BossStageController` all load the hub by
+name — `hubSceneName` must be exactly `hub`.
 
 **Do not use `Assets/Scenes/GamePlayTesting.unity` for combat or movement QA.** It has
 no baked NavMesh (`m_NavMeshData` is null) and still references the legacy `Player_Move`
@@ -67,7 +101,7 @@ Everything below is Inspector work. No scripting.
    - `EnemyBase`
    - `StatsManager` (assign a `Stats` asset — see §4)
    - `NavMeshAgent`
-   - `LootDropper` (optional)
+   - `LootDropper` (assign a `MealLoot_*` table — meals, not craft parts)
    - A solid (non-trigger) collider for the body
 2. Add **two child GameObjects**, each with a **sphere collider that has `Is Trigger` ticked**:
    - One with `EnemyAggroCheck` — radius = how far it can notice you
@@ -246,9 +280,9 @@ All created via **Assets → Create → …**
 | `Game/Food/Food Passive (Debuff On Hit)` | `DebuffOnHitPassiveSO` |
 | `Game/Food/Food Passive (Ult Ability)` | `UltFoodSO` |
 | `Game/Food/Food Stat Passive` | `FoodStatPassiveSO` |
-| `Game/Loot/Loot Table` | `LootTableSO` |
-| `Game/Crafting/Recipe (Primary+Secondary)` | `CraftRecipeSO` |
-| `Game/Crafting/Rarity Recipe` | `RarityRecipeSO` |
+| `Game/Loot/Loot Table` | `LootTableSO` (prefer meal dish pickups) |
+| `Game/Crafting/Recipe (Primary+Secondary)` | `CraftRecipeSO` — **retired / unused** |
+| `Game/Crafting/Rarity Recipe` | `RarityRecipeSO` — **retired / unused** |
 | `Game/Currency/Currency Type` | `CurrencySO` |
 | `Audio/Sound` | `SoundSO` |
 
@@ -256,21 +290,35 @@ All created via **Assets → Create → …**
 
 ## 5. Common recipes
 
-**A new wave encounter.** Put an `EnemyManager` on a trigger volume covering the room. Add
-spawn point children. Fill in the wave list with enemy prefabs and counts. Bake a NavMesh.
-Hook `OnAllWavesCleared` to your door/reward logic.
+**A new wave encounter.** Put an `EnemyManager` on a trigger volume covering the walkable
+path. Add spawn point children. Fill in the wave list with enemy prefabs and counts. Bake a
+NavMesh. Put terrain / floors on the `isGround` layer (6). Place
+`Assets/prefabs/portal Transition.prefab`, set `RoomExit.nextSceneName` to the next Build
+Settings scene, and leave `PortalTrigger` on the inner portal (enabled trigger collider).
+`RoomExit` already listens to `OnAllWavesCleared` and reveals that portal.
 
 **A new combo.** Create a `Game/Combat/Combo` asset. Each hit has a damage multiplier, a
 chain window, and an `animatorTrigger`. **The trigger name must exist as a Trigger parameter
 on that character's Animator Controller** — `Player.controller` uses `Attack`,
 `Player_Wizard.controller` uses `WizardAttack`. Assign the asset to `ComboRunner.combo`.
 
-**A new food passive.** Create the matching `Game/Food/…` asset, then add a link entry in the
-`PlayerConsume` list that corresponds to its type.
+**A new food / meal drop.** Create or reuse a `Game/Loot/Loot Table` that points at dish
+pickup prefabs (copy `MealLoot_Slime` if you want the shape). Assign it on the enemy's
+`LootDropper`. To make eating it do something besides a flat stat roll, add a link entry in
+the matching `PlayerConsume` list (`foodPassives` / `foodStatBoosts` / `foodKillBoosts` /
+`foodDebuffBoosts` / `foodUltBoosts`).
 
 **Restyling the death screen.** Edit `Assets/UI/DeathScreen.prefab`. Keep the three button
 references assigned on `DeathScreenController`; layout and labels are free. It spawns itself
 on death and wires its own buttons, so **a new scene needs no death-screen setup at all**.
+
+**Restyling the character sheet.** Edit the `CharacterSheet` panel on
+`Assets/Player/Prefabs/Canvas.prefab`. Keep `CharacterSheetUI.sheetPanel`, `statsColumn`, and
+`passivesColumn` assigned. Layout and copy are free. Do not add a second stats system — this
+panel only reads `StatsManager` and `PassiveManager`.
+
+**Restyling the win screen.** Edit `Assets/UI/CongratsScreen.prefab`. `BossStageController`
+in `boss arena` already references it.
 
 ---
 
@@ -290,9 +338,20 @@ cleanup task.
 
 **Ledge falling (player only).** `PlayerMove` raycasts ahead for drops deeper than
 `minFallHeight`, disables the agent, and lets gravity take over until landing resamples back
-onto the NavMesh. Two things to know:
+onto the NavMesh. Things to know:
 - Set `isGround` to **every** walkable layer. An incomplete mask makes ramps misread as
   ledges and the player "falls" down slopes.
+- **Every walkable surface needs a collider on the `isGround` layer (6), not just a NavMesh.**
+  NavMesh bakes from render meshes, so a level can look and navigate perfectly while being
+  invisible to raycasts. When that happens the ledge probe finds no ground *anywhere*, so every
+  step triggers a fall: the player sinks through the floor, gets caught by the landing check,
+  warps back up, and repeats — which reads as constant bobbing. Hub, forest 02, and boss arena
+  originally left terrain on `Default`; forest 02 terrain is now layer 6. If a new scene bobs
+  or sinks, check this first.
+- `PlayerMove` takes its height from a raycast onto that ground, not from the NavMesh, because
+  the baked mesh is a voxel approximation sitting up to ~12cm off the terrain and wandering
+  ~14cm over a few metres. `groundFollowSharpness` is how hard it tracks the real surface
+  (lower = smoother but lags behind on slopes).
 - Keep `agent.speed`/`acceleration` in sync with `acceleration`/`haltSpeed`. Sluggish
   response usually means acceleration is too low; ice-skating usually means `haltSpeed` is
   too low.
@@ -307,9 +366,17 @@ Don't add dash conditions elsewhere.
 the death clip, and destroys the object. `EnemyManager` only *untracks*. If you add loot,
 score or VFX on death, hook `StatsManager.OnDied` — don't add another `Destroy` call.
 
-**`hubSceneName` is `"Hub"` but the scene file is `hub.unity`.** Unity matches scene names
-case-insensitively so this works today, but if "Return to Hub" ever silently fails, check
-this first.
+**`hubSceneName` must be exactly `hub`.** The scene file is `hub.unity`. Pause, death, and
+boss-win all load it by that string. `"Hub"` fails on case-sensitive builds.
+
+**A portal you can see but cannot walk through** is almost always a missing `PortalTrigger`
+or a disabled / non-trigger collider on `portal Transition`. Fix the prefab, not each
+scene instance. `RoomExit.nextSceneName` must match a Build Settings scene exactly
+(`boss arena`, not `Boss Arena`).
+
+**Tab vs Escape.** One overlay at a time. Tab opens/closes the character sheet (`timeScale 0`).
+Escape closes the sheet if it is open, then toggles pause. Do not drive the sheet from a
+second HUD.
 
 **Building a player rewrites some settings files.** A standalone build dirties
 `ProjectSettings/ProjectSettings.asset`, `UnityConnectSettings.asset`, `GraphicsSettings.asset`
@@ -328,13 +395,18 @@ Assets/
     EnemyAnimatorParams.cs, EnemyTuning.cs, EnemyHitbox.cs
     PlayerStateMachine.cs  player coordinator — start here for player work
     PlayerAnimatorParams.cs, PlayerMove.cs, Comborunner.cs
-    PlayerDeathHandler.cs, DeathScreenController.cs
+    PlayerDeathHandler.cs, DeathScreenController.cs, PauseMenu.cs
+    CharacterSheetUI.cs    Tab overlay (reads StatsManager + PassiveManager)
+    PlayerConsume.cs, Inventory.cs, LootDropper.cs, PortalTrigger.cs
     StatsManager.cs        health/damage for BOTH sides
   editor/                 editor-only tools (not shipped in builds)
     PlaceholderEnemyAnimationGenerator.cs
     PlayerSetupGenerator.cs
   animations/Generated/   enemy Animator Controllers (motions = Fbx_exports clips)
-  UI/DeathScreen.prefab
+  UI/DeathScreen.prefab, CongratsScreen.prefab
+  Player/Prefabs/Canvas.prefab   HUD + pause + character sheet
+  prefabs/portal Transition.prefab
+  models/Enemys/Script_Folder/MealLoot_*.asset
 Docs/DESIGNER_GUIDE.md    this file
 ```
 

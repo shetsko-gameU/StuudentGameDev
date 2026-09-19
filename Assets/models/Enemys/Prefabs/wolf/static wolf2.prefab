@@ -222,6 +222,7 @@ GameObject:
   - component: {fileID: 4406123454849005008}
   - component: {fileID: 703470188960088010}
   - component: {fileID: 597081797362751179}
+  - component: {fileID: 7572234325018752280}
   m_Layer: 3
   m_Name: static wolf2
   m_TagString: Untagged
@@ -386,6 +387,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df38a27b729262c4ebc1e36027b4571f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimationEventRelay
+--- !u!114 &7572234325018752280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8761436007448344271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf2621e2f5958e42a7a5082f2e2fee9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LootDropper
+  stats: {fileID: 2955427503013788615}
+  lootTable: {fileID: 11400000, guid: 5ac7b8764abc84248bec5cd64caa2fac, type: 2}
+  spawnHeightOffset: 0.5
+  scatterRadius: 0.6
 --- !u!1001 &8812953485731547837
 PrefabInstance:
   m_ObjectHideFlags: 0

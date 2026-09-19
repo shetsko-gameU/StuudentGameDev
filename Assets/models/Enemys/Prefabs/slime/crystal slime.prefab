@@ -149,6 +149,7 @@ GameObject:
   - component: {fileID: 6303310463355077337}
   - component: {fileID: 7303301386261740452}
   - component: {fileID: 3532541643391471022}
+  - component: {fileID: 8134145598858418820}
   m_Layer: 3
   m_Name: crystal slime
   m_TagString: Untagged
@@ -313,6 +314,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df38a27b729262c4ebc1e36027b4571f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimationEventRelay
+--- !u!114 &8134145598858418820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6003890798992716523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf2621e2f5958e42a7a5082f2e2fee9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LootDropper
+  stats: {fileID: 888238076280750206}
+  lootTable: {fileID: 11400000, guid: a759cdfdd7b56034291379b179ef522a, type: 2}
+  spawnHeightOffset: 0.5
+  scatterRadius: 0.6
 --- !u!1 &6286208458046464293
 GameObject:
   m_ObjectHideFlags: 0
