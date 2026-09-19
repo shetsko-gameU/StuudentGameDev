@@ -33,6 +33,20 @@ public class RunStateManager : MonoBehaviour
     public PassiveManager.PassiveSnapshot PassiveSnapshot { get; private set; }
     public List<InventoryItem> InventorySnapshot { get; private set; }
     public List<(CurrencySO currency, int amount)> CurrencySnapshot { get; private set; }
+
+    /// <summary>
+    /// Health to restore onto the next scene's Player. Carried here (rather than left to the
+    /// prefab default) so walking a portal at 20% health doesn't silently heal the player, and
+    /// so a resumed save can put them back where they were.
+    /// </summary>
+    public float CurrentHealth { get; private set; }
+
+    /// <summary>
+    /// CharacterSO.id the run is being played as, read by CharacterLoader before this snapshot
+    /// is consumed. Empty falls back to the saved profile choice.
+    /// </summary>
+    public string CharacterId { get; private set; }
+
     public bool HasData { get; private set; }
 
     private void Awake()
@@ -48,11 +62,14 @@ public class RunStateManager : MonoBehaviour
     }
 
     public void Store(PassiveManager.PassiveSnapshot passives, List<InventoryItem> inventory,
-                       List<(CurrencySO currency, int amount)> currency)
+                       List<(CurrencySO currency, int amount)> currency,
+                       float currentHealth, string characterId)
     {
         PassiveSnapshot = passives;
         InventorySnapshot = inventory;
         CurrencySnapshot = currency;
+        CurrentHealth = currentHealth;
+        CharacterId = characterId;
         HasData = true;
     }
 
@@ -62,6 +79,8 @@ public class RunStateManager : MonoBehaviour
         PassiveSnapshot = null;
         InventorySnapshot = null;
         CurrencySnapshot = null;
+        CurrentHealth = 0f;
+        CharacterId = null;
         HasData = false;
     }
 }

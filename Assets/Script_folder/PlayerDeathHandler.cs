@@ -46,8 +46,8 @@ public class PlayerDeathHandler : MonoBehaviour
     [Header("Scenes")]
     public string mainMenuSceneName = "MainMenu";
 
-    [Tooltip("Scene to load for \"Return to Hub\". Must exist and be added to Build Settings.")]
-    public string hubSceneName = "Hub";
+    [Tooltip("Scene to load for \"Return to Hub\". Must match the scene asset name in Build Settings.")]
+    public string hubSceneName = "hub";
 
     // ------------------------------------------------------------------ Lifecycle
 
@@ -86,6 +86,9 @@ public class PlayerDeathHandler : MonoBehaviour
 
     private void HandleDeath()
     {
+        // Drop mid-run snapshot immediately so a portal capture cannot resurrect the build.
+        WipeRunState();
+
         DisablePlayerSystems();
 
         // Prefer the state machine: it writes the Dead bool from the shared parameter
@@ -169,18 +172,35 @@ public class PlayerDeathHandler : MonoBehaviour
 
     // ------------------------------------------------------------------ Death screen buttons
 
+    /// <summary>
+    /// Wipes mid-run snapshots then loads hub. Restart is a full run reset (no meta),
+    /// not a same-stage reload — leftover RunStateManager data would otherwise re-apply.
+    /// </summary>
     public void OnRestartRun()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        WipeRunState();
+        SceneManager.LoadScene(hubSceneName);
     }
 
     public void OnReturnToMainMenu()
     {
+        WipeRunState();
         SceneManager.LoadScene(mainMenuSceneName);
     }
 
     public void OnReturnToHub()
     {
+        WipeRunState();
         SceneManager.LoadScene(hubSceneName);
+    }
+
+    private static void WipeRunState()
+    {
+        if (RunStateManager.Instance != null)
+            RunStateManager.Instance.Clear();
+
+        // Death ends the run for good — drop the disk save too, or Continue would happily hand
+        // the player back the stage they just died on. The chosen character is kept.
+        SaveSystem.DeleteRun();
     }
 }

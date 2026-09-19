@@ -93,6 +93,17 @@ public class PlayerStateMachine : MonoBehaviour
         CacheAvailableParameters();
     }
 
+    /// <summary>
+    /// Points the state machine at a different Animator, for when the hub character swap replaces
+    /// the player's mesh. The parameter list has to be re-read: each character's controller
+    /// exposes its own set, and this class only writes parameters it knows exist.
+    /// </summary>
+    public void RebindAnimator(Animator newAnimator)
+    {
+        animator = newAnimator;
+        CacheAvailableParameters();
+    }
+
     private void CacheAvailableParameters()
     {
         availableParameters.Clear();

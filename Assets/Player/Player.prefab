@@ -35,6 +35,8 @@ GameObject:
   - component: {fileID: 5636082200784174450}
   - component: {fileID: 6666595988948270429}
   - component: {fileID: 7372884480834067687}
+  - component: {fileID: 3959144480645565904}
+  - component: {fileID: 2882554605274451412}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -134,8 +136,8 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.4
-  m_Height: 2.2
+  m_Radius: 0.35
+  m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!54 &4578822220498060287
@@ -501,6 +503,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMove
   acceleration: 100
   haltSpeed: 20
+  groundFollowSharpness: 40
+  maxGroundSnapDistance: 1.5
   isGround:
     serializedVersion: 2
     m_Bits: 64
@@ -552,7 +556,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3994294546509096518}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a317be7f2a645a43b0574fdf734af67, type: 3}
   m_Name: 
@@ -592,6 +596,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e5e5e5e5e5e5e5e5e5e5e5e5e5e5e599, type: 2}
   - {fileID: 11400000, guid: f6f6f6f6f6f6f6f6f6f6f6f6f6f6f699, type: 2}
   NearCraftPot: 0
+  craftingEnabled: 0
 --- !u!114 &4625043910456940208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -811,7 +816,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 3994294546509096518}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.4
+  m_Radius: 0.35
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -820,7 +825,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1
-  m_Height: 2.2
+  m_Height: 2
   m_BaseOffset: 1.1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
@@ -850,7 +855,7 @@ MonoBehaviour:
   deathScreenPanel: {fileID: 0}
   deathScreenPrefab: {fileID: 8434099390052200176, guid: 30e4cfe61a171d44b9bbf8ba15531eab, type: 3}
   mainMenuSceneName: MainMenu
-  hubSceneName: Hub
+  hubSceneName: hub
 --- !u!114 &2151709278827207410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -909,6 +914,8 @@ MonoBehaviour:
   passiveManager: {fileID: 4625043910456940208}
   inventory: {fileID: 7831356397626104457}
   currencyTracker: {fileID: 4841218838983478207}
+  stats: {fileID: 8814090635867657241}
+  characterLoader: {fileID: 3959144480645565904}
 --- !u!114 &6841626968158633242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -985,6 +992,40 @@ MonoBehaviour:
   playerConsume: {fileID: 0}
   animator: {fileID: 0}
   moveSpeedThreshold: 0.1
+--- !u!114 &3959144480645565904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3994294546509096518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49a952ee1699acd4f96cbe2af3acee06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterLoader
+  meshRoot: {fileID: 4640441715402957049}
+  authoredCharacter: {fileID: 11400000, guid: d29f8a818c65c0e43ba44dec5239e406, type: 2}
+  playerMove: {fileID: 6190257048604273967}
+  stateMachine: {fileID: 7372884480834067687}
+  comboRunner: {fileID: 4228190003025015144}
+  deathHandler: {fileID: 6664376055450238537}
+  attackHitbox: {fileID: 8800000001156783752}
+--- !u!114 &2882554605274451412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3994294546509096518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af76a80c109812444bee88791dceb18d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInteract
+  playerInput: {fileID: 7454554729176608045}
+  characterLoader: {fileID: 3959144480645565904}
+  actionName: Interact
 --- !u!1 &8800000001156783749
 GameObject:
   m_ObjectHideFlags: 0
@@ -1087,7 +1128,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 990e4dc8a387da7479af74358970d266, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.1
+      value: -0.75440884
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 990e4dc8a387da7479af74358970d266, type: 3}
       propertyPath: m_LocalPosition.z

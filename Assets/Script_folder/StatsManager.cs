@@ -358,4 +358,16 @@ public class StatsManager : MonoBehaviour
         currentHealth = Mathf.Min(MaxHealth, currentHealth + Mathf.Max(0f, amount));
         OnHealthChanged?.Invoke(currentHealth, MaxHealth);
     }
+
+    /// <summary>
+    /// Sets health outright, for restoring a carried-over or saved value. Unlike Heal it can
+    /// lower health, and unlike TakeDamage it skips defense, dodge and the damage/death events —
+    /// this is bookkeeping, not an attack. Clamped to the current MaxHealth, so call it after
+    /// any modifiers that raise the maximum have been applied.
+    /// </summary>
+    public void SetCurrentHealth(float value)
+    {
+        currentHealth = Mathf.Clamp(value, 0f, MaxHealth);
+        OnHealthChanged?.Invoke(currentHealth, MaxHealth);
+    }
 }
