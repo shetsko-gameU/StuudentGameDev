@@ -64,9 +64,11 @@
     <Compile Include="Assets\TutorialInfo\Scripts\Editor\ReadmeEditor.cs" />
     <Compile Include="Assets\GameObjectBrush\Scripts\Editor\GameObjectBrushEditor.cs" />
     <Compile Include="Assets\editor\EnemyPrefabSetupGenerator.cs" />
+    <Compile Include="Assets\editor\SaveIdRegistryBuilder.cs" />
     <Compile Include="Assets\GameObjectBrush\Scripts\Editor\BrushCollection.cs" />
     <Compile Include="Assets\editor\SnapToTerrainTool.cs" />
     <Compile Include="Assets\editor\PlaceholderEnemyAnimationGenerator.cs" />
+    <Compile Include="Assets\editor\PotatoPerfRunner.cs" />
     <Compile Include="Assets\editor\WireFbxAnimations.cs" />
     <Compile Include="Assets\editor\PlayerSetupGenerator.cs" />
     <Compile Include="Assets\GameObjectBrush\Scripts\Editor\BrushObject.cs" />
