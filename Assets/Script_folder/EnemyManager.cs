@@ -166,13 +166,19 @@ public class EnemyManager : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
-        {
-            if (!Active)
-                OnCombatStarted?.Invoke();
+            ForceStart();
+    }
 
-            Active = true;
-        }
+    /// <summary>
+    /// Starts the room the same way walking into the trigger does. Used by the potato
+    /// performance harness so forest combat can be sampled without waiting on a walk-in.
+    /// </summary>
+    public void ForceStart()
+    {
+        if (!Active)
+            OnCombatStarted?.Invoke();
 
+        Active = true;
     }
 
 
