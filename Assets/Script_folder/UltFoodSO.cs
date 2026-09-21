@@ -6,6 +6,13 @@ using UnityEngine;
 /// the same role OnHitPassiveSO/KillPassiveSO/DebuffOnHitPassiveSO play for their effects.
 /// Distinct from those: this targets AbilityRunner, not StatsManager, and only one can
 /// ever be equipped at a time (see PassiveManager.AddUltAbility).
+///
+/// Setup:
+///   1. Create via Assets → Create → Game → Food → Food Passive (Ult Ability).
+///   2. Assign ability (an AbilitySO — e.g. SnaghettiAbilitySO) and, if this ult has
+///      rarity variants, an ultFamily string + rarity.
+///   3. Link it to a food item through PlayerConsume's foodUltBoosts list (or drop it in
+///      PassiveManager.startingUltFood for testing).
 /// </summary>
 [CreateAssetMenu(menuName = "Game/Food/Food Passive (Ult Ability)")]
 public class UltFoodSO : ScriptableObject

@@ -1,5 +1,12 @@
 using System.Collections.Generic;
 
+/// <summary>
+/// The concrete, already-rolled result of applying a StatsModifierSO template — produced by
+/// ModifierRoller.Roll, tracked by StatsManager.AddRolledModifier/RemoveRolledInstance, and
+/// what PassiveManager stores per-entry so it can remove the exact values it granted (rather
+/// than "all modifiers from this source") when a passive is upgraded or unequipped. Plain
+/// runtime data, never an asset — nothing to set up in the Editor.
+/// </summary>
 public class RolledModifierInstance
 {
     public StatsModifierSO source;

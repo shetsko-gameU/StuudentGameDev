@@ -6,8 +6,14 @@ using UnityEngine;
 ///
 /// Can be triggered two ways:
 ///   1. ComboRunner.FireHit() � enables for one frame automatically.
-///   2. AnimationEventRelay � enables/disables exactly when animation events fire.
+///   2. AnimationEventRelay - enables/disables exactly when animation events fire.
 ///      Use option 2 for precise hit timing synced to your animation frames.
+///
+/// Setup (ranged, optional): tick isRanged, drag a projectile prefab (needs a
+/// WizardProjectiles component) into projectilePrefab, and optionally assign muzzlePoint
+/// to wherever it should spawn from (falls back to this transform if left empty). With
+/// isRanged on, both trigger methods above spawn a projectile instead of enabling the
+/// melee collider - see WizardProjectiles.cs for the projectile side of this.
 /// </summary>
 [RequireComponent(typeof(BoxCollider))]
 public class AttackHitbox : MonoBehaviour
@@ -23,6 +29,19 @@ public class AttackHitbox : MonoBehaviour
     /// Assign this to the player/enemy's own StatsManager in the Inspector or via ComboRunner.
     /// </summary>
     public StatsManager attackerStats;
+
+    [Header("Ranged (optional)")]
+    [Tooltip("If true, FireHit/SetActive(true) spawns a projectile instead of enabling the melee trigger collider.")]
+    public bool isRanged;
+
+    [Tooltip("Projectile prefab to spawn — must have a WizardProjectiles component.")]
+    public GameObject projectilePrefab;
+
+    [Tooltip("Where the projectile spawns from and which way it's aimed (e.g. the wand tip). Falls back to this transform if left empty.")]
+    public Transform muzzlePoint;
+
+    [Tooltip("Speed handed to the spawned projectile.")]
+    public float projectileSpeed = 20f;
 
     /// <summary>Fires with the enemy's StatsManager whenever a hit actually lands (not dodged).
     /// Used by DebuffOnHitTrigger to apply enemy-targeted debuffs only on confirmed hits.</summary>
@@ -74,6 +93,13 @@ public class AttackHitbox : MonoBehaviour
     public void FireHit(float damage)
     {
         currentDamage = damage;
+
+        if (isRanged)
+        {
+            FireProjectile();
+            return;
+        }
+
         boxCollider.enabled = true;
 
         Invoke(nameof(DisableCollider), Time.fixedDeltaTime);
@@ -88,12 +114,55 @@ public class AttackHitbox : MonoBehaviour
     /// </summary>
     public void SetActive(bool active)
     {
+        if (isRanged)
+        {
+            if (active)
+                FireProjectile();
+            return;
+        }
+
         boxCollider.enabled = active;
     }
 
     private void DisableCollider()
     {
         boxCollider.enabled = false;
+    }
+
+    // ------------------------------------------------------------------ Ranged
+
+    private void FireProjectile()
+    {
+        if (projectilePrefab == null)
+        {
+            Debug.LogWarning($"AttackHitbox on '{name}': isRanged is set but no projectilePrefab assigned.");
+            return;
+        }
+
+        Transform spawnPoint = muzzlePoint != null ? muzzlePoint : transform;
+
+        // Use the attacker's facing direction, not spawnPoint.rotation — the weapon mesh's own
+        // rotation is tuned for how it looks mid-swing (e.g. the sword's -90* tilt), which has
+        // nothing to do with which way the character is actually facing.
+        Quaternion launchRotation = attackerStats != null
+            ? Quaternion.LookRotation(attackerStats.transform.forward, Vector3.up)
+            : spawnPoint.rotation;
+
+        GameObject projectileObj = Instantiate(projectilePrefab, spawnPoint.position, launchRotation);
+
+        WizardProjectiles projectile = projectileObj.GetComponent<WizardProjectiles>();
+        if (projectile == null)
+        {
+            Debug.LogWarning($"AttackHitbox on '{name}': projectilePrefab has no WizardProjectiles component.");
+            return;
+        }
+
+        projectile.Initialize(currentDamage, attackerStats, enemyLayer, projectileSpeed, HandleProjectileHit);
+    }
+
+    private void HandleProjectileHit(StatsManager enemyHit)
+    {
+        OnEnemyHit?.Invoke(enemyHit);
     }
 
     // ------------------------------------------------------------------ Collision

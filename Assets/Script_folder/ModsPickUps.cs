@@ -1,5 +1,17 @@
 using UnityEngine;
 
+/// <summary>
+/// World pickup for an ingredient — on collision with the player, adds itself to Inventory
+/// (stats are NOT rolled here; they're rolled when the item is eaten via PlayerConsume) and
+/// destroys itself once accepted. Fires Inventory.OnIngredientPickedUp on success, which is
+/// what IngredientPickupSFXTrigger listens for.
+///
+/// Setup:
+///   1. Add to an ingredient prefab alongside a (non-trigger) Collider — this uses
+///      OnCollisionEnter, not a trigger.
+///   2. Assign modifierTemplate (the StatsModifierSO this ingredient grants when eaten),
+///      Name, ItemId, and Image (icon shown in the inventory UI).
+/// </summary>
 public class ModifierPickup : MonoBehaviour
 {
     [SerializeField] private StatsModifierSO modifierTemplate;
@@ -20,7 +32,7 @@ public class ModifierPickup : MonoBehaviour
             return;
         }
 
-        // Stats are NOT applied here � the item waits in inventory until consumed.
+        // Stats are NOT applied here � the item waits in inventory until consumed.
        bool added = inventory.TryAddModifierPickup(modifierTemplate, Name, ItemId, Image);
         if (added)
             Destroy(gameObject);

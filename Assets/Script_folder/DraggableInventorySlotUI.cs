@@ -2,6 +2,19 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+/// <summary>
+/// One inventory slot's UI: dragging it onto another slot calls Inventory.SwapSlots, and
+/// dragging it into a craft slot stages it for CraftSystem instead. See CraftSystem.cs's
+/// notes on the two non-obvious Unity UI mechanics this depends on (empty slots staying
+/// enabled-but-clear rather than disabled, and the dragged icon disabling its own
+/// raycastTarget during the drag).
+///
+/// Setup:
+///   1. Add to each inventory slot's RawImage GameObject in the UI.
+///   2. Set slotIndex to this slot's position (0-based, matching Inventory.InventorySlots).
+///   3. Assign dragIcon (a RectTransform that follows the cursor) and dragIconImage (its
+///      RawImage) — inventory itself auto-finds via FindAnyObjectByType.
+/// </summary>
 public class DraggableInventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
     [Header("Wiring")]

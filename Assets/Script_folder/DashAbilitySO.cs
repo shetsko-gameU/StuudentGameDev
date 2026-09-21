@@ -1,5 +1,17 @@
 using UnityEngine;
 
+/// <summary>
+/// Quick burst of movement in the direction the player is facing. Stays NavMeshAgent-clamped
+/// (unlike PlayerMove's ledge-fall system) so dashing across a gap carries the player over
+/// it instead of triggering a fall. Temporarily disables PlayerMove for the dash's duration
+/// so its own per-frame Move() calls don't fight the dash.
+///
+/// Setup:
+///   1. Create via Assets, Create, Game, Abilities, Dash.
+///   2. Fill in dashSpeed/dashDuration; leave usePlayerModelForward on unless you have a
+///      reason to dash along the raw transform.forward instead.
+///   3. Drag it into AbilityRunner.primaryAbility.ability (or secondary) on the player.
+/// </summary>
 [CreateAssetMenu(menuName = "Game/Abilities/Dash")]
 public class DashAbilitySO : AbilitySO
 {

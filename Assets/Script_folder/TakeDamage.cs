@@ -22,7 +22,7 @@ public class TakeDamage : MonoBehaviour
     {
         if (other.gameObject.tag == "EnemyAttack")
         {
-            StatsManager.TakeDamage(other.GetComponent<ProjectileScript>().Damage);
+            StatsManager.TakeDamage(other.GetComponent<WizardProjectiles>().Damage);
 
         }
 

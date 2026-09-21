@@ -1,16 +1,18 @@
 using UnityEngine;
 
 /// <summary>
-/// Add this to the face mesh alongside the Animator.
+/// Add this to whichever GameObject the Animator is on (the player root, in this project's rig).
 ///
 /// Animation Events can only call methods on scripts that are on the same
-/// GameObject as the Animator. This relay script sits there and forwards
-/// calls up to ComboRunner on the parent player root.
+/// GameObject as the Animator. This relay script sits there, finds ComboRunner
+/// on that same object (or a parent, if the Animator ever ends up on a child
+/// mesh instead), and finds AttackHitbox on the weapon underneath it.
 ///
 /// To add an animation event in Unity:
 ///   1. Open the Animation window (not Animator).
 ///   2. Select the attack clip.
-///   3. Scrub to the frame where the weapon connects.
+///   3. Scrub to the frame where the weapon connects (or, for a ranged attack, the
+///      frame the projectile should leave the muzzle).
 ///   4. Click the Add Event button on the timeline.
 ///   5. In the Function dropdown pick EnableHitbox or DisableHitbox.
 /// </summary>
@@ -21,15 +23,16 @@ public class AnimationEventRelay : MonoBehaviour
 
     private void Awake()
     {
-        // Look up to the parent for ComboRunner
         comboRunner = GetComponentInParent<ComboRunner>();
-        hitbox = GetComponentInParent<AttackHitbox>();
+        // AttackHitbox lives on the weapon — a child of wherever the Animator/ComboRunner sit,
+        // never a parent of it.
+        hitbox = GetComponentInChildren<AttackHitbox>();
 
         if (comboRunner == null)
             Debug.LogError($"AnimationEventRelay on '{name}': No ComboRunner found in parent.");
 
         if (hitbox == null)
-            Debug.LogError($"AnimationEventRelay on '{name}': No AttackHitbox found in parent.");
+            Debug.LogError($"AnimationEventRelay on '{name}': No AttackHitbox found in children.");
     }
 
     // ------------------------------------------------------------------ Animation Event methods

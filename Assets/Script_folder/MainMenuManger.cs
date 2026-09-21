@@ -1,6 +1,20 @@
 using UnityEngine;
 using UnityEngine.SceneManagement; // Lets us switch scenes
 
+/// <summary>
+/// Main menu controller: Start Game loads the scene named in ScriptTestScene (despite the
+/// stale field name - check its current value in the Inspector rather than assuming), and
+/// Options follows the same open/close-settings pattern PauseMenu uses (see
+/// OnCloseSettings's own doc comment for why the Settings panel's Back button must call
+/// this, not SettingsMenu.Close() directly).
+///
+/// Setup:
+///   1. Add to a GameObject in the main menu scene.
+///   2. Set ScriptTestScene to whatever scene "Start Game" should load.
+///   3. Assign mainPanel and settingsMenu.
+///   4. Wire the Start/Options/Exit buttons to OnStartGame/OnOptions/OnExit, and the
+///      Settings panel's own Back button to OnCloseSettings (not SettingsMenu.Close()).
+/// </summary>
 public class MainMenuManager : MonoBehaviour
 {
     // This is the name of your game scene � must match exactly

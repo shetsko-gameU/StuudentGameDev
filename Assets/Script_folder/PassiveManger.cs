@@ -26,6 +26,16 @@ using UnityEngine;
 ///                           targets AbilityRunner, not StatsManager, and only ONE can ever
 ///                           be equipped — a different ult family always replaces it, the
 ///                           same family only replaces on strictly higher rarity.
+///
+/// Setup:
+///   1. Add to the Player alongside StatsManager (and AbilityRunner, if any UltFoodSO
+///      will ever be used — both auto-find on Awake).
+///   2. Optionally populate alwaysOnPassives / startingFoodPassives / startingKillPassives /
+///      startingDebuffPassives / startingUltFood for a character that begins a run with
+///      passives already active, without needing to eat anything first.
+///   3. Everything else (PlayerConsume, ComboPassiveTrigger, KillPassiveTrigger,
+///      DebuffOnHitTrigger) finds this component via GetComponent and calls into it —
+///      no other wiring needed on this component itself.
 /// </summary>
 public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
 {

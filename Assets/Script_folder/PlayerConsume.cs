@@ -2,6 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Consumes food from Inventory by slot index and grants whatever passive that food's SO
+/// is linked to in the five link lists below (a StatsModifierSO can appear in at most one
+/// list — that's what decides what eating it actually does). Rolls its stats fresh via
+/// ModifierRoller at the moment of eating, not when it was picked up.
+///
+/// Setup:
+///   1. Add to the player alongside Inventory/StatsManager/PassiveManager (all auto-found
+///      if left empty).
+///   2. For each food item that should do something when eaten, add an entry to the
+///      matching link list (foodPassives / foodStatBoosts / foodKillBoosts /
+///      foodDebuffBoosts / foodUltBoosts) pairing the food's StatsModifierSO with the
+///      passive/ability SO it grants.
+///   3. Wire EatFoodAtIndex(0..7) to the Eat hotkeys via Player.prefab's PlayerInput
+///      action events (see the existing EatSlot1..8 bindings) — indices are positional,
+///      not identity-based, since Inventory auto-compacts on removal.
+/// </summary>
 public class PlayerConsume : MonoBehaviour
 {
     // Links a food SO to the on-hit passive it grants when eaten
