@@ -86,24 +86,58 @@ public class CurrencyTracker : MonoBehaviour
 
     private int AddNewEntry(CurrencySO currency)
     {
-        // Grow both arrays by 1
-        int newLen = trackedTypes.Length + 1;
+        // Grow both arrays by 1 — keep lengths matched (corrupt Inspector state can leave amounts shorter).
+        int oldLen = trackedTypes != null ? trackedTypes.Length : 0;
+        int amountLen = amounts != null ? amounts.Length : 0;
+        int newLen = oldLen + 1;
 
-        CurrencySO[] newTypes   = new CurrencySO[newLen];
-        int[]        newAmounts = new int[newLen];
+        CurrencySO[] newTypes = new CurrencySO[newLen];
+        int[] newAmounts = new int[newLen];
 
-        for (int i = 0; i < trackedTypes.Length; i++)
+        for (int i = 0; i < oldLen; i++)
         {
-            newTypes[i]   = trackedTypes[i];
-            newAmounts[i] = amounts[i];
+            newTypes[i] = trackedTypes[i];
+            newAmounts[i] = i < amountLen ? amounts[i] : 0;
         }
 
-        newTypes[newLen - 1]   = currency;
+        newTypes[newLen - 1] = currency;
         newAmounts[newLen - 1] = 0;
 
         trackedTypes = newTypes;
-        amounts      = newAmounts;
+        amounts = newAmounts;
 
         return newLen - 1;
+    }
+
+    private void OnValidate()
+    {
+        // Strip null currency slots and keep amounts parallel.
+        if (trackedTypes == null)
+        {
+            trackedTypes = new CurrencySO[0];
+            amounts = new int[0];
+            return;
+        }
+
+        int valid = 0;
+        for (int i = 0; i < trackedTypes.Length; i++)
+            if (trackedTypes[i] != null) valid++;
+
+        if (valid == trackedTypes.Length && amounts != null && amounts.Length == trackedTypes.Length)
+            return;
+
+        CurrencySO[] cleanedTypes = new CurrencySO[valid];
+        int[] cleanedAmounts = new int[valid];
+        int w = 0;
+        for (int i = 0; i < trackedTypes.Length; i++)
+        {
+            if (trackedTypes[i] == null) continue;
+            cleanedTypes[w] = trackedTypes[i];
+            cleanedAmounts[w] = (amounts != null && i < amounts.Length) ? amounts[i] : 0;
+            w++;
+        }
+
+        trackedTypes = cleanedTypes;
+        amounts = cleanedAmounts;
     }
 }

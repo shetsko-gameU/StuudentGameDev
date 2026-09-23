@@ -71,8 +71,12 @@ public class EnemyManager : MonoBehaviour
         {
             TempSpawnLocations.Add(Location);
         }
-        GetComponent<MeshRenderer>().enabled = false;
-
+        // Hides the room-trigger volume's debug mesh in play mode. Guarded because the trigger
+        // volume does not need a MeshRenderer to work, and an unguarded GetComponent here threw
+        // in Awake and took the whole spawner down with it.
+        MeshRenderer triggerVolumeMesh = GetComponent<MeshRenderer>();
+        if (triggerVolumeMesh != null)
+            triggerVolumeMesh.enabled = false;
     }
 
     // Update is called once per frame
@@ -120,7 +124,12 @@ public class EnemyManager : MonoBehaviour
         GameObject enemyPrefab = EnemyTypes[Random.Range(0, EnemyTypes.Length)];
         int RandomPostion = Random.Range(0, TempSpawnLocations.Count);
         Vector3 spawnPos = TempSpawnLocations[RandomPostion].transform.position;
-        TempSpawnLocations[RandomPostion].GetComponentInChildren<ParticleSystem>().Play();
+        // Spawn puff, if this spawn point has one. Guarded so a spawn point without a
+        // ParticleSystem child spawns silently instead of throwing mid-wave.
+        ParticleSystem spawnEffect = TempSpawnLocations[RandomPostion].GetComponentInChildren<ParticleSystem>();
+        if (spawnEffect != null)
+            spawnEffect.Play();
+
         TempSpawnLocations.Remove(TempSpawnLocations[RandomPostion]);
 
         GameObject newEnemy = Instantiate(enemyPrefab, spawnPos, enemyPrefab.transform.rotation);
@@ -143,24 +152,33 @@ public class EnemyManager : MonoBehaviour
 
     // Called when a tracked enemy's StatsManager fires OnDied. Without this, EnemiesInWave
     // never empties and EnemyWave can never advance past the first wave.
+    //
+    // Untracking only. This used to also Destroy the enemy immediately, which raced the
+    // EnemyDeath state and won - so no wave-spawned enemy ever played its death animation.
+    // EnemyDeath now owns destruction and schedules it for after the death clip. The wave
+    // still advances the instant the enemy dies, because the wave cares about this list
+    // rather than about whether the corpse has finished animating.
     private void HandleEnemyDied(EnemyBase enemyBase)
     {
         EnemiesInWave.Remove(enemyBase);
-
-        if (enemyBase != null)
-            Destroy(enemyBase.gameObject);
     }
 
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
-        {
-            if (!Active)
-                OnCombatStarted?.Invoke();
+            ForceStart();
+    }
 
-            Active = true;
-        }
+    /// <summary>
+    /// Starts the room the same way walking into the trigger does. Used by the potato
+    /// performance harness so forest combat can be sampled without waiting on a walk-in.
+    /// </summary>
+    public void ForceStart()
+    {
+        if (!Active)
+            OnCombatStarted?.Invoke();
 
+        Active = true;
     }
 
 

@@ -115,6 +115,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Stats",
+                    "type": "Button",
+                    "id": "c8e1a4d2-9b70-4f3e-a1c6-5d2e8f0a7b31",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "EatSlot1",
                     "type": "Button",
                     "id": "7bbcd2a6-edd1-4fa3-80f2-c8714853b68d",
@@ -546,6 +555,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e4b9c2a1-7d58-4f06-9e3a-1c8b6d5f2a40",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Stats",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

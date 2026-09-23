@@ -28,6 +28,16 @@ public class MainMenuManager : MonoBehaviour
     [Tooltip("Same SettingsMenu component pattern PauseMenu uses � volume + fullscreen.")]
     public SettingsMenu settingsMenu;
 
+    [Tooltip("Continue button — hidden automatically when there's no run to resume.")]
+    public GameObject continueButton;
+
+    private void Start()
+    {
+        // Nothing to resume after a death or a win, so don't offer a button that would do nothing.
+        if (continueButton != null)
+            continueButton.SetActive(SaveSystem.HasRun);
+    }
+
     // -----------------------------------------------
     // Called when player clicks "Start Game"
     // Loads your actual game scene
@@ -35,7 +45,33 @@ public class MainMenuManager : MonoBehaviour
     public void OnStartGame()
     {
         Debug.Log("Starting game...");
+
+        // A fresh run must not inherit a half-finished one: drop both the disk save and anything
+        // still sitting in memory from a previous session in this same play session.
+        SaveSystem.DeleteRun();
+        RunStateManager.Instance.Clear();
+
         SceneManager.LoadScene(ScriptTestScene);
+    }
+
+    /// <summary>
+    /// Resumes the saved run. Fills RunStateManager from disk and loads the saved stage;
+    /// RunStatePlayerLink on that scene's Player then restores it exactly as it does after a
+    /// portal, so there is no second restore path to keep in sync.
+    /// </summary>
+    public void OnContinue()
+    {
+        string sceneName;
+        if (!RunSaveSerializer.TryLoadIntoRunState(out sceneName))
+        {
+            Debug.LogWarning("MainMenuManager: Continue was pressed but there's no readable run — " +
+                             "starting a new one instead.");
+            OnStartGame();
+            return;
+        }
+
+        Debug.Log($"Continuing run at '{sceneName}'.");
+        SceneManager.LoadScene(sceneName);
     }
 
     // -----------------------------------------------

@@ -5,12 +5,6 @@ using TMPro;
 /// <summary>
 /// Attach to a UI GameObject. Displays the balance of one CurrencySO type.
 /// Subscribes to CurrencyTracker.OnCurrencyChanged and updates automatically.
-///
-/// Wiring in the Inspector:
-///   tracker   — drag the player's CurrencyTracker here (or leave empty to auto-find)
-///   currency  — the CurrencySO this display tracks
-///   amountText — TextMeshProUGUI label that shows the number
-///   iconImage  — (optional) RawImage that shows the currency icon
 /// </summary>
 public class CurrencyHUD : MonoBehaviour
 {
@@ -28,9 +22,47 @@ public class CurrencyHUD : MonoBehaviour
     [Tooltip("(Optional) RawImage for the currency icon.")]
     public RawImage iconImage;
 
-    // ------------------------------------------------------------------ Lifecycle
+    private bool subscribed;
 
     private void Awake()
+    {
+        TryBind(logIfMissing: false);
+    }
+
+    private void OnEnable()
+    {
+        TryBind(logIfMissing: false);
+        Subscribe();
+    }
+
+    private void Start()
+    {
+        TryBind(logIfMissing: true);
+        Subscribe();
+
+        if (iconImage != null && currency != null && currency.icon != null)
+            iconImage.texture = currency.icon;
+
+        Refresh();
+
+        if (tracker == null || currency == null)
+            StartCoroutine(RetryBindNextFrame());
+    }
+
+    private void OnDisable()
+    {
+        Unsubscribe();
+    }
+
+    private System.Collections.IEnumerator RetryBindNextFrame()
+    {
+        yield return null;
+        TryBind(logIfMissing: true);
+        Subscribe();
+        Refresh();
+    }
+
+    private void TryBind(bool logIfMissing)
     {
         if (tracker == null)
         {
@@ -39,50 +71,40 @@ public class CurrencyHUD : MonoBehaviour
                 tracker = player.GetComponent<CurrencyTracker>();
         }
 
-        if (tracker == null)
-            Debug.LogWarning($"CurrencyHUD on '{name}': No CurrencyTracker found.");
+        if (logIfMissing)
+        {
+            if (tracker == null)
+                Debug.LogWarning($"CurrencyHUD on '{name}': No CurrencyTracker found.");
+            if (currency == null)
+                Debug.LogWarning($"CurrencyHUD on '{name}': No CurrencySO assigned.");
+        }
     }
 
-    private void Start()
+    private void Subscribe()
     {
-        // Set icon once on start
-        if (iconImage != null && currency != null && currency.icon != null)
-            iconImage.texture = currency.icon;
-
-        Refresh();
+        if (subscribed || tracker == null) return;
+        tracker.OnCurrencyChanged += HandleCurrencyChanged;
+        subscribed = true;
     }
 
-    private void OnEnable()
+    private void Unsubscribe()
     {
-        if (tracker != null)
-            tracker.OnCurrencyChanged += HandleCurrencyChanged;
+        if (!subscribed || tracker == null) return;
+        tracker.OnCurrencyChanged -= HandleCurrencyChanged;
+        subscribed = false;
     }
-
-    private void OnDisable()
-    {
-        if (tracker != null)
-            tracker.OnCurrencyChanged -= HandleCurrencyChanged;
-    }
-
-    // ------------------------------------------------------------------ Handlers
 
     private void HandleCurrencyChanged(CurrencySO changed, int newTotal)
     {
-        if (changed != currency) return;
-        UpdateDisplay(newTotal);
+        if (currency == null || changed != currency) return;
+        if (amountText != null)
+            amountText.text = newTotal.ToString();
     }
-
-    // ------------------------------------------------------------------ Display
 
     private void Refresh()
     {
-        int total = tracker != null ? tracker.GetAmount(currency) : 0;
-        UpdateDisplay(total);
-    }
-
-    private void UpdateDisplay(int total)
-    {
-        if (amountText != null)
-            amountText.text = total.ToString();
+        if (amountText == null) return;
+        int amount = (tracker != null && currency != null) ? tracker.GetAmount(currency) : 0;
+        amountText.text = amount.ToString();
     }
 }

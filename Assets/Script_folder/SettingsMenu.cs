@@ -22,6 +22,9 @@ public class SettingsMenu : MonoBehaviour
     public Slider volumeSlider;
     public Toggle fullscreenToggle;
 
+    [Tooltip("Switches the Potato quality level (low shadows, 0.75 render scale, 30 FPS cap).")]
+    public Toggle potatoToggle;
+
     private void Awake()
     {
         if (settingsPanel != null)
@@ -45,6 +48,12 @@ public class SettingsMenu : MonoBehaviour
         {
             fullscreenToggle.SetIsOnWithoutNotify(savedFullscreen);
             fullscreenToggle.onValueChanged.AddListener(OnFullscreenChanged);
+        }
+
+        if (potatoToggle != null)
+        {
+            potatoToggle.SetIsOnWithoutNotify(PotatoGraphics.IsEnabled);
+            potatoToggle.onValueChanged.AddListener(OnPotatoChanged);
         }
     }
 
@@ -74,6 +83,11 @@ public class SettingsMenu : MonoBehaviour
     {
         ApplyFullscreen(value);
         PlayerPrefs.SetInt(FullscreenKey, value ? 1 : 0);
+    }
+
+    private void OnPotatoChanged(bool value)
+    {
+        PotatoGraphics.IsEnabled = value;
     }
 
     private void ApplyVolume(float value) => AudioListener.volume = Mathf.Clamp01(value);

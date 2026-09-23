@@ -103,6 +103,14 @@ public class PlayerConsume : MonoBehaviour
 
     private float nextEatAllowedTime = 0f;
 
+    /// <summary>
+    /// True during the brief window just after eating. Read by PlayerStateMachine to report
+    /// the Consume state. This reuses the existing eat cooldown rather than adding a second
+    /// timer, so the "eating" window and the "cannot eat again yet" window cannot drift
+    /// apart - if you add a real eat animation, set eatCooldownSeconds to its length.
+    /// </summary>
+    public bool IsConsuming => Time.time < nextEatAllowedTime;
+
     private void Awake()
     {
         if (inventory == null) inventory = GetComponent<Inventory>();

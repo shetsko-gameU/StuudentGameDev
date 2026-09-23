@@ -41,6 +41,15 @@ public class DashAbilitySO : AbilitySO
             return false;
         }
 
+        // The state machine has the final say on whether a dash may start (it knows about
+        // attacking, eating and death). Falls through to the checks above when the player has
+        // no PlayerStateMachine, so this ability still works on a bare prefab.
+        PlayerStateMachine stateMachine = user.GetComponent<PlayerStateMachine>();
+        if (stateMachine != null && !stateMachine.CanEnterDash())
+        {
+            return false;
+        }
+
         return true;
     }
 
@@ -83,28 +92,48 @@ public class DashAbilitySO : AbilitySO
 
         dir.Normalize();
 
-        // Temporarily disable PlayerMove so it doesn't fight the dash with its own Move() calls.
-        // Side effect we rely on: no ledge probes run during the dash, and the agent's mesh
-        // clamp stays active — so dashing across a gap carries you over it instead of falling.
-        pm.enabled = false;
+        // Disabling PlayerMove for the dash's duration is what stops its per-frame Move()
+        // calls from fighting the dash. Side effect we rely on: no ledge probes run during
+        // the dash, and the agent's mesh clamp stays active — so dashing across a gap
+        // carries you over it instead of falling.
+        //
+        // PlayerStateMachine owns that toggle when one is present, because PlayerDeathHandler
+        // toggles the same flag. The try/finally is the important part: the loop below can
+        // exit early, and without it an early exit left the player permanently unable to move.
+        PlayerStateMachine stateMachine = user.GetComponent<PlayerStateMachine>();
 
-        float t = 0f;
-        while (t < dashDuration)
+        if (stateMachine != null)
+            stateMachine.BeginDash();
+        else
+            pm.enabled = false;
+
+        try
         {
-            // Bail out if the player died mid-dash so the agent doesn't keep
-            // sliding the corpse around after PlayerDeathHandler takes over.
-            if (stats != null && stats.IsDead)
+            float t = 0f;
+            while (t < dashDuration)
             {
-                yield break;
+                // Bail out if the player died mid-dash so the agent doesn't keep
+                // sliding the corpse around after PlayerDeathHandler takes over.
+                if (stats != null && stats.IsDead)
+                {
+                    yield break;
+                }
+
+                t += Time.deltaTime;
+                if (pm.agent.enabled && pm.agent.isOnNavMesh)
+                    pm.agent.Move(dir * dashSpeed * Time.deltaTime);
+
+                yield return null;
             }
-
-            t += Time.deltaTime;
-            if (pm.agent.enabled && pm.agent.isOnNavMesh)
-                pm.agent.Move(dir * dashSpeed * Time.deltaTime);
-
-            yield return null;
         }
-
-        pm.enabled = true;
+        finally
+        {
+            // EndDash deliberately does NOT re-enable movement if the player died, so this is
+            // safe to run on the death path too.
+            if (stateMachine != null)
+                stateMachine.EndDash();
+            else if (stats == null || !stats.IsDead)
+                pm.enabled = true;
+        }
     }
 }

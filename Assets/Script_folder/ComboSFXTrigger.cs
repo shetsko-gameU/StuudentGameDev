@@ -5,14 +5,14 @@ using UnityEngine;
 ///
 /// Plays a swing sound every time a hit lands (whether or not it connects with an enemy —
 /// use HitSFXTrigger for impact-only sound), plus an optional finisher sound on the last
-/// hit of a combo. Both fire on the last hit — comboFinishSound is meant to layer a
-/// stinger on top of swingSound, not replace it.
+/// hit of a combo. On the last hit, only comboFinishSound plays (when assigned) so finishers
+/// do not double-blast with swingSound.
 ///
 /// Setup:
 ///   1. Add this component to the Player, alongside ComboRunner.
 ///   2. Leave comboRunner empty — it auto-finds on Awake.
-///   3. Drag a SoundSO into swingSound (plays on every hit) and, optionally,
-///      comboFinishSound (layers on top on the last hit of a combo).
+///   3. Drag a SoundSO into swingSound (plays on every non-finisher hit) and, optionally,
+///      comboFinishSound (replaces swing on the last hit of a combo).
 /// </summary>
 public class ComboSFXTrigger : MonoBehaviour
 {
@@ -22,7 +22,7 @@ public class ComboSFXTrigger : MonoBehaviour
 
     [Header("Sounds")]
     public SoundSO swingSound;
-    [Tooltip("Optional — layers on top of swingSound on the last hit of a combo.")]
+    [Tooltip("Optional — plays instead of swingSound on the last hit of a combo.")]
     public SoundSO comboFinishSound;
 
     private void Awake()
@@ -47,12 +47,25 @@ public class ComboSFXTrigger : MonoBehaviour
 
     private void HandleHitLanded(int hitIndex, float damage)
     {
+        // No phantom swings when combat hitbox is missing / unwired.
+        if (comboRunner == null || comboRunner.hitbox == null) return;
+
+        bool isLast = comboRunner.combo != null &&
+                      comboRunner.combo.hits != null &&
+                      hitIndex >= comboRunner.combo.hits.Length - 1;
+
+        // Last hit: finish stinger only (avoid swing + finish double blast).
+        if (isLast && comboFinishSound != null)
+            return;
+
         if (swingSound != null)
             SoundManager.Instance.PlaySFX(swingSound);
     }
 
     private void HandleComboFinished()
     {
+        if (comboRunner == null || comboRunner.hitbox == null) return;
+
         if (comboFinishSound != null)
             SoundManager.Instance.PlaySFX(comboFinishSound);
     }

@@ -18,12 +18,16 @@ public class RunStatePlayerLink : MonoBehaviour
     public PassiveManager passiveManager;
     public Inventory inventory;
     public CurrencyTracker currencyTracker;
+    public StatsManager stats;
+    public CharacterLoader characterLoader;
 
     private void Awake()
     {
         if (passiveManager == null) passiveManager = GetComponent<PassiveManager>();
         if (inventory == null) inventory = GetComponent<Inventory>();
         if (currencyTracker == null) currencyTracker = GetComponent<CurrencyTracker>();
+        if (stats == null) stats = GetComponent<StatsManager>();
+        if (characterLoader == null) characterLoader = GetComponent<CharacterLoader>();
     }
 
     private void Start()
@@ -35,6 +39,10 @@ public class RunStatePlayerLink : MonoBehaviour
 
         if (passiveManager != null)
             passiveManager.RestoreSnapshot(RunStateManager.Instance.PassiveSnapshot);
+
+        // After the passives, never before: they change MaxHealth, and SetCurrentHealth clamps.
+        if (stats != null && RunStateManager.Instance.CurrentHealth > 0f)
+            stats.SetCurrentHealth(RunStateManager.Instance.CurrentHealth);
 
         RunStateManager.Instance.Clear();
     }
@@ -52,7 +60,10 @@ public class RunStatePlayerLink : MonoBehaviour
             ? new List<(CurrencySO currency, int amount)>(currencyTracker.GetAllBalances())
             : new List<(CurrencySO, int)>();
 
-        RunStateManager.Instance.Store(passives, items, currency);
+        float health = stats != null ? stats.CurrentHealth : 0f;
+        string characterId = characterLoader != null ? characterLoader.CurrentCharacterId : null;
+
+        RunStateManager.Instance.Store(passives, items, currency, health, characterId);
     }
 
     private void RestoreInventory(List<InventoryItem> items)

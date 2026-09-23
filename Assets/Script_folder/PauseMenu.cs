@@ -34,7 +34,7 @@ public class PauseMenu : MonoBehaviour
     public string mainMenuSceneName = "MainMenu";
 
     [Tooltip("Scene to load for \"Return to Hub\". Must exist and be added to Build Settings.")]
-    public string hubSceneName = "Hub";
+    public string hubSceneName = "hub";
 
     public bool IsPaused { get; private set; }
 
@@ -89,6 +89,10 @@ public class PauseMenu : MonoBehaviour
     {
         if (IsPaused) return;
         IsPaused = true;
+
+        CharacterSheetUI sheet = Object.FindFirstObjectByType<CharacterSheetUI>();
+        if (sheet != null)
+            sheet.Hide();
 
         Time.timeScale = 0f;
         SetPlayerInputEnabled(false);

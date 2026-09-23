@@ -127,6 +127,13 @@ public class PassiveManager : MonoBehaviour, IEnumerable<OnHitPassiveSO>
     [SerializeField] private List<string> debugDebuffPassives = new List<string>();
     [SerializeField] private string debugUltAbility = "(none)";
 
+    public IReadOnlyList<string> DebugAlwaysOnPassives => debugAlwaysOnPassives;
+    public IReadOnlyList<string> DebugFoodPassives => debugFoodPassives;
+    public IReadOnlyList<string> DebugStatBoosts => debugStatBoosts;
+    public IReadOnlyList<string> DebugKillPassives => debugKillPassives;
+    public IReadOnlyList<string> DebugDebuffPassives => debugDebuffPassives;
+    public string DebugUltAbility => debugUltAbility;
+
     // ------------------------------------------------------------------ Runtime data
 
     private readonly List<FoodPassiveEntry> activeFoodEntries = new List<FoodPassiveEntry>();

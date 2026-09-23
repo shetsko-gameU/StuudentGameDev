@@ -10,9 +10,13 @@ using UnityEngine.InputSystem;
 ///
 /// Also owns the ledge-fall handoff: raycasts ahead for a drop deeper than minFallHeight,
 /// disables the agent, and lets gravity take over (IsFalling) until landing resamples back
-/// onto the NavMesh. See CLAUDE.md's "Ledge falling" section for the full mechanism and the
-/// several movement-feel gotchas (agent.speed/acceleration sync, isGround mask coverage,
-/// haltSpeed tuning) that are easy to reintroduce if this script is touched carelessly.
+/// onto the NavMesh. See Docs/DESIGNER_GUIDE.md's "Ledge falling" section for the full
+/// mechanism and the several movement-feel gotchas (agent.speed/acceleration sync, isGround
+/// mask coverage, haltSpeed tuning) that are easy to reintroduce if this script is touched
+/// carelessly.
+///
+/// This script does NOT write animator parameters. PlayerStateMachine owns Speed, Grounded
+/// and Dead - see PlayerAnimatorParams.
 ///
 /// Setup:
 ///   1. Requires a NavMeshAgent (auto-required) and a baked NavMesh under the player.
@@ -20,8 +24,9 @@ using UnityEngine.InputSystem;
 ///      rb empty — they auto-find on Start).
 ///   3. Set isGround to every walkable layer (not just flat floor) — an incomplete mask
 ///      makes ramps misread as ledges.
-///   4. Tune acceleration/haltSpeed/airControl/minFallHeight to taste; see CLAUDE.md for
-///      what "feels sluggish" or "ice-skating" symptoms map back to.
+///   4. Tune acceleration/haltSpeed/airControl/minFallHeight to taste; see
+///      Docs/DESIGNER_GUIDE.md for what "feels sluggish" or "ice-skating" symptoms map
+///      back to.
 /// </summary>
 [RequireComponent(typeof(NavMeshAgent))]
 public class PlayerMove : MonoBehaviour
@@ -29,6 +34,15 @@ public class PlayerMove : MonoBehaviour
     [Header("Movement")]
     public float acceleration;
     public float haltSpeed;
+
+    [Header("Ground follow")]
+    [Tooltip("How fast the player settles onto the raycast ground height (1/s). The baked NavMesh is a " +
+             "voxel approximation of the terrain and is lumpy by ~10cm, so riding the height agent.Move() " +
+             "snaps to reads as a bob; this follows the real collider surface instead.")]
+    public float groundFollowSharpness = 40f;
+
+    [Tooltip("How far below the feet the ground raycast looks before giving up and leaving the agent's own height alone.")]
+    public float maxGroundSnapDistance = 1.5f;
 
     [Header("Falling")]
     [Tooltip("Layers used for the ledge and landing raycasts. Should include the ground (and ideally walls). " +
@@ -49,6 +63,7 @@ public class PlayerMove : MonoBehaviour
     public StatsManager stats;
 
     [Header("Model")]
+    [Tooltip("Turn rate multiplier. Effective yaw ≈ modelRotateSpeed * 90 deg/s (Inspector 5 ≈ 450°/s).")]
     public float modelRotateSpeed;
     public Transform playerModel;
     public NavMeshAgent agent;
@@ -62,6 +77,24 @@ public class PlayerMove : MonoBehaviour
     /// <summary>True while gravity/physics owns the player instead of the NavMeshAgent.</summary>
     public bool IsFalling { get; private set; }
 
+    /// <summary>
+    /// Horizontal gameplay speed from the internal velocity used by agent.Move — not
+    /// NavMeshAgent.velocity, which often reads ~0 with manual Move() and broke Idle↔Walk.
+    /// </summary>
+    public float HorizontalSpeed
+    {
+        get
+        {
+            Vector3 v = currentVelocity;
+            v.y = 0f;
+            float speed = v.magnitude;
+            return float.IsFinite(speed) ? speed : 0f;
+        }
+    }
+
+    /// <summary>True when stick/keyboard move input is above the grounded movement threshold.</summary>
+    public bool HasMoveInput => isMoving;
+
     private bool isMoving;
     private Vector2 moveInput;
     private Vector3 moveDir;
@@ -70,6 +103,8 @@ public class PlayerMove : MonoBehaviour
     private bool warnedEmptyGroundMask;
     private float fallStartY;
     private float fallStartTime;
+    private float groundHeight;
+    private bool hasGroundHeight;
 
     // The player's solid body collider. Probes measure foot level from its bounds because
     // the transform root is NOT at the feet on this player (capsule center 0 / base offset 1).
@@ -93,6 +128,14 @@ public class PlayerMove : MonoBehaviour
         // We drive the agent by hand via Move() every frame instead of SetDestination,
         // so it must not also try to auto-rotate towards its steering target.
         agent.updateRotation = false;
+
+        // This script owns the transform; the agent only simulates where it *would* be
+        // (agent.nextPosition), which we read back below. Left on, the agent writes its own
+        // position to the transform in its internal post-script phase — after Update — which
+        // stomped FollowGroundHeight()'s correction every frame and put the player back on the
+        // lumpy NavMesh height. Horizontal movement and NavMesh-edge clamping are unaffected:
+        // both happen inside Move() on the internal position, which we still follow.
+        agent.updatePosition = false;
 
         // Obstacle avoidance is RVO steering for autopilot navigation around other agents —
         // irrelevant here since the player never uses SetDestination(). Left on (the Inspector
@@ -132,9 +175,19 @@ public class PlayerMove : MonoBehaviour
             Debug.LogWarning($"PlayerMove on '{name}': No solid Collider found — ledge/landing probes will assume the transform root is at foot level.");
     }
 
-    /// <summary>World-space Y of the player's feet, taken from the body collider's bounds.</summary>
+    /// <summary>
+    /// World-space Y of the ground the player is standing on, i.e. foot level.
+    /// Taken from the agent's baseOffset, which is *defined* as how far the root floats above
+    /// the surface. Do NOT take it from the body collider: that capsule is authored around the
+    /// torso, and when its bottom sat 1.1m above the feet, every probe on flat ground reported
+    /// a ledge — so simply walking kicked the player into a fall/land loop that read as bobbing
+    /// and sank them through the floor on the way down.
+    /// </summary>
     private float FootY()
     {
+        if (agent != null)
+            return transform.position.y - agent.baseOffset;
+
         return bodyCollider != null ? bodyCollider.bounds.min.y : transform.position.y;
     }
 
@@ -176,11 +229,15 @@ public class PlayerMove : MonoBehaviour
         else
             GroundedUpdate(desiredDir, maxSpeed);
 
-        // Rotate model to face movement direction (both grounded and airborne).
-        // modelRotateSpeed is per-second; scale by deltaTime to stay framerate-independent.
-        if (moveInput.magnitude > .1f)
+        // Rotate to face movement. Quaternion path avoids NaN from zero-length forward.
+        // modelRotateSpeed is a multiplier: *90 ≈ deg/s (Inspector 5 → ~450°/s).
+        if (moveInput.magnitude > .1f && desiredDir.sqrMagnitude > 0.0001f)
         {
-            transform.forward = Vector3.MoveTowards(transform.forward, desiredDir, modelRotateSpeed * Time.deltaTime);
+            Quaternion targetRot = Quaternion.LookRotation(desiredDir.normalized, Vector3.up);
+            transform.rotation = Quaternion.RotateTowards(
+                transform.rotation,
+                targetRot,
+                modelRotateSpeed * 90f * Time.deltaTime);
         }
     }
 
@@ -194,6 +251,16 @@ public class PlayerMove : MonoBehaviour
 
         if (currentVelocity.magnitude > maxSpeed)
             currentVelocity = currentVelocity.normalized * maxSpeed;
+
+        // Steer velocity toward the facing/input direction so turns do not strafe-slide
+        // while the root rotates separately.
+        if (isMoving && desiredDir.sqrMagnitude > 0.0001f && currentVelocity.sqrMagnitude > 0.0001f)
+        {
+            float speed = currentVelocity.magnitude;
+            Vector3 targetVel = desiredDir.normalized * speed;
+            float maxRadiansDelta = modelRotateSpeed * 90f * Mathf.Deg2Rad * Time.deltaTime;
+            currentVelocity = Vector3.RotateTowards(currentVelocity, targetVel, maxRadiansDelta, 0f);
+        }
 
         // Exponential-decay damping, same curve the old AddForce(-velocity * haltSpeed) gave.
         if (!isMoving)
@@ -227,13 +294,68 @@ public class PlayerMove : MonoBehaviour
             agent.speed = maxSpeed;
             agent.acceleration = acceleration;
 
+            // Horizontal only — never feed Y into Move or the agent amplifies mesh noise.
+            currentVelocity.y = 0f;
+
             agent.Move(currentVelocity * Time.deltaTime);
+            FollowGroundHeight();
         }
         else if (!warnedNotOnNavMesh)
         {
             warnedNotOnNavMesh = true;
             Debug.LogWarning($"PlayerMove on '{name}': NavMeshAgent isn't on a baked NavMesh — bake one under the spawn point (Window > AI > Navigation, or a NavMeshSurface). Movement is disabled until it is.");
         }
+    }
+
+    /// <summary>
+    /// Replaces the height agent.Move() just snapped to with the real ground surface.
+    /// The baked NavMesh is a voxelised approximation of the terrain — here it sits ~12cm above
+    /// it and wanders ~14cm over a few metres — so conforming to it makes the player undulate
+    /// while crossing ground that looks flat. The terrain collider is smooth, so sample that.
+    /// The eased value is kept in its own field rather than blended against transform.position,
+    /// because the agent re-snaps Y every frame and would keep dragging the blend back toward
+    /// the lumpy mesh height.
+    /// </summary>
+    private void FollowGroundHeight()
+    {
+        // Horizontal comes from the agent's own simulation (already clamped to the NavMesh
+        // edge by Move); only the height is ours.
+        Vector3 next = agent.nextPosition;
+        float height = next.y;
+
+        Vector3 origin = new Vector3(next.x, next.y - agent.baseOffset + 0.5f, next.z);
+        float probeLength = 0.5f + Mathf.Max(0.1f, maxGroundSnapDistance);
+
+        if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, probeLength,
+                GroundMask(), QueryTriggerInteraction.Ignore))
+        {
+            float targetY = hit.point.y + agent.baseOffset;
+
+            if (!hasGroundHeight)
+            {
+                // First frame of contact (spawn, landing, walking back onto masked ground):
+                // adopt the height outright, since easing from a stale value looks like a slide.
+                groundHeight = targetY;
+                hasGroundHeight = true;
+            }
+            else
+            {
+                groundHeight = Mathf.Lerp(groundHeight, targetY,
+                    1f - Mathf.Exp(-Mathf.Max(0.01f, groundFollowSharpness) * Time.deltaTime));
+            }
+
+            height = groundHeight;
+        }
+        else
+        {
+            // Nothing in the ground mask below — a gap, a ledge lip, or a platform on a layer
+            // the mask misses. Fall back to the agent's own height rather than guessing.
+            hasGroundHeight = false;
+        }
+
+        Vector3 planted = new Vector3(next.x, height, next.z);
+        transform.position = planted;
+        agent.nextPosition = planted;
     }
 
     /// <summary>
@@ -277,6 +399,7 @@ public class PlayerMove : MonoBehaviour
         IsFalling = true;
         fallStartY = transform.position.y;
         fallStartTime = Time.time;
+        hasGroundHeight = false; // gravity owns Y now; re-acquire on landing
 
         rb.isKinematic = false;
         rb.linearVelocity = currentVelocity; // carry momentum over the edge
@@ -341,9 +464,14 @@ public class PlayerMove : MonoBehaviour
         rb.linearVelocity = Vector3.zero;
         rb.isKinematic = true;
         IsFalling = false;
+        hasGroundHeight = false;
 
         agent.enabled = true;
         agent.Warp(navPosition);
+
+        // With updatePosition off the agent never writes the transform itself, so place it
+        // explicitly instead of trusting Warp to carry the visual position across.
+        transform.position = navPosition;
     }
 
     // ------------------------------------------------------------------ Helpers

@@ -32251,7 +32251,7 @@ GameObject:
   - component: {fileID: 538418553}
   - component: {fileID: 538418552}
   - component: {fileID: 538418551}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Terrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77530,6 +77530,10 @@ PrefabInstance:
     - target: {fileID: 1516883072817327239, guid: 01728885e863f7e468c8874847bdf5bf, type: 3}
       propertyPath: m_Name
       value: cooking pot
+      objectReference: {fileID: 0}
+    - target: {fileID: 1516883072817327239, guid: 01728885e863f7e468c8874847bdf5bf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1516883072817327239, guid: 01728885e863f7e468c8874847bdf5bf, type: 3}
       propertyPath: m_TagString

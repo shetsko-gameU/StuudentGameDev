@@ -5,11 +5,6 @@ using TMPro;
 /// <summary>
 /// Attach to a UI GameObject. Displays an entity's health as a fill bar.
 /// Subscribes to StatsManager.OnHealthChanged and updates automatically.
-///
-/// Wiring in the Inspector:
-///   stats      — drag the entity's StatsManager here (or leave empty to auto-find the Player)
-///   slider     — Slider used as the fill bar (leave Min=0, Max=1, Whole Numbers off, Interactable off)
-///   healthText — (optional) TextMeshProUGUI label showing "current / max"
 /// </summary>
 public class HealthBarUI : MonoBehaviour
 {
@@ -24,35 +19,67 @@ public class HealthBarUI : MonoBehaviour
     [Tooltip("(Optional) TextMeshPro label showing current/max health.")]
     public TextMeshProUGUI healthText;
 
+    private bool subscribed;
+
     private void Awake()
     {
-        if (stats == null)
-        {
-            GameObject player = GameObject.FindWithTag("Player");
-            if (player != null)
-                stats = player.GetComponent<StatsManager>();
-        }
-
-        if (stats == null)
-            Debug.LogWarning($"HealthBarUI on '{name}': No StatsManager found.");
-    }
-
-    private void Start()
-    {
-        if (stats != null)
-            UpdateDisplay(stats.CurrentHealth, stats.MaxHealth);
+        TryBind(logIfMissing: false);
     }
 
     private void OnEnable()
     {
+        TryBind(logIfMissing: false);
+        Subscribe();
+    }
+
+    private void Start()
+    {
+        TryBind(logIfMissing: true);
+        Subscribe();
         if (stats != null)
-            stats.OnHealthChanged += UpdateDisplay;
+            UpdateDisplay(stats.CurrentHealth, stats.MaxHealth);
+        else
+            StartCoroutine(RetryBindNextFrame());
     }
 
     private void OnDisable()
     {
+        Unsubscribe();
+    }
+
+    private System.Collections.IEnumerator RetryBindNextFrame()
+    {
+        yield return null;
+        TryBind(logIfMissing: true);
+        Subscribe();
         if (stats != null)
-            stats.OnHealthChanged -= UpdateDisplay;
+            UpdateDisplay(stats.CurrentHealth, stats.MaxHealth);
+    }
+
+    private void TryBind(bool logIfMissing)
+    {
+        if (stats != null) return;
+
+        GameObject player = GameObject.FindWithTag("Player");
+        if (player != null)
+            stats = player.GetComponent<StatsManager>();
+
+        if (stats == null && logIfMissing)
+            Debug.LogWarning($"HealthBarUI on '{name}': No StatsManager found.");
+    }
+
+    private void Subscribe()
+    {
+        if (subscribed || stats == null) return;
+        stats.OnHealthChanged += UpdateDisplay;
+        subscribed = true;
+    }
+
+    private void Unsubscribe()
+    {
+        if (!subscribed || stats == null) return;
+        stats.OnHealthChanged -= UpdateDisplay;
+        subscribed = false;
     }
 
     private void UpdateDisplay(float current, float max)

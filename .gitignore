@@ -97,10 +97,13 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
-/Assets/Script_folder/Base_Stat.cs
-/Assets/Script_folder/Player_Move.cs
-/Assets/Script_folder/Stat_Manger.cs
-/.gitignore
-/Assets/Script_folder/Player_Move.cs
+# Removed 2026-09-10: entries ignoring Base_Stat.cs, Player_Move.cs and Stat_Manger.cs.
+# Those three scripts were renamed long ago (to BaseStatsSO, PlayerMove and StatsManager)
+# and no longer exist, so the rules did nothing except lie about what is tracked - and they
+# were a live trap, because recreating a file under any of those old names would have left
+# it silently untracked and lost on the next clone. Player_Move.cs was listed twice.
+#
+# Also removed a "/.gitignore" entry, which tried to gitignore this file.
+
 /Assembly-CSharp.csproj
 .DS_Store

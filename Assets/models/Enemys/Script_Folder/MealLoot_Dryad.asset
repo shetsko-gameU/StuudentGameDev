@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 824b78c151fe2cc4e8f01728ea1960c2, type: 3}
+  m_Name: MealLoot_Dryad
+  m_EditorClassIdentifier: Assembly-CSharp::LootTableSO
+  guaranteedDrops:
+  - pickupPrefab: {fileID: 5001629584986424403, guid: 8bb126b0401a4df4a956d9ec81ba3339, type: 3}
+    count: 1
+  randomDrops:
+  - pickupPrefab: {fileID: 5001629584986424403, guid: 5637a3b700c64b39973d3b2e5b20dde6, type: 3}
+    dropChance: 0.3
+    count: 1
+  currencyDrops: []
