@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: water wolf stats
+  m_EditorClassIdentifier: Assembly-CSharp::BaseStatsSO/EnemyStatsSO
+  unitType: 1
+  displayName: water wolf
+  maxHealth: 120
+  attack: 3
+  defense: 5
+  moveSpeed: 3
+  attackSpeed: 0.75
+  dodgeChance: 0
+  healthSteal: 0.1
