@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 384d264fa883d384182329992ceb5a5a, type: 3}
   m_Name: water wolf stats
   m_EditorClassIdentifier: Assembly-CSharp::BaseStatsSO/EnemyStatsSO
   unitType: 1
   displayName: water wolf
   maxHealth: 120
-  attack: 3
+  attack: 4
   defense: 5
   moveSpeed: 3
   attackSpeed: 0.75

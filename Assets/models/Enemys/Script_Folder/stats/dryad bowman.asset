@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 384d264fa883d384182329992ceb5a5a, type: 3}
-  m_Name: static wolf stats
+  m_Name: dryad bowman
   m_EditorClassIdentifier: Assembly-CSharp::BaseStatsSO/EnemyStatsSO
   unitType: 1
-  displayName: static wolf
+  displayName: dryad bowman
   maxHealth: 30
-  attack: 15
+  attack: 8
   defense: 0
-  moveSpeed: 10
-  attackSpeed: 2
+  moveSpeed: 3
+  attackSpeed: 1
   dodgeChance: 0.1
   healthSteal: 0
