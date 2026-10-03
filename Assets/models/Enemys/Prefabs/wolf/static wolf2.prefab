@@ -119,7 +119,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 5
+  m_Radius: 10
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7180939133455977878
 MonoBehaviour:
@@ -161,7 +161,7 @@ Transform:
   m_GameObject: {fileID: 8473749822232436044}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0.8}
+  m_LocalPosition: {x: 0, y: 0.99, z: 1.98}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -238,10 +238,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8761436007448344271}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.9093508, z: -0, w: 0.4160302}
+  m_LocalRotation: {x: 0, y: 0.90935236, z: 0, w: 0.41602686}
   m_LocalPosition: {x: 164.89034, y: 0.00000047683716, z: 229.07289}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 9063318319325293910}
   - {fileID: 3783948904563934350}
@@ -301,7 +301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9e8484c619249b4b8264884550b7dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StatsManager
-  baseStats: {fileID: 11400000, guid: ffc9915c9eeb61f4c87c23e6c481c968, type: 2}
+  baseStats: {fileID: 11400000, guid: b8eb0fadac6df7f4fb6eff70e2ad2e8f, type: 2}
   currentHealth: 0
 --- !u!54 &6984359459822510061
 Rigidbody:
