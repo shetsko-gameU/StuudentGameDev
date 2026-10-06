@@ -52,7 +52,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 5
+  m_Radius: 10
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7143923408871381303
 MonoBehaviour:
@@ -209,7 +209,7 @@ MonoBehaviour:
   randomMovementSpeed: 1
   hitbox: {fileID: 5648373595322472113}
   baseFlyHeight: 0
-  canFly: 0
+  canFly: 1
   currentTarget: {fileID: 0}
   navMeshAgent: {fileID: 2826309022219575926}
   layer:
@@ -276,9 +276,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 2
+  m_Height: 2.43
   m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: 0, y: -1.09, z: 0}
 --- !u!195 &2826309022219575926
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -298,7 +298,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 0
+  m_BaseOffset: 2
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &1675573347469050733
@@ -344,7 +344,7 @@ Transform:
   m_GameObject: {fileID: 7633821746063030590}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0.8}
+  m_LocalPosition: {x: 0, y: -0.79, z: 1.43}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
