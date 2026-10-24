@@ -13,6 +13,7 @@ public class EnemyStateMachine
 
     public void ChangeState(EnemyState newState)
     {
+        Debug.Log($"EnemyStateMachine: Changing state from {CurrentEnemyState?.GetType().Name} to {newState?.GetType().Name}");
         CurrentEnemyState?.ExitState();
         CurrentEnemyState = newState;
         CurrentEnemyState?.EnterState();
