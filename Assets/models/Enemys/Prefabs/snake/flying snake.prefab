@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 942058555012059683}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.63257, y: 3.78933, z: -27.73}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -248,7 +248,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 5
+  m_Radius: 15
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4460855172399538872
 MonoBehaviour:
@@ -413,15 +413,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 0cd850034b39d3d45b437b57f5392017, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.776169
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0cd850034b39d3d45b437b57f5392017, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.78933
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0cd850034b39d3d45b437b57f5392017, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.5974197
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0cd850034b39d3d45b437b57f5392017, type: 3}
       propertyPath: m_LocalRotation.w
