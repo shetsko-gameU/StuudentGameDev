@@ -545,6 +545,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: mushroom scout
       objectReference: {fileID: 0}
+    - target: {fileID: 9156386869288342052, guid: 5165064e6242bad4a97ac791364eefe0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -770,7 +774,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &690947742
 Transform:
   m_ObjectHideFlags: 0
@@ -855,7 +859,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d848def581b904940b5f5bd91bbbd41b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomMusicTrigger
-  enemyManager: {fileID: 0}
+  enemyManager: {fileID: 1445965147}
   combatMusic: {fileID: 0}
   explorationMusic: {fileID: 0}
   fadeSeconds: 1.5
@@ -1175,12 +1179,20 @@ PrefabInstance:
       value: 0.101
       objectReference: {fileID: 0}
     - target: {fileID: 727197790842686555, guid: 886a4be6880d4d64dbc03d3bddaff92a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.04578758
+      objectReference: {fileID: 0}
+    - target: {fileID: 727197790842686555, guid: 886a4be6880d4d64dbc03d3bddaff92a, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.979
       objectReference: {fileID: 0}
     - target: {fileID: 858176531182653750, guid: 886a4be6880d4d64dbc03d3bddaff92a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 858176531182653750, guid: 886a4be6880d4d64dbc03d3bddaff92a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.04578758
       objectReference: {fileID: 0}
     - target: {fileID: 1144927636708913905, guid: 886a4be6880d4d64dbc03d3bddaff92a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1230,6 +1242,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: 'EnemyManger '
       objectReference: {fileID: 0}
+    - target: {fileID: 8202565166726819670, guid: 886a4be6880d4d64dbc03d3bddaff92a, type: 3}
+      propertyPath: EnemyTypes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8202565166726819670, guid: 886a4be6880d4d64dbc03d3bddaff92a, type: 3}
+      propertyPath: 'EnemyTypes.Array.data[0]'
+      value: 
+      objectReference: {fileID: 942058555012059683, guid: 8b255738d8b24bd48a5f07766a8f8327, type: 3}
+    - target: {fileID: 8202565166726819670, guid: 886a4be6880d4d64dbc03d3bddaff92a, type: 3}
+      propertyPath: 'EnemyTypes.Array.data[1]'
+      value: 
+      objectReference: {fileID: 6702997404076805087, guid: 600dfdd3e17893e4d896050cbbb57242, type: 3}
+    - target: {fileID: 8202565166726819670, guid: 886a4be6880d4d64dbc03d3bddaff92a, type: 3}
+      propertyPath: 'EnemyTypes.Array.data[2]'
+      value: 
+      objectReference: {fileID: 9156386869288342052, guid: 5165064e6242bad4a97ac791364eefe0, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1240,6 +1268,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1144927636708913905, guid: 886a4be6880d4d64dbc03d3bddaff92a, type: 3}
   m_PrefabInstance: {fileID: 1445965145}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1445965147 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8202565166726819670, guid: 886a4be6880d4d64dbc03d3bddaff92a, type: 3}
+  m_PrefabInstance: {fileID: 1445965145}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85274d5b4b87d3f4b8338548de8134fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyManager
 --- !u!1001 &1617440508
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1705,7 +1744,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 457412157901686937, guid: 8b255738d8b24bd48a5f07766a8f8327, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.78933
+      value: 4.79
       objectReference: {fileID: 0}
     - target: {fileID: 457412157901686937, guid: 8b255738d8b24bd48a5f07766a8f8327, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1743,6 +1782,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: flying snake
       objectReference: {fileID: 0}
+    - target: {fileID: 5953229619626688590, guid: 8b255738d8b24bd48a5f07766a8f8327, type: 3}
+      propertyPath: Player_Stats
+      value: 
+      objectReference: {fileID: 1198869017}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
