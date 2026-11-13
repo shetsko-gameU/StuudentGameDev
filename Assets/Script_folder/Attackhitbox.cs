@@ -183,8 +183,8 @@ public class AttackHitbox : MonoBehaviour
     {
         if ((enemyLayer.value & (1 << other.gameObject.layer)) == 0) return;
 
-        StatsManager enemyStats = other.GetComponent<StatsManager>()
-                               ?? other.GetComponentInParent<StatsManager>();
+        StatsManager enemyStats = other.GetComponent<StatsManager>();
+                               //?? other.GetComponentInParent<StatsManager>();
 
         if (enemyStats == null) return;
         if (!alreadyHitThisSwing.Add(enemyStats)) return;

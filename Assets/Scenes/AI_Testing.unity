@@ -282,7 +282,7 @@ GameObject:
   - component: {fileID: 145747901}
   - component: {fileID: 145747900}
   - component: {fileID: 145747904}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1010,13 +1010,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 760929222}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.015758771, y: 0.92907864, z: -0.35436553, w: 0.10483135}
+  m_LocalRotation: {x: 0, y: 0.9368799, z: -0.34965152, w: 0}
   m_LocalPosition: {x: -1.9, y: 10.17, z: 11.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1271580108}
-  m_LocalEulerAnglesHint: {x: 40.932, y: 164.18, z: -7.88}
+  m_LocalEulerAnglesHint: {x: 40.932, y: 180, z: 0}
 --- !u!1 &1029117032 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9156386869288342052, guid: 5165064e6242bad4a97ac791364eefe0, type: 3}
@@ -1049,7 +1049,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6303557501991920254, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
   m_PrefabInstance: {fileID: 1617440508}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1617440510}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ffd01f3454fb9ad4ba09d41f483374ca, type: 3}
@@ -1060,7 +1060,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4228190003025015144, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
   m_PrefabInstance: {fileID: 1617440508}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1617440510}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9bcfd67f74674d24aabfcd42b92a7ce7, type: 3}
@@ -1071,7 +1071,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6190257048604273967, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
   m_PrefabInstance: {fileID: 1617440508}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1617440510}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23595e51f4599344e8f1eb8c7ebe13fa, type: 3}
@@ -1082,7 +1082,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8814090635867657241, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
   m_PrefabInstance: {fileID: 1617440508}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1617440510}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d9e8484c619249b4b8264884550b7dc5, type: 3}
@@ -1112,14 +1112,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1271580107}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.016714402, w: 0.9998603}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 24.749004, y: 7.772176, z: -21.17}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 760929226}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -1.915}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1360252099
 GameObject:
   m_ObjectHideFlags: 0
@@ -1242,6 +1242,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: 'EnemyManger '
       objectReference: {fileID: 0}
+    - target: {fileID: 6871373115299826225, guid: 886a4be6880d4d64dbc03d3bddaff92a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8202565166726819670, guid: 886a4be6880d4d64dbc03d3bddaff92a, type: 3}
       propertyPath: EnemyTypes.Array.size
       value: 1
@@ -1287,10 +1291,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1825293724853251305, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2811520563896596546, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
       propertyPath: CamTarget
       value: 
@@ -1366,94 +1366,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3994294546509096518, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1617440513}
-    - targetCorrespondingSourceObject: {fileID: 3994294546509096518, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1617440512}
-    - targetCorrespondingSourceObject: {fileID: 3994294546509096518, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1617440511}
-    - targetCorrespondingSourceObject: {fileID: 3994294546509096518, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1617440533}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
---- !u!114 &1617440509 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4841218838983478207, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
-  m_PrefabInstance: {fileID: 1617440508}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1617440510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56930dab64ae24d49b00e5336fc885e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CurrencyTracker
---- !u!1 &1617440510 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3994294546509096518, guid: 4edd7c563b8162049bd33de68640464d, type: 3}
-  m_PrefabInstance: {fileID: 1617440508}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1617440511
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1617440510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f652e5fbafcc8244b7c684d6be2b642, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HitSFXTrigger
-  comboRunner: {fileID: 1198869011}
-  hitbox: {fileID: 0}
-  hitSound: {fileID: 11400000, guid: 1c1b047a7e4a7499cb4d5fa8270dcb60, type: 2}
---- !u!114 &1617440512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1617440510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d66ce546bf166f4ba80cd59c62354f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CurrencyPickupSFXTrigger
-  currencyTracker: {fileID: 1617440509}
-  pickupSound: {fileID: 11400000, guid: b0896ccb8d4c740fcb01451c9dcfa494, type: 2}
---- !u!114 &1617440513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1617440510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fed95d7447816404d85b70212597b652, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ComboSFXTrigger
-  comboRunner: {fileID: 1198869011}
-  swingSound: {fileID: 11400000, guid: 8448ed716f6b9408da26d00342000bfd, type: 2}
-  comboFinishSound: {fileID: 11400000, guid: 003a857f95c674ff4a7656641c91ab2d, type: 2}
---- !u!114 &1617440533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1617440510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc9c3eb00caf2734a907c441cb361430, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::IngredientPickupSFXTrigger
-  inventory: {fileID: 0}
-  pickupSound: {fileID: 11400000, guid: d2be25ba802d84d5a9b7794f1c3fb206, type: 2}
 --- !u!1 &1749649774
 GameObject:
   m_ObjectHideFlags: 0
@@ -1599,7 +1513,7 @@ GameObject:
   - component: {fileID: 1918453073}
   - component: {fileID: 1918453072}
   - component: {fileID: 1918453076}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
